@@ -1,0 +1,68 @@
+/* start menu sidebar */
+.menu-items ul {
+  margin: 0;
+}
+  .menu-items ul li {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .menu-items ul .menu-item a {
+    padding-left: 38px;
+    background-position: 16px 50%;
+  }
+  
+    .menu-items ul ul .menu-item a {
+      padding-left: 48px;
+      background-position: 26px 50%;
+    }
+    
+      .menu-items ul ul ul .menu-item a {
+        padding-left: 58px;
+        background-position: 36px 50%;
+      }
+      
+        .menu-items ul ul ul ul .menu-item a {
+          padding-left: 68px;
+          background-position: 46px 50%;
+        }
+      
+      
+
+    .menu-item a,
+    .menu-item a:link {
+      display: block;
+      padding: 3px 10px 3px 10px;
+      background-position: 6px 50%;
+      background-repeat: no-repeat;
+      text-align: left;
+      text-decoration: none;
+      color: #333;
+      border-top: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+      white-space: nowrap;
+    }
+
+      .menu-item a:hover,
+      .menu-item a.highlighted,
+      #sidebar .highlighted a {
+        border-top: 1px solid #69f;
+        border-bottom: 1px solid #69f;
+        background-color: #f0f0ff;
+      }
+
+      .menu-item a.current,
+      #sidebar .current a {
+        border-top: 1px solid #f0f0ff;
+        border-bottom: 1px solid #f0f0ff;
+        background-color: #f0f0ff;
+      }
+
+    .menu-item a.current-parent,
+      #sidebar .current-parent a {
+        border-top: 1px solid #f0f0ff;
+        border-bottom: 1px solid #f0f0ff;
+        background-color: #f0f0ff;
+      }
+/* end menu sidebar */
