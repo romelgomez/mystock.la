@@ -8,12 +8,6 @@
 				<li><a href="#">Vendidos</a></li>
 				<li><a href="/publicados">Publicados</a></li>
 				<li><a href="/borradores">Borradores</a></li>
-			<li class="divider"></li>	
-				<li class="nav-header"><i class="icon-envelope"></i> Mensajes</li>
-
-				<li><a href="#">Recividos</a></li>
-				<li><a href="#">Enviados</a></li>
-
 			<li class="divider"></li>
 				<li><a href="#"><i class="icon-thumbs-up"></i> Reputación</a></li>
 				<li><a href="#"><i class="icon-wrench"></i> Configuración</a></li>

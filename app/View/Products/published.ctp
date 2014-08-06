@@ -161,16 +161,6 @@
 											</div>
 										</div>
 										
-										<!-- ver como. 
-										--------------------------------------------------------------------------------------> 
-										<div style="overflow: hidden; float: left; ">
-											<div class="btn-group" data-toggle="buttons-radio">
-												<button id="" class="btn"><i class="icon-th-large"></i></button>
-												<button id="" class="btn active" ><i class="icon-th-list"></i></button>
-												<button id="" class="btn"><i class="icon-align-justify"></i></button>
-											</div>
-										</div>
-										
 									</div>
 								</div>
 

@@ -34,8 +34,6 @@
 							} ?>
 						</a>
 					</li>
-					<li class=""><a href="#"><i class="icon-shopping-cart icon-white"></i> Carrito de Compras</a></li>
-					<li class=""><a href="#"><i class="icon-user icon-white"></i> Foro</a></li>
 					<?php 
 						if(isset($userLogged)){
 							echo '<li class=""><a href="/salir"><i class="icon-off icon-white"></i> Salir</a></li>';

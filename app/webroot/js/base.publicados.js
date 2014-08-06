@@ -60,7 +60,7 @@ var order_by =  function(){
 					
 			}
 		}
-	}	
+	};
 
 	
 	var order_by = {
@@ -70,7 +70,7 @@ var order_by =  function(){
 		"oldest":"antiguos",
 		"higher-availability":"mayor_disponibilidad",
 		"lower-availability":"menor_disponibilidad"
-	}
+	};
 	
 	if(_var.count > 1){
 		
@@ -110,7 +110,7 @@ var order_by =  function(){
 		$("#order-by").css({"display":"none"});
 	}
 
-}
+};
 
 
 /*
@@ -750,30 +750,34 @@ var prepare_product = function(obj){
 	var link 		= 	'/producto/'+id+'/'+slug+'.html';
 	
 	var image		= 'img/products/'+obj.imagen.thumbnails.small.name;  
-	
+
+    var status = '';
+    var status_button = '';
+
 	if(obj.product.status){
-		var status = '<span class="label label-success active-status">publicado</span>';
-		var status_button = '<button class="btn pause"><i class="icon-stop"></i> Pausar</button>'+
+		status = '<span class="label label-success active-status">publicado</span>';
+		status_button = '<button class="btn pause"><i class="icon-stop"></i> Pausar</button>'+
 							'<button class="btn activate" style="display:none;"><i class="icon-stop"></i> Activar</button>';
 	}else{
-		var status = '<span class="label label-warning paused-status">pausado</span>';
-		var status_button = '<button class="btn pause" style="display:none;><i class="icon-stop"></i> Pausar</button>'+
+		status = '<span class="label label-warning paused-status">pausado</span>';
+		status_button = '<button class="btn pause" style="display:none;><i class="><i class="icon-stop"></i> Pausar</button>'+
 							'<button class="btn activate" "><i class="icon-stop"></i> Activar</button>';
 	}
 		
-		var quantity = obj.product.quantity
-		
+		var quantity = obj.product.quantity;
+        var _quantity = '';
+
 		if(quantity == 0){
-			var _quantity = '<span class="badge">0</span>';
+			_quantity = '<span class="badge">0</span>';
 		}
 		else if(quantity>= 1 && quantity<=5){
-			var _quantity = '<span class="badge badge-important">'+quantity+'</span>';
+			_quantity = '<span class="badge badge-important">'+quantity+'</span>';
 		}
 		else if(quantity>=6 && quantity<=10){
-			var _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
+			_quantity = '<span class="badge badge-warning">'+quantity+'</span>';
 		}
 		else if(quantity>10){
-			var _quantity = '<span class="badge badge-success">'+quantity+'</span>';
+			_quantity = '<span class="badge badge-success">'+quantity+'</span>';
 		}
 		// END
 		
@@ -808,7 +812,7 @@ var prepare_product = function(obj){
 		
 	
 	return product;
-}
+};
 
 
 /*
@@ -826,7 +830,7 @@ var information_panel = function(){
 	//se muestra el contenedor de los filtros
 	$("#information-panel").css({"display":""});  
 	
-}
+};
 
 
 
@@ -915,7 +919,7 @@ var prepare_publications = function(type){
 		
 	}
 	
-}
+};
 
 
 	
@@ -932,7 +936,7 @@ var set_vars = function(obj){
 	this.nextPage 		= obj.info.nextPage;
 	this.pageCount 		= obj.info.pageCount;
 	this.data			= obj.data;
-}
+};
 
 /*
  * Type: clase.
@@ -998,14 +1002,14 @@ var url_parser = function(){
 	}	
 	
 	return url_obj;
-}
+};
 
 
 var search_info = function(obj){
 	
 	
 	
-}
+};
 
 
 /*
@@ -1131,13 +1135,13 @@ var search = function(){
 				"noSpecialChars":"No esta perimitido usar caracteres especiales."
 			}
 		}
-	}
+	};
 
 	var new_search = new validate_this_form("SearchPublicationsForm",new_search_validate_obj);	
 	$("#searching").css({"display":""});
 
 	
-}
+};
 
 
 $(document).ready(function(){
@@ -1194,7 +1198,7 @@ $(document).ready(function(){
 					
 			}
 		}
-	}
+	};
 		
 	// se muestra la barra de progreso
 	$("#progress-bar").css({"display":"inherit"});
@@ -1220,15 +1224,3 @@ $(document).ready(function(){
 	new Request(products_published_obj);
 
 });
-
-
-/*
-prototype	 	equivalente		jquery
-childElements					.children()
-nextSiblings					.next(),.nextAll(),.nextUntil(),.siblings()
-parentElement					.parent(),:parent Selector,.parents(),.parentsUntil()  -- parents(".class") encuentra el parent element en cualquier nivel que se requiera.
-hasClassName					.hasClass()
-removeClassName					.removeClass()
-addClassName					.addClass()
-remove							.remove()
-*/
