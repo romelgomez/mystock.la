@@ -1,6 +1,5 @@
 # User specific & automatically generated files #
 #################################################
-/app/Config/database.php
 /app/webroot/img/products/*.jpg
 /app/webroot/img/products/*.png
 /app/webroot/img/products/*.jpeg
