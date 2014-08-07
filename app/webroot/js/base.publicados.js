@@ -938,71 +938,6 @@ var set_vars = function(obj){
 	this.data			= obj.data;
 };
 
-/*
- * Type: clase.
- * Descrición: destinada a procesar la url 
- * reorna un objeto.
- *************************************************************************************************************************************************************/
-var url_parser = function(){
-	
-	var pathname = $(location).attr('href');
-	var url = $.url(pathname);
-	var segments = url.attr('fragment');
-	
-	var url_obj			= {}; 
-	url_obj.search 		= "";
-	url_obj.page 		= "";
-	url_obj.order_by	= "";
-			
-	if(segments != ""){
-		var split_segments = url.attr('fragment').split('/');
-		if(split_segments.length){
-			$(split_segments).each(function(index,parameter){
-			
-				if(parameter.indexOf("buscar_") !== -1){
-					var search_string = str_replace(parameter,'buscar_','');
-					
-					/* La cadena search_string se manipula en el siguiente orden.
-					* 
-					* 1) se replasa los caracteres especiales
-					* 2) se elimina los espacios en blancos ante y despues de la cadena
-					* 3) se replasa los espacios en blancos largos por uno solo. 
-					* 
-					********************************************************************/ 
-					url_obj.search = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
-					
-					//console.log(url_obj.search);
-					
-				}
-				if(parameter.indexOf("pagina_") !== -1){
-					url_obj.page = parseInt(str_replace(parameter,'pagina_',''));
-				}
-				if(parameter == "mayor_precio"){
-					url_obj.order_by = "mayor_precio";
-				}
-				if(parameter == "menor_precio"){
-					url_obj.order_by = "menor_precio";	
-				}
-				if(parameter == "recientes"){
-					url_obj.order_by = "recientes";	
-				}
-				if(parameter == "antiguos"){
-					url_obj.order_by = "antiguos";	
-				}
-				if(parameter == "mayor_disponibilidad"){
-					url_obj.order_by = "mayor_disponibilidad";	
-				}
-				if(parameter == "menor_disponibilidad"){
-					url_obj.order_by = "menor_disponibilidad";	
-				}
-
-				
-			});
-		}
-	}	
-	
-	return url_obj;
-};
 
 
 var search_info = function(obj){
@@ -1142,6 +1077,74 @@ var search = function(){
 
 	
 };
+
+
+/*
+ * Type: clase.
+ * Descrición: destinada a procesar la url
+ * reorna un objeto.
+ *************************************************************************************************************************************************************/
+var url_parser = function(){
+
+    var pathname = $(location).attr('href');
+    var url = $.url(pathname);
+    var segments = url.attr('fragment');
+
+    var url_obj			= {};
+    url_obj.search 		= "";
+    url_obj.page 		= "";
+    url_obj.order_by	= "";
+
+    if(segments != ""){
+        var split_segments = url.attr('fragment').split('/');
+        if(split_segments.length){
+            $(split_segments).each(function(index,parameter){
+
+                if(parameter.indexOf("buscar_") !== -1){
+                    var search_string = str_replace(parameter,'buscar_','');
+
+                    /* La cadena search_string se manipula en el siguiente orden.
+                     *
+                     * 1) se replasa los caracteres especiales
+                     * 2) se elimina los espacios en blancos ante y despues de la cadena
+                     * 3) se replasa los espacios en blancos largos por uno solo.
+                     *
+                     ********************************************************************/
+                    url_obj.search = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+
+                    //console.log(url_obj.search);
+
+                }
+                if(parameter.indexOf("pagina_") !== -1){
+                    url_obj.page = parseInt(str_replace(parameter,'pagina_',''));
+                }
+                if(parameter == "mayor_precio"){
+                    url_obj.order_by = "mayor_precio";
+                }
+                if(parameter == "menor_precio"){
+                    url_obj.order_by = "menor_precio";
+                }
+                if(parameter == "recientes"){
+                    url_obj.order_by = "recientes";
+                }
+                if(parameter == "antiguos"){
+                    url_obj.order_by = "antiguos";
+                }
+                if(parameter == "mayor_disponibilidad"){
+                    url_obj.order_by = "mayor_disponibilidad";
+                }
+                if(parameter == "menor_disponibilidad"){
+                    url_obj.order_by = "menor_disponibilidad";
+                }
+
+
+            });
+        }
+    }
+
+    return url_obj;
+};
+
 
 
 $(document).ready(function(){
