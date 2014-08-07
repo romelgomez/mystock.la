@@ -570,12 +570,12 @@ var edit = function(){
  *************************************************************************************************************************************************************/
 var _delete =  function(){
 
-	var delete_obj = {
-		"type":"post",
-		"url":"/delete",
-		"data":{
-			"custon":{}
-		},
+    var delete_obj = {
+        "type":"post",
+        "url":"/delete",
+        "data":{
+            "custon":{}
+        },
 		"console_log":true,
 		"callbacks":{
 			"complete":function(response){
@@ -885,44 +885,40 @@ var prepare_publications = function(type){
 			
 		}
 		
-	}else{
-		
-		// se oculta barra de progreso. cuando se llama a /publicados se despliega la barra automaticamente. 
-		$("#progress-bar").css({"display":"none"});
-		
-	}
-	
+    }else{
+
+        // TODO ELIMINAR ESTA CARACTERISTICA
+        // se oculta barra de progreso. cuando se llama a /publicados se despliega la barra automáticamente.
+        $("#progress-bar").css({"display":"none"});
+
+    }
+
 };
 
 
-	
 /*
  * Type: clase.
- * Descrición: destinada a hacer disponible a todas las funciones variables informacion que contienen la data basica. 
- * Parametros: obj
+ * Descripción: destinada a hacer disponible a todas las funciones variables información que contiene la data básica.
+ * Parámetros: obj
  *************************************************************************************************************************************************************/
 var set_vars = function(obj){
-	this.page			= obj.info.page;
-	this.current 		= parseInt(obj.info.current);
-	this.count 			= parseInt(obj.info.count);   // cantidad de publicaciones o registros
-	this.prevPage 		= obj.info.prevPage;
-	this.nextPage 		= obj.info.nextPage;
-	this.pageCount 		= obj.info.pageCount;
-	this.data			= obj.data;
+    this.page           = obj.info.page;
+    this.current        = parseInt(obj.info.current);
+    this.count          = parseInt(obj.info.count);   // cantidad de publicaciones o registros
+    this.prevPage       = obj.info.prevPage;
+    this.nextPage       = obj.info.nextPage;
+    this.pageCount      = obj.info.pageCount;
+    this.data           = obj.data;
 };
 
 
 
-var search_info = function(obj){
-	
-	
-	
-};
+var search_info = function(obj){};
 
 
 /*
- * Type: funcion.
- * Descrición: destinada a procesar una buscqueda sobre los registros o publicaciones.
+ * Type: función.
+ * Descripción: destinada a procesar una búsqueda sobre los registros o publicaciones.
  *************************************************************************************************************************************************************/
 var search = function(){
 
@@ -935,127 +931,120 @@ var search = function(){
 		"console_log":true,
 		"callbacks":{
 			"complete":function(response){
-				
-				var a	= response.responseText;
-				var obj = $.parseJSON(a);
-				console.log(obj);
-				
-				if(obj.expired_session){
-					window.location = "/entrar";
-				}
-					
-				if(obj.result){
-					
-					/*
-					if(obj.total_products.length == 0){
-						// no hay publicaciones.
-						$("#no-products").css({"display":""});
-					}
-					*/
 
-						// se establece la url
-						var url = str_replace(obj.search,' ','_');
-						window.location = "#buscar_"+url;
-						
-						_var = {};
-						_var = new set_vars(obj);
-					
-						order_by();
-						pagination();
-						info();
-					
-					// si hay productos publicados.
-					if(obj.data.length > 0){
+                var a	= response.responseText;
+                var obj = $.parseJSON(a);
+                // console.log(obj);
 
-						prepare_publications('after');
-					
-						// se oculta el mensaje que informa la no existencias de publicaciones
-						$("#no-products-for-this-search").css({"display":"none"});
-						
-						// se establece la informacion de la cantidad de registros encontrados. 
-						if(obj.info.count > 1){
-							var count = obj.info.count+' registros encontrados'	
-						}else{
-							var count = obj.info.count+' registro encontrado'
-						}
-						$("#product-quantity-for-this-search").html(count);
-						
-						// se establece la información de lo que se busca
-						$("#for-this-search").html(obj.search);
-						
-						// se muestra la informacion acerca de la busqueda
-						$("#products-for-this-search").css({"display":"inherit"});
-						
-						// se muestra las publicaciones
-						$("#published").css({"display":"inherit"});
-					
-					}else{
-						
-						// se oculta el mensaje que informa que hay publicaiones
-						$("#products-for-this-search").css({"display":"none"});
-					
-						// se muestra el mensaje que indica que no hay publicaciones
-						$("#no-for-this-search").html(obj.search);
-						$("#no-products-for-this-search").css({"display":"inherit"});
-						
-						// se oculta las publicaciones
-						$("#published").css({"display":"none"});
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
 
-						// se oculta barra de progreso.
-						$("#progress-bar").css({"display":"none"});
-				
-					}
-					
-					
-				}else{
-					// hay un error en la solicitud.
-					window.location = "/cuenta";
-				}
-				
-			}
-		}
-	}
+                if(obj.result){
 
-	// validación:
-	var new_search_validate_obj = {
-		"submitHandler": function(form){
-			
-			var request_this 				= {};
-			
-			search_string 					= $("#search").val();
-			request_this.search				= search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
-			new_search_obj.data.custon		= request_this;
-			
-			new Request(new_search_obj);
-		
-		},
-		"rules":{
-			"search":{
-				"required":true,
-				"maxlength":100,
-				"noSpecialChars":true
-			}
-		},
-		"messages":{
-			"search":{
-				"required":"Es preciso definir el campo para proceder con la busqueda.",
-				"maxlength":"Hay un limite de 100 caracteres.",
-				"noSpecialChars":"No esta perimitido usar caracteres especiales."
-			}
-		}
-	};
+                        // se establece la url
+                        var url = str_replace(obj.search,' ','_');
+                        window.location = "#buscar_"+url;
 
-	var new_search = new validate_this_form("SearchPublicationsForm",new_search_validate_obj);	
-	$("#searching").css({"display":""});
+                        _var = {};
+                        _var = new set_vars(obj);
 
-	
+                        order_by();
+                        pagination();
+                        info();
+
+                    // si hay productos publicados.
+                    if(obj.data.length > 0){
+
+                        prepare_publications('after');
+
+                        // se oculta el mensaje que informa la no existencias de publicaciones
+                        $("#no-products-for-this-search").css({"display":"none"});
+
+                        // se establece la informacion de la cantidad de registros encontrados.
+                        if(obj.info.count > 1){
+                            var count = obj.info.count+' registros encontrados'
+                        }else{
+                            var count = obj.info.count+' registro encontrado'
+                        }
+                        $("#product-quantity-for-this-search").html(count);
+
+                        // se establece la información de lo que se busca
+                        $("#for-this-search").html(obj.search);
+
+                        // se muestra la informacion acerca de la busqueda
+                        $("#products-for-this-search").css({"display":"inherit"});
+
+                        // se muestra las publicaciones
+                        $("#published").css({"display":"inherit"});
+
+                    }else{
+
+                        // se oculta el mensaje que informa que hay publicaciones
+                        $("#products-for-this-search").css({"display":"none"});
+
+                        // se muestra el mensaje que indica que no hay publicaciones
+                        $("#no-for-this-search").html(obj.search);
+                        $("#no-products-for-this-search").css({"display":"inherit"});
+
+                        // se oculta las publicaciones
+                        $("#published").css({"display":"none"});
+
+                        // TODO ELIMINAR
+                        // se oculta barra de progreso.
+                        $("#progress-bar").css({"display":"none"});
+
+                    }
+
+                }else{
+                    // hay un error en la solicitud.
+                    window.location = "/cuenta";
+                }
+
+            }
+        }
+    };
+
+    // validación:
+    var new_search_validate_obj = {
+        "submitHandler": function(form){
+
+            var request_this                = {};
+
+            search_string                   = $("#search").val();
+            request_this.search             = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+            new_search_obj.data.custon      = request_this;
+
+            new Request(new_search_obj);
+
+        },
+        "rules":{
+            "search":{
+                "required":true,
+                "maxlength":100,
+                "noSpecialChars":true
+            }
+        },
+        "messages":{
+            "search":{
+                "required":"Es preciso definir el campo para proceder con la búsqueda.",
+                "maxlength":"Hay un límite de 100 caracteres.",
+                "noSpecialChars":"No esta permitido usar caracteres especiales."
+            }
+        }
+    };
+
+    var new_search = new validate_this_form("SearchPublicationsForm",new_search_validate_obj);
+    $("#searching").css({"display":""});
+
+
 };
 
 
 /*
  * Type: clase.
- * Descrición: destinada a procesar la url
- * reorna un objeto.
+ * Descripción: destinada a procesar la url
+ * retorna un objeto.
  *************************************************************************************************************************************************************/
 var url_parser = function(){
 
@@ -1063,10 +1052,10 @@ var url_parser = function(){
     var url = $.url(pathname);
     var segments = url.attr('fragment');
 
-    var url_obj			= {};
-    url_obj.search 		= "";
-    url_obj.page 		= "";
-    url_obj.order_by	= "";
+    var url_obj         = {};
+    url_obj.search      = "";
+    url_obj.page        = "";
+    url_obj.order_by    = "";
 
     if(segments != ""){
         var split_segments = url.attr('fragment').split('/');
@@ -1078,9 +1067,9 @@ var url_parser = function(){
 
                     /* La cadena search_string se manipula en el siguiente orden.
                      *
-                     * 1) se replasa los caracteres especiales
-                     * 2) se elimina los espacios en blancos ante y despues de la cadena
-                     * 3) se replasa los espacios en blancos largos por uno solo.
+                     * 1) se reemplaza los caracteres especiales
+                     * 2) se elimina los espacios en blancos ante y después de la cadena
+                     * 3) se reemplaza los espacios en blancos largos por uno solo.
                      *
                      ********************************************************************/
                     url_obj.search = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
@@ -1131,50 +1120,49 @@ $(document).ready(function(){
     // http://www.iska.com:8080/publicados#buscar_las_mejores/mayor_precio/pagina_1
 
     var products_published_obj = {
-		"type":"post",
-		"url":"/products_published",
-		"data":{
-			"custon":{}
-		},
-		"console_log":false,
-		"callbacks":{
-			"complete":function(response){
-				
-				var a	= response.responseText;
-				var obj = $.parseJSON(a);
-				console.log(obj);
-					
-				if(obj.expired_session){
-					window.location = "/entrar";
-				}
-					
-				if(obj.result){
-					 
-					if(obj.total_products.length == 0){
-						// no hay publicaciones.
-						$("#no-products").css({"display":""});
-					}
-					
-					_var = {};
-					_var = new set_vars(obj);
-					
-					if(obj.data.length > 0){
-						prepare_publications('initial');
-					}
-					
-					if(obj.data.length == 0 && obj.total_products > 0){
-						window.location = "/publicados";
-					}
-					
-					
-				}else{
-					// hay un error en la solicitud.
-					window.location = "/cuenta";
-				}
-					
-			}
-		}
-	};
+        "type":"post",
+        "url":"/products_published",
+        "data":{
+            "custon":{}
+        },
+        "console_log":false,
+        "callbacks":{
+            "complete":function(response){
+
+                var a	= response.responseText;
+                var obj = $.parseJSON(a);
+                console.log(obj);
+
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
+
+                if(obj.result){
+
+                    if(obj.total_products.length == 0){
+                        // no hay publicaciones.
+                        $("#no-products").css({"display":""});
+                    }
+
+                    _var = {};
+                    _var = new set_vars(obj);
+
+                    if(obj.data.length > 0){
+                        prepare_publications('initial');
+                    }
+
+                    if(obj.data.length == 0 && obj.total_products > 0){
+                        window.location = "/publicados";
+                    }
+
+
+                }else{
+                    // hay un error en la solicitud.
+                    window.location = "/cuenta";
+                }
+            }
+        }
+    };
 
     // se muestra la barra de progreso
     $("#progress-bar").css({"display":"inherit"});
