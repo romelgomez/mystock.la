@@ -76,8 +76,10 @@ var order_by =  function(){
 
         $.each(order_by,function(id,order_by){
 
-            $("#"+id).off('click');
-            $("#"+id).on('click',function(event){
+            var element = $("#"+id);
+
+            element.off('click');
+            element.on('click',function(event){
                 event.preventDefault();
 
                 var url_obj =  url_parser();
@@ -120,12 +122,12 @@ var order_by =  function(){
  *************************************************************************************************************************************************************/
 var info = function(){
 
-    console.log(_var);
+//    console.log(_var);
 
     /*
 
-     Algorismo para obtener el resultado esperado con la data disponible:
-     Calculo Imaginario
+     Algoritmo para obtener el resultado esperado con la data disponible:
+     Cálculo Imaginario
 
      count 	:	el total de registros
      current :	los que actualmente son observados.
@@ -225,14 +227,17 @@ var info = function(){
             info = '1 publicación';
         }else{
 
+            var de = '';
+            var hasta = '';
+
             if(_var.page == _var.pageCount){
-                var de 		= _var.count-_var.current+1;
-                var hasta	= _var.count;
+                de 		= _var.count-_var.current+1;
+                hasta	= _var.count;
             }
 
             if(_var.page < _var.pageCount){
-                var de 		= (_var.page*_var.current)-10+1
-                var hasta	= _var.page*_var.current;
+                de 		= (_var.page*_var.current)-10+1
+                hasta	= _var.page*_var.current;
             }
 
             var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+_var.count+'</b>';
@@ -243,7 +248,7 @@ var info = function(){
     }
 
     // se establece la informacion de la cantidad de registros existentes
-    $("#pagination-info span").html(info);
+    $("#pagination-info").find("span").html(info);
 
 };
 
@@ -662,23 +667,27 @@ var _delete =  function(){
 
             }
         }
-    }
+    };
 
-    if($("#published .delete").length){
-        $("#published .delete").each(function(){
+    var elements = $("#published").find(".delete");
+
+    if(elements.length){
+        $(elements).each(function(){
 
             $(this).off('click');
             $(this).on('click',function(){
-                pure_json_obj = $(this).parents("div.media").children().last().html();
-                obj 			= $.parseJSON(clean_obj(pure_json_obj));
+                var pure_json_obj = $(this).parents("div.media").children().last().html();
+                var obj 			= $.parseJSON(clean_obj(pure_json_obj));
                 $("#delete_product").attr({"product_id":obj.product.id});
 
                 $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
                 });
             });
 
-            $("#delete_product").off('click');
-            $("#delete_product").on('click',function(){
+            var element = $("#delete_product");
+
+            element.off('click');
+            element.on('click',function(){
                 $('#delete_product_modal').modal('hide');
 
                 var request_this = {};
@@ -702,7 +711,7 @@ var _delete =  function(){
         });
     }
 
-}
+};
 
 /*
  * Type: función
@@ -733,7 +742,7 @@ var prepare_product = function(obj){
             '<button class="btn activate" style="display:none;"><i class="icon-stop"></i> Activar</button>';
     }else{
         status = '<span class="label label-warning paused-status">pausado</span>';
-        status_button = '<button class="btn pause" style="display:none;><i class="><i class="icon-stop"></i> Pausar</button>'+
+        status_button = '<button class="btn pause" style="display:none;"><i class="icon-stop"></i> Pausar</button>'+
             '<button class="btn activate" "><i class="icon-stop"></i> Activar</button>';
     }
 
@@ -755,10 +764,10 @@ var prepare_product = function(obj){
     // END
 
 
-
+    var product = '';
 
     // se arma una publicación
-    var product = 	'<div id="product-'+id+'"  class="media" >'+
+    product = 	'<div id="product-'+id+'"  class="media" >'+
         '<a class="pull-left thumbnail" href="'+link+'">'+
         '<img src="'+image+'"  style="width: 200px; ">'+
         '</a>'+
@@ -822,6 +831,7 @@ var prepare_publications = function(type){
                 // se prepara las publicaciones
                 products += prepare_product(this);
 
+                // TODO  ELIMINAR
                 // se calcula el porcentje avansado y se actuliza la barra de progreso
                 var p = ((1*100)/((_var.current+1)-(index+1)));
                 progress_bar(p+'%');
