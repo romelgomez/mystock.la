@@ -21,7 +21,7 @@
 
 /*
  * Type: función
- * Descrición: funcion destinada a ordenar la publicaciones, segun la preferencia del vendedor.
+ * Descripción: funcion destinada a ordenar la publicaciones, segun la preferencia del vendedor.
  * Parametros: null
  *************************************************************************************************************************************************************/
 var order_by =  function(){
@@ -115,7 +115,7 @@ var order_by =  function(){
 
 /*
  * Type: función
- * Descrición:   se establece la informacion de la cantidad de registros existentes
+ * Descripción:   se establece la informacion de la cantidad de registros existentes
  * Parametros: 
  *************************************************************************************************************************************************************/
 var info = function(){
@@ -245,350 +245,323 @@ var info = function(){
 	// se establece la informacion de la cantidad de registros existentes
 	$("#pagination-info span").html(info);
 	
-}
+};
 
 
 
 /*
  * Type: función
- * Descrición: encargada de administrar la paginacion de los resultados.
+ * Descripción: encargada de administrar la paginación de los resultados.
  * Parametros: null
  *************************************************************************************************************************************************************/
 var pagination = function(){
-	
-	var pagination_obj = {
-		"type":"post",
-		"url":"/products_published",
-		"data":{
-			"custon":{}
-		},
-		"console_log":true,
-		"callbacks":{
-			"complete":function(response){
-				
-				var a = response.responseText;
-				var obj = $.parseJSON(a);
-				if(obj.expired_session){
-					window.location = "/entrar";
-				}
-				
-				if(obj.result){
-					if(obj.data){
-						// hay publicaciones 
-						_var = {};
-						_var = new set_vars(obj);
-						prepare_publications('after');
-					}else{
-						// no hay publicaciones.
-						$("#no-products").css({"display":"inherit"});
-					}
-				}else{
-					// hay un error en la solicitud.
-					window.location = "/cuenta";
-				}
-				
-				
-			}
-		}
-	}
-	
-	//console.log(_var);
 
-	if(_var.pageCount > 1){
-	
-		// si exite una pagina anterior y si la pagina anterior no es la 0
-		if(_var.prevPage && (_var.page-1) != 0){
-			
-			$("#prev-page").attr({"disabled":false}).removeClass('disabled');
-			$("#prev-page").off('click');	
-			$("#prev-page").on('click', function(){
-				
-				var url_obj =  url_parser();
-				var prev_page = _var.page-1; // tambien puede tomar el valor de: url_obj.page
-				var request_this = {};
-				
-				// PAGE
-				request_this.page = prev_page;
-				
-				if(url_obj.order_by != ""){
-					if(url_obj.search != ""){
-						var url = str_replace(obj.search,' ','_');
-						var new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
-						//SEARCH
-						request_this.search = url_obj.search;
-					}else{
-						var new_url = "#"+url_obj.order_by+"/pagina_"+prev_page;
-					}   
-					// ORDER
-					request_this.order_by = url_obj.order_by;
-				}else{
-					if(url_obj.search != ""){
-						var url = str_replace(obj.search,' ','_');
-						var new_url = "#buscar_"+url+"/pagina_"+prev_page;
-						//SEARCH
-						request_this.search = url_obj.search;
-					}else{
-						var new_url = "#pagina_"+prev_page;
-					}
-				}
-				
-				/*		
-				// PAGE
-				request_this.page = prev_page;		
-				if(url_obj.order_by != ""){
-					
-					var new_url = "#"+url_obj.order_by+"/pagina_"+prev_page;
-					// ORDER
-					request_this.order_by = url_obj.order_by;
-				
-				}else{
-					var new_url = "#pagina_"+prev_page;
-				}
-				*/
-				
-				
-				/*
-				if(url_obj.search != ''){
-					// se solicita buscar algo.
-					request_this.search	= url_obj.search;
-					
-					var url = str_replace(obj.search,' ','_');
-					window.location = "#buscar_"+url+"/"+order_by;
-					
-				}else{
-					window.location = "#"+order_by;
-				}
-				*/
-				
-				
-				
-				window.location = new_url;
-				pagination_obj.data.custon = request_this;
-				new Request(pagination_obj);
-				
-				// al establecer la solisitud ajax un aviso de cargando deber ser colocado. 
-				
-				
-			});
-			
-		}else{
-			$("#prev-page").attr({"disabled":true}).addClass('disabled');
-		}
-		// si existe una siguiente pagina
-		if(_var.nextPage){
-			
-			$("#next-page").attr({"disabled":false}).removeClass('disabled');
-			$("#next-page").off('click');		
-			$("#next-page").on('click', function(){
-				
-				var url_obj =  url_parser();
-				
-				var next_page = _var.page+1; // tambien puede tomar el valor de: url_obj.page
-				var request_this = {};
-				
-				// PAGE
-				request_this.page = next_page;
-				
-				if(url_obj.order_by != ""){
-					if(url_obj.search != ""){
-						var url = str_replace(obj.search,' ','_');
-						var new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
-						//SEARCH
-						request_this.search = url_obj.search;
-					}else{
-						var new_url = "#"+url_obj.order_by+"/pagina_"+next_page;
-					}   
-					// ORDER
-					request_this.order_by = url_obj.order_by;
-				}else{
-					if(url_obj.search != ""){
-						var url = str_replace(obj.search,' ','_');
-						var new_url = "#buscar_"+url+"/pagina_"+next_page;
-						//SEARCH
-						request_this.search = url_obj.search;
-					}else{
-						var new_url = "#pagina_"+next_page;
-					}
-				}
-				
-				
-				/*
-				// PAGE
-				request_this.page = next_page;
-				if(url_obj.order_by != ""){
-					var new_url = "#"+url_obj.order_by+"/pagina_"+next_page;
-					// ORDER
-					request_this.order_by = url_obj.order_by;
-				}else{
-					var new_url = "#pagina_"+next_page;
-				}
-				*/
-				
-				
-				window.location = new_url;
-				pagination_obj.data.custon = request_this;
-				new Request(pagination_obj);
-							
-			});
-		}else{
-			$("#next-page").attr({"disabled":true}).addClass('disabled');
-		}
-	
-		$("#pagination").css({"display":""});		
-	}else{
-		$("#pagination").css({"display":"none"});
-	}
-	
-}
+    var pagination_obj = {
+        "type":"post",
+        "url":"/products_published",
+        "data":{
+            "custon":{}
+        },
+        "console_log":true,
+        "callbacks":{
+            "complete":function(response){
 
-/*
- * Type: función
- * Descrición: funcion destinada a modifcar el estado de la barra de progreso.
+                var a = response.responseText;
+                var obj = $.parseJSON(a);
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
+
+                if(obj.result){
+                    if(obj.data){
+                        // hay publicaciones
+                        _var = {};
+                        _var = new set_vars(obj);
+                        prepare_publications('after');
+                    }else{
+                        // no hay publicaciones.
+                        $("#no-products").css({"display":"inherit"});
+                    }
+                }else{
+                    // hay un error en la solicitud.
+                    window.location = "/cuenta";
+                }
+
+
+            }
+        }
+    };
+
+//console.log(_var);
+
+    if(_var.pageCount > 1){
+
+        // si exite una pagina anterior y si la pagina anterior no es la 0
+        if(_var.prevPage && (_var.page-1) != 0){
+
+            var prevPage = $("#prev-page");
+
+            prevPage.attr({"disabled":false}).removeClass('disabled');
+            prevPage.off('click');
+            prevPage.on('click', function(){
+
+                var url_obj =  url_parser();
+                var prev_page = _var.page-1; // tambien puede tomar el valor de: url_obj.page
+                var request_this = {};
+
+                // PAGE
+                request_this.page = prev_page;
+
+                var url     = '';
+                var new_url = '';
+
+                if(url_obj.order_by != ""){
+                    if(url_obj.search != ""){
+                        url = str_replace(obj.search,' ','_');
+                        new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
+                        //SEARCH
+                        request_this.search = url_obj.search;
+                    }else{
+                        new_url = "#"+url_obj.order_by+"/pagina_"+prev_page;
+                    }
+                    // ORDER
+                    request_this.order_by = url_obj.order_by;
+                }else{
+                    if(url_obj.search != ""){
+                        url = str_replace(obj.search,' ','_');
+                        new_url = "#buscar_"+url+"/pagina_"+prev_page;
+                        //SEARCH
+                        request_this.search = url_obj.search;
+                    }else{
+                        new_url = "#pagina_"+prev_page;
+                    }
+                }
+
+                window.location = new_url;
+                pagination_obj.data.custon = request_this;
+                new Request(pagination_obj);
+
+                // al establecer la solicitud ajax un aviso de cargando deber ser colocado.
+
+            });
+
+        }else{
+            $("#prev-page").attr({"disabled":true}).addClass('disabled');
+        }
+
+        // si existe una siguiente pagina
+        if(_var.nextPage){
+
+            var nextPage = $("#next-page");
+
+            nextPage.attr({"disabled":false}).removeClass('disabled');
+            nextPage.off('click');
+            nextPage.on('click', function(){
+
+                var url_obj =  url_parser();
+
+                var next_page = _var.page+1; // tambien puede tomar el valor de: url_obj.page
+                var request_this = {};
+
+                // PAGE
+                request_this.page = next_page;
+
+                var url     = '';
+                var new_url = '';
+
+                if(url_obj.order_by != ""){
+                    if(url_obj.search != ""){
+                        url = str_replace(obj.search,' ','_');
+                        new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
+                        //SEARCH
+                        request_this.search = url_obj.search;
+                    }else{
+                        new_url = "#"+url_obj.order_by+"/pagina_"+next_page;
+                    }
+                    // ORDER
+                    request_this.order_by = url_obj.order_by;
+                }else{
+                    if(url_obj.search != ""){
+                        url = str_replace(obj.search,' ','_');
+                        new_url = "#buscar_"+url+"/pagina_"+next_page;
+                        //SEARCH
+                        request_this.search = url_obj.search;
+                    }else{
+                        new_url = "#pagina_"+next_page;
+                    }
+                }
+
+                window.location = new_url;
+                pagination_obj.data.custon = request_this;
+                new Request(pagination_obj);
+
+            });
+        }else{
+            $("#next-page").attr({"disabled":true}).addClass('disabled');
+        }
+
+        $("#pagination").css({"display":""});
+    }else{
+        $("#pagination").css({"display":"none"});
+    }
+
+};
+
+/* TODO ELIMINAR ESTA FUNCIÓN
+ *  Type: función
+ * Descripción: funcion destinada a modifcar el estado de la barra de progreso.
  * Parametros:
  * 	percentage: string
  *************************************************************************************************************************************************************/
 var progress_bar = function(percentage){
 	$("div.bar").css({"width":percentage});
-}
+};
 
 /*
  * Type: función
- * Descrición: funcion destinada a pausar una publicación activa 
+ * Descripción: función destinada a pausar una publicación activa
  * Parametros:  null  
  *************************************************************************************************************************************************************/
 var pause = function(){
-	var pause_obj = {
-		"type":"post",
-		"url":"/pause",
-		"data":{
-			"custon":{}
-		},
-		"console_log":true,
-		"callbacks":{
-			"complete":function(response){
-				
-				var a = response.responseText;
-				console.log(a);
-				
-				var obj = $.parseJSON(a);
-				if(obj.expired_session){
-					window.location = "/entrar";
-				}
-				
-				if(obj.result){
-					$("#product-"+obj.id+' .pause').css({
-					  "display": 'none'
-					});
-					$("#product-"+obj.id+' .activate').css({
-					  "display": 'inline'
-					});
-					
-					var status = '<span class="label label-warning paused-status">pausado</span>';
-					$("#product-"+obj.id+' .active-status').replaceWith(status);
-					
-				}else{
-					window.location = "/";
-				}
-				
-			}
-		}
-	}
-	
-	if($("#published .pause").length){
-		$("#published .pause").each(function(){
-			$(this).off('click');
-			$(this).on('click',function(){
-				var pure_json_obj = $(this).parents("div.media").children().last().html(); 
-				var obj 			= $.parseJSON(clean_obj(pure_json_obj));
-				var request_this = {};
-				request_this.id  = obj.product.id;
-				pause_obj.data.custon = request_this;
-				new Request(pause_obj);
-			});
-			
-		});
-	}
-	
-}
+
+    var pause_obj = {
+        "type":"post",
+        "url":"/pause",
+        "data":{
+            "custon":{}
+        },
+        "console_log":true,
+        "callbacks":{
+            "complete":function(response){
+
+                var a = response.responseText;
+//                console.log(a);
+
+                var obj = $.parseJSON(a);
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
+
+                if(obj.result){
+                    $("#product-"+obj.id+' .pause').css({
+                        "display": 'none'
+                    });
+                    $("#product-"+obj.id+' .activate').css({
+                        "display": 'inline'
+                    });
+
+                    var status = '<span class="label label-warning paused-status">pausado</span>';
+                    $("#product-"+obj.id+' .active-status').replaceWith(status);
+
+                }else{
+                    window.location = "/";
+                }
+
+            }
+        }
+    };
+
+
+    var elements = $("#published").find(".pause");
+
+    if(elements.length){
+        $(elements).each(function(){
+            $(this).off('click');
+            $(this).on('click',function(){
+                var pure_json_obj   = $(this).parents("div.media").children().last().html();
+                var obj             = $.parseJSON(clean_obj(pure_json_obj));
+                var request_this = {};
+                request_this.id  = obj.product.id;
+                pause_obj.data.custon = request_this;
+                new Request(pause_obj);
+            });
+
+        });
+    }
+
+};
 
 /*
  * Type: función
- * Descrición: funcion destinada a actiar una publicación activa 
+ * Descripción: función destinada a activar una publicación pausada
  * Parametros:  null  
  *************************************************************************************************************************************************************/
 var activate = function(){
-	var pause_obj = {
-		"type":"post",
-		"url":"/activate",
-		"data":{
-			"custon":{}
-		},
-		"console_log":true,
-		"callbacks":{
-			"complete":function(response){
-				
-				var a = response.responseText;
-				var obj = $.parseJSON(a);
-				if(obj.expired_session){
-					window.location = "/entrar";
-				}
-				
-				if(obj.result){
-					$("#product-"+obj.id+' .pause').css({
-					  "display": "inline"
-					}); 
-					$("#product-"+obj.id+' .activate').css({
-					  "display": "none"
-					});
-					var status = '<span class="label label-success active-status">publicado</span>';
-					$("#product-"+obj.id+' .paused-status').replaceWith(status);
-				}else{
-					window.location = "/";
-				}
-				
-			}
-		}
-	}
-	
-	if($("#published .activate").length){
-		$("#published .activate").each(function(){
-			$(this).off('click');
-			$(this).on('click',function(){
-				
-				pure_json_obj = $(this).parents("div.media").children().last().html(); 
-				obj 			= $.parseJSON(clean_obj(pure_json_obj));
-				var request_this = {};
-				request_this.id  = obj.product.id;
-				pause_obj.data.custon = request_this;
-				new Request(pause_obj);
-				
-			});
-		});
-	}
-	
-}
+
+    var pause_obj = {
+        "type":"post",
+        "url":"/activate",
+        "data":{
+            "custon":{}
+        },
+        "console_log":false,
+        "callbacks":{
+            "complete":function(response){
+
+                var a = response.responseText;
+                var obj = $.parseJSON(a);
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
+
+                if(obj.result){
+                    $("#product-"+obj.id+' .pause').css({
+                        "display": "inline"
+                    });
+                    $("#product-"+obj.id+' .activate').css({
+                        "display": "none"
+                    });
+                    var status = '<span class="label label-success active-status">publicado</span>';
+                    $("#product-"+obj.id+' .paused-status').replaceWith(status);
+                }else{
+                    window.location = "/";
+                }
+            }
+        }
+    };
+
+    var elements = $("#published").find(".activate");
+
+    if(elements.length){
+        $(elements).each(function(){
+            $(this).off('click');
+            $(this).on('click',function(){
+                var pure_json_obj   = $(this).parents("div.media").children().last().html();
+                var obj             = $.parseJSON(clean_obj(pure_json_obj));
+                var request_this = {};
+                request_this.id  = obj.product.id;
+                pause_obj.data.custon = request_this;
+                new Request(pause_obj);
+            });
+        });
+    }
+
+};
 
 /*
  * Type: función
- * Descrición: funcion que procesa la solicitud de editar una publicación,  la razon de crear una funcion y no un simple link que es mas simple, es por la maquetacion o bootstrap, como es un grupo de botones pegados, al colocar un link <a></a> se descuadra. por lo tanto es requerido usar una funcion.    
+ * Descripción: función que procesa la solicitud de editar una publicación,  la razón de crear una función y no un simple link que es más simple, es por la maquetación o bootstrap, como es un grupo de botones pegados, al colocar un link <a></a> se descuadra. por lo tanto es requerido usar una función.
  * Parametros:  null
  *************************************************************************************************************************************************************/
 var edit = function(){
-	if($("#published .edit").length){
-		$("#published .edit").each(function(){
-			$(this).off('click');
-			$(this).on('click',function(){
-				
-				pure_json_obj = $(this).parents("div.media").children().last().html(); 
-				obj 			= $.parseJSON(clean_obj(pure_json_obj));
-				
-				var edit_link	= 	'/editar/'+obj.product.id;
-				window.location = edit_link;
-								
-			});
-		});
-	}
-}
+
+    var elements = $("#published").find(".edit");
+
+    if(elements.length){
+        $(elements).each(function(){
+            $(this).off('click');
+            $(this).on('click',function(){
+
+                var pure_json_obj   = $(this).parents("div.media").children().last().html();
+                var obj             = $.parseJSON(clean_obj(pure_json_obj));
+
+                // edit link
+                window.location = '/editar/'+obj.product.id;
+
+            });
+        });
+    }
+};
 
 /*
  * Type: función
@@ -1149,15 +1122,15 @@ var url_parser = function(){
 
 $(document).ready(function(){
 
-	var url_obj =  url_parser();
-	
-	// Posibles urls
-	// http://www.iska.com:8080/publicados
-	// http://www.iska.com:8080/publicados#pagina_1
-	// http://www.iska.com:8080/publicados#mayor_precio/pagina_1
-	// http://www.iska.com:8080/publicados#buscar_las_mejores/mayor_precio/pagina_1
+    var url_obj =  url_parser();
 
-	var products_published_obj = {
+    // Posibles urls
+    // http://www.iska.com:8080/publicados
+    // http://www.iska.com:8080/publicados#pagina_1
+    // http://www.iska.com:8080/publicados#mayor_precio/pagina_1
+    // http://www.iska.com:8080/publicados#buscar_las_mejores/mayor_precio/pagina_1
+
+    var products_published_obj = {
 		"type":"post",
 		"url":"/products_published",
 		"data":{
@@ -1202,28 +1175,28 @@ $(document).ready(function(){
 			}
 		}
 	};
-		
-	// se muestra la barra de progreso
-	$("#progress-bar").css({"display":"inherit"});
-		
-	var request_this 	= {};
-		
-	if(url_obj.search != ''){
-		// se solicita buscar algo.
-		request_this.search	= url_obj.search;		
-	}
 
-	if(url_obj.page != ''){
-		// la pagina esta definida
-		request_this.page	= url_obj.page;
-	}
+    // se muestra la barra de progreso
+    $("#progress-bar").css({"display":"inherit"});
 
-	if(url_obj.order_by != ''){
-		// esta definido odernar por
-		request_this.order_by	= url_obj.order_by;
-	}	
-		
-	products_published_obj.data.custon		= request_this;			
-	new Request(products_published_obj);
+    var request_this 	= {};
+
+    if(url_obj.search != ''){
+        // se solicita buscar algo.
+        request_this.search	= url_obj.search;
+    }
+
+    if(url_obj.page != ''){
+        // la pagina esta definida
+        request_this.page	= url_obj.page;
+    }
+
+    if(url_obj.order_by != ''){
+        // esta definido odernar por
+        request_this.order_by	= url_obj.order_by;
+    }
+
+    products_published_obj.data.custon      = request_this;
+    new Request(products_published_obj);
 
 });
