@@ -832,29 +832,28 @@ var prepare_publications = function(type){
                 products += prepare_product(this);
 
                 // TODO  ELIMINAR
-                // se calcula el porcentje avansado y se actuliza la barra de progreso
-                var p = ((1*100)/((_var.current+1)-(index+1)));
-                progress_bar(p+'%');
+//                // se calcula el porcentje avansado y se actuliza la barra de progreso
+//                var p = ((1*100)/((_var.current+1)-(index+1)));
+//                progress_bar(p+'%');
 
                 /* START  ha finalizado el bucle - este codigo se ejecuta una sola vez
                  *************************************************************************/
                 if(_var.current==(index+1)){
-                    // se oculta barra de progreso.
-                    $("#progress-bar").fadeOut('slow',function(){
 
-                        information_panel();
 
-                        // se establece las publicaciones en el dom
-                        $('#published').html(products);
+                    information_panel();
 
-                        /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                         *************************************************************************************/
-                        pause();
-                        activate();
-                        edit();
-                        _delete();
+                    // se establece las publicaciones en el dom
+                    $('#published').html(products);
 
-                    });
+                    /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
+                     *************************************************************************************/
+                    pause();
+                    activate();
+                    edit();
+                    _delete();
+
+
                 }
                 // END
 
@@ -891,12 +890,6 @@ var prepare_publications = function(type){
             });
 
         }
-
-    }else{
-
-        // TODO ELIMINAR ESTA CARACTERISTICA
-        // se oculta barra de progreso. cuando se llama a /publicados se despliega la barra automáticamente.
-        $("#progress-bar").css({"display":"none"});
 
     }
 
@@ -999,10 +992,6 @@ var search = function(){
 
                         // se oculta las publicaciones
                         $("#published").css({"display":"none"});
-
-                        // TODO ELIMINAR
-                        // se oculta barra de progreso.
-                        $("#progress-bar").css({"display":"none"});
 
                     }
 
@@ -1174,8 +1163,6 @@ $(document).ready(function(){
         }
     };
 
-    // se muestra la barra de progreso
-    $("#progress-bar").css({"display":"inherit"});
 
     var request_this 	= {};
 
