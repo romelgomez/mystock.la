@@ -47,7 +47,7 @@ var order_by =  function(){
                         // hay publicaciones
                         _var = {};
                         _var = new set_vars(obj);
-                        prepare_publications('after');
+                        prepare_publications();
                     }else{
                         // no hay publicaciones.
                         $("#no-products").css({"display":"inherit"});
@@ -236,7 +236,7 @@ var info = function(){
             }
 
             if(_var.page < _var.pageCount){
-                de 		= (_var.page*_var.current)-10+1
+                de 		= (_var.page*_var.current)-10+1;
                 hasta	= _var.page*_var.current;
             }
 
@@ -282,7 +282,7 @@ var pagination = function(){
                         // hay publicaciones
                         _var = {};
                         _var = new set_vars(obj);
-                        prepare_publications('after');
+                        prepare_publications();
                     }else{
                         // no hay publicaciones.
                         $("#no-products").css({"display":"inherit"});
@@ -805,7 +805,7 @@ var information_panel = function(){
 
 
 
-var prepare_publications = function(type){
+var prepare_publications = function(){
 
     if(_var.data.length > 0){
 
@@ -859,9 +859,6 @@ var set_vars = function(obj){
     this.data           = obj.data;
 };
 
-
-
-var search_info = function(obj){};
 
 
 /*
@@ -954,11 +951,11 @@ var search = function(){
 
     // validación:
     var new_search_validate_obj = {
-        "submitHandler": function(form){
+        "submitHandler": function(){
 
             var request_this                = {};
 
-            search_string                   = $("#search").val();
+            var search_string                   = $("#search").val();
             request_this.search             = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
             new_search_obj.data.custon      = request_this;
 
@@ -981,7 +978,7 @@ var search = function(){
         }
     };
 
-    var new_search = new validate_this_form("SearchPublicationsForm",new_search_validate_obj);
+    new validate_this_form("SearchPublicationsForm",new_search_validate_obj);
     $("#searching").css({"display":""});
 
 
