@@ -412,15 +412,7 @@ var pagination = function(){
 
 };
 
-/* TODO ELIMINAR ESTA FUNCIÓN
- *  Type: función
- * Descripción: funcion destinada a modifcar el estado de la barra de progreso.
- * Parametros:
- * 	percentage: string
- *************************************************************************************************************************************************************/
-var progress_bar = function(percentage){
-    $("div.bar").css({"width":percentage});
-};
+
 
 /*
  * Type: función
@@ -764,36 +756,32 @@ var prepare_product = function(obj){
     // END
 
 
-    var product = '';
-
     // se arma una publicación
-    product = 	'<div id="product-'+id+'"  class="media" >'+
-        '<a class="pull-left thumbnail" href="'+link+'">'+
-        '<img src="'+image+'"  style="width: 200px; ">'+
-        '</a>'+
-        '<div class="media-body">'+
-        '<h4 class="media-heading"><input type="checkbox" style="margin-top: 0px;"> <a href="'+link+'" >'+title+'</a></h4>'+
-        '<h5 class="muted" >'+subtitle+'</h5>'+
+    return      '<div id="product-'+id+'"  class="media" >'+
+                    '<a class="pull-left thumbnail" href="'+link+'">'+
+                        '<img src="'+image+'"  style="width: 200px; ">'+
+                    '</a>'+
+                    '<div class="media-body">'+
+                        '<h4 class="media-heading"><input type="checkbox" style="margin-top: 0;"> <a href="'+link+'" >'+title+'</a></h4>'+
+                        '<h5 class="muted" >'+subtitle+'</h5>'+
 
-        '<div style="margin-bottom: 10px;">'+
-        '<div class="btn-group">'+
-        '<button class="btn edit"><i class="icon-edit"></i> Editar</button>'+
-        status_button+
-        '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
-        '</div>'+
-        '</div>'+
-        '<div>'+
-        '<i class="icon-tag"></i> Precio: '+price+' BsF.<br>'+
-        '<i class="icon-off "></i> Estatus: '+status+'<br>'+
-        '<i class="icon-th"></i> Cantidad displonible: '+_quantity+'<br>'+
-        '<i class="icon-calendar"></i> Publicado: '+published+
-        '</div>'+
-        '</div>'+
-        '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
-        '</div>';
+                        '<div style="margin-bottom: 10px;">'+
+                            '<div class="btn-group">'+
+                                '<button class="btn edit"><i class="icon-edit"></i> Editar</button>'+
+                                 status_button+
+                                '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div>'+
+                            '<i class="icon-tag"></i> Precio: '+price+' BsF.<br>'+
+                            '<i class="icon-off "></i> Estatus: '+status+'<br>'+
+                            '<i class="icon-th"></i> Cantidad displonible: '+_quantity+'<br>'+
+                            '<i class="icon-calendar"></i> Publicado: '+published+
+                        '</div>'+
+                    '</div>'+
+                    '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
+                '</div>';
 
-
-    return product;
 };
 
 
@@ -824,72 +812,32 @@ var prepare_publications = function(type){
         // se establece la variable que almacenara las publicaciones
         var products	= '';
 
-        if(type == 'initial'){
+        $.each(_var.data,function(index){
 
-            $.each(_var.data,function(index){
+            // se prepara las publicaciones
+            products += prepare_product(this);
 
-                // se prepara las publicaciones
-                products += prepare_product(this);
+            /* START  ha finalizado el bucle - este código se ejecuta una sola vez
+             *************************************************************************/
+            if(_var.current==(index+1)){
 
-                // TODO  ELIMINAR
-//                // se calcula el porcentje avansado y se actuliza la barra de progreso
-//                var p = ((1*100)/((_var.current+1)-(index+1)));
-//                progress_bar(p+'%');
+                information_panel();
 
-                /* START  ha finalizado el bucle - este codigo se ejecuta una sola vez
-                 *************************************************************************/
-                if(_var.current==(index+1)){
+                // se establece las publicaciones en el dom
+                $('#published').html(products);
 
-
-                    information_panel();
-
-                    // se establece las publicaciones en el dom
-                    $('#published').html(products);
-
-                    /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                     *************************************************************************************/
-                    pause();
-                    activate();
-                    edit();
-                    _delete();
+                /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
+                 *************************************************************************************/
+                pause();
+                activate();
+                edit();
+                _delete();
 
 
-                }
-                // END
+            }
+            // END
 
-            });
-
-        }
-        if(type == 'after'){
-
-            $.each(_var.data,function(index){
-
-                // se prepara las publicaciones
-                products += prepare_product(this);
-
-                /* START  ha finalizado el bucle - este código se ejecuta una sola vez
-                 *************************************************************************/
-                if(_var.current==(index+1)){
-
-                    information_panel();
-
-                    // se establece las publicaciones en el dom
-                    $('#published').html(products);
-
-                    /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                     *************************************************************************************/
-                    pause();
-                    activate();
-                    edit();
-                    _delete();
-
-
-                }
-                // END
-
-            });
-
-        }
+        });
 
     }
 
