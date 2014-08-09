@@ -21,7 +21,7 @@
 
 /*
  * Type: función
- * Descripción: funcion destinada a ordenar la publicaciones, segun la preferencia del vendedor.
+ * Descripción: funcion destinada a ordenar la publicaciones, segun la preferencia del usuario.
  * Parametros: null
  *************************************************************************************************************************************************************/
 var order_by =  function(){
@@ -84,7 +84,7 @@ var order_by =  function(){
 
                 var url_obj =  parse.url();
 
-                //console.log(url_obj)
+                console.log(url_obj)
                 var request_this 				= {};
 
                 if(url_obj.search != ''){
@@ -1078,7 +1078,7 @@ $(document).ready(function(){
         "type":"post",
         "url":"/products_published",
         "data":{
-            "custon":{}
+            "custon": parse.url()
         },
         "console_log":false,
         "callbacks":{
@@ -1087,7 +1087,7 @@ $(document).ready(function(){
                 // hacer algo que almacene el resultado de la respuesta, y algo que al recivir un parametro como 'expired_session',
 
                 var obj = $.parseJSON(response.responseText);
-                console.log(obj);
+//                console.log(obj);
 
                 if(obj.expired_session){
                     window.location = "/entrar";
@@ -1120,33 +1120,6 @@ $(document).ready(function(){
         }
     };
 
-    var request_this 	= {};
-
-    var url_obj =  parse.url();
-
-    console.log(url_obj);
-
-    if(url_obj.search != ''){
-        // se solicita buscar algo.
-        request_this.search	= url_obj.search;
-    }
-
-    if(url_obj.page != ''){
-        // la pagina esta definida
-        request_this.page	= url_obj.page;
-    }
-
-    if(url_obj.order_by != ''){
-        // esta definido odernar por
-        request_this.order_by	= url_obj.order_by;
-    }
-
-//    {search: "", page: 2, order_by: "mayor_precio"}
-//    {page: 2, order_by: "mayor_precio"}
-
-    console.log(request_this);
-
-    products_published_obj.data.custon      = request_this;
     new Request(products_published_obj);
 
 });

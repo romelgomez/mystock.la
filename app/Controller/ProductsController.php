@@ -410,7 +410,7 @@
 
         $user_logged = $this->Auth->User();
 
-        if(!isset($request['search'])){
+        if(!isset($request['search']) || $request['search'] == ''){
             $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
         }else{
 
@@ -427,13 +427,13 @@
             );
         }
 
-        if(!isset($request['page'])){
+        if(!isset($request['page'])  || $request['page'] == ''){
             $page = 1;
         }else{
             $page = (int)$request['page'];
         }
 
-        if(!isset($request['order_by'])){
+        if(!isset($request['order_by']) || $request['order_by'] == ''){
 
             $order = array(
                 'Product.created' => 'desc'
