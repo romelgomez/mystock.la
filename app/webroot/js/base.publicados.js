@@ -413,7 +413,6 @@ var pagination = function(){
 };
 
 
-
 /*
  * Type: función
  * Descripción: función destinada a pausar una publicación activa
@@ -1051,17 +1050,84 @@ var url_parser = function(){
     return url_obj;
 };
 
+var url = {
+  'parse':function(){
 
+      // Posibles urls
+      // /publicados
+      // /publicados#pagina_1
+      // /publicados#mayor_precio/pagina_1
+      // /publicados#buscar_las_mejores/mayor_precio/pagina_1
+
+      var pathname = $(location).attr('href');
+      var url = $.url(pathname);
+      var segments = url.attr('fragment');
+
+      var url_obj         = {};
+      url_obj.search      = "";
+      url_obj.page        = "";
+      url_obj.order_by    = "";
+
+      if(segments != ""){
+          var split_segments = url.attr('fragment').split('/');
+          if(split_segments.length){
+              $(split_segments).each(function(index,parameter){
+
+                  if(parameter.indexOf("buscar_") !== -1){
+                      var search_string = str_replace(parameter,'buscar_','');
+
+                      /* La cadena search_string se manipula en el siguiente orden.
+                       *
+                       * 1) se reemplaza los caracteres especiales
+                       * 2) se elimina los espacios en blancos ante y después de la cadena
+                       * 3) se reemplaza los espacios en blancos largos por uno solo.
+                       *
+                       ********************************************************************/
+                      url_obj.search = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+
+                      //console.log(url_obj.search);
+
+                  }
+                  if(parameter.indexOf("pagina_") !== -1){
+                      url_obj.page = parseInt(str_replace(parameter,'pagina_',''));
+                  }
+                  if(parameter == "mayor_precio"){
+                      url_obj.order_by = "mayor_precio";
+                  }
+                  if(parameter == "menor_precio"){
+                      url_obj.order_by = "menor_precio";
+                  }
+                  if(parameter == "recientes"){
+                      url_obj.order_by = "recientes";
+                  }
+                  if(parameter == "antiguos"){
+                      url_obj.order_by = "antiguos";
+                  }
+                  if(parameter == "mayor_disponibilidad"){
+                      url_obj.order_by = "mayor_disponibilidad";
+                  }
+                  if(parameter == "menor_disponibilidad"){
+                      url_obj.order_by = "menor_disponibilidad";
+                  }
+
+
+              });
+          }
+      }
+
+      return url_obj;
+  }
+};
+
+var products = {
+    'main':function(){
+
+    }
+};
 
 $(document).ready(function(){
 
-    var url_obj =  url_parser();
 
-    // Posibles urls
-    // http://www.iska.com:8080/publicados
-    // http://www.iska.com:8080/publicados#pagina_1
-    // http://www.iska.com:8080/publicados#mayor_precio/pagina_1
-    // http://www.iska.com:8080/publicados#buscar_las_mejores/mayor_precio/pagina_1
 
     var products_published_obj = {
         "type":"post",
@@ -1092,7 +1158,7 @@ $(document).ready(function(){
                     _var = new set_vars(obj);
 
                     if(obj.data.length > 0){
-                        prepare_publications('initial');
+                        prepare_publications();
                     }
 
                     if(obj.data.length == 0 && obj.total_products > 0){
@@ -1108,8 +1174,9 @@ $(document).ready(function(){
         }
     };
 
-
     var request_this 	= {};
+
+    var url_obj =  url.parse();
 
     if(url_obj.search != ''){
         // se solicita buscar algo.
