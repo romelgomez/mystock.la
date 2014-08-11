@@ -396,6 +396,127 @@
 
     public function products_published2(){
 
+        $data = $this->request->input('json_decode',true);
+
+        $user_logged = $this->Auth->User();
+
+        if(!isset($request['search']) || $request['search'] == ''){
+            $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
+        }else{
+
+            $search = $this->cleanString($request["search"]);
+            $return["search"] = $search;
+            $conditions = array(
+                'Product.company_id' => $user_logged['User']['company_id'],
+                'Product.deleted'=>0,
+                'Product.published'=>1,
+                'or'=>array(
+                    'Product.title LIKE'=> '%'.$search.'%',
+                    'Product.body LIKE'=> '%'.$search.'%'
+                )
+            );
+        }
+
+        if(!isset($request['page'])  || $request['page'] == ''){
+            $page = 1;
+        }else{
+            $page = (int)$request['page'];
+        }
+
+        if(!isset($request['order_by']) || $request['order_by'] == ''){
+
+            $order = array(
+                'Product.created' => 'desc'
+            );
+
+        }else{
+
+            if($request['order_by'] == "mayor_precio"){
+
+                $order = array(
+                    'Product.price' => 'desc'
+                );
+            }
+            if($request['order_by'] == "menor_precio"){
+
+                $order = array(
+                    'Product.price' => 'asc'
+                );
+            }
+            if($request['order_by'] == "recientes"){
+
+
+                $order = array(
+                    'Product.created' => 'desc'
+                );
+
+            }
+            if($request['order_by'] == "antiguos"){
+
+                $order = array(
+                    'Product.created' => 'asc'
+                );
+
+            }
+
+            if($request['order_by'] == "mayor_disponibilidad"){
+
+                $order = array(
+                    'Product.quantity' => 'desc'
+                );
+            }
+            if($request['order_by'] == "menor_disponibilidad"){
+
+                $order = array(
+                    'Product.quantity' => 'asc'
+                );
+            }
+
+        }
+
+        $this->paginate = array(
+            'conditions' =>  $conditions,
+            'contain' => array(
+                'Image'=>array(
+                )
+            ),
+            'order' => $order,
+            'limit' => 10,
+            'page'	=>$page
+        );
+
+        // retornar la cantidad de registros para determinar si realmente no quedan mas registros.
+        // $conditions = ;
+
+        try {
+
+            $products = $this->paginate('Product');
+
+            // total_products es la cantidad total de productos publicados, este resultado es indiferente a los fitros aplicados por el usuario.
+            $return['total_products'] = $this->Product->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+            if($products){
+                $return['data']	= $this->product_images($products);
+            }else{
+                $return['data'] = array();
+            }
+
+            $return['result']	= true;
+
+        }catch(NotFoundException $e){
+
+            // se redireciona a /cuenta y se establece un mensage que indique que hubo un error al procesar la solicitud
+            $return['result'] = false;
+            $this->Session->setFlash('Error 404, lo que busca ha sido movido o eliminado o nunca existió.','error');
+
+        }
+
+        $return['info'] = $this->request->params['paging']['Product'];
+
+        $this->set('return',$return);
+        $this->render('ajax_view','ajax');
+
+
     }
 
 
