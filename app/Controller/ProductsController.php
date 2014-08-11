@@ -394,6 +394,11 @@
     }
 
 
+    public function products_published2(){
+
+    }
+
+
     /* Descripción: 		Función para obtener todos los productos publicados.
      * tipo de solicitud: 	ajax-post, ajax-get
      * tipo de acceso: 		vendedor
@@ -401,6 +406,11 @@
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function products_published(){
+
+////        debug($this->request);
+//        $data = $this->request->input('json_decode',true);
+////        debug($data);
+//        debug($data['page']);
 
         if($this->request->is('post')){
             $request = $this->request->data;

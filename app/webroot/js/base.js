@@ -41,6 +41,8 @@ var reset_form = function(form_id){
  * */
 var Request = function(config_obj){
 
+    var obj = {};
+
     if(config_obj.data.form){
         obj = {};
         $.each(config_obj.data.form.inputs,function(k,db_field){
@@ -135,13 +137,18 @@ var Request = function(config_obj){
 
     //Public Method
     ajax.request = function(parameters){
+
+        console.log(parameters);
+
         if(parameters !== undefined){
-            if(parameters.requestType = 'form'){
+            if(parameters.requestType == 'form'){
                 parameters.data = getFormData(parameters);
                 request(parameters);
+                console.log('form');
             }
             if(parameters.requestType == "custom"){
                 request(parameters);
+                console.log('custom');
             }
         }
     };
@@ -201,10 +208,11 @@ var matches = function(value){
         $("#accordion-menu").css({"display":"inherit"});
         $("#search_results").css({"display":"none"});
     }else{
-        $("#accordion-menu").css({"display":"none"});
+        var accordion_menu = $("#accordion-menu");
+        accordion_menu.css({"display":"none"});
 
         var lis = '';
-        $("#accordion-menu a.link").each(function(k,element){
+        accordion_menu.find("a.link").each(function(k,element){
             var classs	=	$(element).attr("class");
             var title	=	$(element).attr("title");
             var href	=	$(element).attr("href");

@@ -1163,4 +1163,59 @@ $(document).ready(function(){
 
     new Request(products_published_obj);
 
+    var request_parameters = {
+        "requestType":"custom",
+        "type":"post",
+        "url":"/products_published",
+        "data":parse.url(),
+        "callbacks":{
+            "beforeSend":function(){
+
+            },
+            "success":function(sourceData){
+
+                var obj = sourceData;
+
+                if(obj.expired_session){
+                    window.location = "/entrar";
+                }
+
+                if(obj.result){
+
+                    if(obj.total_products.length == 0){
+                        // no hay publicaciones.
+                        $("#no-products").css({"display":""});
+                    }
+
+                    _var = {};
+                    _var = new set_vars(obj);
+
+                    if(obj.data.length > 0){
+                        prepare_publications();
+                    }
+
+                    if(obj.data.length == 0 && obj.total_products > 0){
+                        window.location = "/publicados";
+                    }
+
+
+                }else{
+                    // hay un error en la solicitud.
+                    window.location = "/cuenta";
+                }
+
+            },
+            "error":function(){
+
+            },
+            "complete":function(response){
+
+
+            }
+        }
+    };
+
+
+//    ajax.request(request_parameters);
+
 });
