@@ -47,8 +47,8 @@ var Request = function(config_obj){
         });
         new AjaxRequest(config_obj,obj);
     }
-    if(config_obj.data.custon){
-        obj = config_obj.data.custon;
+    if(config_obj.data.custom){
+        obj = config_obj.data.custom;
         new AjaxRequest(config_obj,obj);
     }
 

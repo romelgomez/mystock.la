@@ -30,7 +30,7 @@ var order_by =  function(){
         "type":"post",
         "url":"/products_published",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":true,
         "callbacks":{
@@ -99,7 +99,7 @@ var order_by =  function(){
                 }
 
                 request_this.order_by			= order_by;
-                order_by_obj.data.custon		= request_this;
+                order_by_obj.data.custom		= request_this;
                 new Request(order_by_obj);
 
             });
@@ -265,7 +265,7 @@ var pagination = function(){
         "type":"post",
         "url":"/products_published",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":true,
         "callbacks":{
@@ -343,7 +343,7 @@ var pagination = function(){
                 }
 
                 window.location = new_url;
-                pagination_obj.data.custon = request_this;
+                pagination_obj.data.custom = request_this;
                 new Request(pagination_obj);
 
                 // al establecer la solicitud ajax un aviso de cargando deber ser colocado.
@@ -397,7 +397,7 @@ var pagination = function(){
                 }
 
                 window.location = new_url;
-                pagination_obj.data.custon = request_this;
+                pagination_obj.data.custom = request_this;
                 new Request(pagination_obj);
 
             });
@@ -424,7 +424,7 @@ var pause = function(){
         "type":"post",
         "url":"/pause",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":true,
         "callbacks":{
@@ -468,7 +468,7 @@ var pause = function(){
                 var obj             = $.parseJSON(clean_obj(pure_json_obj));
                 var request_this = {};
                 request_this.id  = obj.product.id;
-                pause_obj.data.custon = request_this;
+                pause_obj.data.custom = request_this;
                 new Request(pause_obj);
             });
 
@@ -488,7 +488,7 @@ var activate = function(){
         "type":"post",
         "url":"/activate",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":false,
         "callbacks":{
@@ -526,7 +526,7 @@ var activate = function(){
                 var obj             = $.parseJSON(clean_obj(pure_json_obj));
                 var request_this = {};
                 request_this.id  = obj.product.id;
-                pause_obj.data.custon = request_this;
+                pause_obj.data.custom = request_this;
                 new Request(pause_obj);
             });
         });
@@ -570,7 +570,7 @@ var _delete =  function(){
         "type":"post",
         "url":"/delete",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":true,
         "callbacks":{
@@ -694,7 +694,7 @@ var _delete =  function(){
                 request_this.id  		= parseInt($(this).attr("product_id"));
                 request_this.session 	= false;
                 request_this.paginate 	= true;
-                delete_obj.data.custon = request_this;
+                delete_obj.data.custom = request_this;
                 new Request(delete_obj);
 
             });
@@ -873,7 +873,7 @@ var search = function(){
         "type":"post",
         "url":"/products_published",
         "data":{
-            "custon":{}
+            "custom":{}
         },
         "console_log":true,
         "callbacks":{
@@ -959,7 +959,7 @@ var search = function(){
 
             var search_string                   = $("#search").val();
             request_this.search             = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
-            new_search_obj.data.custon      = request_this;
+            new_search_obj.data.custom      = request_this;
 
             new Request(new_search_obj);
 
@@ -1062,23 +1062,64 @@ var parse = {
 };
 
 var products = {
-    'response':{
-
-    },
+    'response':{},
     'init':function(){
+
+        var products = {
+            "type":"post",
+            "url":"/products_published",
+            "data":{
+                "custom": parse.url()
+            },
+            "console_log":false,
+            "callbacks":{
+                "complete":function(response){
+
+
+                    var obj = $.parseJSON(response.responseText);
+                    products.response = obj;
+
+                    if(products.response.expired_session){
+                        window.location = "/entrar";
+                    }
+
+                    if(products.response.result){
+
+                        if(obj.total_products.length == 0){
+                            // no hay publicaciones.
+                            $("#no-products").css({"display":""});
+                        }
+
+                        if(obj.data.length > 0){
+                            prepare_publications();
+                        }
+
+                        if(obj.data.length == 0 && obj.total_products > 0){
+                            window.location = "/publicados";
+                        }
+
+
+                    }else{
+                        // hay un error en la solicitud.
+                        window.location = "/cuenta";
+                    }
+                }
+            }
+        };
+
+        new Request(products);
+
 
     }
 };
 
 $(document).ready(function(){
 
-
-
     var products_published_obj = {
         "type":"post",
         "url":"/products_published",
         "data":{
-            "custon": parse.url()
+            "custom": parse.url()
         },
         "console_log":false,
         "callbacks":{
