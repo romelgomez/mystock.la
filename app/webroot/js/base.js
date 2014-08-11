@@ -24,13 +24,14 @@ var reset_form = function(form_id){
     var inputs = $("#"+form_id+" input");
     $(inputs).each(function(k,element){
         $(validation_states).each(function(k2,state){
-            if($("#"+element.id).parents('.control-group').hasClass(state)){
-                $('#'+element.id).parents('.control-group').removeClass(state);
-                $('#'+element.id).parents('.control-group').find(".help-inline").fadeOut();
+            var element = $("#"+element.id);
+            if(element.parents('.control-group').hasClass(state)){
+                element.parents('.control-group').removeClass(state);
+                element.parents('.control-group').find(".help-inline").fadeOut();
             }
         });
     });
-}
+};
 
 /*
  * Type: class
@@ -52,7 +53,104 @@ var Request = function(config_obj){
         new AjaxRequest(config_obj,obj);
     }
 
-}
+};
+
+//  Javascript Namespace Declaration: http://stackoverflow.com/questions/881515/javascript-namespace-declaration
+//  http://appendto.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
+//
+//(function( skillet, $, undefined ) {
+//    //Private Property
+//    var isHot = true;
+//
+//    //Public Property
+//    skillet.ingredient = "Bacon Strips";
+//
+//    //Public Method
+//    skillet.fry = function() {
+//        var oliveOil;
+//
+//        addItem( "\t\n Butter \n\t" );
+//        addItem( oliveOil );
+//        console.log( "Frying " + skillet.ingredient );
+//    };
+//
+//    //Private Method
+//    function addItem( item ) {
+//        if ( item !== undefined ) {
+//            console.log( "Adding " + $.trim(item) );
+//        }
+//    }
+//}( window.skillet = window.skillet || {}, jQuery ));
+
+
+// AjaxRequest
+(function( ajax, $, undefined ) {
+
+    //Private Method
+    function getFormData(parameters){
+        /*
+         obj = {};
+
+         var input_ids = [{"id":"a","name":"a"},{"id":"b","name":"b"},{"id":"c","name":"c"}];
+
+         $.each(input_ids,function(index,input){
+          obj[input.name] = $('#'+input.id).val();
+         });
+
+         console.log(obj)
+        */
+
+        var data = {};
+        $.each(parameters.data.form.inputs,function(index,input){
+            data[input.name] = $('#'+input.id).val();
+        });
+        return data;
+    }
+
+    //Private Method
+    function request(parameters){
+        var ajax_request_parameters = {
+            "type": parameters.type,
+            "url": parameters.url,
+            "contentType": "application/json; charset=UTF-8",
+            "dataType": 'json',
+            "data": JSON.stringify(parameters.data),
+            "global": false,
+            "beforeSend":function(){
+                parameters.callbacks.beforeSend();
+            },
+            "success":function(response){
+                parameters.callbacks.success(response);
+            },
+            "error":function(response){
+                parameters.callbacks.error(response);
+            },
+            "complete":function(response){
+                parameters.callbacks.complete(response);
+            }
+        };
+
+        $.ajax(ajax_request_parameters);
+    }
+
+    //Public Method
+    ajax.request = function(parameters){
+        if(parameters !== undefined){
+            if(parameters.requestType = 'form'){
+                parameters.data = getFormData(parameters);
+                request(parameters);
+            }
+            if(parameters.requestType == "custom"){
+                request(parameters);
+            }
+        }
+    };
+
+}( window.ajax = window.ajax || {}, jQuery ));
+
+
+
+
 
 
 /*
@@ -64,8 +162,12 @@ var Request = function(config_obj){
  *
  * */
 var AjaxRequest = function(config_obj,obj){
+
+    var set_obj = {};
+
     if(config_obj.console_log){
-        var set_obj ={
+
+        set_obj ={
             type: config_obj.type,
             url: config_obj.url,
             data: obj,
@@ -74,10 +176,12 @@ var AjaxRequest = function(config_obj,obj){
                 $('#debug').text(response.responseText);
                 config_obj.callbacks.complete(response);
             }
-        }
+        };
+
         $.ajax(set_obj);
     }else{
-        var set_obj ={
+
+        set_obj ={
             type: config_obj.type,
             url: config_obj.url,
             data: obj,
@@ -85,10 +189,11 @@ var AjaxRequest = function(config_obj,obj){
             complete: function(response){
                 config_obj.callbacks.complete(response);
             }
-        }
+        };
+
         $.ajax(set_obj);
     }
-}
+};
 
 
 var matches = function(value){
@@ -111,12 +216,13 @@ var matches = function(value){
         });
 
         // insertar los li en el dom
-        $("#search_results ul").html(lis);
+        var search_results = $("#search_results");
+        search_results.find('ul').html(lis);
 
         // mostramos el menu
-        $("#search_results").css({"display":"inherit"});
+        search_results.css({"display":"inherit"});
     }
-}
+};
 
 var display_status_request = function(form_id,parent_id,obj){
     if(obj.validates){
@@ -132,17 +238,20 @@ var display_status_request = function(form_id,parent_id,obj){
     }else{
         // para manejar los errores que dispara el servidor, en caso de que la validación en el servidor sea mas granulada y en la vista no sea ha procurado prevenir tal error.
         $.each(obj.fields,function(element_id,msn){
+
+            var element = $("#"+element_id);
+
             $(validation_states).each(function(k2,state){
-                if($("#"+element_id).parents('.control-group').hasClass(state)){
-                    $("#"+element_id).parents('.control-group').removeClass(state);
+                if(element.parents('.control-group').hasClass(state)){
+                    element.parents('.control-group').removeClass(state);
                 }
             });
-            $("#"+element_id).parents(".control-group").addClass("warning");
-            $("#"+element_id).parents('.control-group').find(".help-inline").fadeIn().html(msn);
+            element.parents(".control-group").addClass("warning");
+            element.parents('.control-group').find(".help-inline").fadeIn().html(msn);
         });
         return false;
     }
-}
+};
 
 var validate_this_form = function(forn_id,options){
 
@@ -153,7 +262,7 @@ var validate_this_form = function(forn_id,options){
     options.success = function(label){
     };
 
-    options.highlight = function(element, errorClass, validClass){
+    options.highlight = function(element){
         $(validation_states).each(function(k2,state){
             if($(element).parents('.control-group').hasClass(state)){
                 $(element).parents('.control-group').removeClass(state);
@@ -162,7 +271,7 @@ var validate_this_form = function(forn_id,options){
         $(element).parents('.control-group').addClass('warning');
     };
 
-    options.unhighlight = function(element, errorClass, validClass){
+    options.unhighlight = function(element){
         $(validation_states).each(function(k2,state){
             if($(element).parents('.control-group').hasClass(state)){
                 $(element).parents('.control-group').removeClass(state);
@@ -173,25 +282,25 @@ var validate_this_form = function(forn_id,options){
 
     this._validate = $("#"+forn_id).validate(options);
 
-}
+};
 
 var capitaliseFirstLetter = function(string){ return string.charAt(0).toUpperCase() + string.slice(1); }
 
 var str_replace = function(string, change_this, for_this) {
     return string.split(change_this).join(for_this);
-}
+};
 
 var random_number = function(inferior,superior){
-    numPosibilidades = superior - inferior
-    aleat = Math.random() * numPosibilidades
-    aleat = Math.round(aleat)
-    return parseInt(inferior) + aleat
-}
+    var numPosibilidades = superior - inferior;
+    var aleat = Math.random() * numPosibilidades;
+    aleat = Math.round(aleat);
+    return parseInt(inferior) + aleat;
+};
 
 var clean_obj = function(data){
     var face_1 = str_replace(data,'<!--','');
     return str_replace(face_1,'-->','');
-}
+};
 
 $.validator.addMethod("noSpecialChars", function(value, element) {
     return this.optional(element) || /^[a-z0-9\_\x20]+$/i.test(value);
