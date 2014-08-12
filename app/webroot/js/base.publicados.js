@@ -26,18 +26,16 @@
  *************************************************************************************************************************************************************/
 var order_by =  function(){
 
-    var order_by_obj = {
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/products_published",
-        "data":{
-            "custom":{}
-        },
-        "console_log":true,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a	= response.responseText;
-                var obj = $.parseJSON(a);
+                var obj = sourceData;
                 if(obj.expired_session){
                     window.location = "/entrar";
                 }
@@ -57,8 +55,9 @@ var order_by =  function(){
                     window.location = "/cuenta";
                 }
 
-
-            }
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
 
@@ -84,14 +83,13 @@ var order_by =  function(){
 
                 var url_obj =  parse.url();
 
-                console.log(url_obj)
-                var request_this 				= {};
+                var request_this = {};
 
                 if(url_obj.search != ''){
                     // se solicita buscar algo.
                     request_this.search	= url_obj.search;
 
-                    var url = str_replace(obj.search,' ','_');
+                    var url = str_replace(url_obj.search,' ','_');
                     window.location = "#buscar_"+url+"/"+order_by;
 
                 }else{
@@ -99,8 +97,9 @@ var order_by =  function(){
                 }
 
                 request_this.order_by			= order_by;
-                order_by_obj.data.custom		= request_this;
-                new Request(order_by_obj);
+                request_parameters.data =    request_this;
+                ajax.request(request_parameters);
+
 
             });
 
@@ -261,18 +260,17 @@ var info = function(){
  *************************************************************************************************************************************************************/
 var pagination = function(){
 
-    var pagination_obj = {
+
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/products_published",
-        "data":{
-            "custom":{}
-        },
-        "console_log":true,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a = response.responseText;
-                var obj = $.parseJSON(a);
+                var obj = sourceData;
                 if(obj.expired_session){
                     window.location = "/entrar";
                 }
@@ -292,10 +290,12 @@ var pagination = function(){
                     window.location = "/cuenta";
                 }
 
-
-            }
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
+
 
 //console.log(_var);
 
@@ -322,7 +322,7 @@ var pagination = function(){
 
                 if(url_obj.order_by != ""){
                     if(url_obj.search != ""){
-                        url = str_replace(obj.search,' ','_');
+                        url = str_replace(url_obj.search,' ','_');
                         new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
                         //SEARCH
                         request_this.search = url_obj.search;
@@ -333,7 +333,7 @@ var pagination = function(){
                     request_this.order_by = url_obj.order_by;
                 }else{
                     if(url_obj.search != ""){
-                        url = str_replace(obj.search,' ','_');
+                        url = str_replace(url_obj.search,' ','_');
                         new_url = "#buscar_"+url+"/pagina_"+prev_page;
                         //SEARCH
                         request_this.search = url_obj.search;
@@ -343,8 +343,9 @@ var pagination = function(){
                 }
 
                 window.location = new_url;
-                pagination_obj.data.custom = request_this;
-                new Request(pagination_obj);
+
+                request_parameters.data =    request_this;
+                ajax.request(request_parameters);
 
                 // al establecer la solicitud ajax un aviso de cargando deber ser colocado.
 
@@ -376,7 +377,7 @@ var pagination = function(){
 
                 if(url_obj.order_by != ""){
                     if(url_obj.search != ""){
-                        url = str_replace(obj.search,' ','_');
+                        url = str_replace(url_obj.search,' ','_');
                         new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
                         //SEARCH
                         request_this.search = url_obj.search;
@@ -387,7 +388,7 @@ var pagination = function(){
                     request_this.order_by = url_obj.order_by;
                 }else{
                     if(url_obj.search != ""){
-                        url = str_replace(obj.search,' ','_');
+                        url = str_replace(url_obj.search,' ','_');
                         new_url = "#buscar_"+url+"/pagina_"+next_page;
                         //SEARCH
                         request_this.search = url_obj.search;
@@ -397,8 +398,9 @@ var pagination = function(){
                 }
 
                 window.location = new_url;
-                pagination_obj.data.custom = request_this;
-                new Request(pagination_obj);
+
+                request_parameters.data =    request_this;
+                ajax.request(request_parameters);
 
             });
         }else{
@@ -420,20 +422,17 @@ var pagination = function(){
  *************************************************************************************************************************************************************/
 var pause = function(){
 
-    var pause_obj = {
+
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/pause",
-        "data":{
-            "custom":{}
-        },
-        "console_log":true,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a = response.responseText;
-//                console.log(a);
-
-                var obj = $.parseJSON(a);
+                var obj = sourceData;
                 if(obj.expired_session){
                     window.location = "/entrar";
                 }
@@ -453,9 +452,12 @@ var pause = function(){
                     window.location = "/";
                 }
 
-            }
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
+
 
 
     var elements = $("#published").find(".pause");
@@ -468,8 +470,11 @@ var pause = function(){
                 var obj             = $.parseJSON(clean_obj(pure_json_obj));
                 var request_this = {};
                 request_this.id  = obj.product.id;
-                pause_obj.data.custom = request_this;
-                new Request(pause_obj);
+
+                request_parameters.data =    request_this;
+                ajax.request(request_parameters);
+
+
             });
 
         });
@@ -484,18 +489,17 @@ var pause = function(){
  *************************************************************************************************************************************************************/
 var activate = function(){
 
-    var pause_obj = {
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/activate",
-        "data":{
-            "custom":{}
-        },
-        "console_log":false,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a = response.responseText;
-                var obj = $.parseJSON(a);
+                var obj = sourceData;
+
                 if(obj.expired_session){
                     window.location = "/entrar";
                 }
@@ -512,7 +516,10 @@ var activate = function(){
                 }else{
                     window.location = "/";
                 }
-            }
+
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
 
@@ -526,8 +533,9 @@ var activate = function(){
                 var obj             = $.parseJSON(clean_obj(pure_json_obj));
                 var request_this = {};
                 request_this.id  = obj.product.id;
-                pause_obj.data.custom = request_this;
-                new Request(pause_obj);
+                request_parameters.data =    request_this;
+                ajax.request(request_parameters);
+
             });
         });
     }
@@ -566,20 +574,19 @@ var edit = function(){
  *************************************************************************************************************************************************************/
 var _delete =  function(){
 
-    var delete_obj = {
+
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/delete",
-        "data":{
-            "custom":{}
-        },
-        "console_log":true,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a = response.responseText;
-                var obj = $.parseJSON(a);
+                var obj = sourceData;
 
-                console.log(obj);
+//                console.log(obj);
 
                 if(obj.expired_session){
                     window.location = "/entrar";
@@ -656,9 +663,12 @@ var _delete =  function(){
                     window.location = "/";
                 }
 
-            }
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
+
 
     var elements = $("#published").find(".delete");
 
@@ -694,8 +704,9 @@ var _delete =  function(){
                 request_this.id  		= parseInt($(this).attr("product_id"));
                 request_this.session 	= false;
                 request_this.paginate 	= true;
-                delete_obj.data.custom = request_this;
-                new Request(delete_obj);
+
+                request_parameters.data = request_this;
+                ajax.request(request_parameters);
 
             });
 
@@ -869,18 +880,18 @@ var set_vars = function(obj){
  *************************************************************************************************************************************************************/
 var search = function(){
 
-    var new_search_obj = {
+    var request_parameters = {
+        "requestType":"custom",
         "type":"post",
         "url":"/products_published",
-        "data":{
-            "custom":{}
-        },
-        "console_log":true,
+        "data":{},
         "callbacks":{
-            "complete":function(response){
+            "beforeSend":function(){},
+            "success":function(sourceData){
 
-                var a	= response.responseText;
-                var obj = $.parseJSON(a);
+//                var a	= response.responseText;
+//                var obj = $.parseJSON(a);
+                var obj = sourceData;
                 // console.log(obj);
 
                 if(obj.expired_session){
@@ -947,7 +958,9 @@ var search = function(){
                     window.location = "/cuenta";
                 }
 
-            }
+            },
+            "error":function(){},
+            "complete":function(response){}
         }
     };
 
@@ -955,13 +968,11 @@ var search = function(){
     var new_search_validate_obj = {
         "submitHandler": function(){
 
-            var request_this                = {};
-
-            var search_string                   = $("#search").val();
-            request_this.search             = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
-            new_search_obj.data.custom      = request_this;
-
-            new Request(new_search_obj);
+            var request_this        = {};
+            var search_string       = $("#search").val();
+            request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+            request_parameters.data =    request_this;
+            ajax.request(request_parameters);
 
         },
         "rules":{
@@ -1061,107 +1072,8 @@ var parse = {
   }
 };
 
-var products = {
-    'response':{},
-    'init':function(){
-
-        var products = {
-            "type":"post",
-            "url":"/products_published",
-            "data":{
-                "custom": parse.url()
-            },
-            "console_log":false,
-            "callbacks":{
-                "complete":function(response){
-
-
-                    var obj = $.parseJSON(response.responseText);
-                    products.response = obj;
-
-                    if(products.response.expired_session){
-                        window.location = "/entrar";
-                    }
-
-                    if(products.response.result){
-
-                        if(obj.total_products.length == 0){
-                            // no hay publicaciones.
-                            $("#no-products").css({"display":""});
-                        }
-
-                        if(obj.data.length > 0){
-                            prepare_publications();
-                        }
-
-                        if(obj.data.length == 0 && obj.total_products > 0){
-                            window.location = "/publicados";
-                        }
-
-
-                    }else{
-                        // hay un error en la solicitud.
-                        window.location = "/cuenta";
-                    }
-                }
-            }
-        };
-
-        new Request(products);
-
-
-    }
-};
 
 $(document).ready(function(){
-
-    var products_published_obj = {
-        "type":"post",
-        "url":"/products_published",
-        "data":{
-            "custom": parse.url()
-        },
-        "console_log":false,
-        "callbacks":{
-            "complete":function(response){
-
-                // hacer algo que almacene el resultado de la respuesta, y algo que al recivir un parametro como 'expired_session',
-
-                var obj = $.parseJSON(response.responseText);
-//                console.log(obj);
-
-                if(obj.expired_session){
-                    window.location = "/entrar";
-                }
-
-                if(obj.result){
-
-                    if(obj.total_products.length == 0){
-                        // no hay publicaciones.
-                        $("#no-products").css({"display":""});
-                    }
-
-                    _var = {};
-                    _var = new set_vars(obj);
-
-                    if(obj.data.length > 0){
-                        prepare_publications();
-                    }
-
-                    if(obj.data.length == 0 && obj.total_products > 0){
-                        window.location = "/publicados";
-                    }
-
-
-                }else{
-                    // hay un error en la solicitud.
-                    window.location = "/cuenta";
-                }
-            }
-        }
-    };
-
-    new Request(products_published_obj);
 
     var request_parameters = {
         "requestType":"custom",
@@ -1216,6 +1128,6 @@ $(document).ready(function(){
     };
 
 
-//    ajax.request(request_parameters);
+    ajax.request(request_parameters);
 
 });

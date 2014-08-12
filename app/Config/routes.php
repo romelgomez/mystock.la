@@ -76,7 +76,7 @@ Router::connect('/add_new',									array('controller' => 'products', 	'action' 
 Router::connect('/save_draft',	 							array('controller' => 'products',	'action' => 'saveDraft'));	   					// Accion Ajax - para guadar un borrador
 
 Router::connect('/publicados', 								array('controller' => 'products',	'action' => 'published'));	   					// Accion Get  - Interfaz para acceder a los productos publicados 
-Router::connect('/products_published', 						array('controller' => 'products',	'action' => 'products_published'));				// Accion ajax - para obtener los productos publicados 
+Router::connect('/products_published', 						array('controller' => 'products',	'action' => 'products_published'));				// Accion ajax - para obtener los productos publicados
 
 
 Router::connect('/borradores',	 							array('controller' => 'products',	'action' => 'drafts'));	   						// Accion Get  - Interfaz para acceder a los borradores
