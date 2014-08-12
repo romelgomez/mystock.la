@@ -870,10 +870,6 @@ var set_vars = function(obj){
 };
 
 
-
-
-
-
 /*
  * Type: función.
  * Descripción: destinada a realizar una búsqueda sobre los registros o publicaciones.
@@ -1078,15 +1074,20 @@ $(document).ready(function(){
 
     (function( productsPublished, $, undefined ) {
 
+        var lastData = function(){
+
+        };
+
         //Private Method
         var getSuccess = function (sourceData) {
 
-            var obj = sourceData;
+            // default values
+            // expired_session  true
+            // total_products   0
+            // result           false
+            // data             []
 
-            // expired_session
-            // total_products
-            // result
-            // data
+            var obj = sourceData;
 
             // Si la sesión ha expirado
             if(obj.expired_session){
