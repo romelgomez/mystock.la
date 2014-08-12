@@ -1081,10 +1081,10 @@ $(document).ready(function(){
         "url":"/products_published",
         "data":parse.url(),
         "callbacks":{
-            "beforeSend":function(){
-
-            },
+            "beforeSend":function(){},
             "success":function(sourceData){
+
+                $('#debug').text(JSON.stringify(sourceData));
 
                 var obj = sourceData;
 
@@ -1117,16 +1117,10 @@ $(document).ready(function(){
                 }
 
             },
-            "error":function(){
-
-            },
-            "complete":function(response){
-
-
-            }
+            "error":function(){},
+            "complete":function(response){}
         }
     };
-
 
     ajax.request(request_parameters);
 

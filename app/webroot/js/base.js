@@ -137,18 +137,13 @@ var Request = function(config_obj){
 
     //Public Method
     ajax.request = function(parameters){
-
-        console.log(parameters);
-
         if(parameters !== undefined){
             if(parameters.requestType == 'form'){
                 parameters.data = getFormData(parameters);
                 request(parameters);
-                console.log('form');
             }
             if(parameters.requestType == "custom"){
                 request(parameters);
-                console.log('custom');
             }
         }
     };
