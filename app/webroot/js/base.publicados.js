@@ -1074,42 +1074,58 @@ $(document).ready(function(){
 
     (function( productsPublished, $, undefined ) {
 
-        var lastData = function(){
+        //Private Property
+        var page;
+        var current;
+        var count;
+        var prevPage;
+        var nextPage;
+        var pageCount;
+        var data;
 
+        //Private Method
+        var lastResponseInfo = function(response){
+            page           = response['info']['page'];
+            current        = parseInt(response['info']['current']);
+            count          = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
+            prevPage       = response['info']['prevPage'];
+            nextPage       = response['info']['nextPage'];
+            pageCount      = response['info']['pageCount'];
+            data           = response['data'];
         };
 
         //Private Method
-        var getSuccess = function (sourceData) {
+        var getSuccess = function (response) {
 
-            // default values
-            // expired_session  true
-            // total_products   0
-            // result           false
-            // data             []
-
-            var obj = sourceData;
 
             // Si la sesión ha expirado
-            if(obj.expired_session){
+            if(response['expired_session']){
                 window.location = "/entrar";
             }
 
-            if(obj.result){
+            if(response['result']){
 
                 // No hay productos publicados.
-                if(obj.total_products.length == 0){
+                if(response['total_products'].length == 0){
                     $("#no-products").css({"display":""});
                 }
 
+                // TODO DELETE THIS
+                // ******************************
                 _var = {};
-                _var = new set_vars(obj);
+                _var = new set_vars(response);
+                // *******************************
+                // TODO New implementation
+                lastResponseInfo(response);
+                // *******************************
 
-                if(obj.data.length > 0){
+
+                if(response['data'].length > 0){
                     prepare_publications();
                 }
 
                 // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
-                if(obj.data.length == 0 && obj.total_products > 0){
+                if(response['data'].length == 0 && response['total_products'] > 0){
                     window.location = "/publicados";
                 }
 
@@ -1119,7 +1135,7 @@ $(document).ready(function(){
             }
         };
 
-
+        //Public Method
         productsPublished.get = function(){
             var request_parameters = {
                 "requestType":"custom",
@@ -1128,9 +1144,9 @@ $(document).ready(function(){
                 "data":parse.url(),
                 "callbacks":{
                     "beforeSend":function(){},
-                    "success":function(sourceData){
-//                        $('#debug').text(JSON.stringify(sourceData));
-                        getSuccess(sourceData);
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+                        getSuccess(response);
                     },
                     "error":function(){},
                     "complete":function(response){}
