@@ -56,7 +56,6 @@ class AppController extends Controller {
 	}
 
 	
-	// bmxquiksilver7185@gmail.com	
 
 }
 

@@ -1078,12 +1078,45 @@ $(document).ready(function(){
 
     (function( productsPublished, $, undefined ) {
 
-        //Public Method
-//        productsPublishedCallbacks.getSuccess = function (sourceData) {
-//
-//        };
+        //Private Method
+        var getSuccess = function (sourceData) {
 
+            var obj = sourceData;
 
+            // expired_session
+            // total_products
+            // result
+            // data
+
+            // Si la sesión ha expirado
+            if(obj.expired_session){
+                window.location = "/entrar";
+            }
+
+            if(obj.result){
+
+                // No hay productos publicados.
+                if(obj.total_products.length == 0){
+                    $("#no-products").css({"display":""});
+                }
+
+                _var = {};
+                _var = new set_vars(obj);
+
+                if(obj.data.length > 0){
+                    prepare_publications();
+                }
+
+                // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
+                if(obj.data.length == 0 && obj.total_products > 0){
+                    window.location = "/publicados";
+                }
+
+            }else{
+                // hay un error en la solicitud.
+                window.location = "/cuenta";
+            }
+        };
 
 
         productsPublished.get = function(){
@@ -1095,40 +1128,8 @@ $(document).ready(function(){
                 "callbacks":{
                     "beforeSend":function(){},
                     "success":function(sourceData){
-//                        productsPublishedCallbacks.getSuccess(sourceData);
-                        $('#debug').text(JSON.stringify(sourceData));
-
-                        var obj = sourceData;
-
-//            var obj = {};
-//            obj.data
-
-                        if(obj.expired_session){
-                            window.location = "/entrar";
-                        }
-
-                        if(obj.result){
-
-                            if(obj.total_products.length == 0){
-                                // no hay publicaciones.
-                                $("#no-products").css({"display":""});
-                            }
-
-                            _var = {};
-                            _var = new set_vars(obj);
-
-                            if(obj.data.length > 0){
-                                prepare_publications();
-                            }
-
-                            if(obj.data.length == 0 && obj.total_products > 0){
-                                window.location = "/publicados";
-                            }
-                        }else{
-                            // hay un error en la solicitud.
-                            window.location = "/cuenta";
-                        }
-
+//                        $('#debug').text(JSON.stringify(sourceData));
+                        getSuccess(sourceData);
                     },
                     "error":function(){},
                     "complete":function(response){}
@@ -1136,7 +1137,7 @@ $(document).ready(function(){
             };
 
             ajax.request(request_parameters);
-        }
+        };
 
     }( window.productsPublished = window.productsPublished || {}, jQuery ));
 
