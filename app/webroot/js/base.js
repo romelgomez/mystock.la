@@ -1,3 +1,102 @@
+// TODO NEW CODE
+
+//  Javascript Namespace Declaration: http://stackoverflow.com/questions/881515/javascript-namespace-declaration
+//  http://appendto.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
+//
+//(function( skillet, $, undefined ) {
+//    //Private Property
+//    var isHot = true;
+//
+//    //Public Property
+//    skillet.ingredient = "Bacon Strips";
+//
+//    //Public Method
+//    skillet.fry = function() {
+//        var oliveOil;
+//
+//        addItem( "\t\n Butter \n\t" );
+//        addItem( oliveOil );
+//        console.log( "Frying " + skillet.ingredient );
+//    };
+//
+//    //Private Method
+//    function addItem( item ) {
+//        if ( item !== undefined ) {
+//            console.log( "Adding " + $.trim(item) );
+//        }
+//    }
+//}( window.skillet = window.skillet || {}, jQuery ));
+
+
+// AjaxRequest
+(function( ajax, $, undefined ) {
+
+    //Private Method
+    function getFormData(parameters){
+        /*
+         obj = {};
+
+         var input_ids = [{"id":"a","name":"a"},{"id":"b","name":"b"},{"id":"c","name":"c"}];
+
+         $.each(input_ids,function(index,input){
+         obj[input.name] = $('#'+input.id).val();
+         });
+
+         console.log(obj)
+         */
+
+        var data = {};
+        $.each(parameters.data.form.inputs,function(index,input){
+            data[input.name] = $('#'+input.id).val();
+        });
+        return data;
+    }
+
+    //Private Method
+    function request(parameters){
+        var ajax_request_parameters = {
+            "type": parameters.type,
+            "url": parameters.url,
+            "contentType": "application/json; charset=UTF-8",
+            "dataType": 'json',
+            "data": JSON.stringify(parameters.data),
+            "global": false,
+            "beforeSend":function(){
+                parameters.callbacks.beforeSend();
+            },
+            "success":function(response){
+                parameters.callbacks.success(response);
+            },
+            "error":function(response){
+                parameters.callbacks.error(response);
+            },
+            "complete":function(response){
+                parameters.callbacks.complete(response);
+            }
+        };
+
+        $.ajax(ajax_request_parameters);
+    }
+
+    //Public Method
+    ajax.request = function(parameters){
+        if(parameters !== undefined){
+            if(parameters.requestType == 'form'){
+                parameters.data = getFormData(parameters);
+                request(parameters);
+            }
+            if(parameters.requestType == "custom"){
+                request(parameters);
+            }
+        }
+    };
+
+}( window.ajax = window.ajax || {}, jQuery ));
+
+
+// TODO DELETE THIS CODE AFTER REFACTOR ALL CODE
+
+
 /*
 
  Validation States
@@ -57,98 +156,7 @@ var Request = function(config_obj){
 
 };
 
-//  Javascript Namespace Declaration: http://stackoverflow.com/questions/881515/javascript-namespace-declaration
-//  http://appendto.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
-//
-//(function( skillet, $, undefined ) {
-//    //Private Property
-//    var isHot = true;
-//
-//    //Public Property
-//    skillet.ingredient = "Bacon Strips";
-//
-//    //Public Method
-//    skillet.fry = function() {
-//        var oliveOil;
-//
-//        addItem( "\t\n Butter \n\t" );
-//        addItem( oliveOil );
-//        console.log( "Frying " + skillet.ingredient );
-//    };
-//
-//    //Private Method
-//    function addItem( item ) {
-//        if ( item !== undefined ) {
-//            console.log( "Adding " + $.trim(item) );
-//        }
-//    }
-//}( window.skillet = window.skillet || {}, jQuery ));
 
-
-// AjaxRequest
-(function( ajax, $, undefined ) {
-
-    //Private Method
-    function getFormData(parameters){
-        /*
-         obj = {};
-
-         var input_ids = [{"id":"a","name":"a"},{"id":"b","name":"b"},{"id":"c","name":"c"}];
-
-         $.each(input_ids,function(index,input){
-          obj[input.name] = $('#'+input.id).val();
-         });
-
-         console.log(obj)
-        */
-
-        var data = {};
-        $.each(parameters.data.form.inputs,function(index,input){
-            data[input.name] = $('#'+input.id).val();
-        });
-        return data;
-    }
-
-    //Private Method
-    function request(parameters){
-        var ajax_request_parameters = {
-            "type": parameters.type,
-            "url": parameters.url,
-            "contentType": "application/json; charset=UTF-8",
-            "dataType": 'json',
-            "data": JSON.stringify(parameters.data),
-            "global": false,
-            "beforeSend":function(){
-                parameters.callbacks.beforeSend();
-            },
-            "success":function(response){
-                parameters.callbacks.success(response);
-            },
-            "error":function(response){
-                parameters.callbacks.error(response);
-            },
-            "complete":function(response){
-                parameters.callbacks.complete(response);
-            }
-        };
-
-        $.ajax(ajax_request_parameters);
-    }
-
-    //Public Method
-    ajax.request = function(parameters){
-        if(parameters !== undefined){
-            if(parameters.requestType == 'form'){
-                parameters.data = getFormData(parameters);
-                request(parameters);
-            }
-            if(parameters.requestType == "custom"){
-                request(parameters);
-            }
-        }
-    };
-
-}( window.ajax = window.ajax || {}, jQuery ));
 
 
 
