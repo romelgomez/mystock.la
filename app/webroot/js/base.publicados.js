@@ -876,7 +876,7 @@ var set_vars = function(obj){
 
 /*
  * Type: función.
- * Descripción: destinada a procesar una búsqueda sobre los registros o publicaciones.
+ * Descripción: destinada a realizar una búsqueda sobre los registros o publicaciones.
  *************************************************************************************************************************************************************/
 var search = function(){
 
@@ -1075,53 +1075,73 @@ var parse = {
 
 $(document).ready(function(){
 
-    var request_parameters = {
-        "requestType":"custom",
-        "type":"post",
-        "url":"/products_published",
-        "data":parse.url(),
-        "callbacks":{
-            "beforeSend":function(){},
-            "success":function(sourceData){
 
-                $('#debug').text(JSON.stringify(sourceData));
+    (function( productsPublished, $, undefined ) {
 
-                var obj = sourceData;
+        //Public Method
+//        productsPublishedCallbacks.getSuccess = function (sourceData) {
+//
+//        };
 
-                if(obj.expired_session){
-                    window.location = "/entrar";
+
+
+
+        productsPublished.get = function(){
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/products_published",
+                "data":parse.url(),
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(sourceData){
+//                        productsPublishedCallbacks.getSuccess(sourceData);
+                        $('#debug').text(JSON.stringify(sourceData));
+
+                        var obj = sourceData;
+
+//            var obj = {};
+//            obj.data
+
+                        if(obj.expired_session){
+                            window.location = "/entrar";
+                        }
+
+                        if(obj.result){
+
+                            if(obj.total_products.length == 0){
+                                // no hay publicaciones.
+                                $("#no-products").css({"display":""});
+                            }
+
+                            _var = {};
+                            _var = new set_vars(obj);
+
+                            if(obj.data.length > 0){
+                                prepare_publications();
+                            }
+
+                            if(obj.data.length == 0 && obj.total_products > 0){
+                                window.location = "/publicados";
+                            }
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/cuenta";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
                 }
+            };
 
-                if(obj.result){
-
-                    if(obj.total_products.length == 0){
-                        // no hay publicaciones.
-                        $("#no-products").css({"display":""});
-                    }
-
-                    _var = {};
-                    _var = new set_vars(obj);
-
-                    if(obj.data.length > 0){
-                        prepare_publications();
-                    }
-
-                    if(obj.data.length == 0 && obj.total_products > 0){
-                        window.location = "/publicados";
-                    }
-
-
-                }else{
-                    // hay un error en la solicitud.
-                    window.location = "/cuenta";
-                }
-
-            },
-            "error":function(){},
-            "complete":function(response){}
+            ajax.request(request_parameters);
         }
-    };
 
-    ajax.request(request_parameters);
+    }( window.productsPublished = window.productsPublished || {}, jQuery ));
+
+
+
+    productsPublished.get();
 
 });
