@@ -95,12 +95,10 @@ var order_by =  function(){
 
 /*
  * Type: función
- * Descripción:   se establece la informacion de la cantidad de registros existentes
- * Parametros: 
+ * Descripción:   se establece la información de la cantidad de registros existentes
+ * Parámetros:
  *************************************************************************************************************************************************************/
 var info = function(){
-
-//    console.log(_var);
 
     /*
 
@@ -231,7 +229,7 @@ var info = function(){
 };
 
 
-
+// TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
 /*
  * Type: función
  * Descripción: encargada de administrar la paginación de los resultados.
@@ -849,7 +847,7 @@ var set_vars = function(obj){
     this.data           = obj.data;
 };
 
-
+// TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
 /*
  * Type: función.
  * Descripción: destinada a realizar una búsqueda sobre los registros o publicaciones.
@@ -1462,6 +1460,257 @@ $(document).ready(function(){
 
         };
 
+        /*
+         * Private Method
+         * Descripción: destinada a realizar una búsqueda sobre los registros o publicaciones.
+         *************************************************************************************************************************************************************/
+        var search = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/products_published",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+
+                            // se establece la url
+                            var url = str_replace(response['search'],' ','_');
+                            window.location = "#buscar_"+url;
+
+                            setLastResponseInfo(response);
+
+                            order_by();
+                            pagination();
+                            info();
+
+                            // si hay productos publicados.
+                            if(response['data'].length > 0){
+
+                                preparePublications();
+
+                                // se oculta el mensaje que informa la no existencias de publicaciones
+                                $("#no-products-for-this-search").css({"display":"none"});
+
+                                // se establece la información de la cantidad de registros encontrados.
+                                var count = '';
+                                if(response['info']['count'] > 1){
+                                    count = response['info']['count']+' registros encontrados'
+                                }else{
+                                    count = response['info']['count']+' registro encontrado'
+                                }
+
+                                $("#product-quantity-for-this-search").html(count);
+
+                                // se establece la información de lo que se busca
+                                $("#for-this-search").html(response['search']);
+
+                                // se muestra la información acerca de la búsqueda
+                                $("#products-for-this-search").css({"display":"inherit"});
+
+                                // se muestran las publicaciones
+                                $("#published").css({"display":"inherit"});
+
+                            }else{
+
+                                // se oculta el mensaje que informa que hay publicaciones
+                                $("#products-for-this-search").css({"display":"none"});
+
+                                // se muestra el mensaje que indica que no hay publicaciones
+                                $("#no-for-this-search").html(response['search']);
+                                $("#no-products-for-this-search").css({"display":"inherit"});
+
+                                // se oculta las publicaciones
+                                $("#published").css({"display":"none"});
+
+                            }
+
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/cuenta";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            // validación:
+            var new_search_validate_obj = {
+                "submitHandler": function(){
+
+                    var request_this        = {};
+                    var search_string       = $("#search").val();
+                    request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+                    request_parameters.data =    request_this;
+                    ajax.request(request_parameters);
+
+                },
+                "rules":{
+                    "search":{
+                        "required":true,
+                        "maxlength":100,
+                        "noSpecialChars":true
+                    }
+                },
+                "messages":{
+                    "search":{
+                        "required":"Es preciso definir el campo para proceder con la búsqueda.",
+                        "maxlength":"Hay un límite de 100 caracteres.",
+                        "noSpecialChars":"No esta permitido usar caracteres especiales."
+                    }
+                }
+            };
+
+            // TODO REFACTORIZAR
+            new validate_this_form("SearchPublicationsForm",new_search_validate_obj);
+            $("#searching").css({"display":""});
+
+
+        };
+
+        /*
+         * Type: función
+         * Descripción:   se establece la información de la cantidad de registros existentes
+         * Parámetros:
+         *************************************************************************************************************************************************************/
+        var info = function(){
+
+            /*
+
+             Algoritmo para obtener el resultado esperado con la data disponible:
+             Cálculo Imaginario
+
+             count 	:	el total de registros
+             current :	los que actualmente son observados.
+
+             1  - 10 de 35	----------- current: 10		1	2	3	4	6	5	7	9	8	10
+             11 - 20 de 35   ----------- current: 10		11	12	13	14	15	16	17	18	19	20
+             21 - 30 de 35	----------- current: 10		21	22	23	24	25	26	27	28	29	30
+             31 - 35 de 35	----------- current: 5		31	32	33	34	35
+
+
+             1 - 10 de 35
+
+             count: 35
+             current: 10
+             data: Array[10]
+             nextPage: true
+             page: 1
+             pageCount: 4
+             prevPage: false
+
+             if page < pageCount
+
+             De 		=	page*current-10+1 	= 1*10-10+1 = 1
+             Hasta	=	page*current					= 10
+
+
+
+             11 - 20 de 35
+
+             count: 35
+             current: 10
+             data: Array[10]
+             nextPage: true
+             page: 2
+             pageCount: 4
+             prevPage: true
+
+
+             if page < pageCount
+
+             De 		=	page*current-10+1 =	2*10-10+1 	= 11
+             Hasta	=	page*current					=	20
+
+
+             21 - 30 de 35
+
+             count: 35
+             current: 10
+             data: Array[10]
+             nextPage: true
+             page: 3
+             pageCount: 4
+             prevPage: true
+
+             if page < pageCount
+
+             De 		=	page*current-10+1 = 3*10-10+1	= 21
+             Hasta	=	page*current					= 30
+
+
+             31 - 35 de 35
+
+             count: 35
+             current: 5
+             data: Array[5]
+             nextPage: false
+             page: 4
+             pageCount: 4
+             prevPage: true
+
+             if page ==  pageCount
+
+             De 		=	count-current+1	= 31
+             Hasta	=	count			= 35
+
+             ********************************************************************
+
+             1 - 5 de 5
+
+             count: 5
+             current: 5
+             data: Array[5]
+             nextPage: false
+             page: 1
+             pageCount: 1
+             prevPage: false
+
+             if page ==  pageCount
+
+             De 		=	count-current+1	= 1
+             Hasta	=	count			= 5
+
+             */
+
+            if(_var.count > 0){
+                if(_var.count == 1){
+                    info = '1 publicación';
+                }else{
+
+                    var de = '';
+                    var hasta = '';
+
+                    if(_var.page == _var.pageCount){
+                        de 		= _var.count-_var.current+1;
+                        hasta	= _var.count;
+                    }
+
+                    if(_var.page < _var.pageCount){
+                        de 		= (_var.page*_var.current)-10+1;
+                        hasta	= _var.page*_var.current;
+                    }
+
+                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+_var.count+'</b>';
+
+                }
+            }else{
+                info = '0 publicaciónes';
+            }
+
+            // se establece la informacion de la cantidad de registros existentes
+            $("#pagination-info").find("span").html(info);
+
+        };
 
 
         //Private Method
