@@ -1075,24 +1075,136 @@ $(document).ready(function(){
     (function( productsPublished, $, undefined ) {
 
         //Private Property
-        var page;
-        var current;
-        var count;
-        var prevPage;
-        var nextPage;
-        var pageCount;
-        var data;
+        var LastResponseInfo = {};
 
         //Private Method
-        var lastResponseInfo = function(response){
-            page           = response['info']['page'];
-            current        = parseInt(response['info']['current']);
-            count          = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
-            prevPage       = response['info']['prevPage'];
-            nextPage       = response['info']['nextPage'];
-            pageCount      = response['info']['pageCount'];
-            data           = response['data'];
+        // set many properties that will be used for many private methods
+        var setLastResponseInfo = function(response){
+            LastResponseInfo['page']        = response['info']['page'];
+            LastResponseInfo['current']     = parseInt(response['info']['current']);
+            LastResponseInfo['count']       = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
+            LastResponseInfo['prevPage']    = response['info']['prevPage'];
+            LastResponseInfo['nextPage']    = response['info']['nextPage'];
+            LastResponseInfo['pageCount']   = response['info']['pageCount'];
+            LastResponseInfo['data']        = response['data'];
         };
+
+
+        // Private Method
+        // give html format to the publication
+        var prepareProduct = function(obj){
+
+            var id          = obj['product']['id'];
+            var title       = obj['product']['title'];
+            var subtitle    = obj['product']['subtitle'];
+            var price       = obj['product']['price'];
+            var published   = obj['product']['created'];
+
+            var slug        =   str_replace(title.toLowerCase().trim(),' ','_');
+            var link        =   '/producto/'+id+'/'+slug+'.html';
+
+            var image       = 'img/products/'+obj['imagen']['thumbnails']['small']['name'];
+
+            var status = '';
+            var status_button = '';
+
+            if(obj['product']['status']){
+                status = '<span class="label label-success active-status">publicado</span>';
+                status_button = '<button class="btn pause"><i class="icon-stop"></i> Pausar</button>'+'<button class="btn activate" style="display:none;"><i class="icon-stop"></i> Activar</button>';
+            }else{
+                status = '<span class="label label-warning paused-status">pausado</span>';
+                status_button = '<button class="btn pause" style="display:none;"><i class="icon-stop"></i> Pausar</button>'+'<button class="btn activate"><i class="icon-stop"></i> Activar</button>';
+            }
+
+            var quantity = obj['product']['quantity'];
+            var _quantity = '';
+
+            if(quantity == 0){
+                _quantity = '<span class="badge">0</span>';
+            }
+            else if(quantity>= 1 && quantity<=5){
+                _quantity = '<span class="badge badge-important">'+quantity+'</span>';
+            }
+            else if(quantity>=6 && quantity<=10){
+                _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
+            }
+            else if(quantity>10){
+                _quantity = '<span class="badge badge-success">'+quantity+'</span>';
+            }
+            // END
+
+
+            // se arma una publicación
+            return  '<div id="product-'+id+'"  class="media" >'+
+                        '<a class="pull-left thumbnail" href="'+link+'">'+
+                            '<img src="'+image+'"  style="width: 200px; ">'+
+                        '</a>'+
+                        '<div class="media-body">'+
+                            '<h4 class="media-heading"><input type="checkbox" style="margin-top: 0;"> <a href="'+link+'" >'+title+'</a></h4>'+
+                            '<h5 class="muted" >'+subtitle+'</h5>'+
+
+                            '<div style="margin-bottom: 10px;">'+
+                                '<div class="btn-group">'+
+                                    '<button class="btn edit"><i class="icon-edit"></i> Editar</button>'+
+                                    status_button+
+                                    '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div>'+
+                                '<i class="icon-tag"></i> Precio: '+price+' BsF.<br>'+
+                                '<i class="icon-off "></i> Estatus: '+status+'<br>'+
+                                '<i class="icon-th"></i> Cantidad displonible: '+_quantity+'<br>'+
+                                '<i class="icon-calendar"></i> Publicado: '+published+
+                            '</div>'+
+                        '</div>'+
+                        '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
+                    '</div>';
+
+
+        };
+
+
+        //Private Method
+        var preparePublications = function(){
+
+            if(data.length > 0){
+
+                // se establece la variable que almacenara las publicaciones
+                var products	= '';
+
+                $.each(LastResponseInfo['data'],function(index,value){
+
+                    console.log(value);
+
+//                    // se prepara las publicaciones
+//                    products += prepareProduct(this);
+//
+//                    /* START  ha finalizado el bucle - este código se ejecuta una sola vez
+//                     *************************************************************************/
+//                    if(_var.current==(index+1)){
+//
+//                        information_panel();
+//
+//                        // se establece las publicaciones en el dom
+//                        $('#published').html(products);
+//
+//                        /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
+//                         *************************************************************************************/
+//                        pause();
+//                        activate();
+//                        edit();
+//                        _delete();
+//
+//
+//                    }
+//                    // END
+
+                });
+
+            }
+
+        };
+
 
         //Private Method
         var getSuccess = function (response) {
@@ -1116,12 +1228,13 @@ $(document).ready(function(){
                 _var = new set_vars(response);
                 // *******************************
                 // TODO New implementation
-                lastResponseInfo(response);
+                setLastResponseInfo(response);
                 // *******************************
 
 
                 if(response['data'].length > 0){
                     prepare_publications();
+                    preparePublications(); // New
                 }
 
                 // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
