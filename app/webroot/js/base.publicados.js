@@ -1,25 +1,4 @@
 /*
-
- registros a mostrar = 10; segun esta cantidad cierto comportamiento es observado.
-
- solo 1 registro
- * paginacion 				inavilitada
- * ordenar por precio		inavilitada
- * busqueda					inavilitada
-
- entre 1 y 10 registros
- * paginacion 				inavilitada - Segun la cantidad de registros que se muestra en una primera vez.
- * ordenar por precio		avilitado
- * busqueda					inavilitada
-
- mas de 10 registros
- * paginacion 				avilitado - Segun la cantidad de registros que se muestra en una primera vez.
- * ordenar por precio		avilitado
- * busqueda					avilitado
-
- */
-
-/*
  * Type: función
  * Descripción: funcion destinada a ordenar la publicaciones, segun la preferencia del usuario.
  * Parametros: null
@@ -715,6 +694,8 @@ var _delete =  function(){
 
 };
 
+
+// TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
 /*
  * Type: función
  * Descrición: funcion que se encarga de dar formato html a las publicaciones registradas.    
@@ -795,7 +776,7 @@ var prepare_product = function(obj){
 };
 
 
-/*
+/* TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
  * Type: función
  * Descrición: 
  * Parametros: 
@@ -811,7 +792,6 @@ var information_panel = function(){
     $("#information-panel").css({"display":""});
 
 };
-
 
 
 
@@ -853,7 +833,7 @@ var prepare_publications = function(){
 
 };
 
-// TODO ELIMINAR
+// TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
 /*
  * Type: clase.
  * Descripción: destinada a hacer disponible a todas las funciones variables información que contiene la data básica.
@@ -993,6 +973,8 @@ var search = function(){
 
 };
 
+
+// TODO LISTO ELIMINAR AL COMPLETAR LA REVISIÓN
 var parse = {
   'url':function(){
 
@@ -1075,18 +1057,18 @@ $(document).ready(function(){
     (function( productsPublished, $, undefined ) {
 
         //Private Property
-        var LastResponseInfo = {};
+        var lastResponseInfo = {};
 
         //Private Method
         // set many properties that will be used for many private methods
         var setLastResponseInfo = function(response){
-            LastResponseInfo['page']        = response['info']['page'];
-            LastResponseInfo['current']     = parseInt(response['info']['current']);
-            LastResponseInfo['count']       = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
-            LastResponseInfo['prevPage']    = response['info']['prevPage'];
-            LastResponseInfo['nextPage']    = response['info']['nextPage'];
-            LastResponseInfo['pageCount']   = response['info']['pageCount'];
-            LastResponseInfo['data']        = response['data'];
+            lastResponseInfo['page']        = response['info']['page'];
+            lastResponseInfo['current']     = parseInt(response['info']['current']);
+            lastResponseInfo['count']       = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
+            lastResponseInfo['prevPage']    = response['info']['prevPage'];
+            lastResponseInfo['nextPage']    = response['info']['nextPage'];
+            lastResponseInfo['pageCount']   = response['info']['pageCount'];
+            lastResponseInfo['data']        = response['data'];
         };
 
         //Private Method
@@ -1235,25 +1217,292 @@ $(document).ready(function(){
 
         };
 
+        /* Private Method
+         * Descripción: función destinada a ordenar la publicaciones, según la preferencia del usuario.
+         **********************************************************************************************/
+        var orderBy =  function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/products_published",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+                            if(response['data'].length > 0){
+                                // hay publicaciones
+
+                                setLastResponseInfo(response);
+                                preparePublications();
+
+                            }else{
+                                // no hay publicaciones.
+                                $("#no-products").css({"display":"inherit"});
+                            }
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/cuenta";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+
+            var order_by = {
+                "higher-price":"mayor_precio",
+                "lower-price":"menor_precio",
+                "recent":"recientes",
+                "oldest":"antiguos",
+                "higher-availability":"mayor_disponibilidad",
+                "lower-availability":"menor_disponibilidad"
+            };
+
+            if(lastResponseInfo['count'] > 1){
+
+                $.each(order_by,function(id,order_by){
+
+                    var element = $("#"+id);
+
+                    element.off('click');
+                    element.on('click',function(event){
+                        event.preventDefault();
+
+                        var url_obj =  parseUrl();
+
+                        var request_this = {};
+
+                        if(url_obj.search != ''){
+                            // se solicita buscar algo.
+                            request_this.search	= url_obj.search;
+
+                            var url = str_replace(url_obj.search,' ','_');
+                            window.location = "#buscar_"+url+"/"+order_by;
+
+                        }else{
+                            window.location = "#"+order_by;
+                        }
+
+                        request_this.order_by   = order_by;
+                        request_parameters.data = request_this;
+                        ajax.request(request_parameters);
+
+
+                    });
+
+                });
+
+                $("#order-by").css({"display":""});
+
+            }else{
+                $("#order-by").css({"display":"none"});
+            }
+
+        };
+
+        /*
+         * Private Method
+         * Descripción: encargada de administrar la paginación de los resultados.
+         *************************************************************************************************************************************************************/
+        var pagination = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/products_published",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+                            if(response['data'] > 0){
+                                // hay publicaciones
+                                setLastResponseInfo(response);
+                                preparePublications();
+                            }else{
+                                // no hay publicaciones.
+                                $("#no-products").css({"display":"inherit"});
+                            }
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/cuenta";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            if(lastResponseInfo['pageCount'] > 1){
+
+                // si existe una pagina anterior y si la página anterior no es la 0
+                if(lastResponseInfo['prevPage'] && (lastResponseInfo['page']-1) != 0){
+
+                    var prevPage = $("#prev-page");
+
+                    prevPage.attr({"disabled":false}).removeClass('disabled');
+                    prevPage.off('click');
+                    prevPage.on('click', function(){
+
+                        var url_obj         =  parseUrl();
+                        var prev_page       = lastResponseInfo['page']-1; // también puede tomar el valor de: url_obj.page
+                        var request_this    = {};
+
+                        // PAGE
+                        request_this.page = prev_page;
+
+                        var url     = '';
+                        var new_url = '';
+
+                        if(url_obj.order_by != ""){
+                            if(url_obj.search != ""){
+                                url = str_replace(url_obj.search,' ','_');
+                                new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
+                                //SEARCH
+                                request_this.search = url_obj.search;
+                            }else{
+                                new_url = "#"+url_obj.order_by+"/pagina_"+prev_page;
+                            }
+                            // ORDER
+                            request_this.order_by = url_obj.order_by;
+                        }else{
+                            if(url_obj.search != ""){
+                                url = str_replace(url_obj.search,' ','_');
+                                new_url = "#buscar_"+url+"/pagina_"+prev_page;
+                                //SEARCH
+                                request_this.search = url_obj.search;
+                            }else{
+                                new_url = "#pagina_"+prev_page;
+                            }
+                        }
+
+                        window.location = new_url;
+
+                        request_parameters.data =    request_this;
+                        ajax.request(request_parameters);
+
+                    });
+
+                }else{
+                    $("#prev-page").attr({"disabled":true}).addClass('disabled');
+                }
+
+                // si existe una siguiente pagina
+                if(lastResponseInfo['nextPage']){
+
+                    var nextPage = $("#next-page");
+
+                    nextPage.attr({"disabled":false}).removeClass('disabled');
+                    nextPage.off('click');
+                    nextPage.on('click', function(){
+
+                        var url_obj =  parseUrl();
+
+                        var next_page = lastResponseInfo['page']+1; // tambien puede tomar el valor de: url_obj.page
+                        var request_this = {};
+
+                        // PAGE
+                        request_this.page = next_page;
+
+                        var url     = '';
+                        var new_url = '';
+
+                        if(url_obj.order_by != ""){
+                            if(url_obj.search != ""){
+                                url = str_replace(url_obj.search,' ','_');
+                                new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
+                                //SEARCH
+                                request_this.search = url_obj.search;
+                            }else{
+                                new_url = "#"+url_obj.order_by+"/pagina_"+next_page;
+                            }
+                            // ORDER
+                            request_this.order_by = url_obj.order_by;
+                        }else{
+                            if(url_obj.search != ""){
+                                url = str_replace(url_obj.search,' ','_');
+                                new_url = "#buscar_"+url+"/pagina_"+next_page;
+                                //SEARCH
+                                request_this.search = url_obj.search;
+                            }else{
+                                new_url = "#pagina_"+next_page;
+                            }
+                        }
+
+                        window.location = new_url;
+
+                        request_parameters.data =    request_this;
+                        ajax.request(request_parameters);
+
+                    });
+                }else{
+                    $("#next-page").attr({"disabled":true}).addClass('disabled');
+                }
+
+                $("#pagination").css({"display":""});
+            }else{
+                $("#pagination").css({"display":"none"});
+            }
+
+        };
+
+
 
         //Private Method
         var preparePublications = function(){
 
-            if(LastResponseInfo['data'].length > 0){
+            /*
+            registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
+
+            # Solo 1 registro
+            - paginación                inhabilitada
+            - ordenar por precio        inhabilitada
+            - búsqueda                  inhabilitada
+
+            # Entre 1 y 10 registros
+            - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
+            - ordenar por precio        habilitado
+            - búsqueda                  inhabilitada
+
+            # Más de 10 registros
+            - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
+            - ordenar por precio        habilitado
+            - búsqueda                  habilitado
+
+            */
+
+            if(lastResponseInfo['data'].length > 0){
 
                 // se establece la variable que almacenara las publicaciones
-                var products	= '';
+                var products    = '';
 
-                $.each(LastResponseInfo['data'],function(index,value){
+                $.each(lastResponseInfo['data'],function(index,value){
 
                     // se prepara las publicaciones
                     products += prepareProduct(value);
 
                     /* START  ha finalizado el bucle - este código se ejecuta una sola vez
                      *************************************************************************/
-                    if(LastResponseInfo['current']==(index+1)){
+                    if(lastResponseInfo['current']==(index+1)){
 
-//                        order_by();
+
+//                        orderBy();
 //                        pagination();
 //                        search();
 //                        info();
@@ -1281,48 +1530,6 @@ $(document).ready(function(){
         };
 
 
-        //Private Method
-        var getSuccess = function (response) {
-
-
-            // Si la sesión ha expirado
-            if(response['expired_session']){
-                window.location = "/entrar";
-            }
-
-            if(response['result']){
-
-                // No hay productos publicados.
-                if(response['total_products'].length == 0){
-                    $("#no-products").css({"display":""});
-                }
-
-                // TODO DELETE THIS
-                // ******************************
-                _var = {};
-                _var = new set_vars(response);
-                // *******************************
-                // TODO New implementation
-                setLastResponseInfo(response);
-                // *******************************
-
-
-                if(response['data'].length > 0){
-                    prepare_publications();
-                    preparePublications(); // New
-                }
-
-                // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
-                if(response['data'].length == 0 && response['total_products'] > 0){
-                    window.location = "/publicados";
-                }
-
-            }else{
-                // hay un error en la solicitud.
-                window.location = "/cuenta";
-            }
-        };
-
         //Public Method
         productsPublished.get = function(){
             var request_parameters = {
@@ -1334,7 +1541,44 @@ $(document).ready(function(){
                     "beforeSend":function(){},
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
-                        getSuccess(response);
+
+                        // Si la sesión ha expirado
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+
+                            // No hay productos publicados.
+                            if(response['total_products'].length == 0){
+                                $("#no-products").css({"display":""});
+                            }
+
+                            // TODO DELETE THIS
+                            // ******************************
+                            _var = {};
+                            _var = new set_vars(response);
+                            // *******************************
+                            // TODO New implementation
+                            setLastResponseInfo(response);
+                            // *******************************
+
+
+                            if(response['data'].length > 0){
+                                prepare_publications();
+                                preparePublications(); // New
+                            }
+
+                            // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
+                            if(response['data'].length == 0 && response['total_products'] > 0){
+                                window.location = "/publicados";
+                            }
+
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/cuenta";
+                        }
+
                     },
                     "error":function(){},
                     "complete":function(response){}
