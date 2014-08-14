@@ -28,51 +28,52 @@
 
 
     public function add2(){
-        $user_logged 	= $this->Auth->User();
-        $this->loadModel('Category');
+        $user_logged    = $this->{'Auth'}->User();
+        $this->{'loadModel'}('Category');
 
-        $url_action = strstr($this->request->url, '/', true); // Desde PHP 5.3.0
-        $this->set('url_action',$url_action);
+        $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
+        $this->{'set'}('url_action',$url_action);
 
 
-        if(isset($this->params->id)){
-            $id = $this->params->id;
+        if(isset($this->{'params'}->id)){
+            $id = $this->{'params'}->id;
             // para editar principalmente.
-            $product_data = $this->Product->find('first', array(
+            $product_data = $this->{'Product'}->find('first', array(
                 'conditions' => array('Product.id' => $id,'Product.company_id'=>$user_logged['User']['company_id'],'Product.deleted'=>0)
             ));
 
             if($product_data){
 
-                /* tiene permisos para editar la publicacion o borrador pero esta jugando con la url.
+                /* tiene permisos para editar la publicación o un borrador pero esta jugando con la url
                  ****************************************************************************************/
                 if($url_action == 'editar'){
                     if(!$product_data['Product']['published'] == 1){
                         // debug('esta editando un borrador');
-                        $this->redirect('/');
+                        $this->{'redirect'}('/');
                     }
                 }
                 if($url_action == 'editar_borrador'){
                     if(!$product_data['Product']['published'] == 0){
                         //debug('esta editando un publicado');
-                        $this->redirect('/');
+                        $this->{'redirect'}('/');
                     }
                 }
 
-
-
-                /* se extre la data realcionda con la categoria selecionda para establecer o recontruir el menu y path tal y como el vendedor lo dejo por ultima vez
+                /* Se extrae la data relacionada con la categoría seleccionada para establecer o reconstruir el menú y path tal y como el vendedor lo dejo por última vez
                  *******************************************************************************************************************************************************/
                 $category_id = $product_data['Product']['category_id'];
 
                 /* menu
                  *******/
-                $path = $this->Category->getPath($category_id);
-                foreach($path as $index => $category){
-                    $menu[$index]['id'] 			= $category['Category']['id'];
-                    $menu[$index]['name']			= $category['Category']['name'];
+                $path = $this->{'Category'}->getPath($category_id);
 
-                    $children 						= $this->get_category_child_elements($category['Category']['id']);
+                $menu = array();
+
+                foreach($path as $index => $category){
+                    $menu[$index]['id']             = $category['Category']['id'];
+                    $menu[$index]['name']           = $category['Category']['name'];
+
+                    $children                       = $this->get_category_child_elements($category['Category']['id']);
 
                     if($children['children']){
                         $menu[$index]['categories'] 	= $children['categories'];
@@ -85,17 +86,22 @@
                 }
 
                 if($product_data['Image']){
-                    $this->loadModel('Image');
+                    $this->{'loadModel'}('Image');
+
+                    $data = array();
+
                     foreach($product_data['Image'] as $index_0 => $original_imagen){
 
                         //debug($original_imagen);
                         $data[$index_0]['original'] 		= $original_imagen;
-                        $products[$index_0]['childrens'] 	=  $this->Image->find('all',array(
+                        $products[$index_0]['childrens'] 	=  $this->{'Image'}->find('all',array(
                                 'conditions' => array('Image.parent_id' => $original_imagen['id']),
                                 'contain' => false
                             )
                         );
                         foreach($products[$index_0]['childrens'] as $index_2 => $children ){
+
+                            $namespace = '';
 
                             switch ($children['Image']['size']) {
                                 case '1920x1080':
@@ -118,24 +124,23 @@
                     $product_data['Image'] = $data;
                 }
 
-                $this->request->data = $product_data;
-                $this->request->data['current-menu'] = json_encode($menu);
+                $this->{'request'}->data = $product_data;
+                $this->{'request'}->data['current-menu'] = json_encode($menu);
 
             }else{
-                $this->redirect('/');
+                $this->{'redirect'}('/');
             }
         }
 
-
         //debug($this->request->data);
 
-        $categories = $this->Category->find('all', array(
+        $categories = $this->{'Category'}->find('all', array(
             'conditions' => array('Category.parent_id'=>null),
             'order' => 'lft ASC',
             'contain' => false
         ));
         // la base del árbol de categorías en la vista.
-        $this->set('base_menu',$categories);
+        $this->{'set'}('base_menu',$categories);
     }
 
     /*
