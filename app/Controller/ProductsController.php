@@ -94,12 +94,12 @@
 
                         //debug($original_imagen);
                         $data[$index_0]['original'] 		= $original_imagen;
-                        $products[$index_0]['childrens'] 	=  $this->{'Image'}->find('all',array(
+                        $products[$index_0]['children'] 	=  $this->{'Image'}->find('all',array(
                                 'conditions' => array('Image.parent_id' => $original_imagen['id']),
                                 'contain' => false
                             )
                         );
-                        foreach($products[$index_0]['childrens'] as $index_2 => $children ){
+                        foreach($products[$index_0]['children'] as $children){
 
                             $namespace = '';
 
@@ -132,8 +132,6 @@
             }
         }
 
-        //debug($this->request->data);
-
         $categories = $this->{'Category'}->find('all', array(
             'conditions' => array('Category.parent_id'=>null),
             'order' => 'lft ASC',
@@ -150,39 +148,38 @@
         Retorna:            Array.
     */
     private function get_category_child_elements($category_id){
-        $children = $this->Category->find('all', array(
+        $children = $this->{'Category'}->find('all', array(
             'conditions' => array('Category.parent_id'=>$category_id),
             'order' => 'lft ASC'
         ));
         if($children){
-            foreach($children as $k => $v){
+            foreach($children as $v){
                 $return['categories'][$v['Category']['id']] = $v['Category']['name'];
             }
             $return['children'] = true;
 
         }else{
             $return['category_id_selected'] = $category_id;
-            $return['children'] 			= false;
+            $return['children'] = false;
         }
         return $return;
     }
 
-
-
-    /* Descripción: 		Función destinada a añadir una nueva publicación, los datos suministrados deberan estar completos,
-     * tipo de solicitud: 	ajax-get, ajax-post
-     * tipo de acceso: 		vendedor
-     * Recive: 				array.
-     * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view..
-     *******************/
+    /*
+        Descripción: Función destinada a añadir una nueva publicación, los datos suministrados deberán estar completos,
+        Tipo de solicitud: Ajax
+        Tipo de acceso: Vendedor
+        Recibe: Array.
+        Retorna: Un array, el cual será transformado en un objeto JSON en la vista ajax_view.
+    */
     public function add_new(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
 
-        $user_logged = $this->Auth->User();
+        if($this->{'request'}->is('post')){
+            $request = $this->{'request'}->data;
+        }else{
+            $request = $this->{'request'}->query;
+        }
+        $user_logged = $this->{'Auth'}->User();
 
         /*
         $request
@@ -196,16 +193,16 @@
         }
         */
 
-        $this->loadModel('Image');
+        $this->{'loadModel'}('Image');
         if($request['id']){
-            if($this->Image->find('first',array('conditions' => array('Image.product_id' => $request['id'],'Image.status' => 1)))){
-                // si hay imgenes cargadas y aprovadas
-                $this->Product->set($request);
-                if($this->Product->validates()){
+            if($this->{'Image'}->find('first',array('conditions' => array('Image.product_id' => $request['id'],'Image.status' => 1)))){
+                // si hay imágenes subidas y aprobadas
+                $this->{'Product'}->set($request);
+                if($this->{'Product'}->validates()){
 
-                    // se verifica que el usuario este trabajando en un post suyo o de otro vendedor de misma compañia
+                    // se verifica que el usuario esté trabajando en un post suyo o de otro vendedor de misma compañía
                     if($request['id']){
-                        $isOk = $this->Product->find('first', array(
+                        $isOk = $this->{'Product'}->find('first', array(
                             'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
                         ));
 
@@ -214,31 +211,31 @@
                             $producto =	array(
                                 'Product'=>Array
                                 (
-                                    'id'				=>	$request['id'],
-                                    'company_id'		=>	$user_logged['User']['company_id'],
-                                    'user_id'			=>	$user_logged['User']['id'],
-                                    'category_id'		=>	$request['category_id'],
-                                    'title'				=>	$request['title'],
-                                    'subtitle'			=>	$request['subtitle'],
-                                    'body'				=>	$request['body'],
-                                    'price'				=>	$request['price'],
-                                    'quantity'			=>	$request['quantity'],
-                                    'status'			=>	1,
-                                    'published'			=>	1,
-                                    'banned'			=>	0,
-                                    'deleted'			=>	0
+                                    'id'            =>  $request['id'],
+                                    'company_id'    =>  $user_logged['User']['company_id'],
+                                    'user_id'       =>  $user_logged['User']['id'],
+                                    'category_id'   =>  $request['category_id'],
+                                    'title'         =>  $request['title'],
+                                    'subtitle'      =>  $request['subtitle'],
+                                    'body'          =>  $request['body'],
+                                    'price'         =>  $request['price'],
+                                    'quantity'      =>  $request['quantity'],
+                                    'status'        =>  1,
+                                    'published'     =>  1,
+                                    'banned'        =>  0,
+                                    'deleted'       =>  0
                                 )
                             );
 
-                            if($this->Product->save($producto)){
+                            if($this->{'Product'}->save($producto)){
                                 $return['result'] 			= true;
-                                $product_data 				= $this->Product->read();
+                                $product_data 				= $this->{'Product'}->read();
                                 $return['product_id']		= $product_data['Product']['id'];
                                 $return['product_title']	= $product_data['Product']['title'];
                             }
 
                         }else{
-                            // esta intentando modificar un posts de otra compañia.
+                            // esta intentando modificar un posts de otra compañía
                         }
 
                     }
@@ -251,37 +248,40 @@
             $return['result'] = false;
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
-    /* Descripción: 		Función para guardar un borrador.
-     * tipo de solicitud: 	get (no-ajax)
-     * tipo de acceso: 		vendedor
-     * Recive: 				array.
-     * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+
+    /*
+
+        Descripción:        Función para guardar un borrador.
+        tipo de solicitud:  Get (no-ajax)
+        tipo de acceso:     Vendedor
+        Recibe:             Array.
+        Retorna:            Un array, el cual será transformado en un objeto JSON en la vista ajax_view.
+
+    */
+
     public function saveDraft(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
+        if($this->{'request'}->is('post')){
+            $request = $this->{'request'}->data;
         }else{
-            $request = $this->request->query;
+            $request = $this->{'request'}->query;
         }
 
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
 
-        // esta logica es cuando se guardo un borrador, por lo tanto existe un id ya definido.
-        // se verifica que el usuario este trabajando en un post suyo o de otro vendedor de misma compañia
-        // de no cumplir o intentar modificar el dom, el script creara otro borrador.
+        // Esta lógica es cuando se guardó un borrador, por lo tanto existe un id ya definido. Se verifica que el usuario esté trabajando en un post suyo o de otro vendedor de misma compañía de no cumplir o intentar modificar el dom, el script creará otro borrador.
         if($request['id']){
-            $isOk = $this->Product->find('first', array(
+            $isOk = $this->{'Product'}->find('first', array(
                 'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
             ));
             if($isOk){
                 $id = $request['id'];
             }else{
                 $id = null;
-                // esta intentando modificar un posts de otra compañia.
+                // esta intentando modificar una publicación de otra compañía
             }
         }else{
             $id = null;
@@ -302,32 +302,38 @@
             )
         );
 
-        if($this->Product->save($producto,false)){
-            $productData = $this->Product->read();
+        $return = array();
+
+        if($this->{'Product'}->save($producto,false)){
+            $productData = $this->{'Product'}->read();
 
             $id = $productData['Product']['id'];
             $lastSave = $productData['Product']['modified'];
 
             $return['id'] = $id;
 
+            // TODO BUSCAR LOGRAR OTRA SOLUCIÓN
             // 2.1
             App::uses('CakeTime', 'Utility');
             $return['time'] = CakeTime::format('H:i',$lastSave);
 
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
     public function search_publications(){
-        if($this->request->is('post')){
+
+        /*
+
+         if($this->request->is('post')){
             $request = $this->request->data;
         }else{
             $request = $this->request->query;
         }
 
-        /*
+
         $search 		= $this->cleanString($request["search"]);
 
         $publications $this->Product->find('all', array(
@@ -376,11 +382,11 @@
         */
 
 
-
+/*
         $return = FALSE;
         $this->set('return',$return);
         $this->render('ajax_view','ajax');
-
+*/
     }
 
     /*
@@ -524,23 +530,22 @@
     public function published(){
     }
 
-
-    /* Descripción: 		Función para visualizar todos los productos en status de borrador.
-     * tipo de solicitud: 	get (no ajax)
-     * tipo de acceso: 		vendedor
-     * Recive: 				null.
-     * Retorna: 			un array.
-     *******************/
+    /*
+        Descripción:        Función para visualizar todos los productos en estatus de borrador.
+        Tipo de solicitud:  Get (no ajax)
+        Tipo de acceso:     Vendedor
+        Recibe:             Null.
+        Retorna:            Un array.
+    */
     public function drafts(){
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
 
-        $products = $this->Product->find('all',array(
+        $products = $this->{'Product'}->find('all',array(
             'conditions' => array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.status'=>0),
             'order' => array('Product.created DESC'),
         ));
 
-
-        $this->set('products',$products);
+        $this->{'set'}('products',$products);
     }
 
 
@@ -553,13 +558,15 @@
     */
     public function discard(){
 
-        $request = $this->request->input('json_decode',true);
+        $request = $this->{'request'}->input('json_decode',true);
 
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
+
+        $return = array();
 
         if($request['row_exist'] == 'true'){
 
-            $isOk = $this->Product->find('first', array(
+            $isOk = $this->{'Product'}->find('first', array(
                 'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
             ));
 
@@ -568,43 +575,43 @@
                 $productData['Product']['id'] 		= $request['id'];
                 $productData['Product']['deleted'] 	= 1;
 
-                if($this->Product->save($productData)){
+                if($this->{'Product'}->save($productData)){
                     $return['result'] = true;
-                    $this->Session->setFlash('El borrador ha sido descartado.','success');
+                    $this->{'Session'}->setFlash('El borrador ha sido descartado.','success');
                 }
 
             }else{
                 // esta intentando de borrar un posts de otra compañia.
 
                 $return['result'] = false;
-                $this->Session->setFlash('Ha ocurrido un error.','error');
+                $this->{'Session'}->setFlash('Ha ocurrido un error.','error');
             }
 
         }else{
 
             $return['result'] 		= true;
-            $this->Session->setFlash('El borrador ha sido descartado','success');
+            $this->{'Session'}->setFlash('El borrador ha sido descartado','success');
 
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
-
-    /* Descripción: 		Función para pusar una publicacion.
-     * tipo de solicitud: 	get-ajax,post-ajax
-     * tipo de acceso: 		vendedor
-     * Recive: 				un array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    /*
+        Descripción:  Función para pausar una publicación.
+        tipo de solicitud: 	get-ajax,post-ajax
+        tipo de acceso:  Vendedor
+        Recibe:  Un array.
+        Retorna: Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
+    */
     public function pause(){
 
-        $request = $this->request->input('json_decode',true);
+        $request = $this->{'request'}->input('json_decode',true);
 
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
 
-        $product_data = $this->Product->find('first', array(
+        $product_data = $this->{'Product'}->find('first', array(
             'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
         ));
 
@@ -612,7 +619,7 @@
             $data['Product']['id'] 		= $product_data['Product']['id'];
             $data['Product']['status']	= 0;
 
-            if($this->Product->save($data)){
+            if($this->{'Product'}->save($data)){
                 $return['result'] 	= true;
                 $return['id'] 		= $request['id'];
             }else{
@@ -622,26 +629,25 @@
             $return['result'] = false;
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
 
     }
 
-
-    /* Descripción: 		Función para activar una publicacion.
-     * tipo de solicitud: 	get-ajax,post-ajax
-     * tipo de acceso: 		vendedor
-     * Recive: 				un array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    /*
+        Descripción:  Función para pausar una publicación.
+        tipo de solicitud: 	get-ajax,post-ajax
+        tipo de acceso:  Vendedor
+        Recibe:  Un array.
+        Retorna: Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
+    */
     public function activate(){
 
-        $request = $this->request->input('json_decode',true);
+        $request = $this->{'request'}->input('json_decode',true);
 
+        $user_logged = $this->{'Auth'}->User();
 
-        $user_logged = $this->Auth->User();
-
-        $product_data = $this->Product->find('first', array(
+        $product_data = $this->{'Product'}->find('first', array(
             'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
         ));
 
@@ -649,7 +655,7 @@
             $data['Product']['id'] 		= $product_data['Product']['id'];
             $data['Product']['status']	= 1;
 
-            if($this->Product->save($data)){
+            if($this->{'Product'}->save($data)){
                 $return['result'] 	= true;
                 $return['id'] 		= $request['id'];
             }else{
@@ -659,8 +665,8 @@
             $return['result'] = false;
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
     /* Descripción: 		Función para borrar una publicacion.
@@ -671,12 +677,12 @@
      *******************/
     public function delete(){
 
-        $request = $this->request->input('json_decode',true);
+        $request = $this->{'request'}->input('json_decode',true);
 
 
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
 
-        $product_data = $this->Product->find('first', array(
+        $product_data = $this->{'Product'}->find('first', array(
             'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
         ));
 
@@ -684,16 +690,16 @@
             $product['Product']['id'] 		= $product_data['Product']['id'];
             $product['Product']['deleted']	= 1;
 
-            if($this->Product->save($product)){
+            if($this->{'Product'}->save($product)){
                 $return['result'] 	= true;
                 $return['id'] 		= $request['id'];
 
                 // establecemos un mensaje luego de borrar la publicación desde la vista de editar.
                 if($request['session'] == 'true'){
-                    $this->Session->setFlash('La publicación ha sido borrada.','success');
+                    $this->{'Session'}->setFlash('La publicación ha sido borrada.','success');
                 }
 
-                /* START retoramos resultados actualizados - paginados a vista /publicados
+                /* START retornamos resultados actualizados - paginados a vista /publicados
                  ***************************************************************************/
                 if(isset($request['paginate'])){
 
@@ -774,12 +780,12 @@
                     $return['win_order_by'] = $win_order_by;
 
 
-                    /* START se intenta 3 veces lograr retornar reultados paginados.
+                    /* START se intenta 3 veces lograr retornar resultados paginados.
                      *******************************************************************************************************************************************/
                     try {
                         /* Primer intento:  pagina actual
                          *******************************************************/
-                        $this->paginate = array(
+                        $this->{'paginate'}= array(
                             'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
                             'contain' => array(
                                 'Image'=>array(
@@ -790,19 +796,19 @@
                             'page'	=>$page
                         );
 
-                        $products = $this->paginate('Product');
+                        $products = $this->{'paginate'}('Product');
 
                         if($products){
                             $return['data'] 	= $this->product_images($products);
                         }
 
-                    } catch (NotFoundException $e) {
+                    } catch (Exception $e) {
                         try {
                             /* Segundo intento:  pagina anterior
                             *******************************************************/
                             $previous_page = $page-1;
 
-                            $this->paginate = array(
+                            $this->{'paginate '}= array(
                                 'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
                                 'contain' => array(
                                     'Image'=>array(
@@ -813,19 +819,19 @@
                                 'page'	=>$previous_page
                             );
 
-                            $products = $this->paginate('Product');
+                            $products = $this->{'paginate'}('Product');
 
                             if($products){
                                 $return['data'] = $this->product_images($products);
                             }
 
-                        }catch (NotFoundException $e){
+                        }catch (Exception $e){
                             try {
                                 /* Tercer intento:  ultima pagina disponible
                                 *******************************************************/
-                                $last_page = $this->request->params['paging']['Product']['pageCount'];
+                                $last_page = $this->{'request'}->params['paging']['Product']['pageCount'];
 
-                                $this->paginate = array(
+                                $this->{'paginate'}= array(
                                     'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
                                     'contain' => array(
                                         'Image'=>array(
@@ -836,35 +842,35 @@
                                     'page'	=>$last_page
                                 );
 
-                                $products = $this->paginate('Product');
+                                $products = $this->{'paginate'}('Product');
 
                                 if($products){
                                     $return['data'] = $this->product_images($products);
                                 }
 
-                            }catch (NotFoundException $e){
-                                // Error inesperado. Redireciona a /
+                            }catch (Exception $e){
+                                // Error inesperado. Re-direcciona a /
                                 $return['result'] = false;
                             }
                         }
                     }
                     // END
-                    $return['info'] = $this->request->params['paging']['Product'];
+                    $return['info'] = $this->{'request'}->params['paging']['Product'];
                 }
                 // END
 
 
             }else{
-                // Error al intentar guardar. Redireciona a /
+                // Error al intentar guardar. Re-direcciona a /
                 $return['result'] = false;
             }
         }else{
-            // El registro no existe. Redireciona a /
+            // El registro no existe. Re-direcciona a /
             $return['result'] = false;
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
 
@@ -874,19 +880,24 @@
      * Retorna: 			array.
      *******************/
     public function product_images($products){
-        $this->loadModel('Image');
+        $this->{'loadModel'}('Image');
+
+        $data = array();
+
         foreach($products as $index_0 =>$product){
             $data[$index_0]['product'] = $product['Product'];
 
-            foreach($product['Image'] as $index_1 => $original_imagen){
+            foreach($product['Image'] as $original_imagen){
                 $data[$index_0]['imagen']['original'] = $original_imagen;
-                $products[$index_0]['Image']['childrens'] =  $this->Image->find('all',array(
+                $products[$index_0]['Image']['childrens'] =  $this->{'Image'}->find('all',array(
                         'conditions' => array('Image.parent_id' => $original_imagen['id']),
                         'contain' => false
                     )
                 );
 
-                foreach($products[$index_0]['Image']['childrens'] as $index_2 => $children ){
+                foreach($products[$index_0]['Image']['childrens'] as $children ){
+                    $namespace = '';
+
                     switch ($children['Image']['size']) {
                         case '1920x1080':
                             $namespace = 'large';
