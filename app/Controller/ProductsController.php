@@ -4,30 +4,30 @@
     public function index(){
     }
 
-    /* Descripción: 		Función para ver un producto, ofertar y preguntar por el.
-     * tipo de solicitud: 	get (no-ajax)
-     * tipo de acceso: 		publico
-     * Recive: 				array.
-     * Retorna: 			array.
-     *******************/
+    /*
+        Descripción:        Función para ver un producto, ofertar y preguntar por el.
+        Tipo de solicitud:  Get (no-ajax).
+        Tipo de acceso:     Público.
+        Recibe:             Array.
+        Retorna:            Array.
+    */
     public function view(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
-
-        debug($request);
-        debug($this->request);
+//        debug($this->{'request'}->params,false);
     }
 
-    /* Descripción: 		Función principal, solisitada por el vendedor para cargar un producto.
-     * tipo de solicitud: 	get (no-ajax)
-     * tipo de acceso: 		vendedor
-     * Recive: 				array.
-     * Retorna: 			array.
-     *******************/
+    /*
+        Descripción: Función principal, solicitada por el vendedor para cargar un producto.
+        tipo de solicitud: get (no-ajax)
+        tipo de acceso: vendedor
+        Recibe:         array.
+        Retorna:        array.
+    */
     public function add(){
+
+    }
+
+
+    public function add2(){
         $user_logged 	= $this->Auth->User();
         $this->loadModel('Category');
 
@@ -118,17 +118,8 @@
                     $product_data['Image'] = $data;
                 }
 
-
-
-
                 $this->request->data = $product_data;
                 $this->request->data['current-menu'] = json_encode($menu);
-
-
-
-
-
-
 
             }else{
                 $this->redirect('/');
@@ -138,14 +129,21 @@
 
         //debug($this->request->data);
 
-        $this->set_base_menu();
+        $categories = $this->Category->find('all', array(
+            'conditions' => array('Category.parent_id'=>null),
+            'order' => 'lft ASC',
+            'contain' => false
+        ));
+        // la base del árbol de categorías en la vista.
+        $this->set('base_menu',$categories);
     }
 
-    /* Descripción: 		Función para obtener las categorias dependientes o hijas de la categoria proporcionada.
-     * tipo de solicitud: 	interna
-     * Recive: 				int.
-     * Retorna: 			array.
-     *******************/
+    /*
+        Descripción:        Función para obtener las categorías dependientes o hijas de la categoría proporcionada.
+        Tipo de solicitud:  Interna.
+        Recibe:             Int.
+        Retorna:            Array.
+    */
     private function get_category_child_elements($category_id){
         $children = $this->Category->find('all', array(
             'conditions' => array('Category.parent_id'=>$category_id),
@@ -164,20 +162,7 @@
         return $return;
     }
 
-    /* Descripción: 		Función para obtener la base del arbol de categorias en la vista.
-     * tipo de solicitud: 	internar
-     * tipo de acceso: 		vendedor
-     * Recive: 				null.
-     * Retorna: 			un array.
-     *******************/
-    private function set_base_menu(){
-        $categories = $this->Category->find('all', array(
-            'conditions' => array('Category.parent_id'=>null),
-            'order' => 'lft ASC',
-            'contain' => false
-        ));
-        $this->set('base_menu',$categories);
-    }
+
 
     /* Descripción: 		Función destinada a añadir una nueva publicación, los datos suministrados deberan estar completos,
      * tipo de solicitud: 	ajax-get, ajax-post
@@ -393,15 +378,16 @@
 
     }
 
-    /* Descripción: 		Función para obtener todos los productos publicados.
-     * tipo de solicitud: 	ajax-post, ajax-get
-     * tipo de acceso: 		vendedor
-     * Recive: 				null.
-     * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    /*
+        Descripción:        Función para obtener todos los productos publicados.
+        tipo de solicitud:  Ajax
+        tipo de acceso:     vendedor
+        Recibe:             null
+        Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
+    */
     public function products_published(){
 
-        $data = $this->request->input('json_decode',true);
+        $data = $this->{'request'}->input('json_decode',true);
 
         $user_logged = $this->Auth->User();
 
@@ -524,12 +510,11 @@
 
     }
 
-
-
-    /* Descripción: 		Función para visualizar todos los productos publicados.
-     * tipo de solicitud: 	get (no ajax)
-     * tipo de acceso: 		vendedor
-     *******************/
+    /*
+        Descripción:        Función para visualizar todos los productos publicados.
+        tipo de solicitud:  get (no ajax)
+        tipo de acceso:     vendedor
+    */
     public function published(){
     }
 
@@ -553,18 +538,16 @@
     }
 
 
-    /* Descripción: 		Función para descartar borrador registrado o no. es preciso hacer pasar la solisitud ahun cuando no este registrado el borrador con el fin de establecer un mensaje de exito de seccion ya que se cambia de vista.
-     * tipo de solicitud: 	get-ajax,post-ajax
-     * tipo de acceso: 		vendedor
-     * Recive: 				un array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    /*
+        Descripción: Función para descartar borrador registrado o no. es preciso hacer pasar la solicitud aun cuando no esté registrado el borrador con el fin de establecer un mensaje de éxito de sección ya que se cambia de vista.
+        Tipo de solicitud:  Ajax
+        Tipo de acceso:     Vendedor
+        Recibe:             Un array.
+        Retorna:            Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
+    */
     public function discard(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
+
+        $request = $this->request->input('json_decode',true);
 
         $user_logged = $this->Auth->User();
 
