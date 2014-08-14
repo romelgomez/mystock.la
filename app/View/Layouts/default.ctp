@@ -86,6 +86,7 @@
 
 <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="/resources/library-vendor/bootstrap/bootstrap.js" ></script>-->
 <script type="text/javascript" src="/js/bootstrap-lightbox.min.js"></script>
 <script type="text/javascript" src="/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/js/jquery.validate-additional-methods.min.js"></script>

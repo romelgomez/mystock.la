@@ -1,31 +1,34 @@
 /*
- * Type: function
- * Descrición: para observar cada bloque de categorias que se desplega en el menu horisontal 
- * Parametros:  
- * 	category_id_container: id del nodo que contiene las categorias, en un principio es default-options, el cual el id de nodo que contiene las categorias por defecto. es decir la principales.
- *  luego de selecionar una categoria, sera insertado en el dom un nuevo nodo contenedor de categorias si y solo si la categoria selecionada tenga desendientes, la idea es observar a los nuevas categorias 
- *  insertadas 
- * 
- * */
+
+ Descripción: para observar cada bloque de categorías que se despliega en el menú horizontal
+ Parámetros:
+     category_id_container: id del nodo que contiene las categorías, en un principio es default-options, el cual el id de nodo que contiene las categorías por defecto. es decir la principales. luego de seleccionar una categoría, será insertado en el dom un nuevo nodo contenedor de categorías si y sólo si la categoría seleccionada tenga descendientes, la idea es observar a los nuevas categorías insertadas
+
+*/
 var observer_category_container = function(category_id_container){
 
-    $('#default-options').find('li');
+//    $('#default-options').children();
 
 
     if(!category_id_container){
         category_id_container = 'default-options';
     }
 
+//    console.log('category_id_container',category_id_container);
 
-
-    // recive el id del nodo que contiene las categorias
+    // recibe el id del nodo que contiene las categorías
     $('#'+category_id_container).children().each(function(){
         $(this).click(function(event){
+
 
             var element_id 	= $(this).attr('id'); // category-id-142
             var category_id = str_replace(element_id,'category-id-',''); // 142
 
-            // solicitamos un metodo de la clase, se le envia el id de la categoria selelcionada
+//            console.log('element_id: ',element_id);
+            console.log('category_id: ',category_id);
+
+
+            // solicitamos un método de la clase, se le envía el id de la categoría seleccionada
             get_child_elements(category_id);
 
 
@@ -36,12 +39,12 @@ var observer_category_container = function(category_id_container){
 
 
 /*
- * Type: función
- * Descrición: nucleo del menu principal, determina si la categoria suministrada tiene decendientes, si los tiene construye un nuevo bloque, si no tiene se supone que es la categoria selecionada.
- * Parametros:  
- * 	category_id: int, el id de la categoria  
- * */
+ Descripción: núcleo del menú principal, determina si la categoría suministrada tiene descendientes, si los tiene construye un nuevo bloque, si no tiene se supone que es la categoría seleccionada.
+ Parámetros:
+ category_id: int, el id de la categoría
+*/
 var get_child_elements = function(category_id){
+
     var get_child_elements_obj = {
         "type":"post",
         "url":"/get_category_child_elements",
@@ -51,6 +54,8 @@ var get_child_elements = function(category_id){
         "console_log":true,
         "callbacks":{
             "complete":function(response){
+
+                console.log(response);
 
                 var a = response.responseText;
 
@@ -64,10 +69,12 @@ var get_child_elements = function(category_id){
 
             }
         }
-    }
+    };
+
 
     var category_element = $('#category-id-'+category_id);
-    // remueve los vecinos a la derecha, acomodando el espacio para recivir e insertar la respuesta del servidor aseca de si hay o no mas categorias depedientes.
+
+    // remueve los vecinos a la derecha, acomodando el espacio para recibir e insertar la respuesta del servidor acerca de si hay o no mas categorías dependientes.
     var category_id_container	= $(category_element).parent().attr('id');
     $('#'+category_id_container).nextAll().each(function(){ $(this).remove() });
 
@@ -75,9 +82,13 @@ var get_child_elements = function(category_id){
     request_this.category_id  = category_id;
 
     get_child_elements_obj.data.custon = request_this;
-    new Request(get_child_elements_obj);
 
-}
+    console.log('get_child_elements_obj: ',get_child_elements_obj);
+
+
+//    new Request(get_child_elements_obj);
+
+};
 
 
 /*
@@ -591,15 +602,13 @@ var new_product_validate_obj = {
     }
 }
 
-
 /*
- * Type: function.
- * Descrición: destinada a crear un borrador. basicamente para definir el id de la publicación. 
- * Parametros: 
- * 	now: boleano
- * 		1) si es true: se hara la solicitud imediatamente 
- * 		2) si es false o indefinido: se esperara por un evento para realizar la solicitud  
- * */
+Descripción: destinada a crear un borrador. básicamente para definir el id de la publicación.
+    Parámetros:
+        now: booleano
+        1) si es true: se hará la solicitud inmediatamente
+        2) si es false o indefinido: se esperara por un evento para realizar la solicitud
+*/
 var	save_draft = function(now){
     var save_draft_obj = {
         "type":"post",
@@ -612,7 +621,6 @@ var	save_draft = function(now){
             "complete":function(response){
 
                 var a = response.responseText;
-                console.log(a);
 
                 var obj = $.parseJSON(a);
 
@@ -639,7 +647,7 @@ var	save_draft = function(now){
                 }
             }
         }
-    }
+    };
 
     if(now){
         var request_this = {};
@@ -675,7 +683,7 @@ var	save_draft = function(now){
         });
     }
     return null;
-}
+};
 
 /*
  * Type: function.
@@ -994,10 +1002,11 @@ file_upload(file_upload_callbacks);
 
 
 /*
- * Type: Evento.
- * Descrición: Destinado a procesar las imagenes cargadas que quedaron en el modal. Una ves cargadas la imagenes existe la opcion de eliminarla, las imagenes que queden en el modal seran procesadas, si son eliminadas 
- * todas la imagenes el botton queda inavilitado, por lo tanto esta logica deja de se procesada. 
- * */
+
+Type: Evento.
+Descripción: Destinado a procesar las imágenes cargadas que quedaron en el modal. Una vez cargadas la imágenes existe la opción de eliminarla, las imágenes que queden en el modal serán procesadas, si son eliminadas todas la imágenes el botón queda inhabilitado, por lo tanto esta lógica deja de ser procesada.
+
+*/
 $('#save-this').click(function(event){
     event.preventDefault();
 
@@ -1124,8 +1133,7 @@ $('#save-this').click(function(event){
 
 /*
  * Type: function.
- * Descrición: para visualizar en mejor resolución una miniatura avilitada del producto. 
- * Parametros: null
+ * Descripción: para visualizar en mejor resolución una miniatura habilitada del producto.
  * ************************************************************************************/
 var better_visualizing = function(){
     $("#product_thumbnails .view-this-product-thumbnail").each(function(){
@@ -1143,14 +1151,12 @@ var better_visualizing = function(){
 
         });
     });
-}
+};
 
 
 
 /*
- * Type: function.
- * Descrición: destinada inhabilitar miniaturas del producto. 
- * Parametros: null
+ * Descripción: destinada inhabilitar miniaturas del producto.
  * *********************************************************************************/
 var disable_thumbnails = function(){
     $("#product_thumbnails .disable-this-product-thumbnail").each(function(){
@@ -1210,7 +1216,6 @@ var disable_thumbnails = function(){
 
 
 /*
- * Type: function.
  * Descripción: destinada a procesar el descarte de la publicación que se pretende crear o del borrador
  * */
 var discard = function(){
@@ -1267,31 +1272,37 @@ var discard = function(){
 /* Configuración 
  ****************************************/
 
-discard();
+$(document).ready(function(){
 
-save_draft(false);
+    discard();
 
-validate.form ("ProductAddForm",new_product_validate_obj);
+    save_draft(false);
 
-if($('#default-options')){
-    observer_category_container();
-    transition();
-}
+    validate.form ("ProductAddForm",new_product_validate_obj);
 
-if($('#product_thumbnails').find("a").length){
-    /* inhabilitar miniaturas del producto
-     *****************************************/
-    disable_thumbnails();
+    if($('#default-options')){
+        observer_category_container();
+        transition();
+    }
 
-    /* Visualizar en mejor resolución una miniatura habilitada del producto
-     ************************************************************************/
-    better_visualizing();
-}
+    if($('#product_thumbnails').find("a").length){
+        /* inhabilitar miniaturas del producto
+         *****************************************/
+        disable_thumbnails();
 
-activate();
+        /* Visualizar en mejor resolución una miniatura habilitada del producto
+         ************************************************************************/
+        better_visualizing();
+    }
 
-pause();
+    activate();
 
-_delete();
+    pause();
 
-$('#ProductBody').redactor();
+    _delete();
+
+    $('#ProductBody').redactor();
+
+
+});
+
