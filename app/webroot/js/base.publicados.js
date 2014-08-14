@@ -523,8 +523,7 @@ $(document).ready(function(){
                 }
             };
 
-            // TODO REFACTORIZAR
-            new validate_this_form("SearchPublicationsForm",new_search_validate_obj);
+            validate.form("SearchPublicationsForm",new_search_validate_obj);
             $("#searching").css({"display":""});
 
 

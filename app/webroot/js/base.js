@@ -93,6 +93,46 @@
 
 }( window.ajax = window.ajax || {}, jQuery ));
 
+// FormValidation
+(function( validate, $) {
+
+    //Public Property
+    validate.validatorObject = {};
+
+    // Public Method
+    validate.form = function(formId,options){
+
+        options.errorPlacement = function(error, element){
+            $(element).parents('.control-group').find(".help-inline").fadeIn().html($(error).html());
+        };
+
+        options.success = function(label){
+        };
+
+        options.highlight = function(element){
+            $(validation_states).each(function(k2,state){
+                if($(element).parents('.control-group').hasClass(state)){
+                    $(element).parents('.control-group').removeClass(state);
+                }
+            });
+            $(element).parents('.control-group').addClass('warning');
+        };
+
+        options.unhighlight = function(element){
+            $(validation_states).each(function(k2,state){
+                if($(element).parents('.control-group').hasClass(state)){
+                    $(element).parents('.control-group').removeClass(state);
+                }
+            });
+            $(element).parents('.control-group').addClass('success');
+        };
+
+        validate.validatorObject = $("#"+formId).validate(options);
+
+    };
+
+
+}( window.validate = window.validate || {}, jQuery ));
 
 // TODO DELETE THIS CODE AFTER REFACTOR ALL CODE
 
