@@ -389,7 +389,7 @@
 
         $data = $this->{'request'}->input('json_decode',true);
 
-        $user_logged = $this->Auth->User();
+        $user_logged = $this->{'Auth'}->User();
 
         if(!isset($data['search']) || $data['search'] == ''){
             $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
@@ -413,6 +413,8 @@
         }else{
             $page = (int)$data['page'];
         }
+
+        $order = array();
 
         if(!isset($data['order_by']) || $data['order_by'] == ''){
 
@@ -465,7 +467,7 @@
 
         }
 
-        $this->paginate = array(
+        $this->{'paginate'} = array(
             'conditions' =>  $conditions,
             'contain' => array(
                 'Image'=>array(
@@ -481,10 +483,10 @@
 
         try {
 
-            $products = $this->paginate('Product');
+            $products = $this->{'paginate'}('Product');
 
-            // total_products es la cantidad total de productos publicados, este resultado es indiferente a los fitros aplicados por el usuario.
-            $return['total_products'] = $this->Product->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
+            // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+            $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
 
             if($products){
                 $return['data']	= $this->product_images($products);
@@ -494,19 +496,18 @@
 
             $return['result']	= true;
 
-        }catch(NotFoundException $e){
+        }catch(Exception $e){
 
-            // se redireciona a /cuenta y se establece un mensage que indique que hubo un error al procesar la solicitud
+            // se re-direcciona a “/cuenta” y se establece un mensaje que indica que hubo un error al procesar la solicitud
             $return['result'] = false;
-            $this->Session->setFlash('Error 404, lo que busca ha sido movido o eliminado o nunca existió.','error');
+            $this->{'Session'}->setFlash('Error 404, lo que busca ha sido movido o eliminado o nunca existió.','error');
 
         }
 
-        $return['info'] = $this->request->params['paging']['Product'];
+        $return['info'] = $this->{'request'}->params['paging']['Product'];
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
-
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
 
     }
 
