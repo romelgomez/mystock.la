@@ -669,12 +669,13 @@
         $this->{'render'}('ajax_view','ajax');
     }
 
-    /* Descripción: 		Función para borrar una publicacion.
-     * tipo de solicitud: 	get-ajax,post-ajax
-     * tipo de acceso: 		vendedor
-     * Recive: 				un array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    /*
+        Descripción:        Función para borrar una publicación.
+        Tipo de solicitud:  get-ajax,post-ajax
+        Tipo de acceso:     Vendedor
+        Recibe:             Array.
+        Retorna:            Array. el cual sera transformado en un objeto JSON en la vista ajax_view.
+     */
     public function delete(){
 
         $request = $this->{'request'}->input('json_decode',true);
@@ -874,11 +875,13 @@
     }
 
 
-    /* Descripción: 		Función para obtener las imagenes asociadas a una publicación.
-     * tipo de solicitud: 	interna
-     * Recive: 				array.
-     * Retorna: 			array.
-     *******************/
+    /*
+        Descripción:         Función para obtener las imágenes asociadas a una publicación.
+        Tipo de solicitud:   Interna
+        Recibe:              Array.
+        Retorna:             Array.
+    */
+
     public function product_images($products){
         $this->{'loadModel'}('Image');
 
@@ -889,13 +892,13 @@
 
             foreach($product['Image'] as $original_imagen){
                 $data[$index_0]['imagen']['original'] = $original_imagen;
-                $products[$index_0]['Image']['childrens'] =  $this->{'Image'}->find('all',array(
+                $products[$index_0]['Image']['children'] =  $this->{'Image'}->find('all',array(
                         'conditions' => array('Image.parent_id' => $original_imagen['id']),
                         'contain' => false
                     )
                 );
 
-                foreach($products[$index_0]['Image']['childrens'] as $children ){
+                foreach($products[$index_0]['Image']['children'] as $children ){
                     $namespace = '';
 
                     switch ($children['Image']['size']) {
