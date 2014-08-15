@@ -143,7 +143,7 @@ $(document).ready(function(){
                             '<img src="'+image+'"  style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
-                            '<h4 class="media-heading"><input type="checkbox" style="margin-top: 0;"> <a href="'+link+'" >'+title+'</a></h4>'+
+                            '<h4 class="media-heading"><a href="'+link+'" >'+title+'</a></h4>'+
                             '<h5 class="muted" >'+subtitle+'</h5>'+
 
                             '<div style="margin-bottom: 10px;">'+
@@ -363,7 +363,7 @@ $(document).ready(function(){
 
                         var url_obj =  parseUrl();
 
-                        var next_page = lastResponseInfo['page']+1; // tambien puede tomar el valor de: url_obj.page
+                        var next_page = lastResponseInfo['page']+1; // también puede tomar el valor de: url_obj.page
                         var request_this = {};
 
                         // PAGE
