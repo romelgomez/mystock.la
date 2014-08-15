@@ -24,16 +24,26 @@
             <!--                        </form>-->
             <!--                    </div>-->
 
+<!--            <div class="form-group has-success">-->
+<!--                <label class="control-label" for="inputSuccess1">Input with success</label>-->
+<!--                <input type="text" class="form-control" id="inputSuccess1">-->
+<!--            </div>-->
+
             <div class="row">
                 <div class="col-xs-6 col-sm-4">
                     <!-- búsqueda.
                     ------------------------------------------------------------------------------------------>
-                    <div class="input-group">
-                        <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Buscar</button>
-                        </span>
-                    </div><!-- /input-group -->
+                    <form role="form" id="SearchPublicationsForm">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">Buscar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="col-xs-6 col-sm-4"></div>
                 <div class="col-xs-6 col-sm-4">

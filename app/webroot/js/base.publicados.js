@@ -524,7 +524,7 @@ $(document).ready(function(){
                 }
             };
 
-            validate.form("SearchPublicationsForm",new_search_validate_obj);
+            validate.inlineForm("SearchPublicationsForm",new_search_validate_obj);
             $("#searching").css({"display":""});
 
 

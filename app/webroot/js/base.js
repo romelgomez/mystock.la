@@ -93,38 +93,89 @@
 
 }( window.ajax = window.ajax || {}, jQuery ));
 
+
+//<form role="form" id="SearchPublicationsForm">
+//    <div class="form-group" style="margin-bottom: 0;">
+//        <div class="input-group">
+//            <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
+//                <span class="input-group-btn">
+//                    <button class="btn btn-default" type="submit">Buscar</button>
+//                </span>
+//            </div>
+//        </div>
+//    </form>
+
+//<div class="form-group has-error has-feedback">
+//    <label class="control-label" for="inputError2">Input with error</label>
+//    <input type="text" class="form-control" id="inputError2">
+//        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+//    </div>
+
+
 // FormValidation
 (function( validate, $) {
+
+    //Private Property
+    var validationStates = ['has-success','has-warning','has-error'];
 
     //Public Property
     validate.validatorObject = {};
 
     // Public Method
+    validate.inlineForm = function(formId,options){
+
+        options.errorPlacement = function(error, element){};
+
+        options.success = function(label){};
+
+        options.highlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-warning');
+        };
+
+        options.unhighlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-success');
+        };
+
+        validate.validatorObject = $("#"+formId).validate(options);
+
+    };
+
+    // Public Method
     validate.form = function(formId,options){
 
         options.errorPlacement = function(error, element){
-            $(element).parents('.control-group').find(".help-inline").fadeIn().html($(error).html());
+//            $(element).parents('.control-group').find(".help-inline").fadeIn().html($(error).html());
         };
 
         options.success = function(label){
         };
 
         options.highlight = function(element){
-            $(validation_states).each(function(k2,state){
-                if($(element).parents('.control-group').hasClass(state)){
-                    $(element).parents('.control-group').removeClass(state);
-                }
-            });
-            $(element).parents('.control-group').addClass('warning');
+//            $(validation_states).each(function(k2,state){
+//                if($(element).parents('.control-group').hasClass(state)){
+//                    $(element).parents('.control-group').removeClass(state);
+//                }
+//            });
+//            $(element).parents('.control-group').addClass('warning');
         };
 
         options.unhighlight = function(element){
-            $(validation_states).each(function(k2,state){
-                if($(element).parents('.control-group').hasClass(state)){
-                    $(element).parents('.control-group').removeClass(state);
-                }
-            });
-            $(element).parents('.control-group').addClass('success');
+//            $(validation_states).each(function(k2,state){
+//                if($(element).parents('.control-group').hasClass(state)){
+//                    $(element).parents('.control-group').removeClass(state);
+//                }
+//            });
+//            $(element).parents('.control-group').addClass('success');
         };
 
         validate.validatorObject = $("#"+formId).validate(options);
