@@ -113,10 +113,10 @@ $(document).ready(function(){
 
             if(obj['product']['status']){
                 status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn pause"><i class="icon-stop"></i> Pausar</button>'+'<button class="btn activate" style="display:none;"><i class="icon-stop"></i> Activar</button>';
+                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
                 status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn pause" style="display:none;"><i class="icon-stop"></i> Pausar</button>'+'<button class="btn activate"><i class="icon-stop"></i> Activar</button>';
+                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
             var quantity = obj['product']['quantity'];
@@ -137,10 +137,11 @@ $(document).ready(function(){
             // END
 
 
+
             // se arma una publicación
-            return  '<div id="product-'+id+'"  class="media" >'+
-                        '<a class="pull-left thumbnail" href="'+link+'">'+
-                            '<img src="'+image+'"  style="width: 200px; ">'+
+            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
+                        '<a class="pull-left" href="'+link+'">'+
+                            '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
                             '<h4 class="media-heading"><a href="'+link+'" >'+title+'</a></h4>'+
@@ -148,16 +149,16 @@ $(document).ready(function(){
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+
-                                    '<button class="btn edit"><i class="icon-edit"></i> Editar</button>'+
+                                    '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
                                     status_button+
                                     '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
                                 '</div>'+
                             '</div>'+
                             '<div>'+
-                                '<i class="icon-tag"></i> Precio: '+price+' BsF.<br>'+
-                                '<i class="icon-off "></i> Estatus: '+status+'<br>'+
-                                '<i class="icon-th"></i> Cantidad displonible: '+_quantity+'<br>'+
-                                '<i class="icon-calendar"></i> Publicado: '+published+
+                                '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
+                                '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
+                                '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
+                                '<span class="glyphicon glyphicon-calendar"></span> Publicado: '+published+
                             '</div>'+
                         '</div>'+
                         '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+

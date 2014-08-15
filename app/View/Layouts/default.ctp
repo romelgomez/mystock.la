@@ -85,7 +85,7 @@
 
 
     <!-- footer -->
-    <div id="footer">
+    <div id="footer" style="margin-bottom: 20px">
 
         <div style="text-align: center;">
             En SantoMercado.com solo publican empresas certificadas. Exige tu factura.

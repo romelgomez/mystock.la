@@ -1,60 +1,3 @@
-<style type="text/css">
-
-    /* css temporal */
-    /*.product-universal-container{*/
-        /*border: 2px solid #333;*/
-        /*overflow: hidden;*/
-        /*text-decoration: none;*/
-        /*height:120px;*/
-        /*border-bottom-left-radius: 6px 6px ;*/
-        /*border-bottom-right-radius: 6px 6px ;*/
-        /*border-top-left-radius: 6px 6px ;*/
-        /*border-top-right-radius: 6px 6px;*/
-    /*}*/
-
-
-    /*.product-universal-image{*/
-        /*border-right: 1px solid black;*/
-    /*}*/
-    /*.product-universal-name{*/
-        /*background: black;*/
-        /*color: white;*/
-        /*font-size: 17px;*/
-        /*font-weight: bold;*/
-        /*height: 22px;*/
-        /*opacity: 0.65;*/
-        /*border-top-right-radius:3px;*/
-        /*padding-left: 5px;*/
-        /*font-family:"Times New Roman",Georgia,Serif;*/
-        /*overflow: hidden;*/
-    /*}*/
-
-    /*.product-universal-options{*/
-        /*font-size: 15px;*/
-        /*font-family:"Times New Roman",Georgia,Serif;*/
-        /*padding:5px;*/
-        /*overflow: hidden;*/
-    /*}*/
-
-    /*.product-universal-name:hover{*/
-        /*background: #65b9bf;*/
-    /*}*/
-
-    /*#published div.media{*/
-        /*border: 1px solid gray;*/
-        /*padding: 10px;*/
-        /*border-radius: 3px;*/
-    /*}*/
-    /*#published div.media:hover{*/
-        /*border-color: #08C;*/
-        /*-webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);*/
-        /*-moz-box-shadow: 0 1px 4px rgba(0,105,214,0.25);*/
-        /*box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);*/
-    /*}*/
-
-
-</style>
-
 <!-- Content
 ===================== -->
 <div class="container-fluid">
@@ -146,6 +89,8 @@
             <hr>
 
             <div id="published" ></div>
+
+            <hr style="margin-bottom: 0">
 
             <!-- end content-->
         </div>
