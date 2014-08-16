@@ -98,21 +98,25 @@
 
     <!-- Debug
     ===================== -->
-    <!--<div style="padding: 10px;margin: 10px;border: 1px solid black;border-radius: 4px;">-->
-    <!--    <h2 style="margin-top: 0;" >Debug:</h2>-->
-    <!---->
-    <!--    <h5>Ajax Request responseText:</h5>-->
-    <!--    <div id="debug"></div>-->
-    <!---->
-    <!--    --><?php
-    //    echo '<h5>Sql Dump:</h5>';
-    //    echo $this->element('sql_dump');
-    //
-    //    echo '<h5>Ubicación:</h5>';
-    //    echo 'Controller: '.$controller.'Controller.php'.'<br />';
-    //    echo 'Action: '.$action;
-    //    ?>
-    <!--</div>-->
+    <div style="padding: 10px;margin: 10px;border: 1px solid black;border-radius: 4px;">
+        <h2 style="margin-top: 0;" >Debug:</h2>
+
+        <h5>Ajax Request responseText:</h5>
+        <div id="debug"></div>
+
+        <?php
+        echo '<h5>Sql Dump:</h5>';
+        echo $this->element('sql_dump');
+
+        echo '<h5>Ubicación:</h5>';
+
+        if(isset($controller) && isset($action)){
+            echo 'Controller: '.$controller.'Controller.php'.'<br />';
+            echo 'Action: '.$action;
+        }
+
+        ?>
+    </div>
 
 
 

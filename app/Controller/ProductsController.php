@@ -17,17 +17,12 @@
 
     /*
         Descripción: Función principal, solicitada por el vendedor para cargar un producto.
-        tipo de solicitud: get (no-ajax)
+        tipo de solicitud: Get
         tipo de acceso: vendedor
-        Recibe:         array.
-        Retorna:        array.
+        Recibe:         Array.
+        Retorna:        Array.
     */
     public function add(){
-
-    }
-
-
-    public function add2(){
         $user_logged    = $this->{'Auth'}->User();
         $this->{'loadModel'}('Category');
 
@@ -398,15 +393,15 @@
     */
     public function products_published(){
 
-        $data = $this->{'request'}->input('json_decode',true);
+        $request = $this->{'request'}->input('json_decode',true);
 
         $user_logged = $this->{'Auth'}->User();
 
-        if(!isset($data['search']) || $data['search'] == ''){
+        if(!isset($request['search']) || $request['search'] == ''){
             $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
         }else{
 
-            $search = $this->cleanString($data["search"]);
+            $search = $this->cleanString($request["search"]);
             $return["search"] = $search;
             $conditions = array(
                 'Product.company_id' => $user_logged['User']['company_id'],
@@ -419,15 +414,15 @@
             );
         }
 
-        if(!isset($data['page'])  || $data['page'] == ''){
+        if(!isset($request['page'])  || $request['page'] == ''){
             $page = 1;
         }else{
-            $page = (int)$data['page'];
+            $page = (int)$request['page'];
         }
 
         $order = array();
 
-        if(!isset($data['order_by']) || $data['order_by'] == ''){
+        if(!isset($request['order_by']) || $request['order_by'] == ''){
 
             $order = array(
                 'Product.created' => 'desc'
@@ -435,19 +430,19 @@
 
         }else{
 
-            if($data['order_by'] == "mayor_precio"){
+            if($request['order_by'] == "mayor_precio"){
 
                 $order = array(
                     'Product.price' => 'desc'
                 );
             }
-            if($data['order_by'] == "menor_precio"){
+            if($request['order_by'] == "menor_precio"){
 
                 $order = array(
                     'Product.price' => 'asc'
                 );
             }
-            if($data['order_by'] == "recientes"){
+            if($request['order_by'] == "recientes"){
 
 
                 $order = array(
@@ -455,7 +450,7 @@
                 );
 
             }
-            if($data['order_by'] == "antiguos"){
+            if($request['order_by'] == "antiguos"){
 
                 $order = array(
                     'Product.created' => 'asc'
@@ -463,13 +458,13 @@
 
             }
 
-            if($data['order_by'] == "mayor_disponibilidad"){
+            if($request['order_by'] == "mayor_disponibilidad"){
 
                 $order = array(
                     'Product.quantity' => 'desc'
                 );
             }
-            if($data['order_by'] == "menor_disponibilidad"){
+            if($request['order_by'] == "menor_disponibilidad"){
 
                 $order = array(
                     'Product.quantity' => 'asc'
