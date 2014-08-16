@@ -669,7 +669,7 @@ $(document).ready(function(){
         /*
          * Private Method
          * Descripción: función destinada a pausar una publicación activa
-         * Parametros:  null
+         * Parámetros:  null
          *************************************************************************************************************************************************************/
         var pause = function(){
 
@@ -1041,7 +1041,7 @@ $(document).ready(function(){
                                 preparePublications(); // New
                             }
 
-                            // Al copiar la url "/publicados#buscar_algo" en la barra de navegacion, donde "algo" no existe. Y existan productos publicados.
+                            // Al copiar la url "/publicados#buscar_algo" en la barra de navegación, donde "algo" no existe. Y existan productos publicados.
                             if(response['data'].length == 0 && response['total_products'] > 0){
                                 window.location = "/publicados";
                             }

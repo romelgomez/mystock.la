@@ -132,6 +132,10 @@
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 
+    <!-- Purl - https://github.com/allmarkedup/purl -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>
+
+
     <?php
         echo $this->Html->script(array('base'));
     ?>

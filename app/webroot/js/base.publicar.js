@@ -1267,17 +1267,78 @@
 //};
 
 
-/* Configuración 
- ****************************************/
-
+/*
+    Configuración
+*/
 $(document).ready(function(){
 
     (function( addOrEditProduct, $) {
 
+        //Private Method
+        var parseUrl = function(){
+            /*
+             * Descripción: destinada a procesar la url
+             * retorna un objeto.
+             *******************************************/
 
+            // Posibles urls
+            // /publicar
+            // /editar/18
+
+            var url = $.url();
+            var segments = url.segment();
+
+            var url_obj = {};
+            url_obj.action = segments[0];
+            url_obj.id     = segments[1] || false;
+
+            return url_obj;
+
+        };
+
+
+        //Public Method
+        addOrEditProduct.init = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/products_published",
+                "data":parseUrl(),
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+                        // Si la sesión ha expirado
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+
+
+
+                        }else{
+                            // hay un error en la solicitud.
+                            window.location = "/";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            ajax.request(request_parameters);
+
+        }
 
 
     }( window.addOrEditProduct = window.addOrEditProduct || {}, jQuery ));
+
+
+    addOrEditProduct.init();
 
 
 //    if($('#default-options')){

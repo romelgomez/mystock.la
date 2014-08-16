@@ -124,10 +124,4 @@
 <!--    </div>-->
 <!--</div>-->
 
-
-
-
-
-
-<?php echo $this->Html->script('purl',false); ?>
 <?php echo $this->Html->script('base.publicados',false); ?>
