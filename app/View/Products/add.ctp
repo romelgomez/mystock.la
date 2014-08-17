@@ -225,6 +225,11 @@
 
                     <div class="row">
                         <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-book"></span> Descripción</label>
+                                <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody','placeholder'=>'Eje: EVGA X79 es una tarjeta madre que ...')); ?>
+                                <span class="help-block">El campo descipción es obligatorio</span>
+                            </div>
                         </div>
                     </div>
 

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/css/bootstrap-modal.css">
 
 
+
     <?php
         echo $this->Html->css(array('refactored/base'));
         echo $this->fetch('css');
@@ -125,6 +126,11 @@
     <!-- jQuery - https://github.com/jquery/jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="/resources/library-vendor/redactor/redactor.css">
+    <script type="text/javascript" src="/resources/library-vendor/redactor/redactor.min.js" ></script>
+    <script type="text/javascript" src="/resources/library-vendor/redactor/langs/es.js" ></script>
+
+
     <!-- Bootstrap - https://github.com/twbs/bootstrap -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -138,6 +144,8 @@
 
     <!-- Purl - https://github.com/allmarkedup/purl -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>
+
+
 
 
     <?php

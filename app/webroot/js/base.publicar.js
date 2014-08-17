@@ -300,11 +300,18 @@ $(document).ready(function(){
             });
         };
 
+        var initRedactor = function(){
+            $('#ProductBody')['redactor']({
+                lang: 'es'
+            });
+        };
 
         //Public Method
         product.init = function(){
             observeTheCategories();
             transition();
+
+            initRedactor();
         };
 
 
