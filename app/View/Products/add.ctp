@@ -97,7 +97,7 @@
         <div class="col-xs-12">
 
             <?php
-                echo $this->Form->create('Product',  array('url' => "/newProduct", 'type' => 'file'));
+                echo $this->Form->create('Product',  array('url' => "/newProduct", 'type' => 'file','role'=>'form'));
                 echo $this->Form->hidden('Product.id');
                 echo $this->Form->hidden('Product.category_id');
             ?>
@@ -200,6 +200,18 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-12">
                             <button id="edit-category" type="button" class="btn btn-default" >Editar Categoría</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label" for="inputSuccess1"><span class="glyphicon glyphicon-bookmark"></span> Titulo</label>
+                                <input type="text" class="form-control" id="inputSuccess1">
+                                <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+                            </div>
                         </div>
                     </div>
 

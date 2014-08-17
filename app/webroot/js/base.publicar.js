@@ -166,7 +166,7 @@ $(document).ready(function(){
             var pathElement = $('#path');
 
             pathElement.html(h);
-//            $('#path2').html(h); // TODO ACTIVAR AL DISPONER DEL PATH EN 2 PARTE DEL FORMULARIO DE CARGA DE PRODUCTOS.
+            $('#path2').html(h);
 
             pathElement.children().each(function(){
                 $(this).click(function(event){
