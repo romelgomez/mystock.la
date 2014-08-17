@@ -128,6 +128,23 @@ $(document).ready(function(){
 
         };
 
+
+        //
+        /*
+         Private Method
+         Descripción: remueve los vecinos a la derecha, acomodando el espacio para recibir e insertar la respuesta del servidor acerca de si hay o no mas categorías dependientes.
+         Parámetros:
+            element_id
+         */
+
+        var clear = function(element_id){
+            var category_id_container	= $("#"+element_id).parent().attr('id');
+            $('#'+category_id_container).nextAll().each(function(){
+                $(this).remove();
+            });
+
+        };
+
         /*
          Private Method
          Descripción: para construir y observar el path: electrónicos>laptops>14"  cada sección representa una previa selección en el menú, la idea es regresar a un estado anterior del menú rápidamente sin tener que observar todas las categorías.
@@ -137,11 +154,7 @@ $(document).ready(function(){
         var setPath =  function(path){
             var h = '';
 
-            console.log(path);
-
             $.each(path,function(k,category){
-                console.log('k',k);
-                console.log('v',category);
 
                 if((k+1)==$(path).length){
                     h += '<li id="'+'path-category-id-'+category['id']+'" class="active">'+category['name']+'</li>';
@@ -153,13 +166,20 @@ $(document).ready(function(){
             var pathElement = $('#path');
 
             pathElement.html(h);
-//            $('#path2').html(h);
+//            $('#path2').html(h); // TODO ACTIVAR AL DISPONER DEL PATH EN 2 PARTE DEL FORMULARIO DE CARGA DE PRODUCTOS.
 
             pathElement.children().each(function(){
-                $(this).click(function(){
+                $(this).click(function(event){
+                    event.preventDefault();
+
                     var path_category_id            = $(this).attr('id'); //  path-category-id-142
                     var category_id                 = str_replace(path_category_id,'path-category-id-','');	// 142
+
+                    var element_id = 'category-id-'+category_id;
+                    clear(element_id);// category-id-142
+
                     getChildCategories(category_id);
+
                 })
             });
         };
@@ -172,7 +192,6 @@ $(document).ready(function(){
          category_id: int, el id de la categoría
         */
         var getChildCategories = function(category_id){
-
 
             var request_parameters = {
                 "requestType":"custom",
@@ -219,10 +238,7 @@ $(document).ready(function(){
                     var element_id  = $(this).attr('id');                           // category-id-142
                     var category_id = str_replace(element_id,'category-id-','');    // 142
 
-                    // remueve los vecinos a la derecha, acomodando el espacio para recibir e insertar la respuesta del servidor acerca de si hay o no mas categorías dependientes.
-                    var category_id_container	= $(this).parent().attr('id');
-                    $('#'+category_id_container).nextAll().each(function(){ $(this).remove() });
-
+                    clear(element_id);// category-id-142
                     getChildCategories(category_id);
 
                 });
