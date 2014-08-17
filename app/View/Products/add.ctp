@@ -97,9 +97,18 @@
         <div class="col-xs-12">
 
             <?php
+
+                if(isset($url_action)){
+                    if($url_action == 'editar' || $url_action == 'editar_borrador'){
+                        echo '<div id="current-menu" style="display:none;">'.$this->request->data['current-menu'].'</div>';
+                    }
+                }
+
                 echo $this->Form->create('Product',  array('url' => "/newProduct", 'type' => 'file','role'=>'form'));
                 echo $this->Form->hidden('Product.id');
                 echo $this->Form->hidden('Product.category_id');
+
+
             ?>
 
             <div class="row" id="category-selector" style="display: none;">
@@ -181,7 +190,6 @@
                                     <button id="save-now" 	class="btn btn-success"	type="button" style="margin-left: 4px;"  >Guardar Ahora</button>
                                     <button id="discard"	class="btn btn-warning"	type="button" style="margin-left: 4px;"  >Descartar</button>
                                     <div id="debugTime" style="padding-top: 10px; display:none;">El borrador se ha guardado a las <span id="lastTimeSave"></span> (Hace <span id="minutesElapsed">0</span> minutos)</div>
-
                                 <?php
                                 }
                             }
@@ -208,10 +216,15 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label class="control-label" for="inputSuccess1"><span class="glyphicon glyphicon-bookmark"></span> Titulo</label>
-                                <input type="text" class="form-control" id="inputSuccess1">
-                                <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-bookmark"></span> Titulo</label>
+                                <?php echo $this->Form->input('Product.title',array('label'=>false,'div'=>false,'class'=>'form-control','name'=>'ProductTitle','placeholder'=>'Eje: EVGA X79 Classified Intel Socket 2011 Quad Channel DDR3 32GB of DDR3 2133MHz+ 151-SE-E779-KR')); ?>
+                                <span class="help-block">El campo título es obligatorio.</span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
                         </div>
                     </div>
 
@@ -233,5 +246,10 @@
     </div>
 </div>
 
+
+<?php
+//    debug($this->request);
+//    debug($this->request->data['current-menu']);
+?>
 
 <?php echo $this->Html->script('base.publicar',false); ?>

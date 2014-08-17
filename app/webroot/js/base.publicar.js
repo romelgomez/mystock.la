@@ -1,6 +1,5 @@
 
 
-
 $(document).ready(function(){
 
     (function( product, $) {
@@ -186,12 +185,24 @@ $(document).ready(function(){
 
         /*
          Private Method
+         Descripción: para rearmar el menu de categorías completamente y el path.
+        */
+        var updateAllMenu = function(){
+            var current_menu = $.parseJSON($("#current-menu").html());
+            setPath(current_menu);
+            $.each(current_menu,function(){
+                setMenu(this);
+            });
+        };
+
+        /*
+         Private Method
          Descripción: Administrar la transición, luego de seleccionar la categoría, al editar la categoría.
          */
         var transition = function(){
             // Cuando se va editar hay que acomodar el menú de selección de categorías para que en caso de que el usuario quiera editar la categoría pueda observar el menú tal cual lo dejo.
             if($('#ProductCategoryId').val()){
-//        update_all_menu();
+            updateAllMenu();
 
                 //console.log('se debe empezar a migrar UpdateAllMenu.buildMenu(id) de categories.js');
 
