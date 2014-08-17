@@ -185,6 +185,18 @@
 
 }( window.validate = window.validate || {}, jQuery ));
 
+(function( base, $, undefined ) {
+
+    base.randomNumber = function(inferior,superior){
+        var numPosibilidades = superior - inferior;
+        var aleatory = Math.random() * numPosibilidades;
+        aleatory = Math.round(aleatory);
+        return parseInt(inferior) + aleatory;
+    };
+
+}( window.base = window.base || {}, jQuery ));
+
+
 // TODO DELETE THIS CODE AFTER REFACTOR ALL CODE
 
 
