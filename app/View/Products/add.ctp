@@ -96,11 +96,17 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <div class="row" id="category-selector">
+            <?php
+                echo $this->Form->create('Product',  array('url' => "/newProduct", 'type' => 'file'));
+                echo $this->Form->hidden('Product.id');
+                echo $this->Form->hidden('Product.category_id');
+            ?>
+
+            <div class="row" id="category-selector" style="display: none;">
                 <div class="col-xs-12">
                     <div class="row" id="category-selector">
                         <div class="col-xs-12">
-                            <h1 class="page-header">Seleccione una categoría <small>la que mejor se adapte al producto que desea publicar.</small></h1>
+                            <h1 class="page-header" style="margin-top: 0;">Seleccione una categoría <small>la que mejor se adapte al producto que desea publicar.</small></h1>
                         </div>
                     </div>
                     <div class="row">
@@ -136,6 +142,80 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row" id="add-product" style="display: none;">
+                <div class="col-xs-12">
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-12">
+                            <?php
+                            /*
+                                when URL IS:
+
+                                /publicar           -> $url_action = false
+                                /editar             -> $url_action = 'editar'
+                                /editar_borrador    -> $url_action = 'editar_borrador'
+
+                            */
+                            if(isset($url_action)){
+                                // edit
+                                if($url_action =='editar'){
+                                    $status = $this->request->data['Product']['status'];
+                                    ?>
+                                    <button id="update" type="submit" class="btn btn-primary">Actualizar</button>
+                                    <?php if($status){  // esta publicado,  por lo tanto el elemento activate_container debe esta oculto. ?>
+                                        <button id="pause" type="button" class="btn btn-default">Pausar</button>
+                                        <button id="activate" type="button" class="btn btn-default" style="display:none;">Activar</button>
+                                    <?php }else{        // esta pausado,    por lo tanto el elemento pause_container debe esta oculto. ?>
+                                        <button id="pause" type="button" class="btn btn-default" style=" display:none;">Pausar</button>
+                                        <button id="activate" type="button" class="btn btn-default">Activar</button>
+                                    <?php } ?>
+                                    <button id="delete" class="btn btn-danger" type="button">Borrar</button>
+                                    <div id="debugTime" style="padding-top: 10px; display:none;">La publicación se ha actualizado a las <span id="lastTimeSave"></span> (Hace <span id="minutesElapsed">0</span> minutos)</div>
+                                <?php
+                                }
+                                // newProduct, editDraft
+                                if($url_action =='editar_borrador' || $url_action == false){
+                                    ?>
+                                    <button id="publish"	class="btn btn-primary"	type="submit"   >Publicar</button>
+                                    <button id="save-now" 	class="btn btn-success"	type="button" style="margin-left: 4px;"  >Guardar Ahora</button>
+                                    <button id="discard"	class="btn btn-warning"	type="button" style="margin-left: 4px;"  >Descartar</button>
+                                    <div id="debugTime" style="padding-top: 10px; display:none;">El borrador se ha guardado a las <span id="lastTimeSave"></span> (Hace <span id="minutesElapsed">0</span> minutos)</div>
+
+                                <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-12">
+                            <ul id="path2" class="breadcrumb" style=" border: 1px solid #CCC; padding: 6px 15px; margin-bottom: 0;">
+                                <li class="active" >Publicar</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-12">
+                            <button id="edit-category" type="button" class="btn btn-default" >Editar Categoría</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <?php
+                echo $this->Form->end();
+            ?>
+
 
         </div>
     </div>

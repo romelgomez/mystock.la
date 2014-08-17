@@ -184,6 +184,50 @@ $(document).ready(function(){
             });
         };
 
+        /*
+         Private Method
+         Descripción: Administrar la transición, luego de seleccionar la categoría, al editar la categoría.
+         */
+        var transition = function(){
+            // Cuando se va editar hay que acomodar el menú de selección de categorías para que en caso de que el usuario quiera editar la categoría pueda observar el menú tal cual lo dejo.
+            if($('#ProductCategoryId').val()){
+//        update_all_menu();
+
+                //console.log('se debe empezar a migrar UpdateAllMenu.buildMenu(id) de categories.js');
+
+                $('#category-selector').css({"display":"none"});
+                $('#add-product').css({"display":'block'});
+            }else{
+                $('#category-selector').css({"display": "block"});
+                $('add-product').css({"display": "none"});
+            }
+
+            $('#add-content').click(function(event){
+                event.preventDefault();
+                $('#category-selector').css({"display":"none"});
+                $('#add-product').css({"display":"inherit"});
+            });
+
+            $('#edit-category').click(function(event){
+                event.preventDefault();
+
+                $('#category-selector').css({"display":"block"});
+                $('#add-product').css({"display": "none"});
+
+                var menu = $('#menu');
+
+                var parent_obj_width_dimension 	= menu.parent().width();
+                var child_obj_width_dimension	= menu.width();
+
+                if(child_obj_width_dimension > parent_obj_width_dimension){
+                    var scroll_value = child_obj_width_dimension - parent_obj_width_dimension;
+                    $('#menu-box').scrollLeft(scroll_value);
+                }
+
+            });
+        };
+
+
 
         /*
          Private Method
@@ -249,6 +293,7 @@ $(document).ready(function(){
         //Public Method
         product.init = function(){
             observeTheCategories();
+            transition();
         };
 
 
