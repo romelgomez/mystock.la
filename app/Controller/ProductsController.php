@@ -572,20 +572,20 @@
 
                 if($this->{'Product'}->save($productData)){
                     $return['result'] = true;
-                    $this->{'Session'}->setFlash('El borrador ha sido descartado.','success');
+//                    $this->{'Session'}->setFlash('El borrador ha sido descartado.','success');
                 }
 
             }else{
-                // esta intentando de borrar un posts de otra compañia.
+                // esta intentando de borrar un posts de otra compañía.
 
                 $return['result'] = false;
-                $this->{'Session'}->setFlash('Ha ocurrido un error.','error');
+//                $this->{'Session'}->setFlash('Ha ocurrido un error.','error');
             }
 
         }else{
 
             $return['result'] 		= true;
-            $this->{'Session'}->setFlash('El borrador ha sido descartado','success');
+//            $this->{'Session'}->setFlash('El borrador ha sido descartado','success');
 
         }
 

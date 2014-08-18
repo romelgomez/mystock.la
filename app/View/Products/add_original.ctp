@@ -406,7 +406,7 @@ if($url_action == 'editar' || $url_action == 'editar_borrador'){
 </div>
 
 
-<!-- Modal Carga de imagenes
+<!-- Modal Carga de imágenes
 ===================== -->
 <div class="modal hide fade container"   id="uploading-pictures"  >
     <form id="UserAddForm" action="#" method="post" accept-charset="utf-8">

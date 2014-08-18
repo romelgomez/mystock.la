@@ -1,5 +1,6 @@
 
 
+
 $(document).ready(function(){
 
     (function( product, $) {
@@ -256,7 +257,7 @@ $(document).ready(function(){
                 "callbacks":{
                     "beforeSend":function(){},
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
+//                        $('#debug').text(JSON.stringify(response));
 
                         if(response['expired_session']){
                             window.location = "/entrar";
@@ -306,11 +307,64 @@ $(document).ready(function(){
             });
         };
 
+        /*
+         Private Method
+         Descripción: destinada a procesar el descarte de la publicación que se pretende crear o del borrador.
+         */
+        var discard = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/discard",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        window.location = "/";
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            $('#discard').click(function(){
+
+                var product_id = $('#ProductId').val();
+
+                if(product_id){
+                    request_parameters['data']['row_exist'] = true;
+                    request_parameters['data']['id'] = product_id;
+                    ajax.request(request_parameters);
+
+                }else{
+                    window.location = "/";
+                }
+
+            });
+
+        };
+
+
         //Public Method
         product.init = function(){
+            // Se inicializa las categorías
             observeTheCategories();
+            // La transición entre las categorías y el resto del formulario.
             transition();
+            // en caso de que se quiera descartar la publicación
+            discard();
 
+
+
+            // Se inicializa el WYSIWYG
             initRedactor();
         };
 
@@ -341,16 +395,13 @@ $(document).ready(function(){
 //
 //    save_draft(false);
 //
-//    validate.form ("ProductAddForm",new_product_validate_obj);
-//
+//    validate.form ("ProductAddForm",new_product_validate_obj);//
 //
 //    activate();
 //
 //    pause();
 //
 //    _delete();
-//
-//    $('#ProductBody').redactor();
 
 
 });
