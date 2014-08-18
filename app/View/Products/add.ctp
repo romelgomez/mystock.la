@@ -228,11 +228,121 @@
                             <div class="form-group">
                                 <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-book"></span> Descripción</label>
                                 <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody','placeholder'=>'Eje: EVGA X79 es una tarjeta madre que ...')); ?>
-                                <span class="help-block">El campo descipción es obligatorio</span>
+                                <span class="help-block">El campo descripción es obligatorio</span>
                             </div>
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-tag"></span> Precio</label>
+                                <div class="input-group col-xs-4">
+                                    <div class="input-group-addon">BsF</div>
+                                    <input class="form-control" type="number" placeholder="Eje: 1000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-th"></span> Cantidad disponible</label>
+                                <div class="input-group col-xs-4">
+                                    <div class="input-group-addon">Unidades</div>
+                                    <input class="form-control" type="number" placeholder="Eje: 100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <?php
+                                if(isset($this->request->data['Image'])){
+                                    // hay imágenes cargadas.
+                                    ?>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: [SI] <a id="continue-upload" style="display:none" href="#"  >Añadir mas</a>
+                                                </div>
+                                                <div class="panel-body" style="cursor: pointer;">
+
+                                                    <div id="start-upload" style="height: 212px;  overflow: hidden;  display:none;">
+                                                        <div style="overflow: hidden; padding-top: 25px; text-align: center;">
+                                                            <img src="/img/sube_imagenes.png">
+                                                        </div>
+                                                    </div>
+                                                    <div id="product_thumbnails">
+                                                        <?php
+                                                        foreach($this->request->data['Image'] as $index => $imagen){
+                                                            ?>
+
+                                                            <a id="thumbnail-id-<?php echo $imagen['original']['id']; ?>" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">
+                                                                <div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">
+                                                                        <img src="/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-thumbnail">
+                                                                </div>
+                                                                <div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">
+                                                                    <img style="width: 24px;" src="/img/x2.png">
+                                                                </div>
+                                                                <div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">
+                                                                    <img src="/img/view.png">
+                                                                </div>
+                                                                <div style="display:none;"><?php echo json_encode($imagen); ?></div>
+                                                            </a>
+
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }else{
+                                    // No hay imágenes cargadas
+                                    ?>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: [NO] <a id="continue-upload" style="display:none" href="#"  >Añadir mas</a>
+                                                </div>
+                                                <div class="panel-body" style="cursor: pointer;">
+
+                                                    <div id="start-upload" style="height: 212px;  overflow: hidden;">
+                                                        <div style="overflow: hidden; padding-top: 25px; text-align: center;">
+                                                            <img src="/img/sube_imagenes.png">
+                                                        </div>
+                                                    </div>
+                                                    <div id="product_thumbnails" style="display:none;"></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            ?>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="alert alert-warning" role="alert">
+                                <ul>
+                                    <li>Al escribir el titulo por favor sigue esta convención: Marca - Nombre - Características relevantes - Numero de parte o Modelo.</li>
+                                    <li><strong>Todos</strong> los campos excepto <b>subtítulo</b> son requeridos para publicar. Pero no para guardar un borrador.</li>
+                                    <li>Las imágenes son de carácter obligatorio. De no tener al menos una imagen cargada, el sistema no mostrará la publicación a los clientes.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-xs-12">
                         </div>

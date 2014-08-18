@@ -315,10 +315,10 @@ if($url_action == 'editar' || $url_action == 'editar_borrador'){
         <?php
         if($url_action == 'editar' || $url_action == 'editar_borrador'){
             if($this->request->data['Image']){
-                // hay imagenes cargadas.
+                // hay imágenes cargadas.
                 ?>
 
-                <div style="overflow: hidden; padding-bottom: 7px;" class="required" ><span><i class="icon-picture"></i> Imagenes:</span> <a id="continue-upload" style="" href="#" >añadir mas</a> </div>
+                <div style="overflow: hidden; padding-bottom: 7px;" class="required" ><span><i class="icon-picture"></i> Imágenes:</span> <a id="continue-upload" style="" href="#" >añadir mas</a> </div>
                 <div style="padding: 7px; border: 1px solid #CCC; background-color: white; cursor: pointer;  overflow: hidden;  -moz-border-radius: 2px; border-radius: 2px;">
 
                     <div id="start-upload" style="height: 212px;  overflow: hidden; display:none;">
@@ -349,7 +349,7 @@ if($url_action == 'editar' || $url_action == 'editar_borrador'){
 
 
             <?php
-            }else{ // El borrador o la  publicación no tienen imagenes cargadas
+            }else{ // El borrador o la  publicación no tienen imágenes cargadas
                 ?>
 
                 <div style="overflow: hidden; padding-bottom: 7px;" class="required" ><span><i class="icon-picture"></i> Imagenes:</span> <a id="continue-upload" style="display:none" href="#"  >añadir mas</a> </div>
@@ -366,7 +366,7 @@ if($url_action == 'editar' || $url_action == 'editar_borrador'){
 
             <?php
             }
-        }else{  // Es una publicacion nueva
+        }else{  // Es una publicación nueva
             ?>
 
             <div style="overflow: hidden; padding-bottom: 7px;" class="required" ><span><i class="icon-picture"></i> Imagenes:</span> <a id="continue-upload" style="display:none" href="#" >añadir mas</a> </div>
