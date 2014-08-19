@@ -599,6 +599,232 @@ $(document).ready(function(){
             validate.form("SearchPublicationsForm",newProductValidateObj);
         };
 
+        /*
+         Descripción: destinada inhabilitar miniaturas del producto.
+         */
+        var disableThumbnails = function(){
+            $("#product_thumbnails").find(".disable-this-product-thumbnail").each(function(){
+                $(this).off("click");
+                $(this).click(function(){
+                    var pure_json_obj   = $(this).parent().children().last().html();
+                    var obj             = $.parseJSON(pure_json_obj);
+
+                    // proceso para inhabilitar una imagen
+                    var request_parameters = {
+                        "requestType":"custom",
+                        "type":"post",
+                        "url":"/disable_this_imagen",
+                        "data":{},
+                        "callbacks":{
+                            "beforeSend":function(){},
+                            "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                                if(response['expired_session']){
+                                    window['location'] = "/entrar";
+                                }
+
+                                if(obj['status']){
+                                    $("#thumbnail-id-"+obj['image_id']).remove();
+                                }
+
+                                // proceso para determinar si aun existen imágenes en la vista del producto.
+                                if(!$("#product_thumbnails").find("a").length){
+                                    //ocultar el elemento con id product_thumbnails
+                                    $('#product_thumbnails').css({
+                                        "display": "none"
+                                    });
+                                    //muestro start-upload
+                                    $('#start-upload').css({
+                                        "display": "inherit"
+                                    });
+                                }
+
+                            },
+                            "error":function(){},
+                            "complete":function(response){}
+                        }
+                    };
+
+                    request_parameters['data']['image_id']      = obj['original']['id'];
+                    request_parameters['data']['product_id']    = $('#ProductId').val();
+
+                    ajax.request(request_parameters);
+
+                });
+            });
+        };
+
+        /*
+         Descripción: para visualizar en mejor resolución una miniatura habilitada del producto.
+         */
+        var better_visualizing = function(){
+            $("#product_thumbnails").find(".view-this-product-thumbnail").each(function(){
+                $(this).off("click");
+                $(this).click(function(){
+
+                    var pure_json_obj   = $(this).parent().children().last().html();
+                    var obj             = $.parseJSON(pure_json_obj);
+
+                    // Proceso para visualizar la imagen
+                    var image_url = '/./img/products/'+obj['thumbnails']['median']['name'];
+                    $("#image-product").attr({"src":image_url});
+                    $("#product-light-box").lightbox();
+
+                });
+            });
+        };
+
+
+        /*
+         Descripción: función destinada a pausar una publicación activa
+         Parámetros:
+         id: int, el id de la publicación
+         */
+        var pause = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/pause",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window['location '] = "/entrar";
+                        }
+
+                        if(response['result']){
+
+                            $('#pause').css({
+                                "display": 'none'
+                            });
+                            $('#activate').css({
+                                "display": 'inline'
+                            });
+
+                        }else{
+                            window.location = "/";
+                        }
+
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            var pause = $("#pause");
+
+            if(pause.length){
+                pause.click(function(){
+
+                    request_parameters['data']['id'] = $("#ProductId").val();
+                    ajax.request(request_parameters);
+
+                });
+            }
+
+        };
+
+        /*
+         Descripción: función destinada a activar una publicación pausada
+         Parámetros:
+         id: int, el id de la publicación
+         */
+        var activate = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/activate",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window['location'] = "/entrar";
+                        }
+
+                        if(response['result']){
+
+                            $('#pause').css({
+                                "display": "inline"
+                            });
+                            $('#activate').css({
+                                "display": "none"
+                            });
+
+                        }else{
+                            window['location'] = "/";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            var activate = $("#activate");
+
+            if(activate.length){
+                activate.click(function(){
+                    request_parameters['data']['id'] = $("#ProductId").val();
+                    ajax.request(request_parameters);
+                });
+            }
+
+        };
+
+
+
+        var _delete =  function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/delete",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        window['location'] = "/";
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            var deleteButton = $("#delete");
+
+            if(deleteButton.length){
+                deleteButton.on('click',function(event){
+                    event.preventDefault();
+                    // Activamos el modal
+                    $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
+                    });
+                });
+
+                $("#delete_product").click(function(){
+                    request_parameters['data']['id']        = $("#ProductId").val();
+                    request_parameters['data']['session']   = true;
+                    ajax.request(request_parameters);
+                });
+            }
+
+        };
 
         //Public Method
         product.init = function(){
@@ -614,6 +840,23 @@ $(document).ready(function(){
             discard();
             // Se inicializa el WYSIWYG
             initRedactor();
+
+
+            if($('#product_thumbnails').find("a").length){
+                /* inhabilitar miniaturas del producto
+                 *****************************************/
+                disableThumbnails();
+
+                /* Visualizar en mejor resolución una miniatura habilitada del producto
+                 ************************************************************************/
+                better_visualizing();
+            }
+
+            activate();
+
+            pause();
+
+            _delete();
         };
 
 
@@ -623,34 +866,4 @@ $(document).ready(function(){
     product.init();
 
 
-//    if($('#default-options')){
-//        observer_category_container();
-//        transition();
-//    }
-//
-//    if($('#product_thumbnails').find("a").length){
-//        /* inhabilitar miniaturas del producto
-//         *****************************************/
-//        disable_thumbnails();
-//
-//        /* Visualizar en mejor resolución una miniatura habilitada del producto
-//         ************************************************************************/
-//        better_visualizing();
-//    }
-//
-//
-//    discard();
-//
-//    save_draft(false);
-//
-//    validate.form ("ProductAddForm",new_product_validate_obj);//
-//
-//    activate();
-//
-//    pause();
-//
-//    _delete();
-
-
 });
-

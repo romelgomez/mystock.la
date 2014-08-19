@@ -169,11 +169,8 @@
     */
     public function add_new(){
 
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
+
         $user_logged = $this->{'Auth'}->User();
 
         /*

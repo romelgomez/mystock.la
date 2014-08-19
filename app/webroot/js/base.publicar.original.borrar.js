@@ -1272,7 +1272,6 @@ var discard = function(){
 
 /* Configuración 
  ****************************************/
-
 discard();
 save_draft(false);
 var new_product = new validate_this_form("ProductAddForm",new_product_validate_obj);
