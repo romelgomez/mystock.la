@@ -1,6 +1,3 @@
-
-
-
 $(document).ready(function(){
 
     (function( product, $) {
@@ -446,11 +443,11 @@ $(document).ready(function(){
         /*
          Private Method
          Descripción: destinada a crear una nueva publicación, la clase requiere dos objetos para ser procesada.
-         1) request_parameters: procesado luego de completar el proceso de validación
-         2) newProductValidateObj: requerido para procesar la validación.
+             1) request_parameters: procesado luego de completar el proceso de validación
+             2) newProductValidateObj: requerido para procesar la validación.
          Parámetros:
-         a) id del formulario
-         b) objeto con los parámetros para validar la data suministrada.
+             a) id del formulario
+             b) objeto con los parámetros para validar la data suministrada.
          */
         var newProduct = function(){
 
@@ -600,6 +597,7 @@ $(document).ready(function(){
         };
 
         /*
+         Private Method
          Descripción: destinada inhabilitar miniaturas del producto.
          */
         var disableThumbnails = function(){
@@ -656,6 +654,7 @@ $(document).ready(function(){
         };
 
         /*
+         Private Method
          Descripción: para visualizar en mejor resolución una miniatura habilitada del producto.
          */
         var better_visualizing = function(){
@@ -677,9 +676,10 @@ $(document).ready(function(){
 
 
         /*
+         Private Method
          Descripción: función destinada a pausar una publicación activa
          Parámetros:
-         id: int, el id de la publicación
+             id: int, el id de la publicación
          */
         var pause = function(){
 
@@ -731,9 +731,10 @@ $(document).ready(function(){
         };
 
         /*
+         Private Method
          Descripción: función destinada a activar una publicación pausada
          Parámetros:
-         id: int, el id de la publicación
+             id: int, el id de la publicación
          */
         var activate = function(){
 
@@ -827,6 +828,7 @@ $(document).ready(function(){
         };
 
         /*
+         Private Method
          Descripción: Destinado a procesar las imágenes cargadas que quedaron en el modal. Una vez cargadas la imágenes existe la opción de eliminarla, las imágenes que queden en el modal serán procesadas, si son eliminadas todas la imágenes el botón queda inhabilitado, por lo tanto esta lógica deja de ser procesada.
          */
         var saveThis = function(){
@@ -949,6 +951,309 @@ $(document).ready(function(){
 
         };
 
+        /*
+         Private Method
+         Descripción: Destinado a observar el evento de abrir el modal para cargar imágenes del producto o servicio, con el fin de establecer acciones.
+         */
+        var imagesEvents = function () {
+            $("#start-upload").on('click',function(event){
+                event.preventDefault();
+                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
+            });
+
+            $('#uploading-pictures').on('show', function(){
+                save_draft(true);
+            });
+
+            $("#continue-upload").on('click',function(event){
+                event.preventDefault();
+                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
+            });
+        };
+
+        /*
+         Private Method
+         Descripción:  Subir las imágenes
+         */
+        var fileUpload = function (){
+            /*
+             Type: Objeto JSON.
+             Descripción: Almacena ordenadamente todas las acciones que ocurren tras los eventos que suceden en una solicitud xhr.
+             */
+            var file_upload_callbacks = {
+                "events":{
+                    "dragover":function(element){
+                        $('#drop-files').css({
+                            "border": '2px dashed #357AE8'
+                        });
+                        $('#uploading-pictures').css({
+                            "border": '1px solid #357AE8'
+                        });
+                    },
+                    "drop":function(element){
+                        $('#drop-files').css({
+                            "border": '2px dashed #DCDCDC'
+                        });
+                        $('#uploading-pictures').css({
+                            "border": '1px solid rgba(0, 0, 0, 0.3)'
+                        });
+
+                    },
+                    'progressEvent':{
+                        'loadstart':function(){
+                            //	Description					|	Times
+                            //	Progress has begun. 			Once.
+
+
+                            var temporary_element = '<a class="thumbnail" style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
+                                '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
+                                '<div style="text-align: center;">'+
+                                '<img src="/img/photocamera.png" >'+
+                                '</div>'+
+                                '</div>'+
+                                '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
+                                '<div style="text-align: center;">'+
+                                '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
+                                '</div>'+
+                                '</div>'+
+                                '</a>';
+
+                            var dropFiles = $('#drop-files');
+
+                            if($("#optional-selection-container")){
+                                $('#optional-selection-container').css({
+                                    "display": "none"
+                                });
+                                dropFiles.append(temporary_element);
+                                this.last_element_inserted = dropFiles.children().last();
+                            }else{
+                                dropFiles.append(temporary_element);
+                                this.last_element_inserted =  dropFiles.children().last();
+                            }
+
+                            // añadir mas
+                            $('#second-files-button').css({"display":"block"});
+
+                            // permitimos guardar
+                            $('#save-this').removeClass('disabled');
+
+                        },
+                        'progress':function(evt){
+                            //	Description					|	Times
+                            //	In progress.					Zero or more.
+                            console.log('In progress');
+
+
+                            // this.last_element_inserted
+                            /*
+                             if (evt.lengthComputable) {
+                             var percentComplete = evt.loaded / evt.total;
+                             } else {
+                             // console.log('Unable to compute progress information since the total size is unknown');
+                             }
+
+                             */
+
+                            /*	 Ejemplo:
+                             var progressBar = document.getElementById("p"),
+                             client = new XMLHttpRequest()
+                             client.open("GET", "magical-unicorns")
+                             client.onprogress = function(pe) {
+                             if(pe.lengthComputable) {
+                             progressBar.max = pe.total
+                             progressBar.value = pe.loaded
+                             }
+                             }
+                             client.onloadend = function(pe) {
+                             progressBar.value = pe.loaded
+                             }
+                             client.send()
+                             */
+
+                        },
+                        'error':function(evt){
+                            //	Description					|	Times
+                            // 	Progression failed.				Zero or more.
+                            console.log("Progression failed.");
+
+                        },
+                        'abort':function(evt){
+                            //	Description					|	Times
+                            //	Progression is terminated.		Zero or more.
+                            console.log("Progression is terminated.");
+                        },
+                        'load':function(evt){
+                            //	Description					|	Times
+                            //  Progression is successful.		Zero or more.
+                            console.log('Progression is successful.');
+                        },
+                        'loadend':function(evt){
+                            //	Description					|	Times
+                            // 	Progress has stopped.			Once.
+                            console.log('Progress has stopped.');
+                            //	console.log(this.last_element_inserted);
+
+
+                            var a = this.responseText;
+//                console.log(a);
+
+                            var obj = $.parseJSON(a);
+                            if(obj['expired_session']){
+                                window['location'] = "/entrar";
+                            }
+
+                            /*
+                             {
+                             "original":{
+                             "name":"Capturadepantallade2013-01-0619203433.png",
+                             "id":"78"
+                             },
+                             "thumbnails":{
+                             "large":{
+                             "name":"Capturadepantallade2013-01-0619203430.png",
+                             "size":"1920x1080",
+                             "id":"79"
+                             },
+                             "median":{
+                             "name":"Capturadepantallade2013-01-0619203431.png",
+                             "size":"900x900",
+                             "id":"80"
+                             },
+                             "small":{
+                             "name":"Capturadepantallade2013-01-0619203432.png",
+                             "size":"400x400px",
+                             "id":"81"
+                             }
+                             }
+                             }
+                             */
+
+
+                            var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
+                                '<div style="text-align: center;">'+
+                                '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" >'+
+                                '</div>'+
+                                '</div>'+
+                                '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
+                                '<img style="width: 24px;" src="/img/x2.png">'+
+                                '</div>'+
+                                '<div style="display:none">'+a+'</div>';
+
+                            $(this.last_element_inserted).html(myTemplate);
+
+                            $('#save-this').attr({"disabled":false});
+
+                            $(this.last_element_inserted).find('div.delete-this-image').click(function(){
+                                $(this).parent().remove();
+                                exist_thumbnails();
+                            });
+
+                            // ¿siguen existiendo miniaturas luego de borrar una? no, entonces se normaliza la vista.
+                            var exist_thumbnails = function(){
+                                if(!$('#drop-files').find(".thumbnail").length){
+                                    $('#optional-selection-container').css({
+                                        "display": "block"
+                                    });
+                                    $('#second-files-button').css({
+                                        "display": "none"
+                                    });
+                                    // no permitimos guardar
+                                    $('#save-this').attr({"disabled":"disabled"});
+                                }
+                            }
+
+                        }
+                    }
+                }
+            };
+
+            /*
+             Descripción: destinada a crear un objeto FormData el cual permitirá tener acceso a los archivos que el usuario selecciona, para luego hacer una solicitud xhr.
+             Parámetros:
+             callbacks: objeto json.
+             */
+            var file_upload =  function(callbacks){
+
+                var file_input_element_ids  = ["first-files","second-files"];
+                var drop_element_id			= "drop-files";
+
+                $(file_input_element_ids).each(function(index, value){
+                    $('#'+value).change(function(){
+
+                        var files 	= {};
+
+                        for(var i=0; i < this.files.length; i++){
+                            //console.log(this.files[i]);
+
+                            // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
+                            var form = new FormData();
+                            form.append("product_id", $('#ProductId').val());
+                            form.append("image", this.files[i]);
+
+                            var xhr = new XMLHttpRequest();
+
+                            // Interface ProgressEvent																	Description							|	Times
+                            xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
+                            xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
+                            xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
+                            xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
+                            xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
+                            xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
+
+                            xhr.open("post", "/image_add", true);
+                            xhr.send(form);
+                            // end código idéntico.
+
+
+                        }
+
+                    });
+                });
+
+                $("#"+drop_element_id).on('dragover',function(event){
+                    event.preventDefault();
+                    callbacks.events.dragover();
+                });
+
+                var dropzone = document.getElementById('drop-files');
+                dropzone.ondrop = function(event) {
+                    event.preventDefault();
+                    callbacks.events.drop();
+
+                    var length = event['dataTransfer']['files']['length'];
+                    for (var i = 0; i < length; i++) {
+                        var file = event['dataTransfer']['files'][i];
+
+                        // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
+                        var form = new FormData();
+                        form.append("product_id", $('#ProductId').val());
+                        form.append("image", file);
+
+                        var xhr = new XMLHttpRequest();
+
+                        // Interface ProgressEvent																	Description							|	Times
+                        xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
+                        xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
+                        xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
+                        xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
+                        xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
+                        xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
+
+                        xhr.open("post", "/image_add", true);
+                        xhr.send(form);
+                        // end código idéntico.
+
+                    }
+                };
+
+
+
+            };
+
+            file_upload(file_upload_callbacks);
+
+        };
+
         //Public Method
         product.init = function(){
             // Se inicializa el formulario
@@ -963,7 +1268,6 @@ $(document).ready(function(){
             discard();
             // Se inicializa el WYSIWYG
             initRedactor();
-
 
             if($('#product_thumbnails').find("a").length){
                 /* inhabilitar miniaturas del producto
@@ -984,14 +1288,18 @@ $(document).ready(function(){
             // procesa las imágenes cargadas que quedaron en el modal
             saveThis();
 
+            // observar el evento de abrir el modal para cargar imágenes del producto o servicio
+            imagesEvents();
+
+            // Subir las imágenes
+            fileUpload();
+
         };
 
 
     }( window.product = window.product || {}, jQuery ));
 
-
     product.init();
 
 
 });
-
