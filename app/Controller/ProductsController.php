@@ -259,11 +259,7 @@
     */
 
     public function saveDraft(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         $user_logged = $this->{'Auth'}->User();
 
@@ -285,11 +281,11 @@
         $producto =	array(
             'Product'=>Array
             (
-                'id'			=>$id,
-                'user_id'		=>$user_logged['User']['id'],
-                'category_id'	=>$request['category_id'],
-                'company_id'	=>$user_logged['User']['company_id'],
-                'title'			=>$request['title'],
+                'id'            =>$id,
+                'user_id'       =>$user_logged['User']['id'],
+                'category_id'   =>$request['category_id'],
+                'company_id'    =>$user_logged['User']['company_id'],
+                'title'         =>$request['title'],
                 'subtitle'		=>$request['subtitle'],
                 'body'			=>$request['body'],
                 'price'			=>$request['price'],

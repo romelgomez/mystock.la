@@ -129,7 +129,6 @@ $(document).ready(function(){
         };
 
 
-        //
         /*
          Private Method
          Descripción: remueve los vecinos a la derecha, acomodando el espacio para recibir e insertar la respuesta del servidor acerca de si hay o no mas categorías dependientes.
@@ -352,18 +351,267 @@ $(document).ready(function(){
 
         };
 
+        /*
+         Private Method
+         Descripción: destinada a desplegar en el dom los minutos transcurridos luego de guardar un borrador.
+         Parámetros:
+         clear: booleano
+         */
+        var elapsedTime = function(clear){
+            if(clear){ clearInterval(this.id) }
+            $("#minutesElapsed").html(0);
+            this.id = self.setInterval(function(){
+                var minutesElapsed = $("#minutesElapsed");
+                var tmp =  minutesElapsed.html();
+                var elapsed_time = parseInt(tmp)+1;
+                minutesElapsed.html(elapsed_time);
+            }, 60000);
+            return true
+        };
+
+
+        /*
+         Private Method
+         Descripción: destinada a crear un borrador. Básicamente para definir el id de la publicación.
+         Parámetros:
+         now: booleano
+         1) si es true: se hará la solicitud inmediatamente
+         2) si es false o indefinido: se esperara por un evento para realizar la solicitud
+         */
+        var saveDraft = function(now){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/save_draft",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        // {"id":"8","time":"22:04"}
+                        if(response['id']){
+                            $('#ProductId').attr({"value":response['id']});
+                            $('#debugTime').css({"display":"block"});
+                            $('#lastTimeSave').html(response['time']);
+
+                            var clear = !!this['flag'];
+                            this['flag'] = elapsedTime(clear);
+                            // se prende
+                            // se apaga y luego se prende
+                            // se apaga y luego se prende
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            if(now){
+
+                request_parameters['data']['id']            = $("#ProductId").val();
+                request_parameters['data']['category_id']   = $("#ProductCategoryId").val();
+                request_parameters['data']['title']         = $("#ProductTitle").val();
+                request_parameters['data']['subtitle']      = $("#ProductSubtitle").val();
+                request_parameters['data']['body']          = $("#ProductBody").val();
+                request_parameters['data']['price']         = $("#ProductPrice").val();
+                request_parameters['data']['quantity']      = $("#ProductQuantity").val();
+
+                ajax.request(request_parameters);
+
+            }else{
+                $('#save-now').click(function(){
+
+                    request_parameters['data']['id']            = $("#ProductId").val();
+                    request_parameters['data']['category_id']   = $("#ProductCategoryId").val();
+                    request_parameters['data']['title']         = $("#ProductTitle").val();
+                    request_parameters['data']['subtitle']      = $("#ProductSubtitle").val();
+                    request_parameters['data']['body']          = $("#ProductBody").val();
+                    request_parameters['data']['price']         = $("#ProductPrice").val();
+                    request_parameters['data']['quantity']      = $("#ProductQuantity").val();
+
+                    ajax.request(request_parameters);
+
+                });
+            }
+            return false;
+        };
+
+        /*
+         Private Method
+         Descripción: destinada a crear una nueva publicación, la clase requiere dos objetos para ser procesada.
+         1) request_parameters: procesado luego de completar el proceso de validación
+         2) newProductValidateObj: requerido para procesar la validación.
+         Parámetros:
+         a) id del formulario
+         b) objeto con los parámetros para validar la data suministrada.
+         */
+        var newProduct = function(){
+
+            var request_parameters = {
+                "requestType":"form",
+                "type":"post",
+                "url":"/add_new",
+                "data":{},
+                "form":{
+                    "id":"ProductAddForm",
+                    "inputs":{
+                        "id":{
+                            "id":"ProductId"
+                        },
+                        "category_id":{
+                            "id":"ProductCategoryId"
+                        },
+                        "title":{
+                            "id":"ProductTitle"
+                        },
+                        "subtitle":{
+                            "id":"ProductSubtitle"
+                        },
+                        "body":{
+                            "id":"ProductBody"
+                        },
+                        "price":{
+                            "id":"ProductPrice"
+                        },
+                        "quantity":{
+                            "id":"ProductQuantity"
+                        }
+                    }
+                },
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        /*
+                         Luego de guardar un producto con éxito
+                         {"result":true,"product_id":"15","product_title":"sa"}
+                         */
+
+                        if(response['result']){
+                            var slug = str_replace((response['product_title'].toLowerCase().trim()),' ','_');
+                            window.location = '/producto/'+response['product_id']+'/'+slug+'.html';
+                        }else{
+                            window.location = "/";
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            // validación:
+            var newProductValidateObj = {
+                "submitHandler": function(form){
+
+                    /*
+                     El id debe ser definido al abrir el modal, porque al cargar multiples imágenes, el código se ejecuta rápidamente, con lo que si son 10 imágenes las 3-4 primera informaran que el id no existe, por lo tanto
+                     se creara cuatro product.id., evitamos esto al abrir el modal automáticamente solicitamos crear un borrador para definir el product.id con el cual serán guardadas las multiples imágenes.
+                     */
+
+                    /*
+                     Descripción: función destinada a establecer un efecto visual de requerido sobre la sección dispuesta para cargar imágenes.
+                     */
+                    var start_upload = function(){
+                        var start_upload = $("#start-upload");
+
+                        start_upload.parent().css({
+                            "background-color":"#FFD1D1",
+                            "border":"1px solid red"
+                        });
+                        start_upload.one("click",function(){
+                            $("#start-upload").parent().css({
+                                "background-color":"white",
+                                "border":"1px solid #CCC"
+                            });
+                        });
+                    };
+
+                    if($('#ProductId').val()){
+                        if($("#product_thumbnails").find("a").length){
+                            /* luz verde para realizar solicitud ajax
+                             ********************************/
+                            ajax.request(request_parameters);
+                        }else{
+                            /* Se invita en cargar imágenes
+                             ******************************/
+                            start_upload();
+                        }
+                    }else{
+                        /* Se invita a cargar imágenes
+                         ******************************/
+                        start_upload();
+                    }
+
+                },
+                "rules":{
+                    "ProductTitle":{
+                        "required":true,
+                        "maxlength":200
+                    },
+                    "ProductBody":{
+                        "required":true
+                    },
+                    "ProductPrice":{
+                        "required":true,
+                        "number": true,
+                        "min":0
+                    },
+                    "ProductQuantity":{
+                        "required":true,
+                        "digits": true,
+                        "min":1
+                    }
+                },
+                "messages":{
+                    "ProductTitle":{
+                        "required":"El campo titulo es obligatorio.",
+                        "maxlength":"El titulo no debe tener mas de 200 caracteres."
+                    },
+                    "ProductBody":{
+                        "required":"El campo descripción es obligatorio."
+                    },
+                    "ProductPrice":{
+                        "required":"El campo precio es obligatorio.",
+                        "number":"Solo un numero, entero o racional separado por un punto.",
+                        "min":"El precio debe ser igual o mayor a 0."
+                    },
+                    "ProductQuantity":{
+                        "required":"El campo cantidad es obligatorio.",
+                        "digits":"Solo números enteros positivos.",
+                        "min":"La cantidad debe ser igual o mayor a 1."
+                    }
+                }
+            };
+
+            validate.form("SearchPublicationsForm",newProductValidateObj);
+        };
+
 
         //Public Method
         product.init = function(){
+            // Se inicializa el formulario
+            newProduct();
             // Se inicializa las categorías
             observeTheCategories();
             // La transición entre las categorías y el resto del formulario.
             transition();
-            // en caso de que se quiera descartar la publicación
+            // Para crear el borrador
+            saveDraft(false);
+            // En caso de que se quiera descartar la publicación
             discard();
-
-
-
             // Se inicializa el WYSIWYG
             initRedactor();
         };

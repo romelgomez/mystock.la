@@ -46,8 +46,8 @@
          */
 
         var data = {};
-        $.each(parameters.data.form.inputs,function(index,input){
-            data[input.name] = $('#'+input.id).val();
+        $.each(parameters['form']['inputs'],function(index,input){
+            data[input['name']] = $('#'+input['id']).val();
         });
         return data;
     }
@@ -55,23 +55,23 @@
     //Private Method
     function request(parameters){
         var ajax_request_parameters = {
-            "type": parameters.type,
-            "url": parameters.url,
+            "type": parameters['type'],
+            "url": parameters['url'],
             "contentType": "application/json; charset=UTF-8",
             "dataType": 'json',
-            "data": JSON.stringify(parameters.data),
+            "data": JSON.stringify(parameters['data']),
             "global": false,
             "beforeSend":function(){
-                parameters.callbacks.beforeSend();
+                parameters['callbacks']['beforeSend']();
             },
             "success":function(response){
-                parameters.callbacks.success(response);
+                parameters['callbacks']['success'](response);
             },
             "error":function(response){
-                parameters.callbacks.error(response);
+                parameters['callbacks']['error'](response);
             },
             "complete":function(response){
-                parameters.callbacks.complete(response);
+                parameters['callbacks']['complete'](response);
             }
         };
 
@@ -81,11 +81,11 @@
     //Public Method
     ajax.request = function(parameters){
         if(parameters !== undefined){
-            if(parameters.requestType == 'form'){
-                parameters.data = getFormData(parameters);
+            if(parameters['requestType'] == 'form'){
+                parameters['data'] = getFormData(parameters);
                 request(parameters);
             }
-            if(parameters.requestType == "custom"){
+            if(parameters['requestType'] == "custom"){
                 request(parameters);
             }
         }
@@ -154,28 +154,28 @@
     validate.form = function(formId,options){
 
         options.errorPlacement = function(error, element){
-//            $(element).parents('.control-group').find(".help-inline").fadeIn().html($(error).html());
+            $(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
         };
 
         options.success = function(label){
         };
 
         options.highlight = function(element){
-//            $(validation_states).each(function(k2,state){
-//                if($(element).parents('.control-group').hasClass(state)){
-//                    $(element).parents('.control-group').removeClass(state);
-//                }
-//            });
-//            $(element).parents('.control-group').addClass('warning');
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-warning');
         };
 
         options.unhighlight = function(element){
-//            $(validation_states).each(function(k2,state){
-//                if($(element).parents('.control-group').hasClass(state)){
-//                    $(element).parents('.control-group').removeClass(state);
-//                }
-//            });
-//            $(element).parents('.control-group').addClass('success');
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-success');
         };
 
         validate.validatorObject = $("#"+formId).validate(options);
