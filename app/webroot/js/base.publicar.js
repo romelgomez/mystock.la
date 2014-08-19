@@ -826,6 +826,129 @@ $(document).ready(function(){
 
         };
 
+        /*
+         Descripción: Destinado a procesar las imágenes cargadas que quedaron en el modal. Una vez cargadas la imágenes existe la opción de eliminarla, las imágenes que queden en el modal serán procesadas, si son eliminadas todas la imágenes el botón queda inhabilitado, por lo tanto esta lógica deja de ser procesada.
+         */
+        var saveThis = function(){
+
+            $('#save-this').click(function(event){
+                event.preventDefault();
+
+                $('#uploading-pictures').modal('hide');
+
+                var dropFilesThumbnail = $('#drop-files').find(".thumbnail");
+
+                if(dropFilesThumbnail.length > 0){
+
+                    var images_ids = [];
+                    dropFilesThumbnail.each(function(){
+
+                        var image_pure_json_obj 	= $(this).children().last().html();
+                        var image_obj				= $.parseJSON(image_pure_json_obj);
+
+                        images_ids.push(image_obj['original']['id']);
+
+                        // Insertar la imagen del producto en la vista
+                        var product_thumbnail_element = '<a class="thumbnail" id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
+                            '<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">'+
+                            '<img src="/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
+                            '</div>'+
+                            '<div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
+                            '<img style="width: 24px;" src="/img/x2.png">'+
+                            '</div>'+
+                            '<div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">'+
+                            '<img src="/img/view.png">'+
+                            '</div>'+
+                            '<div style="display:none;">'+image_pure_json_obj+'</div>'+
+                            '</a>';
+
+                        var productThumbnails = $('#product_thumbnails');
+
+                        if(productThumbnails.find("a").length){
+                            // console.log('cuando existen lis');
+
+                            productThumbnails.append(product_thumbnail_element);
+
+                        }else{
+                            // console.log('cuando no existen lis')
+
+                            //ocultar start-upload
+                            $('#start-upload').css({
+                                "display": 'none'
+                            });
+
+                            //insertar los lis en el carrusel
+                            productThumbnails.append(product_thumbnail_element);
+
+                            //mostrar el elemento con id product_thumbnails
+                            productThumbnails.css({
+                                display: 'inherit'
+                            });
+
+                            // mostrar link -continuar cargando-
+                            $('#continue-upload').css({
+                                "display": "inline"
+                            });
+                        }
+
+                    });
+
+                    //Habilitar las miniaturas seleccionadas.
+                    var request_parameters = {
+                        "requestType":"custom",
+                        "type":"post",
+                        "url":"/enables_this_images",
+                        "data":{},
+                        "callbacks":{
+                            "beforeSend":function(){},
+                            "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                                if(response['expired_session']){
+                                    window.location = "/entrar";
+                                }
+
+                            },
+                            "error":function(){},
+                            "complete":function(response){}
+                        }
+                    };
+
+                    request_parameters['data']['images_ids'] = images_ids;
+                    request_parameters['data']['product_id'] =  $('#ProductId').val();
+                    ajax.request(request_parameters);
+
+
+                    // remover la miniaturas del modal
+                    dropFilesThumbnail.each(function(){
+                        $(this).remove();
+                    });
+
+                    $('#optional-selection-container').css({
+                        "display": "block"
+                    });
+
+                    $('#second-files-button').css({
+                        "display": "none"
+                    });
+
+                    // no permitimos guardar
+                    $('#save-this').attr({"disabled":"disabled"});
+
+                    /* inhabilitar miniaturas del producto
+                     *****************************************/
+                    disable_thumbnails();
+
+                    /* Visualizar en mejor resolución una miniatura habilitada del producto.
+                     *****************************************/
+                    better_visualizing();
+
+                }
+
+            });
+
+        };
+
         //Public Method
         product.init = function(){
             // Se inicializa el formulario
@@ -857,6 +980,10 @@ $(document).ready(function(){
             pause();
 
             _delete();
+
+            // procesa las imágenes cargadas que quedaron en el modal
+            saveThis();
+
         };
 
 
@@ -867,3 +994,4 @@ $(document).ready(function(){
 
 
 });
+
