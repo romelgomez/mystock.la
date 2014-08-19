@@ -12,7 +12,7 @@
         Retorna:            Array.
     */
     public function view(){
-//        debug($this->{'request'}->params,false);
+        debug($this->{'request'}->params);
     }
 
     /*
@@ -208,7 +208,6 @@
                                     'user_id'       =>  $user_logged['User']['id'],
                                     'category_id'   =>  $request['category_id'],
                                     'title'         =>  $request['title'],
-                                    'subtitle'      =>  $request['subtitle'],
                                     'body'          =>  $request['body'],
                                     'price'         =>  $request['price'],
                                     'quantity'      =>  $request['quantity'],
@@ -283,7 +282,6 @@
                 'category_id'   =>$request['category_id'],
                 'company_id'    =>$user_logged['User']['company_id'],
                 'title'         =>$request['title'],
-                'subtitle'		=>$request['subtitle'],
                 'body'			=>$request['body'],
                 'price'			=>$request['price'],
                 'quantity'		=>$request['quantity'],

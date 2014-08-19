@@ -104,7 +104,7 @@
                     }
                 }
 
-                echo $this->Form->create('Product',  array('url' => "/newProduct", 'type' => 'file','role'=>'form'));
+                echo $this->Form->create('Product',  array('url' => "#", 'type' => 'file','role'=>'form'));
                 echo $this->Form->hidden('Product.id');
                 echo $this->Form->hidden('Product.category_id');
 
@@ -226,7 +226,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-book"></span> Descripción</label>
+                                <label class="control-label" for="ProductBody"><span class="glyphicon glyphicon-book"></span> Descripción</label>
                                 <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody','placeholder'=>'Eje: EVGA X79 es una tarjeta madre que ...')); ?>
                                 <span class="help-block">El campo descripción es obligatorio</span>
                             </div>
@@ -239,8 +239,9 @@
                                 <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-tag"></span> Precio</label>
                                 <div class="input-group col-xs-4">
                                     <div class="input-group-addon">BsF</div>
-                                    <input class="form-control" type="number" placeholder="Eje: 1000">
+                                    <?php echo $this->Form->input('Product.price',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductPrice','placeholder'=>'Eje: 1000')); ?>
                                 </div>
+                                <span class="help-block">El campo descripción es obligatorio</span>
                             </div>
                         </div>
                     </div>
@@ -251,8 +252,9 @@
                                 <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-th"></span> Cantidad disponible</label>
                                 <div class="input-group col-xs-4">
                                     <div class="input-group-addon">Unidades</div>
-                                    <input class="form-control" type="number" placeholder="Eje: 100">
+                                    <?php echo $this->Form->input('Product.quantity',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductQuantity','placeholder'=>'Eje: 100')); ?>
                                 </div>
+                                <span class="help-block">El campo descripción es obligatorio</span>
                             </div>
                         </div>
                     </div>
@@ -345,6 +347,8 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
+
+
                         </div>
                     </div>
 
@@ -357,6 +361,36 @@
             ?>
 
 
+
+<!--            <button class="demo btn btn-primary btn-large" data-toggle="modal" href="#uploading-pictures">View Demo</button>-->
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -364,7 +398,6 @@
 
 <?php
 //    debug($this->request);
-//    debug($this->request->data['current-menu']);
 ?>
 
 <?php echo $this->Html->script('base.publicar',false); ?>
