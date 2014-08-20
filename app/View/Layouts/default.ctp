@@ -13,11 +13,6 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-    <!-- Bootstrap-Modal - http://jschr.github.io/bootstrap-modal/ -->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/css/bootstrap-modal-bs3patch.css">-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/css/bootstrap-modal.css">-->
-
-
 
     <?php
         echo $this->Html->css(array('refactored/base'));
@@ -134,9 +129,6 @@
     <!-- Bootstrap - https://github.com/twbs/bootstrap -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <!-- bootstrap-modal - https://github.com/jschr/bootstrap-modal -->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/js/bootstrap-modalmanager.min.js"-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-modal/2.2.5/js/bootstrap-modal.min.js"></script>-->
 
     <!-- jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation -->
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>

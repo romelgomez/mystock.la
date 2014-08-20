@@ -371,11 +371,6 @@
 </div>
 
 
-<!-- Button trigger modal -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#uploading-pictures">
-    Launch demo modal
-</button>
-
 <!-- Modal -->
 <div class="modal fade" id="uploading-pictures" tabindex="-1" role="dialog" aria-labelledby="uploadingPicturesLabel" aria-hidden="true">
     <form id="UserAddForm" action="#" method="post" accept-charset="utf-8">
@@ -421,6 +416,17 @@
         </div>
 
     </form>
+</div>
+
+<!-- light box para visualizar mejor la imagen cargada de la publicación o borrador.
+--------------------------------------------------------------------------------------------------------------->
+<div id="product-light-box" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+    <div class='lightbox-header'>
+        <button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
+    </div>
+    <div class='lightbox-content'>
+        <img id="image-product" src="">
+    </div>
 </div>
 
 

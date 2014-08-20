@@ -651,7 +651,7 @@ $(document).ready(function(){
                     var obj             = $.parseJSON(pure_json_obj);
 
                     // Proceso para visualizar la imagen
-                    var image_url = '/./img/products/'+obj['thumbnails']['median']['name'];
+                    var image_url = '/img/products/'+obj['thumbnails']['median']['name'];
                     $("#image-product").attr({"src":image_url});
                     $("#product-light-box").lightbox();
 
@@ -947,8 +947,8 @@ $(document).ready(function(){
                 $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
             });
 
-            $('#uploading-pictures').on('show', function(){
-                save_draft(true);
+            $('#uploading-pictures').on('show.bs.modal', function(){
+                saveDraft(true);
             });
 
             $("#continue-upload").on('click',function(event){
