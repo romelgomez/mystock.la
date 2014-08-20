@@ -372,27 +372,55 @@
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#uploading-pictures">
     Launch demo modal
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+<div class="modal fade" id="uploading-pictures" tabindex="-1" role="dialog" aria-labelledby="uploadingPicturesLabel" aria-hidden="true">
+    <form id="UserAddForm" action="#" method="post" accept-charset="utf-8">
+
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Form header-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Carga imágenes del producto o servicio</h4>
+                </div>
+                <!-- Form body-->
+                <div class="modal-body">
+                    <div id="drop-files" class="drop-element" style="overflow: auto;padding: 10px; height: 600px; border: 2px dashed #DCDCDC; border-radius: 5px 5px;">
+
+                        <div id="optional-selection-container" style=" overflow: hidden; margin-top: 200px;">
+                            <div class="row-fluid">
+                                <div class="span4"></div>
+                                <div class="span4">
+                                    <div style="text-align: center;">
+                                        <div style="opacity: 0.2;overflow: hidden;padding: 10px;" ><h3 style="margin: 0;font-family:Helvetica Neue,Helvetica,Arial,sans-serif;font-weight: normal;" >Suelta las imágenes aquí</h3></div>
+                                        <div style="height: 27px;" ><span style="opacity: 0.2;">O si prefieres...</span></div>
+                                        <div><button type="submit" class="btn btn-primary" style="position: relative; overflow: hidden; direction: ltr; ">Selecciona las imágenes desde la computadora<input id="first-files" multiple="multiple" type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0; "></button></div>
+                                    </div>
+                                </div>
+                                <div class="span4"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Form footer-->
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button id="second-files-button" type="submit" class="btn btn-primary" style="position: relative; overflow: hidden; direction: ltr; display:none;">Añadir mas<input id="second-files" multiple="multiple" type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0; "></button>
+                    </div>
+                    <div class="pull-right">
+                        <button id="save-this" class="btn btn-primary" disabled="disabled"  >Confirmar la imágenes</button>
+                        <button id="cancel-this" class="btn"  data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+    </form>
 </div>
 
 

@@ -1165,8 +1165,6 @@ $(document).ready(function(){
                 $(file_input_element_ids).each(function(index, value){
                     $('#'+value).change(function(){
 
-                        var files 	= {};
-
                         for(var i=0; i < this.files.length; i++){
                             //console.log(this.files[i]);
 
@@ -1189,49 +1187,50 @@ $(document).ready(function(){
                             xhr.send(form);
                             // end código idéntico.
 
-
                         }
 
                     });
                 });
 
-                $("#"+drop_element_id).on('dragover',function(event){
+                var dropElementId = $("#"+drop_element_id);
+
+                dropElementId.on('dragover',function(event){
                     event.preventDefault();
                     callbacks.events.dragover();
                 });
 
-//                var dropzone = document.getElementById('drop-files');
-//                dropzone.ondrop = function(event) {
-//                    event.preventDefault();
-//                    callbacks.events.drop();
-//
-//                    var length = event['dataTransfer']['files']['length'];
-//                    for (var i = 0; i < length; i++) {
-//                        var file = event['dataTransfer']['files'][i];
-//
-//                        // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
-//                        var form = new FormData();
-//                        form.append("product_id", $('#ProductId').val());
-//                        form.append("image", file);
-//
-//                        var xhr = new XMLHttpRequest();
-//
-//                        // Interface ProgressEvent																	Description							|	Times
-//                        xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
-//                        xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
-//                        xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
-//                        xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
-//                        xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
-//                        xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
-//
-//                        xhr.open("post", "/image_add", true);
-//                        xhr.send(form);
-//                        // end código idéntico.
-//
-//                    }
-//                };
+                dropElementId.on('drop',function(event){
+                    event.preventDefault();
 
+                    callbacks.events.dragover();
 
+                    var length = event['originalEvent']['dataTransfer']['files']['length'];
+
+                    for (var i = 0; i < length; i++) {
+                        var file = event['dataTransfer']['files'][i];
+
+                        // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
+                        var form = new FormData();
+                        form.append("product_id", $('#ProductId').val());
+                        form.append("image", file);
+
+                        var xhr = new XMLHttpRequest();
+
+                        // Interface ProgressEvent																	Description							|	Times
+                        xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
+                        xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
+                        xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
+                        xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
+                        xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
+                        xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
+
+                        xhr.open("post", "/image_add", true);
+                        xhr.send(form);
+                        // end código idéntico.
+
+                    }
+
+                });
 
             };
 
@@ -1253,31 +1252,31 @@ $(document).ready(function(){
             discard();
             // Se inicializa el WYSIWYG
             initRedactor();
-//
-//            if($('#product_thumbnails').find("a").length){
-//                /* inhabilitar miniaturas del producto
-//                 *****************************************/
-//                disableThumbnails();
-//
-//                /* Visualizar en mejor resolución una miniatura habilitada del producto
-//                 ************************************************************************/
-//                better_visualizing();
-//            }
-//
+
+            if($('#product_thumbnails').find("a").length){
+                /* inhabilitar miniaturas del producto
+                 *****************************************/
+                disableThumbnails();
+
+                /* Visualizar en mejor resolución una miniatura habilitada del producto
+                 ************************************************************************/
+                better_visualizing();
+            }
+
             activate();
-//
+
             pause();
-//
-//            _delete();
-//
-//            // procesa las imágenes cargadas que quedaron en el modal
-//            saveThis();
-//
+
+            _delete();
+
+            // procesa las imágenes cargadas que quedaron en el modal
+            saveThis();
+
             // observar el evento de abrir el modal para cargar imágenes del producto o servicio
             imagesEvents();
-//
+
 //            // Subir las imágenes
-//            fileUpload();
+            fileUpload();
 
         };
 
