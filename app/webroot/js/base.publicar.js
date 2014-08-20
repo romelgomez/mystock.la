@@ -652,8 +652,21 @@ $(document).ready(function(){
 
                     // Proceso para visualizar la imagen
                     var image_url = '/img/products/'+obj['thumbnails']['median']['name'];
-                    $("#image-product").attr({"src":image_url});
-                    $("#product-light-box").lightbox();
+
+                    var imageProduct =  $("#image-product");
+
+                    imageProduct.attr({"href":image_url});
+                    imageProduct.ekkoLightbox();
+
+
+
+//                    //Programatically call
+//                    $('#open-image').click(function (e) {
+//                        e.preventDefault();
+//                        $(this).ekkoLightbox();
+//                    });
+
+
 
                 });
             });
@@ -1026,7 +1039,7 @@ $(document).ready(function(){
                         'progress':function(evt){
                             //	Description					|	Times
                             //	In progress.					Zero or more.
-                            console.log('In progress');
+//                            console.log('In progress');
 
 
                             // this.last_element_inserted
@@ -1059,23 +1072,23 @@ $(document).ready(function(){
                         'error':function(evt){
                             //	Description					|	Times
                             // 	Progression failed.				Zero or more.
-                            console.log("Progression failed.");
+//                            console.log("Progression failed.");
 
                         },
                         'abort':function(evt){
                             //	Description					|	Times
                             //	Progression is terminated.		Zero or more.
-                            console.log("Progression is terminated.");
+//                            console.log("Progression is terminated.");
                         },
                         'load':function(evt){
                             //	Description					|	Times
                             //  Progression is successful.		Zero or more.
-                            console.log('Progression is successful.');
+//                            console.log('Progression is successful.');
                         },
                         'loadend':function(evt){
                             //	Description					|	Times
                             // 	Progress has stopped.			Once.
-                            console.log('Progress has stopped.');
+//                            console.log('Progress has stopped.');
                             //	console.log(this.last_element_inserted);
 
 

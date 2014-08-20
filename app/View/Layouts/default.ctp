@@ -13,6 +13,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+    <!--  lightbox https://github.com/ashleydw/lightbox -->
+    <link rel="stylesheet" href="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css">
 
     <?php
         echo $this->Html->css(array('refactored/base'));
@@ -125,10 +127,23 @@
     <script type="text/javascript" src="/resources/library-vendor/redactor/redactor.min.js" ></script>
     <script type="text/javascript" src="/resources/library-vendor/redactor/langs/es.js" ></script>
 
-
     <!-- Bootstrap - https://github.com/twbs/bootstrap -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+    <!-- lightbox - https://github.com/ashleydw/lightbox -->
+    <script type="text/javascript" src="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js" ></script>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            // delegate calls to data-toggle="lightbox"
+            $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox();
+            });
+
+
+
+        });
+    </script>
 
     <!-- jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation -->
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>

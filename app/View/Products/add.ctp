@@ -420,14 +420,10 @@
 
 <!-- light box para visualizar mejor la imagen cargada de la publicación o borrador.
 --------------------------------------------------------------------------------------------------------------->
-<div id="product-light-box" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
-    <div class='lightbox-header'>
-        <button type="button" class="close" data-dismiss="lightbox" aria-hidden="true">&times;</button>
-    </div>
-    <div class='lightbox-content'>
-        <img id="image-product" src="">
-    </div>
-</div>
+<a href="" id="image-product"  style="display: none;"></a>
+
+
+
 
 
 <?php
