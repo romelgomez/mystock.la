@@ -607,8 +607,8 @@ $(document).ready(function(){
                                     window['location'] = "/entrar";
                                 }
 
-                                if(obj['status']){
-                                    $("#thumbnail-id-"+obj['image_id']).remove();
+                                if(response['status']){
+                                    $("#thumbnail-id-"+response['image_id']).remove();
                                 }
 
                                 // proceso para determinar si aun existen imágenes en la vista del producto.
@@ -642,7 +642,7 @@ $(document).ready(function(){
          Private Method
          Descripción: para visualizar en mejor resolución una miniatura habilitada del producto.
          */
-        var better_visualizing = function(){
+        var betterVisualizing = function(){
             $("#product_thumbnails").find(".view-this-product-thumbnail").each(function(){
                 $(this).off("click");
                 $(this).click(function(){
@@ -823,7 +823,7 @@ $(document).ready(function(){
 
                 $('#uploading-pictures').modal('hide');
 
-                var dropFilesThumbnail = $('#drop-files').find(".thumbnail");
+                var dropFilesThumbnail = $('#drop-files').find("a");
 
                 if(dropFilesThumbnail.length > 0){
 
@@ -836,18 +836,18 @@ $(document).ready(function(){
                         images_ids.push(image_obj['original']['id']);
 
                         // Insertar la imagen del producto en la vista
-                        var product_thumbnail_element = '<a class="thumbnail" id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
+                        var product_thumbnail_element = '<a id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
                             '<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">'+
-                            '<img src="/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
+                                '<img src="/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
                             '</div>'+
                             '<div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                            '<img style="width: 24px;" src="/img/x2.png">'+
+                                '<img style="width: 24px;" src="/img/x2.png">'+
                             '</div>'+
                             '<div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">'+
-                            '<img src="/img/view.png">'+
+                                '<img src="/img/view.png">'+
                             '</div>'+
                             '<div style="display:none;">'+image_pure_json_obj+'</div>'+
-                            '</a>';
+                        '</a>';
 
                         var productThumbnails = $('#product_thumbnails');
 
@@ -889,7 +889,7 @@ $(document).ready(function(){
                         "callbacks":{
                             "beforeSend":function(){},
                             "success":function(response){
-//                        $('#debug').text(JSON.stringify(response));
+                        $('#debug').text(JSON.stringify(response));
 
                                 if(response['expired_session']){
                                     window.location = "/entrar";
@@ -901,6 +901,7 @@ $(document).ready(function(){
                         }
                     };
 
+                    console.log('images_ids',images_ids);
                     request_parameters['data']['images_ids'] = images_ids;
                     request_parameters['data']['product_id'] =  $('#ProductId').val();
                     ajax.request(request_parameters);
@@ -924,11 +925,11 @@ $(document).ready(function(){
 
                     /* inhabilitar miniaturas del producto
                      *****************************************/
-                    disable_thumbnails();
+                    disableThumbnails();
 
                     /* Visualizar en mejor resolución una miniatura habilitada del producto.
                      *****************************************/
-                    better_visualizing();
+                    betterVisualizing();
 
                 }
 
@@ -989,19 +990,18 @@ $(document).ready(function(){
                             //	Description					|	Times
                             //	Progress has begun. 			Once.
 
-
-                            var temporary_element = '<a class="thumbnail" style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
+                            var temporary_element = '<a style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
                                 '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
-                                '<div style="text-align: center;">'+
-                                '<img src="/img/photocamera.png" >'+
-                                '</div>'+
+                                    '<div style="text-align: center;">'+
+                                        '<img src="/img/photocamera.png" class="img-thumbnail" >'+
+                                    '</div>'+
                                 '</div>'+
                                 '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
-                                '<div style="text-align: center;">'+
-                                '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
+                                    '<div style="text-align: center;">'+
+                                      '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
+                                    '</div>'+
                                 '</div>'+
-                                '</div>'+
-                                '</a>';
+                            '</a>';
 
                             var dropFiles = $('#drop-files');
 
@@ -1080,7 +1080,6 @@ $(document).ready(function(){
 
 
                             var a = this.responseText;
-//                console.log(a);
 
                             var obj = $.parseJSON(a);
                             if(obj['expired_session']){
@@ -1113,14 +1112,13 @@ $(document).ready(function(){
                              }
                              */
 
-
                             var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
-                                '<div style="text-align: center;">'+
-                                '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" >'+
-                                '</div>'+
+                                    '<div style="text-align: center;">'+
+                                        '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
+                                    '</div>'+
                                 '</div>'+
                                 '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                                '<img style="width: 24px;" src="/img/x2.png">'+
+                                    '<img style="width: 24px;" src="/img/x2.png">'+
                                 '</div>'+
                                 '<div style="display:none">'+a+'</div>';
 
@@ -1135,7 +1133,7 @@ $(document).ready(function(){
 
                             // ¿siguen existiendo miniaturas luego de borrar una? no, entonces se normaliza la vista.
                             var exist_thumbnails = function(){
-                                if(!$('#drop-files').find(".thumbnail").length){
+                                if(!$('#drop-files').find("a").length){
                                     $('#optional-selection-container').css({
                                         "display": "block"
                                     });
@@ -1260,7 +1258,7 @@ $(document).ready(function(){
 
                 /* Visualizar en mejor resolución una miniatura habilitada del producto
                  ************************************************************************/
-                better_visualizing();
+                betterVisualizing();
             }
 
             activate();
@@ -1275,7 +1273,7 @@ $(document).ready(function(){
             // observar el evento de abrir el modal para cargar imágenes del producto o servicio
             imagesEvents();
 
-//            // Subir las imágenes
+            // Subir las imágenes
             fileUpload();
 
         };

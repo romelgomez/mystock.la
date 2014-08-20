@@ -269,7 +269,7 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="panel panel-default">
-                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: [SI] <a id="continue-upload" style="display:none" href="#"  >Añadir mas</a>
+                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: <a id="continue-upload" href="#"  >Añadir mas</a>
                                                 </div>
                                                 <div class="panel-body" style="cursor: pointer;">
 
@@ -312,7 +312,7 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="panel panel-default">
-                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: [NO] <a id="continue-upload" style="display:none" href="#"  >Añadir mas</a>
+                                                <div class="panel-heading"><span class="glyphicon glyphicon-picture"></span> Imágenes: <a id="continue-upload" style="display:none" href="#"  >Añadir mas</a>
                                                 </div>
                                                 <div class="panel-body" style="cursor: pointer;">
 

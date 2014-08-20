@@ -142,11 +142,8 @@ class ImagesController extends AppController{
      * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function enables_this_images(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
+
 
         /*
         print_r($request);
@@ -195,11 +192,8 @@ class ImagesController extends AppController{
 
 
     public function disable_this_imagen(){
-        if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
+
 
         $user_logged = $this->Auth->User();
 
