@@ -108,20 +108,23 @@
 </div>
 
 
-<!-- Modal para borrar la publicación
----------------------------------------------------------------------------------------------------------------->
-<!--<div class="modal hide fade" id="delete_product_modal"  style="position: fixed;"  >-->
-<!--    <div class="alert alert-block alert-error"  style="margin-bottom: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">-->
-<!--        <h4 class="alert-heading">¿Realmente quieres borrar esta publicación?</h4>-->
-<!--        <h5 class="muted" style=" margin-bottom: 0px; " >Un alternativa mejor es pausar la publicacion y activarla cuando se normalice el inventario o evento sobrevenido,-->
-<!--            pausar la publicacion permitira que la publicidad y contactos esten disponible al los clientes, teniendo claro que la publicación quedara inavilitada para ser ofertada a traves del sistema.</h5>-->
-<!--    </div>-->
-    <!-- Form footer
-    ------------------------------------>
-<!--    <div class="modal-footer">-->
-<!--        <button  id="delete_product" class="btn btn-danger" >Confirmar</button>-->
-<!--        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>-->
-<!--    </div>-->
-<!--</div>-->
+<!-- Modal para borrar la publicación -->
+<div id="delete_product_modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">¿Realmente quieres borrar esta publicación?</h4>
+            </div>
+            <div class="modal-body">
+                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido, pausar la publicacion permitirá que la publicidad y contactos estén disponible a los clientes, teniendo claro que la publicación quedará inhabilitada para ser ofertada a través del sistema.
+            </div>
+            <div class="modal-footer">
+                <button id="delete_product" type="button" class="btn btn-danger">Confirmar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php echo $this->Html->script('base.publicados',false); ?>
