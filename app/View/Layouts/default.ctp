@@ -86,7 +86,7 @@
     <div id="footer" style="margin-bottom: 20px">
 
         <div style="text-align: center;">
-            En SantoMercado.com solo publican empresas certificadas. Exige tu factura.
+            Solo empresas publican en SantoMercado.com
             <br>
             Copyright © 2012 Santo Mercado Venezuela S.A J-777777777-G
         </div>
