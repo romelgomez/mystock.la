@@ -914,7 +914,7 @@ $(document).ready(function(){
                         }
                     };
 
-                    console.log('images_ids',images_ids);
+//                    console.log('images_ids',images_ids);
                     request_parameters['data']['images_ids'] = images_ids;
                     request_parameters['data']['product_id'] =  $('#ProductId').val();
                     ajax.request(request_parameters);
