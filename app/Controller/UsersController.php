@@ -14,11 +14,7 @@
     }
 
     public function in(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         $options = array(
             'conditions' => array(
