@@ -238,21 +238,6 @@ var display_status_request = function(form_id,parent_id,obj){
             setTimeout(function(){ $("#"+parent_id+" .alert-error").fadeOut(); }, 7000);
             return false;
         }
-    }else{
-        // para manejar los errores que dispara el servidor, en caso de que la validación en el servidor sea mas granulada y en la vista no sea ha procurado prevenir tal error.
-        $.each(obj.fields,function(element_id,msn){
-
-            var element = $("#"+element_id);
-
-            $(validation_states).each(function(k2,state){
-                if(element.parents('.control-group').hasClass(state)){
-                    element.parents('.control-group').removeClass(state);
-                }
-            });
-            element.parents(".control-group").addClass("warning");
-            element.parents('.control-group').find(".help-inline").fadeIn().html(msn);
-        });
-        return false;
     }
 };
 

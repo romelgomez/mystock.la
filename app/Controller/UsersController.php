@@ -59,7 +59,7 @@
             //	$return['_info_to_save'] = $user;
             if($this->{'User'}->save($user)){
                 $return = $this->{'User'}->read();
-                // se envía el correo.
+                // TODO se envía el correo.
                 $return['save'] = true;
             }else{
                 $return['save'] = false; // ++++++++++++++ ha ocurrido un error +++++++++++++++

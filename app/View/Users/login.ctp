@@ -44,21 +44,23 @@
             <form role="form" id="UserAddForm" action="#" method="post" accept-charset="utf-8">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                     <h4 class="modal-title">Nuevo usuario</h4>
                 </div>
 
                 <div class="modal-body">
 
+
                     <!-- Mensajes post ajax request -->
-<!--                    <div class="alert alert-success" 		style="display:none">-->
-<!--                        <button type="button" class="close" data-dismiss="alert">x</button>-->
-<!--                        ¡Se ha enviado un mensaje a su correo para confirmar su información!-->
-<!--                    </div>-->
-<!--                    <div class="alert alert-error fade in"	style="display:none">-->
-<!--                        <button type="button" class="close" data-dismiss="alert">x</button>-->
-<!--                        ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!-->
-<!--                    </div>-->
+                    <div id="alertSuccess" class="alert alert-success alert-dismissible" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        ¡Se ha enviado un mensaje a su correo para confirmar su información!
+                    </div>
+                    <div id="alertError" class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!
+                    </div>
+
 
                     <div class="form-group">
                         <label for="UserName"><span class="glyphicon glyphicon-user"></span> Primer Nombre</label>
@@ -81,7 +83,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
 

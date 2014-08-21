@@ -21,20 +21,20 @@
             event.preventDefault();
             $('#newUserModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
                 validate.removeValidationStates('UserAddForm');
-                validate['validatorObject']['resetForm']();
             });
         });
 
         var request_parameters = {
             "requestType":"form",
             "type":"post",
-            "url":"/login",
+            "url":"/new_user",
             "data":{},
             "form":{
-                "id":"LoginForm",
+                "id":"UserAddForm",
                 "inputs":[
-                    {'id':'LoginEmail',          'name':'email'},
-                    {'id':'LoginPassword',       'name':'password'}
+                    {'id':'UserName',          'name':'name'},
+                    {'id':'UserEmail',       'name':'email'},
+                    {'id':'UserPassword',       'name':'password'}
                 ]
             },
             "callbacks":{
@@ -42,7 +42,14 @@
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
-
+                    if(response['save']){
+                        $("#alertSuccess").fadeIn();
+                        setTimeout(function(){ $("#alertSuccess").fadeOut() },7000);
+                        validate.removeValidationStates('UserAddForm');
+                    }else{
+                        $("#alertError").fadeIn();
+                        setTimeout(function(){$("#alertError").fadeOut()},7000);
+                    }
 
                 },
                 "error":function(){},
@@ -53,8 +60,7 @@
         // validación:
         var validateObj = {
             "submitHandler": function(){
-                console.log("ok");
-//                ajax.request(request_parameters);
+                ajax.request(request_parameters);
             },
             "rules":{
                 "UserName":{
