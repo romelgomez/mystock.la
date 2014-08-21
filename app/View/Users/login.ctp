@@ -2,35 +2,46 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h2 class="panel-title">Ingrese el correo y la contraseña para continuar.</h2>
-                </div>
-                <div class="panel-body">
-                    <form role="form" id="LoginForm">
-                        <div class="form-group">
-                            <label for="LoginEmail"><span class="glyphicon glyphicon-envelope"></span> Email address</label>
-                            <input id="LoginEmail" name="LoginEmail" value="" class="form-control" type="email" maxlength="128" placeholder="Correo" tabindex="1" autocorrect="off" autocapitalize="off">
-                            <span class="help-block" style="display: none;">El campo título es obligatorio.</span>
+            <div class="row">
+                <div class="col-xs-6 col-md-4">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Ingrese el correo y la contraseña para continuar.</h2>
                         </div>
-                        <div class="form-group">
-                            <label for="LoginPassword"><span class="glyphicon glyphicon-lock"></span> Contraseña</label>
-                            <input type="password" class="form-control" id="LoginPassword" name="LoginPassword" placeholder="Contraseña" tabindex="2">
-                            <span class="help-block" style="display: none;">El campo contraseña es obligatorio.</span>
+                        <div class="panel-body">
+                            <form role="form" id="LoginForm">
+                                <div class="form-group">
+                                    <label for="LoginEmail"><span class="glyphicon glyphicon-envelope"></span> Email address</label>
+                                    <input id="LoginEmail" name="LoginEmail" value="" class="form-control" type="email" maxlength="128" placeholder="Correo" tabindex="1" autocorrect="off" autocapitalize="off">
+                                    <span class="help-block" style="display: none;">El campo título es obligatorio.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="LoginPassword"><span class="glyphicon glyphicon-lock"></span> Contraseña</label>
+                                    <input type="password" class="form-control" id="LoginPassword" name="LoginPassword" placeholder="Contraseña" tabindex="2">
+                                    <span class="help-block" style="display: none;">El campo contraseña es obligatorio.</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary" tabindex="3">Entrar</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-primary" tabindex="3">Entrar</button>
-                    </form>
+                        <div class="panel-footer">
+                            <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>
+                            <button id="newUser" type="button" class="btn btn-link">¿Nuevo usuario?</button>
+                        </div>
+                    </div>
+
+                    <div id="login-error"  class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong>Alerta!</strong>  El correo electrónico o la contraseña, <b>no son correctos</b>.
+                    </div>
+
                 </div>
-                <div class="panel-footer">
-                    <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>
-                    <button id="newUser" type="button" class="btn btn-link">¿Nuevo usuario?</button>
+                <div class="col-xs-12 col-sm-6 col-md-8">
+
                 </div>
             </div>
 
-            <div id="login-error"  class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
-                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <strong>Alerta!</strong>  El correo electrónico o la contraseña, <b>no son correctos</b>.
-            </div>
+
 
         </div>
     </div>

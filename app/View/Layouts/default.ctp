@@ -44,27 +44,30 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publicar</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Cuenta <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="presentation" class="dropdown-header">PRODUCTOS</li>
-                            <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> <del>Comprados</del></a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-usd"></span> <del>Vendidos</del></a></li>
-                            <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
-                            <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> <del>Borradores</del></a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> <del>Reputación</del></a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><del> Usuarios</del></a></li>
-                            <li><a href="/categorias">Categorías</a></li>
-                        </ul>
-                    </li>
+
+                    <?php if(isset($userLogged)){ ?>
+                        <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publicar</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Cuenta <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation" class="dropdown-header">PRODUCTOS</li>
+                                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> <del>Comprados</del></a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-usd"></span> <del>Vendidos</del></a></li>
+                                <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
+                                <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> <del>Borradores</del></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> <del>Reputación</del></a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><del> Usuarios</del></a></li>
+                                <li><a href="/categorias">Categorías</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <?php
                         if(isset($userLogged)){
                             echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Salir</a></li>';
