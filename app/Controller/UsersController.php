@@ -40,11 +40,8 @@
     }
 
     public function add(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
+
 
         $this->{'User'}->set($request);
         if($this->{'User'}->validates()){

@@ -23,7 +23,7 @@
                 </div>
                 <div class="panel-footer">
                     <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>
-                    <button id="new_user" type="button" class="btn btn-link">¿Nuevo usuario?</button>
+                    <button id="newUser" type="button" class="btn btn-link">¿Nuevo usuario?</button>
                 </div>
             </div>
 
@@ -36,6 +36,59 @@
     </div>
 </div>
 
+
+<!-- Modal Nuevo usuario -->
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" id="UserAddForm" action="#" method="post" accept-charset="utf-8">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Nuevo usuario</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Mensajes post ajax request -->
+<!--                    <div class="alert alert-success" 		style="display:none">-->
+<!--                        <button type="button" class="close" data-dismiss="alert">x</button>-->
+<!--                        ¡Se ha enviado un mensaje a su correo para confirmar su información!-->
+<!--                    </div>-->
+<!--                    <div class="alert alert-error fade in"	style="display:none">-->
+<!--                        <button type="button" class="close" data-dismiss="alert">x</button>-->
+<!--                        ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!-->
+<!--                    </div>-->
+
+                    <div class="form-group">
+                        <label for="UserName"><span class="glyphicon glyphicon-user"></span> Primer Nombre</label>
+                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria">
+                        <span class="help-block" style="display: none;">Requerido</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UserEmail"><span class="glyphicon glyphicon-envelope"></span> Correo</label>
+                        <input type="email" class="form-control" id="UserEmail" name="UserEmail" placeholder="Eje: maria@gmail.com">
+                        <span class="help-block" style="display: none;">Requerido</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UserPassword"><span class="glyphicon glyphicon-lock"></span> Contraseña</label>
+                        <input type="password" class="form-control" id="UserPassword" name="UserPassword">
+                        <span class="help-block" style="display: none;">Requerido</span>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -76,75 +129,6 @@
                         <span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="Email" name="Email" placeholder="Eje: maria@gmail.com">
                     </div>
                     <span style="display:none; margin-top: 5px; margin-left: 7px;" class="help-inline">Requerido</span>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Form footer
-        ------------------------------------>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" >Enviar</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-        </div>
-
-    </form>
-</div>
-
-<!-- Modal Nuevo usuario
-===================== -->
-<div class="modal hide fade" id="new_user_modal"  >
-    <form id="UserAddForm" action="#" method="post" accept-charset="utf-8">
-
-        <!-- Form header
-        ------------------------------------>
-        <div class="modal-header">
-            <a href="#" class="close" data-dismiss="modal" style="border: none;float: right;"><img src="./img/x2.png" title="Cancelar" style="width: 24px;"></a>
-            <h3>Nuevo usuario</h3>
-        </div>
-
-        <!-- Form body
-        ------------------------------------>
-        <div class="modal-body">
-
-            <!-- Mensajes post ajax request
-            ------------------------------------>
-            <div class="alert alert-success" 		style="display:none">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                ¡Se ha enviado un mensaje a su correo para confirmar su información!
-            </div>
-            <div class="alert alert-error fade in"	style="display:none">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!
-            </div>
-
-            <!-- Form inputs
-            ------------------------------------>
-            <div class="control-group">
-                <label class="control-label" for="UserName">Primer Nombre</label>
-                <div class="controls">
-                    <div class="input-prepend" style="display: inline;">
-                        <span class="add-on"><i class="icon-user"></i></span><input type="text" id="UserName" name="UserName" placeholder="Eje: Maria">
-                    </div>
-                    <span style="display:none;  margin-top: 5px; margin-left: 7px;" class="help-inline">Requerido</span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="UserEmail">Correo</label>
-                <div class="controls">
-                    <div class="input-prepend" style="display: inline;">
-                        <span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="UserEmail" name="UserEmail" placeholder="Eje: maria@gmail.com">
-                    </div>
-                    <span style="display:none; margin-top: 5px; margin-left: 7px;" class="help-inline">Requerido</span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="UserPassword">Contraseña</label>
-                <div class="controls">
-                    <div class="input-prepend" style="display: inline;">
-                        <span class="add-on"><i class="icon-lock"></i></span><input id="UserPassword" name="UserPassword" type="password" placeholder="Contraseña">
-                    </div>
-                    <span style="display:none;  margin-top: 5px; margin-left: 7px;" class="help-inline">Requerido</span>
                 </div>
             </div>
 

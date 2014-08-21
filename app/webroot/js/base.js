@@ -183,6 +183,29 @@
     };
 
 
+    /*
+     Public Method
+     Descripción: Esta lógica se asegura de de resetear y remover los estados de validación del formulario
+     Parámetros:
+     form_id: el id del formulario.
+    */
+    validate.removeValidationStates = function(formId){
+        var form = $('#'+formId);
+        form[0].reset();
+        var inputs = form.find('input');
+        inputs.each(function(inputKey,_input_){
+            var input = $(_input_);
+            $(validationStates).each(function(stateKey,state){
+                if(input.parents('.form-group').hasClass(state)){
+                    input.parents('.form-group').removeClass(state);
+                    input.parents('.form-group').find(".help-block").fadeOut();
+                }
+            });
+        });
+    };
+
+
+
 }( window.validate = window.validate || {}, jQuery ));
 
 (function( base, $, undefined ) {
@@ -200,143 +223,9 @@
 // TODO DELETE THIS CODE AFTER REFACTOR ALL CODE
 
 
-/*
-
- Validation States
- Se popula en span.help-inline - ya que varia segun el campo.
- warning	->  Antes y Depues de la solicitud ajax, Antes: si es requerido, si es correcto. Despues: si es requerido, si es correcto. Antes: validadción en el cliente, Depues: Validación en el servidor.
- info	->  no es usado en los formularios porque puede ser confundido con success
- Se muestra - ya que varia segun el formulario - Estos estados se activan luego de una solicitud al servidor.
- success	->  Al guardar correctamente.
- $("#"+form_id).parent(".modal-body").children(".alert-success");
- error	->  Al intentar guardar y alla ocurrido un error inesperado en el lado del servidor.
- $("#"+form_id).parent(".modal-body").children(".alert-error")1;
-
- */
-var validation_states = ['warning','info','success','error'];
-
-/*
- * Type: function
- * Descripción: Esta logica se asegura de recetear el formulario a su estado original.
- * Parametros:
- * 	form_id: el id del formulario.
- * */
-var reset_form = function(form_id){
-    $('#'+form_id)[0].reset();
-    var inputs = $("#"+form_id+" input");
-    $(inputs).each(function(k,element){
-        $(validation_states).each(function(k2,state){
-            var element = $("#"+element.id);
-            if(element.parents('.control-group').hasClass(state)){
-                element.parents('.control-group').removeClass(state);
-                element.parents('.control-group').find(".help-inline").fadeOut();
-            }
-        });
-    });
-};
-
-/*
- * Type: class
- * Descrición: Usada para procesar la solicitud del usuario, llamar la solicitud ajax
- * Parametros:
- * 	config_obj: objeto con todos los datos requeridos para procesar la solicitud
- * */
-var Request = function(config_obj){
-
-    var obj = {};
-
-    if(config_obj.data.form){
-        obj = {};
-        $.each(config_obj.data.form.inputs,function(k,db_field){
-            obj[k] = $('#'+db_field.id).val();
-        });
-        new AjaxRequest(config_obj,obj);
-    }
-    if(config_obj.data.custom){
-        obj = config_obj.data.custom;
-        new AjaxRequest(config_obj,obj);
-    }
-
-};
 
 
 
-
-
-
-
-
-/*
- * Type: class
- * Descrición: Usada para ejecutar la solicitud ajax, las funciones o retrollamadas que se ejecuntan durante al solicitud ajax son referenciadas desde config_obj o el objeto de configuración.
- * Parametros:
- * 	config_obj: un objeto con los datos de configurados para procesar la solicitud, pero no el objeto que sera enviado en la solicitud.
- *  obj: el objeto que sera enviado en la solicitud.
- *
- * */
-var AjaxRequest = function(config_obj,obj){
-
-    var set_obj = {};
-
-    if(config_obj.console_log){
-
-        set_obj ={
-            type: config_obj.type,
-            url: config_obj.url,
-            data: obj,
-            global: false,
-            complete: function(response){
-                $('#debug').text(response.responseText);
-                config_obj.callbacks.complete(response);
-            }
-        };
-
-        $.ajax(set_obj);
-    }else{
-
-        set_obj ={
-            type: config_obj.type,
-            url: config_obj.url,
-            data: obj,
-            global: false,
-            complete: function(response){
-                config_obj.callbacks.complete(response);
-            }
-        };
-
-        $.ajax(set_obj);
-    }
-};
-
-
-var matches = function(value){
-    if(value === ''){
-        $("#accordion-menu").css({"display":"inherit"});
-        $("#search_results").css({"display":"none"});
-    }else{
-        var accordion_menu = $("#accordion-menu");
-        accordion_menu.css({"display":"none"});
-
-        var lis = '';
-        accordion_menu.find("a.link").each(function(k,element){
-            var classs	=	$(element).attr("class");
-            var title	=	$(element).attr("title");
-            var href	=	$(element).attr("href");
-
-            var i_title 	=	$.trim(title).toLowerCase();
-            if(i_title.search(value)  >= 0){
-                lis += '<li><div class="menu-item"><a href="'+href+'" class="'+classs+'"  title="'+title+'"  ">'+title+'</a></div></li>';
-            }
-        });
-
-        // insertar los li en el dom
-        var search_results = $("#search_results");
-        search_results.find('ul').html(lis);
-
-        // mostramos el menu
-        search_results.css({"display":"inherit"});
-    }
-};
 
 var display_status_request = function(form_id,parent_id,obj){
     if(obj.validates){
@@ -367,48 +256,11 @@ var display_status_request = function(form_id,parent_id,obj){
     }
 };
 
-var validate_this_form = function(forn_id,options){
-
-    options.errorPlacement = function(error, element){
-        $(element).parents('.control-group').find(".help-inline").fadeIn().html($(error).html());
-    };
-
-    options.success = function(label){
-    };
-
-    options.highlight = function(element){
-        $(validation_states).each(function(k2,state){
-            if($(element).parents('.control-group').hasClass(state)){
-                $(element).parents('.control-group').removeClass(state);
-            }
-        });
-        $(element).parents('.control-group').addClass('warning');
-    };
-
-    options.unhighlight = function(element){
-        $(validation_states).each(function(k2,state){
-            if($(element).parents('.control-group').hasClass(state)){
-                $(element).parents('.control-group').removeClass(state);
-            }
-        });
-        $(element).parents('.control-group').addClass('success');
-    };
-
-    this._validate = $("#"+forn_id).validate(options);
-
-};
 
 var capitaliseFirstLetter = function(string){ return string.charAt(0).toUpperCase() + string.slice(1); }
 
 var str_replace = function(string, change_this, for_this) {
     return string.split(change_this).join(for_this);
-};
-
-var random_number = function(inferior,superior){
-    var numPosibilidades = superior - inferior;
-    var aleat = Math.random() * numPosibilidades;
-    aleat = Math.round(aleat);
-    return parseInt(inferior) + aleat;
 };
 
 var clean_obj = function(data){
