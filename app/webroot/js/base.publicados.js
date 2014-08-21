@@ -99,7 +99,6 @@ $(document).ready(function(){
 
             var id          = obj['product']['id'];
             var title       = obj['product']['title'];
-            var subtitle    = obj['product']['subtitle'];
             var price       = obj['product']['price'];
             var published   = obj['product']['created'];
 
@@ -137,15 +136,13 @@ $(document).ready(function(){
             // END
 
 
-
             // se arma una publicación
             return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
                         '<a class="pull-left" href="'+link+'">'+
                             '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
-                            '<h4 class="media-heading"><a href="'+link+'" >'+title+'</a></h4>'+
-                            '<h5 class="muted" >'+subtitle+'</h5>'+
+                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+
@@ -1031,8 +1028,10 @@ $(document).ready(function(){
                         if(response['result']){
 
                             // No hay productos publicados.
-                            if(response['total_products'].length == 0){
-                                $("#no-products").css({"display":""});
+                            if(response['total_products'] == 0){
+                                $("#no-products").css({"display":"inherit"});
+                            }else{
+                                $("#yes-products").css({"display":"inherit"});
                             }
 
 
