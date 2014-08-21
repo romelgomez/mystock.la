@@ -93,57 +93,45 @@
 </div>
 
 
+<!-- Modal Olvido de la contraseña  -->
+<div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" id="UserForm" action="#" method="post" accept-charset="utf-8">
 
-
-<!-- Modal Olvido de la contraseña
-===================== -->
-<div class="modal hide fade" id="recover_modal">
-    <form id="UserForm" action="#" method="post" accept-charset="utf-8">
-
-        <!-- Form header
-        ------------------------------------>
-        <div class="modal-header">
-            <a href="#" class="close" data-dismiss="modal" style="border: none;float: right;"><img src="./img/x2.png" title="Cancelar" style="width: 24px;"></a>
-            <h3>Recupere la contraseña</h3>
-        </div>
-
-        <!-- Form body
-        ------------------------------------>
-        <div class="modal-body">
-
-            <!-- Mensajes post ajax request
-            ------------------------------------>
-            <div class="alert alert-success" 	style="display:none">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                ¡Se ha enviado un mensaje a su correo para confirmar y recuperar su información!
-            </div>
-            <div class="alert alert-error fade in"	style="display:none">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!
-            </div>
-
-            <!-- Form inputs
-            ------------------------------------>
-            <div class="control-group">
-                <label class="control-label" for="Email">Correo</label>
-                <div class="controls">
-                    <div class="input-prepend" style="display: inline;">
-                        <span class="add-on"><i class="icon-envelope"></i></span><input type="text" id="Email" name="Email" placeholder="Eje: maria@gmail.com">
-                    </div>
-                    <span style="display:none; margin-top: 5px; margin-left: 7px;" class="help-inline">Requerido</span>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title">Recupere la contraseña</h4>
                 </div>
-            </div>
 
+                <div class="modal-body">
+
+                    <!-- Mensajes post ajax request -->
+                    <div id="recoverySuccess" class="alert alert-success alert-dismissible" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        ¡Se ha enviado un mensaje a su correo para confirmar y recuperar su información!
+                    </div>
+                    <div id="recoveryError" class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email"><span class="glyphicon glyphicon-envelope"></span> Correo</label>
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Eje: maria@gmail.com">
+                        <span class="help-block" style="display: none;">Requerido</span>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+
+            </form>
         </div>
-
-        <!-- Form footer
-        ------------------------------------>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" >Enviar</button>
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-        </div>
-
-    </form>
+    </div>
 </div>
 
 

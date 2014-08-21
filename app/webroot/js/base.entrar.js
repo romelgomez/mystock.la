@@ -13,6 +13,85 @@
 
     /*
      Private Method
+     Descripción:  Recuperar una cuenta
+    */
+    var recoverAcount = function(){
+
+        $("#recover").on('click',function(event){
+            event.preventDefault();
+            $('#recoverModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                validate.removeValidationStates('UserForm');
+            });
+        });
+
+        var request_parameters = {
+            "requestType":"form",
+            "type":"post",
+            "url":"/recover_account",
+            "data":{},
+            "form":{
+                "id":"UserForm",
+                "inputs":[
+                    {'id':'Email', 'name':'email'}
+                ]
+            },
+            "callbacks":{
+                "beforeSend":function(){},
+                "success":function(response){
+                    $('#debug').text(JSON.stringify(response));
+
+                    if(response['send']){
+                        $("#recoverySuccess ").fadeIn();
+                        setTimeout(function(){ $("#recoverySuccess").fadeOut() },7000);
+                        validate.removeValidationStates('UserForm');
+                    }else{
+                        $("#recoveryError").fadeIn();
+                        setTimeout(function(){$("#recoveryError").fadeOut()},7000);
+                    }
+
+                },
+                "error":function(){},
+                "complete":function(response){}
+            }
+        };
+
+        // validación:
+        var validateObj = {
+            "submitHandler": function(){
+                ajax.request(request_parameters);
+            },
+            "rules":{
+                "Email":{
+                    "required":true,
+                    "email": true,
+                    "remote": {
+                        "url": "/check_email",
+                        "type": "post",
+                        "data": {
+                            "UserEmail": function() {
+                                return $("#Email").val();
+                            }
+                        }
+                    },
+                    "maxlength":30
+                }
+            },
+            "messages":{
+                "Email":{
+                    "required":"El campo email es obligatorio.",
+                    "email":"Debe proporcionar un correo valido.",
+                    "remote":"No existe una cuenta asociada a tal dirección de correo electrónico. Por favor, verifique e inténtelo de nuevo.",
+                    "maxlength":"El correo no debe tener mas de 30 caracteres."
+                }
+            }
+        };
+
+        validate.form("UserForm",validateObj);
+
+    };
+
+    /*
+     Private Method
      Descripción:  Nuevo Usuario
     */
     var newUser = function(){
@@ -189,6 +268,7 @@
     user.init = function(){
         login();
         newUser();
+        recoverAcount();
     };
 
 

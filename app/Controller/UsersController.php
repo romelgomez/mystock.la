@@ -118,11 +118,7 @@
     }
 
     public function recover_account(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         if($this->email($request['email'])){
             // ++++++ se envía el correo  ++++++
