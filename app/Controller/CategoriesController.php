@@ -36,8 +36,8 @@
      * Retorna: 			un array
      *******************/
     private function categories(){
-        $return['length'] = $this->{'Category'}->find('count');
-        if($return['length']){
+        $return['countCategories'] = $this->{'Category'}->find('count');
+        if($return['countCategories']){
             $categories = $this->{'Category'}->find('threaded', array(
                 'order' => 'Category.lft',
                 'contain' => false
@@ -51,7 +51,7 @@
     /* Descripción: Función principal , permite visualizar las categorias, entre otras acciones administrativas realacionadas.
      * tipo de solicitud: 	get (no-ajax)
      * tipo de acceso: 		administrativo
-     * Recive: 				null
+     * Recibe: 				null
      * Retorna: 			un array
      *******************/
     public function index(){
@@ -77,17 +77,12 @@
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function new_category(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         $category =	array(
             'Category'=>Array
             (
-                'name'	=>	$request['name'],
-                //'parent_id'	=>	55
+                'name'	=>	$request['name']
             )
         );
 
@@ -99,7 +94,6 @@
                 $return['save'] = false; // ++++++++++++++ ha ocurrido un error +++++++++++++++
             }
             $return['validates'] = true;
-
         }else{
             $return['validates'] = false;
             // se envía los campos faltantes o algún error que pudiese haber ocurrido.
