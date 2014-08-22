@@ -7,6 +7,131 @@ $(document).ready(function(){
     (function( categories, $) {
 
         /*
+         Private Property
+         Descripción:  El árbol en el DOM
+         */
+        var treeElement;
+
+
+        /*
+         Private Method
+         Descripción:  evento que enciende al selecionar una categoría
+        */
+        var treeSelect = function(){
+            treeElement.bind(
+                'tree.select',
+                function(event) {
+
+                    // console.log(node);
+
+                    //  EDIT
+                    $("#EditCategoryId").attr({"value":event['node']['id']});
+                    $("#EditCategoryName").attr({"value":event['node']['name']});
+
+                    //  Delete
+                    $("#DelectCategoryId").attr({"value":event['node']['id']});
+                    $("#delect-category-name").html(event['node']['name']);
+
+                    if(event['node']['children'].length > 0){
+                        $("#DelectCategoryBranch").fadeIn();
+                    }else{
+                        $("#DelectCategoryBranch").fadeOut();
+                    }
+
+                    // Habilita los botones.
+                    $("#admin_category").find("button").each(function(k,element){
+                        $(element).removeClass("disabled");
+                    });
+
+                }
+            );
+        };
+
+        /*
+         Private Method
+         Descripción:  para cambiar el nombre de una categoría
+        */
+        var editCategoryName = function(){
+            $("#edit_category_name").on('click',function(event){
+                event.preventDefault();
+                if(!$(this).hasClass("disabled")){
+                    // Activamos el modal
+                    $('#edit_category_name_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                        validate.removeValidationStates('CategoryEditForm');
+                    });
+                }
+            });
+
+            var request_parameters = {
+                "requestType":"form",
+                "type":"post",
+                "url":"/edit_category_name",
+                "data":{},
+                "form":{
+                    "id":"CategoryEditForm",
+                    "inputs":[
+                        {'id':'EditCategoryId', 'name':'id'},
+                        {'id':'EditCategoryName', 'name':'name'}
+                    ]
+                },
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+                        // Si la sesión ha expirado
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        var alert = $("#CategoryEditForm");
+
+                        if(response['save']){
+                            $("#EditCategoryName").attr({"value":response['Category']['name']});
+
+                            if(response['countCategories']){
+                                var treeData = response['categories'];
+                                replaceWholeTree(treeData)
+                            }
+
+                            validate.removeValidationStates('CategoryAddForm');
+                            $('#edit_category_name_modal').modal('hide');
+                        }else{
+                            alert.find(".alert-danger").fadeIn();
+                            setTimeout(function(){ $("#CategoryEditForm").find(".alert-danger").fadeOut()},7000);
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            // validación:
+            var validateObj = {
+                "submitHandler": function(){
+                    ajax.request(request_parameters);
+                },
+                "rules":{
+                    "EditCategoryName":{
+                        "required":true,
+                        "maxlength":20
+                    }
+                },
+                "messages":{
+                    "EditCategoryName":{
+                        "required":"El campo nombre es obligatorio.",
+                        "maxlength":"El nombre de la categoría no debe tener mas de 20 caracteres."
+                    }
+                }
+            };
+
+            validate.form("CategoryEditForm",validateObj);
+
+        };
+
+
+        /*
          Private Method
          Descripción:  para añadir una nueva categoría
          */
@@ -87,11 +212,6 @@ $(document).ready(function(){
         };
 
 
-        /*
-         Private Property
-         Descripción:  El árbol en el DOM
-        */
-        var treeElement;
 
 
         var replaceWholeTree = function(treeData){
@@ -130,6 +250,8 @@ $(document).ready(function(){
             }
 
             newCategory();
+            treeSelect(); // event
+            editCategoryName();
         };
 
     }( window.categories = window.categories || {}, jQuery ));

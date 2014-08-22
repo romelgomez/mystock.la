@@ -117,11 +117,7 @@
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function edit_category_name(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         $category = array(
             'Category'=>array(
@@ -162,11 +158,7 @@
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
     *******************/
     public function delect_category(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         $theWholeBranch 	= $request['theWholeBranch'];
         $id					= $request['id'];
