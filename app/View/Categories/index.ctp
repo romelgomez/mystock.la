@@ -164,7 +164,7 @@
 
 
 
-<!-- Modal para editar nombre de la categoría -->
+<!-- Modal para borrar la categoría -->
 <div class="modal fade" id="delect_category_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -180,11 +180,14 @@
 
                     <h3 class="text-danger" id="delect-category-name" style="margin-top: 0;"></h3>
 
-                    <div class="checkbox">
-                        <label>
-                            <input id="DelectCategoryBranch" type="checkbox"> Y categorías hijas también
-                        </label>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input id="DelectCategoryBranch" type="checkbox"> Y categorías hijas también
+                            </label>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="modal-footer">

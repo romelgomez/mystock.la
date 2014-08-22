@@ -15,6 +15,7 @@ $(document).ready(function(){
 
         /*
          Private Method
+         Type event
          Descripción:  evento que enciende al selecionar una categoría
         */
         var treeSelect = function(){
@@ -33,9 +34,9 @@ $(document).ready(function(){
                     $("#delect-category-name").html(event['node']['name']);
 
                     if(event['node']['children'].length > 0){
-                        $("#DelectCategoryBranch").fadeIn();
+                        $("#DelectCategoryBranch").parents(".form-group").show();
                     }else{
-                        $("#DelectCategoryBranch").fadeOut();
+                        $("#DelectCategoryBranch").parents(".form-group").hide();
                     }
 
                     // Habilita los botones.
@@ -46,6 +47,79 @@ $(document).ready(function(){
                 }
             );
         };
+
+        /*
+         Private Method
+         Descripción:  para borrar el nombre de una categoría
+        */
+        var delectCategory = function(){
+            $("#delect_category").on('click',function(event){
+                event.preventDefault();
+                if(!$(this).hasClass("disabled")){
+                    // Activamos el modal
+                    $('#delect_category_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                        validate.removeValidationStates('CategoryDelectForm');
+                    });
+                }
+            });
+
+            var request_parameters = {
+                "requestType":"form",
+                "type":"post",
+                "url":"/delect_category",
+                "data":{},
+                "form":{
+                    "id":"CategoryDelectForm",
+                    "inputs":[
+                        {'id':'DelectCategoryId', 'name':'id'},
+                        {'id':'DelectCategoryBranch', 'name':'theWholeBranch'}
+                    ]
+                },
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+                        // Si la sesión ha expirado
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        var alert = $("#CategoryDelectForm");
+
+                        if(response['status']){
+
+                            if(response['countCategories']){
+                                var treeData = response['categories'];
+                                replaceWholeTree(treeData);
+                            }else{
+                                $('#tree').css({"display":"none"});
+                                $('#no-tree').show();
+                            }
+
+                            validate.removeValidationStates('CategoryDelectForm');
+                            $('#delect_category_modal').modal('hide');
+                        }else{
+                            alert.find(".alert-danger").fadeIn();
+                            setTimeout(function(){ $("#CategoryDelectForm").find(".alert-danger").fadeOut()},7000);
+                        }
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            // validación:
+            var validateObj = {
+                "submitHandler": function(){
+                    ajax.request(request_parameters);
+                }
+            };
+
+            validate.form("CategoryDelectForm",validateObj);
+        };
+
 
         /*
          Private Method
@@ -91,7 +165,7 @@ $(document).ready(function(){
 
                             if(response['countCategories']){
                                 var treeData = response['categories'];
-                                replaceWholeTree(treeData)
+                                replaceWholeTree(treeData);
                             }
 
                             validate.removeValidationStates('CategoryAddForm');
@@ -252,6 +326,7 @@ $(document).ready(function(){
             newCategory();
             treeSelect(); // event
             editCategoryName();
+            delectCategory();
         };
 
     }( window.categories = window.categories || {}, jQuery ));

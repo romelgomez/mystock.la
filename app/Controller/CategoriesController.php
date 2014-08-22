@@ -48,7 +48,7 @@
     }
 
 
-    /* Descripción: Función principal , permite visualizar las categorias, entre otras acciones administrativas realacionadas.
+    /* Descripción: Función principal , permite visualizar las categorías, entre otras acciones administrativas realacionadas.
      * tipo de solicitud: 	get (no-ajax)
      * tipo de acceso: 		administrativo
      * Recibe: 				null
@@ -168,15 +168,17 @@
             'contain' => false
         ));
 
+        $return = array();
+
         if($category){
             if($theWholeBranch == 1){
-                $this->{'Category'}->delete();
+                $return['status'] = $this->{'Category'}->delete();
             }else{
-                $this->{'Category'}->removeFromTree($id, true);
+                $return['status'] = $this->{'Category'}->removeFromTree($id, true);
             }
         }
 
-        $return = $this->categories();
+        $return += $this->categories();
 
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
