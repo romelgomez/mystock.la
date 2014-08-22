@@ -13,6 +13,12 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+    <!-- http://imperavi.com/redactor/ -->
+    <link rel="stylesheet" type="text/css" href="/resources/library-vendor/redactor/redactor.css">
+
+    <!-- http://mbraak.github.io/jqTree/ -->
+    <link rel="stylesheet" type="text/css" href="/resources/library-vendor/jqtree/jqtree.css">
+
     <!--  lightbox https://github.com/ashleydw/lightbox -->
     <link rel="stylesheet" href="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css">
 
@@ -126,7 +132,13 @@
     <!-- jQuery - https://github.com/jquery/jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="/resources/library-vendor/redactor/redactor.css">
+    <!-- https://github.com/carhartl/jquery-cookie -->
+    <script type="text/javascript" src="/resources/library-vendor/jquery-cookie/jquery.cookie.js" ></script>
+
+    <!-- http://mbraak.github.io/jqTree/ -->
+    <script type="text/javascript" src="/resources/library-vendor/jqtree/tree.jquery.js" ></script>
+
+    <!-- http://imperavi.com/redactor/ -->
     <script type="text/javascript" src="/resources/library-vendor/redactor/redactor.min.js" ></script>
     <script type="text/javascript" src="/resources/library-vendor/redactor/langs/es.js" ></script>
 
