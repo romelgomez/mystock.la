@@ -16,6 +16,125 @@ $(document).ready(function(){
         /*
          Private Method
          Type event
+         Descripción:  evento que enciende al mover una categoría
+         */
+        var treeMove = function(){
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/edit_category_position",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){},
+                    "success":function(response){
+                        $('#debug').text(JSON.stringify(response));
+
+//                        if(response['expired_session']){
+//                            window.location = "/entrar";
+//                        }
+//
+//                        setMenu(response);
+//                        setPath(response['path']);
+
+                    },
+                    "error":function(){},
+                    "complete":function(response){}
+                }
+            };
+
+            tree.bind(
+                'tree.move',
+                function(event) {
+
+                    var moved_node 			= event['move_info']['moved_node'];
+                    var target_node 		= event['move_info']['target_node'];
+                    var position			= event['move_info']['position'];
+                    var previous_parent		= event['move_info']['previous_parent'];
+
+                    /* DEBUG */
+                    /*
+                     console.log('previous_parent',previous_parent);		//-> Determina cual fue su anterior padre si existe, si no tubo padre es nulo.
+                     console.log('moved_node',moved_node);				//-> Objeto movido.
+                     console.log('target_node',target_node);				//-> sobre, luego o internamente sobre este objeto.
+                     console.log('position',position);					//-> posición: sobre, luego, internamente.
+                     console.log(' ');
+                    */
+
+//                    var request_this = {};
+
+                    if(position =="before"){
+                        if(moved_node['parent_id'] == null){
+                            //console.log('solo mover');
+//                            console.log(move_to(moved_node,target_node,position));
+
+                            request_parameters['data']                  = move_to(moved_node,target_node,position);
+                            request_parameters['data']['id']            = moved_node['id'];
+                            request_parameters['data']['parent_id']     = moved_node['parent_id'];
+                            request_parameters['data']['type']          = 'only_move';
+
+                        }else{
+                            //console.log('set_parent_and_move');
+
+                            request_parameters['data']['new_parent_id']         = null;
+                            request_parameters['data']['moved_node_id']         = moved_node['id'];
+                            request_parameters['data']['target_node_id']        = target_node['id'];
+                            request_parameters['data']['position']              = position;
+                            request_parameters['data']['type']                  = 'set_parent_and_move';
+
+                        }
+                    }
+                    if(position =="after"){
+                        if(moved_node['parent_id '] == target_node['parent_id']){
+                            //console.log('solo mover');
+
+                            request_parameters['data']                  = move_to(moved_node,target_node,position);
+                            request_parameters['data']['id']            = moved_node['id'];
+                            request_parameters['data']['parent_id']     = moved_node['parent_id'];
+                            request_parameters['data']['type']          = 'only_move';
+
+                        }else{
+                            //console.log('set_parent_and_move');
+
+                            request_parameters['data']['new_parent_id']     =   target_node['parent_id'];
+                            request_parameters['data']['moved_node_id']     =   moved_node['id'];
+                            request_parameters['data']['target_node_id']    =   target_node['id'];
+                            request_parameters['data']['position']          =   position;
+                            request_parameters['data']['type']              =   'set_parent_and_move';
+
+                        }
+                    }
+                    if(position =="inside"){
+                        if(moved_node['parent_id'] == target_node['id']){
+                            //console.log('solo mover');
+
+                            request_parameters['data']                 = move_to(moved_node,target_node,position);
+                            request_parameters['data']['id']           = moved_node['id'];
+                            request_parameters['data']['parent_id']    = moved_node['parent_id'];
+                            request_parameters['data']['type']         = 'only_move';
+
+                        }else{
+                            //console.log('set_parent_and_move');
+
+                            request_parameters['data']['new_parent_id']     = target_node['id'];
+                            request_parameters['data']['moved_node_id']     = moved_node['id'];
+                            request_parameters['data']['target_node_id']    = target_node['id'];
+                            request_parameters['data']['position']          = position;
+                            request_parameters['data']['type']              = 'set_parent_and_move';
+
+                        }
+                    }
+
+                    ajax.request(request_parameters);
+
+                }
+            );
+        };
+
+
+        /*
+         Private Method
+         Type event
          Descripción:  evento que enciende al selecionar una categoría
         */
         var treeSelect = function(){
