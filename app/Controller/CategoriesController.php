@@ -190,7 +190,138 @@
      * Recibe:              array
      * Retorna:             un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
     *******************/
+
     public function edit_category_position(){
+        $request = $this->{'request'}->input('json_decode',true);
+
+
+        //print_r($request);
+
+        if($request['type'] == 'only_move'){
+            $id 			= (int)$request['id'];
+            $category = $this->Category->find('first', array(
+                'conditions' => array('Category.id' => $id),
+                'contain' => false
+            ));
+            if($category){
+                $positions = $this->Category->find('count', array(
+                    'conditions' => array('Category.lft >=' => $request['min'],'Category.rght <=' => $request['max'],'Category.parent_id' => $request['parent_id'])
+                ));
+                if($positions > 0){
+                    if($request['move_to'] == 'moveDown'){
+                        $return['result'] = $this->Category->moveDown($id, $positions);
+                    }
+                    if($request['move_to'] == 'moveUp'){
+                        $return['result'] = $this->Category->moveUp($id, $positions);
+                    }
+                }
+            }
+        }
+        if($request['type'] == 'set_parent_and_move'){
+
+            $new_parent_id 			= 	(int)$request['new_parent_id'];
+            $moved_node_id			=	(int)$request['moved_node_id'];
+            $target_node_id			=	(int)$request['target_node_id'];
+            $position				=	$request['position'];
+
+            $category = array(
+                'Category'=>array(
+                    'id'		=>$moved_node_id,
+                    'parent_id'	=>$new_parent_id
+                )
+            );
+
+            if($position == 'inside'){
+                /*  Descripción:
+                 *  antes de insertar la categoria observamos cuantos hijos tiene la categoria que sera populada, es decir cuantos hijos tiene target_node_id,
+                 *  si no tiene ninguno la categoria simplemente se insert,  si tiene hijos el valor que arroje sera el numero de posiciones que la categoria tendra que subir para estar de primera.
+                 *  es importante recordar que la categoria al ser insetada o a establecerle un nuevo parent_id es ordenada de ultima.
+                */
+
+                $position_length = $this->Category->childCount($target_node_id, true);
+
+                if($this->Category->save($category)){
+                    $return['save_new_parent_id'] 	= true;
+                }
+
+                if($position_length == 0){
+                    $return['status'] 				=  'se mantiene';
+                }elseif($position_length > 0){
+                    $this->Category->moveUp($moved_node_id, $position_length);
+                    $return['status'] 				=  'subio '.$position_length.' posiciones.';
+                }
+            }
+
+            if($position == 'before'){
+                /* Descripción:
+                 * Antes de estableser el parent_id se cuenta cuantas categorias existen con parent_id == null tal valor
+                 * reprecenta el numero de posiciones que la categoria sera subida para posicionarce de primera.
+                 * es importante recordar que posicion es before solo cuando la categoria es posicionada de primera sin padres es decir es un caso unico.
+                */
+
+                $position_length = $this->Category->find('count',array(
+                    'conditions' => array('Category.parent_id' => null)
+                ));
+
+                if($this->Category->save($category)){
+                    $return['save_new_parent_id'] 	= true;
+                }
+
+                $this->Category->moveUp($moved_node_id, $position_length);
+                $return['status'] 	=  'subio '.$position_length.' posiciones.';
+            }
+
+            if($position == 'after'){
+                /* Descripción:
+                 * La categoria tiene dos opciones mantenerce o subir, si la categoria es sucesiva se ha de suponer que el admin la coloco de ultima por lo tanto no es necesario subir la categoria
+                 * se calcula el minimo y maximo junto con el parent_id de la categoria movida permitira consulta cuantas categoria directas (directChildren) existen entre la categoria movida y la sucesiva o target.
+                 */
+
+                if($this->Category->save($category)){
+                    $return['save_new_parent_id'] 	= true;
+                }
+
+                $moved_node = $this->Category->find('first', array(
+                    'conditions' => array('Category.id' => (int)$moved_node_id),
+                    'contain' => false
+                ));
+
+                $target_node = $this->Category->find('first', array(
+                    'conditions' => array('Category.id' => (int)$target_node_id),
+                    'contain' => false
+                ));
+
+                $max		= $moved_node['Category']['lft']-1;
+                $min 		= $target_node['Category']['rght']+1;
+                $parent_id	= $moved_node['Category']['parent_id'];
+
+                $position_length = $this->Category->find('count', array(
+                    'conditions' => array('Category.lft >=' => $min,'Category.rght <=' => $max,'Category.parent_id' => $parent_id)
+                ));
+
+                if($position_length > 0){
+                    $this->Category->moveUp($moved_node_id, $position_length);
+                    $return['status'] = 'subio '.$position_length.' posiciones.';
+                }else{
+                    // son sucesivos
+                    $return['status'] =  'se mantiene';
+                }
+
+            }
+
+        }
+
+        if(isset($return)){
+            $return += $this->categories();
+        }else{
+            $return = null;
+        }
+
+        $this->set('return',$return);
+        $this->render('ajax_view','ajax');
+    }
+
+    public function edit_category_position2(){
         $request = $this->{'request'}->input('json_decode',true);
 
         //print_r($request);
@@ -203,8 +334,11 @@
             ));
             if($category){
                 $positions = $this->{'Category'}->find('count', array(
-                    'conditions' => array('Category.lft >=' => $request['min'],'Category.rght <=' => $request['max'],'Category.parent_id' => $request['parent_id'])
+                    'conditions' => array('Category.lft >=' => (int)$request['min'],'Category.rght <=' => (int)$request['max'],'Category.parent_id' => (int)$request['parent_id'])
                 ));
+
+                debug($positions,false);
+
                 if($positions > 0){
                     if($request['move_to'] == 'moveDown'){
                         $return['result'] = $this->{'Category'}->moveDown($id, $positions);
