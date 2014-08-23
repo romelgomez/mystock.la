@@ -15,6 +15,42 @@ $(document).ready(function(){
 
         /*
          Private Method
+         Descripción:  usado por el evento tree.move, o la función treeMove
+        */
+        var moveTo = function(moved_node,target_node,position){
+            var request = {};
+
+            var a = parseInt(moved_node['lft']);
+            var b = parseInt(target_node['lft']);
+
+            if(a < b){
+                //console.log('bajar');
+                request['move_to'] = 'moveDown';
+                request['min']      = parseInt(moved_node['rght'])+1;
+                request['max']      = parseInt(target_node['rght']);
+                return request;
+            }
+            if(a > b){
+                //console.log('subir');
+                request['move_to'] = 'moveUp';
+                if(position == "before"){
+                    request['min'] = parseInt(target_node['lft']);
+                    request['max'] = parseInt(moved_node['lft'])-1;
+                }
+                if(position == "inside"){
+                    request['min'] = parseInt(target_node['lft'])+1;
+                    request['max'] = parseInt(moved_node['lft'])-1;
+                }
+                if(position == "after"){
+                    request['min'] = parseInt(target_node['rght'])+1;
+                    request['max'] = parseInt(moved_node['lft'])-1;
+                }
+                return request;
+            }
+        };
+
+        /*
+         Private Method
          Type event
          Descripción:  evento que enciende al mover una categoría
          */
@@ -43,7 +79,7 @@ $(document).ready(function(){
                 }
             };
 
-            tree.bind(
+            treeElement.bind(
                 'tree.move',
                 function(event) {
 
@@ -68,7 +104,7 @@ $(document).ready(function(){
                             //console.log('solo mover');
 //                            console.log(move_to(moved_node,target_node,position));
 
-                            request_parameters['data']                  = move_to(moved_node,target_node,position);
+                            request_parameters['data']                  = moveTo(moved_node,target_node,position);
                             request_parameters['data']['id']            = moved_node['id'];
                             request_parameters['data']['parent_id']     = moved_node['parent_id'];
                             request_parameters['data']['type']          = 'only_move';
@@ -88,7 +124,7 @@ $(document).ready(function(){
                         if(moved_node['parent_id '] == target_node['parent_id']){
                             //console.log('solo mover');
 
-                            request_parameters['data']                  = move_to(moved_node,target_node,position);
+                            request_parameters['data']                  = moveTo(moved_node,target_node,position);
                             request_parameters['data']['id']            = moved_node['id'];
                             request_parameters['data']['parent_id']     = moved_node['parent_id'];
                             request_parameters['data']['type']          = 'only_move';
@@ -108,7 +144,7 @@ $(document).ready(function(){
                         if(moved_node['parent_id'] == target_node['id']){
                             //console.log('solo mover');
 
-                            request_parameters['data']                 = move_to(moved_node,target_node,position);
+                            request_parameters['data']                 = moveTo(moved_node,target_node,position);
                             request_parameters['data']['id']           = moved_node['id'];
                             request_parameters['data']['parent_id']    = moved_node['parent_id'];
                             request_parameters['data']['type']         = 'only_move';
@@ -446,6 +482,7 @@ $(document).ready(function(){
             treeSelect(); // event
             editCategoryName();
             delectCategory();
+            treeMove(); // event
         };
 
     }( window.categories = window.categories || {}, jQuery ));

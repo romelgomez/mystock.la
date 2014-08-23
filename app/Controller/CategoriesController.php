@@ -191,11 +191,7 @@
      * Retorna:             un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
     *******************/
     public function edit_category_position(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->input('json_decode',true);
 
         //print_r($request);
 
