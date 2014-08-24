@@ -105,6 +105,8 @@ $(document).ready(function(){
                         }
 //
 
+//                        var data = obj['categories'];
+//                        set_tree(tree,data);
 
                     },
                     "error":function(){},

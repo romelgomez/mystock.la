@@ -233,10 +233,11 @@
 
             if($position == 'inside'){
                 /*  Descripción:
-                 *  antes de insertar la categoria observamos cuantos hijos tiene la categoria que sera populada, es decir cuantos hijos tiene target_node_id,
-                 *  si no tiene ninguno la categoria simplemente se insert,  si tiene hijos el valor que arroje sera el numero de posiciones que la categoria tendra que subir para estar de primera.
-                 *  es importante recordar que la categoria al ser insetada o a establecerle un nuevo parent_id es ordenada de ultima.
+                 *  antes de insertar la categoría observamos cuantos hijos tiene la categoría que sera populada, es decir cuantos hijos tiene target_node_id,
+                 *  si no tiene ninguno la categoría simplemente se insert,  si tiene hijos el valor que arroje sera el numero de posiciones que la categoría tendrá que subir para estar de primera.
+                 *  es importante recordar que la categoría al ser insertada o a establecerle un nuevo parent_id es ordenada de ultima.
                 */
+
 
                 $position_length = $this->Category->childCount($target_node_id, true);
 
@@ -248,15 +249,15 @@
                     $return['status'] 				=  'se mantiene';
                 }elseif($position_length > 0){
                     $this->Category->moveUp($moved_node_id, $position_length);
-                    $return['status'] 				=  'subio '.$position_length.' posiciones.';
+                    $return['status'] 				=  'subió '.$position_length.' posiciones.';
                 }
             }
 
             if($position == 'before'){
                 /* Descripción:
-                 * Antes de estableser el parent_id se cuenta cuantas categorias existen con parent_id == null tal valor
-                 * reprecenta el numero de posiciones que la categoria sera subida para posicionarce de primera.
-                 * es importante recordar que posicion es before solo cuando la categoria es posicionada de primera sin padres es decir es un caso unico.
+                 * Antes de establecer el parent_id se cuenta cuantas categorías existen con parent_id == null tal valor
+                 * representa el numero de posiciones que la categoría sera subida para posicionarse de primera.
+                 * es importante recordar que posición es before solo cuando la categoría es posicionada de primera sin padres es decir es un caso unico.
                 */
 
                 $position_length = $this->Category->find('count',array(
@@ -268,13 +269,13 @@
                 }
 
                 $this->Category->moveUp($moved_node_id, $position_length);
-                $return['status'] 	=  'subio '.$position_length.' posiciones.';
+                $return['status'] 	=  'subió '.$position_length.' posiciones.';
             }
 
             if($position == 'after'){
                 /* Descripción:
-                 * La categoria tiene dos opciones mantenerce o subir, si la categoria es sucesiva se ha de suponer que el admin la coloco de ultima por lo tanto no es necesario subir la categoria
-                 * se calcula el minimo y maximo junto con el parent_id de la categoria movida permitira consulta cuantas categoria directas (directChildren) existen entre la categoria movida y la sucesiva o target.
+                 * La categoría tiene dos opciones mantenerse o subir, si la categoría es sucesiva se ha de suponer que el admin la coloco de ultima por lo tanto no es necesario subir la categoría
+                 * se calcula el mínimo y maximo junto con el parent_id de la categoría movida permitirá consulta cuantas categoría directas (directChildren) existen entre la categoría movida y la sucesiva o target.
                  */
 
                 if($this->Category->save($category)){
@@ -301,7 +302,7 @@
 
                 if($position_length > 0){
                     $this->Category->moveUp($moved_node_id, $position_length);
-                    $return['status'] = 'subio '.$position_length.' posiciones.';
+                    $return['status'] = 'subió '.$position_length.' posiciones.';
                 }else{
                     // son sucesivos
                     $return['status'] =  'se mantiene';
