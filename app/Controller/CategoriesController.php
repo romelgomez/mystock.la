@@ -318,8 +318,8 @@
             $return = null;
         }
 
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
     public function edit_category_position2(){

@@ -16,40 +16,7 @@ $(document).ready(function(){
         /*
          Private Method
          Descripción:  usado por el evento tree.move, o la función treeMove
-        */
-        var moveTo = function(moved_node,target_node,position){
-            var request = {};
-
-            var a = parseInt(moved_node['lft']);
-            var b = parseInt(target_node['lft']);
-
-            if(a < b){
-                console.log('bajar');
-                request['move_to'] = 'moveDown';
-                request['min']      = parseInt(moved_node['rght'])+1;
-                request['max']      = parseInt(target_node['rght']);
-                return request;
-            }
-            if(a > b){
-                console.log('subir');
-                request['move_to'] = 'moveUp';
-                if(position == "before"){
-                    request['min'] = parseInt(target_node['lft']);
-                    request['max'] = parseInt(moved_node['lft'])-1;
-                }
-                if(position == "inside"){
-                    request['min'] = parseInt(target_node['lft'])+1;
-                    request['max'] = parseInt(moved_node['lft'])-1;
-                }
-                if(position == "after"){
-                    request['min'] = parseInt(target_node['rght'])+1;
-                    request['max'] = parseInt(moved_node['lft'])-1;
-                }
-                return request;
-            }
-        };
-
-
+         */
         var move_to = function(moved_node,target_node,position){
             var request = {};
 
@@ -103,10 +70,14 @@ $(document).ready(function(){
                         if(response['expired_session']){
                             window.location = "/entrar";
                         }
-//
 
-//                        var data = obj['categories'];
-//                        set_tree(tree,data);
+                        if(response['countCategories']){
+                            var treeData = response['categories'];
+                            replaceWholeTree(treeData);
+                        }else{
+                            $('#tree').css({"display":"none"});
+                            $('#no-tree').show();
+                        }
 
                     },
                     "error":function(){},
