@@ -182,26 +182,33 @@ $(document).ready(function(){
                 'tree.select',
                 function(event) {
 
-                    // console.log(node);
+                    var admin_category = $("#admin_category");
 
-                    //  EDIT
-                    $("#EditCategoryId").attr({"value":event['node']['id']});
-                    $("#EditCategoryName").attr({"value":event['node']['name']});
+                    if (event.node) {
+                        //  EDIT
+                        $("#EditCategoryId").attr({"value":event['node']['id']});
+                        $("#EditCategoryName").attr({"value":event['node']['name']});
 
-                    //  Delete
-                    $("#DelectCategoryId").attr({"value":event['node']['id']});
-                    $("#delect-category-name").html(event['node']['name']);
+                        //  Delete
+                        $("#DelectCategoryId").attr({"value":event['node']['id']});
+                        $("#delect-category-name").html(event['node']['name']);
 
-                    if(event['node']['children'].length > 0){
-                        $("#DelectCategoryBranch").parents(".form-group").show();
-                    }else{
-                        $("#DelectCategoryBranch").parents(".form-group").hide();
+                        if(event['node']['children'].length > 0){
+                            $("#DelectCategoryBranch").parents(".form-group").show();
+                        }else{
+                            $("#DelectCategoryBranch").parents(".form-group").hide();
+                        }
+
+                        // Habilita los botones.
+                        admin_category.find("button").each(function(k,element){
+                            $(element).removeClass("disabled");
+                        });
+                    }else {
+                        // inhabilita los botones.
+                        admin_category.find("button").each(function(k,element){
+                            $(element).addClass("disabled");
+                        });
                     }
-
-                    // Habilita los botones.
-                    $("#admin_category").find("button").each(function(k,element){
-                        $(element).removeClass("disabled");
-                    });
 
                 }
             );
@@ -408,7 +415,7 @@ $(document).ready(function(){
                             setTimeout(function(){ $("#CategoryAddForm").find(".alert-danger").fadeOut()},7000);
                         }
 
-                        if(response['countCategories']){
+                        if(response['countCategories'] > 0){
                             $('#no-tree').css({"display":"none"});
                             $('#tree').fadeIn();
 
