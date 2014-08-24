@@ -193,11 +193,8 @@
         $return = array();
 
         if($request['type'] == 'only_move'){
-            $id 			= (int)$request['id'];
-
-
             $category = $this->{'Category'}->find('first', array(
-                'conditions' => array('Category.id' => $id),
+                'conditions' => array('Category.id' => $request['id']),
                 'contain' => false
             ));
             if($category){
@@ -206,29 +203,24 @@
                 ));
                 if($positions > 0){
                     if($request['move_to'] == 'moveDown'){
-                        $this->{'Category'}->moveDown($id, $positions);
+                        $this->{'Category'}->moveDown($request['id'], $positions);
                     }
                     if($request['move_to'] == 'moveUp'){
-                        $this->{'Category'}->moveUp($id, $positions);
+                        $this->{'Category'}->moveUp($request['id'], $positions);
                     }
                 }
             }
         }
         if($request['type'] == 'set_parent_and_move'){
 
-            $new_parent_id 			= 	(int)$request['new_parent_id'];
-            $moved_node_id			=	(int)$request['moved_node_id'];
-            $target_node_id			=	(int)$request['target_node_id'];
-            $position				=	$request['position'];
-
             $category = array(
                 'Category'=>array(
-                    'id'		=>$moved_node_id,
-                    'parent_id'	=>$new_parent_id
+                    'id'		=>$request['moved_node_id'],
+                    'parent_id'	=>$request['new_parent_id']
                 )
             );
 
-            if($position == 'inside'){
+            if($request['position'] == 'inside'){
                 /*  Descripción:
                  *  antes de insertar la categoría observamos cuantos hijos tiene la categoría que sera populada, es decir cuantos hijos tiene target_node_id,
                  *  si no tiene ninguno la categoría simplemente se insert,  si tiene hijos el valor que arroje sera el numero de posiciones que la categoría tendrá que subir para estar de primera.
@@ -236,18 +228,18 @@
                 */
 
                 // childCount
-                $position_length = $this->{'Category'}->childCount($target_node_id, true);
+                $position_length = $this->{'Category'}->childCount($request['target_node_id'], true);
 
                 // new_parent_id
                 $this->{'Category'}->save($category);
 
                 // move
                 if($position_length > 0){
-                    $this->{'Category'}->moveUp($moved_node_id, $position_length);
+                    $this->{'Category'}->moveUp($request['moved_node_id'], $position_length);
                 }
             }
 
-            if($position == 'before'){
+            if($request['position'] == 'before'){
                 /* Descripción:
                  * Antes de establecer el parent_id se cuenta cuantas categorías existen con parent_id == null tal valor
                  * representa el numero de posiciones que la categoría sera subida para posicionarse de primera.
@@ -262,10 +254,10 @@
                 $this->{'Category'}->save($category);
 
                 // move
-                $this->{'Category'}->moveUp($moved_node_id, $position_length);
+                $this->{'Category'}->moveUp($request['moved_node_id'], $position_length);
             }
 
-            if($position == 'after'){
+            if($request['position'] == 'after'){
                 /* Descripción:
                  * La categoría tiene dos opciones mantenerse o subir, si la categoría es sucesiva se ha de suponer que el admin la coloco de ultima por lo tanto no es necesario subir la categoría
                  * se calcula el mínimo y maximo junto con el parent_id de la categoría movida permitirá consulta cuantas categoría directas (directChildren) existen entre la categoría movida y la sucesiva o target.
@@ -275,12 +267,12 @@
                 $this->{'Category'}->save($category);
 
                 $moved_node = $this->{'Category'}->find('first', array(
-                    'conditions' => array('Category.id' => (int)$moved_node_id),
+                    'conditions' => array('Category.id' => $request['moved_node_id']),
                     'contain' => false
                 ));
 
                 $target_node = $this->{'Category'}->find('first', array(
-                    'conditions' => array('Category.id' => (int)$target_node_id),
+                    'conditions' => array('Category.id' => $request['target_node_id']),
                     'contain' => false
                 ));
 
@@ -293,7 +285,7 @@
                 ));
 
                 if($position_length > 0){
-                    $this->{'Category'}->moveUp($moved_node_id, $position_length);
+                    $this->{'Category'}->moveUp($request['moved_node_id'], $position_length);
                 }
 
             }

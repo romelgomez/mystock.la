@@ -108,16 +108,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= move_to(moved_node,target_node,position);
-                            request_this.id			= moved_node.id;
+                            request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
-                        }else{
+                       º }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= null;
-                            request_this.moved_node_id			= moved_node.id;
-                            request_this.target_node_id			= target_node.id;
+                            request_this.new_parent_id			= 0;
+                            request_this.moved_node_id			= parseInt(moved_node.id);
+                            request_this.target_node_id			= parseInt(target_node.id);
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
@@ -128,16 +128,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= move_to(moved_node,target_node,position);
-                            request_this.id			= moved_node.id;
+                            request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
                         }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= target_node.parent_id;
-                            request_this.moved_node_id			= moved_node.id;
-                            request_this.target_node_id			= target_node.id;
+                            request_this.new_parent_id			= parseInt(target_node.parent_id);
+                            request_this.moved_node_id			= parseInt(moved_node.id);
+                            request_this.target_node_id			= parseInt(target_node.id);
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
@@ -148,16 +148,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= move_to(moved_node,target_node,position);
-                            request_this.id			= moved_node.id;
+                            request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
                         }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= target_node.id;
-                            request_this.moved_node_id			= moved_node.id;
-                            request_this.target_node_id			= target_node.id;
+                            request_this.new_parent_id			= parseInt(target_node.id);
+                            request_this.moved_node_id			= parseInt(moved_node.id);
+                            request_this.target_node_id			= parseInt(target_node.id);
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
