@@ -112,7 +112,7 @@ $(document).ready(function(){
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
-                       º }else{
+                       }else{
                             //console.log('set_parent_and_move');
 
                             request_this.new_parent_id			= 0;
