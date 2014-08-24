@@ -249,7 +249,7 @@ $(document).ready(function(){
 
                         var alert = $("#CategoryDelectForm");
 
-                        if(response['status']){
+                        if(response['delete']){
 
                             if(response['countCategories']){
                                 var treeData = response['categories'];

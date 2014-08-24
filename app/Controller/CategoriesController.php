@@ -88,11 +88,7 @@
 
         $this->{'Category'}->set($category);
         if($this->{'Category'}->validates()){
-            if($this->{'Category'}->save($category)){
-                $return['save'] = true;
-            }else{
-                $return['save'] = false; // ++++++++++++++ ha ocurrido un error +++++++++++++++
-            }
+            $return['save'] = $this->{'Category'}->save($category);
             $return['validates'] = true;
         }else{
             $return['validates'] = false;
@@ -172,9 +168,9 @@
 
         if($category){
             if($theWholeBranch == 1){
-                $return['status'] = $this->{'Category'}->delete();
+                $return['delete'] = $this->{'Category'}->delete();
             }else{
-                $return['status'] = $this->{'Category'}->removeFromTree($id, true);
+                $return['delete'] = $this->{'Category'}->removeFromTree($id, true);
             }
         }
 
@@ -246,10 +242,10 @@
                 }
 
                 if($position_length == 0){
-                    $return['status'] 				=  'se mantiene';
+//                    $return['status'] 				=  'se mantiene';
                 }elseif($position_length > 0){
                     $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                    $return['status'] 				=  'subió '.$position_length.' posiciones.';
+//                    $return['status'] 				=  'subió '.$position_length.' posiciones.';
                 }
             }
 
@@ -269,7 +265,7 @@
                 }
 
                 $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                $return['status'] 	=  'subió '.$position_length.' posiciones.';
+//                $return['status'] 	=  'subió '.$position_length.' posiciones.';
             }
 
             if($position == 'after'){
@@ -302,10 +298,10 @@
 
                 if($position_length > 0){
                     $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                    $return['status'] = 'subió '.$position_length.' posiciones.';
+//                    $return['status'] = 'subió '.$position_length.' posiciones.';
                 }else{
                     // son sucesivos
-                    $return['status'] =  'se mantiene';
+//                    $return['status'] =  'se mantiene';
                 }
 
             }
@@ -322,137 +318,6 @@
         $this->{'render'}('ajax_view','ajax');
     }
 
-    public function edit_category_position2(){
-        $request = $this->{'request'}->input('json_decode',true);
-
-        //print_r($request);
-
-        if($request['type'] == 'only_move'){
-            $id 			= (int)$request['id'];
-            $category = $this->{'Category'}->find('first', array(
-                'conditions' => array('Category.id' => $id),
-                'contain' => false
-            ));
-            if($category){
-                $positions = $this->{'Category'}->find('count', array(
-                    'conditions' => array('Category.lft >=' => (int)$request['min'],'Category.rght <=' => (int)$request['max'],'Category.parent_id' => (int)$request['parent_id'])
-                ));
-
-                debug($positions,false);
-
-                if($positions > 0){
-                    if($request['move_to'] == 'moveDown'){
-                        $return['result'] = $this->{'Category'}->moveDown($id, $positions);
-                    }
-                    if($request['move_to'] == 'moveUp'){
-                        $return['result'] = $this->{'Category'}->moveUp($id, $positions);
-                    }
-                }
-            }
-        }
-        if($request['type'] == 'set_parent_and_move'){
-
-            $new_parent_id          =   (int)$request['new_parent_id'];
-            $moved_node_id          =   (int)$request['moved_node_id'];
-            $target_node_id         =   (int)$request['target_node_id'];
-            $position               =   $request['position'];
-
-            $category = array(
-                'Category'=>array(
-                    'id'        =>$moved_node_id,
-                    'parent_id' =>$new_parent_id
-                )
-            );
-
-            if($position == 'inside'){
-                /*  Descripción:
-                 *  antes de insertar la categoría observamos cuantos hijos tiene la categoría que sera populada, es decir cuantos hijos tiene target_node_id,
-                 *  si no tiene ninguno la categoría simplemente se insert,  si tiene hijos el valor que arroje sera el numero de posiciones que la categoría tendrá que subir para estar de primera.
-                 *  es importante recordar que la categoría al ser insertada o a establecerle un nuevo parent_id es ordenada de ultima.
-                */
-
-                $position_length = $this->{'Category'}->childCount($target_node_id, true);
-
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
-
-                if($position_length == 0){
-                    $return['status'] 				=  'se mantiene';
-                }elseif($position_length > 0){
-                    $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                    $return['status'] 				=  'subió '.$position_length.' posiciones.';
-                }
-            }
-
-            if($position == 'before'){
-                /* Descripción:
-                 * Antes de establecer el parent_id se cuenta cuantas categorías existen con parent_id == null tal valor
-                 * representa el numero de posiciones que la categoría sera subida para posicionarse de primera.
-                 * es importante recordar que posición es before solo cuando la categoría es posicionada de primera sin padres es decir es un caso unico.
-                */
-
-                $position_length = $this->{'Category'}->find('count',array(
-                    'conditions' => array('Category.parent_id' => null)
-                ));
-
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
-
-                $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                $return['status'] 	=  'subió '.$position_length.' posiciones.';
-            }
-
-            if($position == 'after'){
-                /* Descripción:
-                 * La categoría tiene dos opciones mantenerse o subir, si la categoría es sucesiva se ha de suponer que el admin la coloco de ultima por lo tanto no es necesario subir la categoría
-                 * se calcula el mínimo y maximo junto con el parent_id de la categoría movida permitirá consulta cuantas categoría directas (directChildren) existen entre la categoría movida y la sucesiva o target.
-                 */
-
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
-
-                $moved_node = $this->{'Category'}->find('first', array(
-                    'conditions' => array('Category.id' => (int)$moved_node_id),
-                    'contain' => false
-                ));
-
-                $target_node = $this->{'Category'}->find('first', array(
-                    'conditions' => array('Category.id' => (int)$target_node_id),
-                    'contain' => false
-                ));
-
-                $max		= $moved_node['Category']['lft']-1;
-                $min 		= $target_node['Category']['rght']+1;
-                $parent_id	= $moved_node['Category']['parent_id'];
-
-                $position_length = $this->{'Category'}->find('count', array(
-                    'conditions' => array('Category.lft >=' => $min,'Category.rght <=' => $max,'Category.parent_id' => $parent_id)
-                ));
-
-                if($position_length > 0){
-                    $this->{'Category'}->moveUp($moved_node_id, $position_length);
-                    $return['status'] = 'subió '.$position_length.' posiciones.';
-                }else{
-                    // son sucesivos
-                    $return['status'] =  'se mantiene';
-                }
-
-            }
-
-        }
-
-        if(isset($return)){
-            $return += $this->categories();
-        }else{
-            $return = null;
-        }
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-    }
 
 
 
