@@ -190,11 +190,12 @@
     public function edit_category_position(){
         $request = $this->{'request'}->input('json_decode',true);
 
-
-        //print_r($request);
+        $return = array();
 
         if($request['type'] == 'only_move'){
             $id 			= (int)$request['id'];
+
+
             $category = $this->{'Category'}->find('first', array(
                 'conditions' => array('Category.id' => $id),
                 'contain' => false
@@ -205,10 +206,10 @@
                 ));
                 if($positions > 0){
                     if($request['move_to'] == 'moveDown'){
-                        $return['result'] = $this->{'Category'}->moveDown($id, $positions);
+                        $this->{'Category'}->moveDown($id, $positions);
                     }
                     if($request['move_to'] == 'moveUp'){
-                        $return['result'] = $this->{'Category'}->moveUp($id, $positions);
+                        $this->{'Category'}->moveUp($id, $positions);
                     }
                 }
             }
@@ -234,18 +235,15 @@
                  *  es importante recordar que la categoría al ser insertada o a establecerle un nuevo parent_id es ordenada de ultima.
                 */
 
-
+                // childCount
                 $position_length = $this->{'Category'}->childCount($target_node_id, true);
 
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
+                // new_parent_id
+                $this->{'Category'}->save($category);
 
-                if($position_length == 0){
-//                    $return['status'] 				=  'se mantiene';
-                }elseif($position_length > 0){
+                // move
+                if($position_length > 0){
                     $this->{'Category'}->moveUp($moved_node_id, $position_length);
-//                    $return['status'] 				=  'subió '.$position_length.' posiciones.';
                 }
             }
 
@@ -260,12 +258,11 @@
                     'conditions' => array('Category.parent_id' => null)
                 ));
 
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
+                // new_parent_id
+                $this->{'Category'}->save($category);
 
+                // move
                 $this->{'Category'}->moveUp($moved_node_id, $position_length);
-//                $return['status'] 	=  'subió '.$position_length.' posiciones.';
             }
 
             if($position == 'after'){
@@ -274,9 +271,8 @@
                  * se calcula el mínimo y maximo junto con el parent_id de la categoría movida permitirá consulta cuantas categoría directas (directChildren) existen entre la categoría movida y la sucesiva o target.
                  */
 
-                if($this->{'Category'}->save($category)){
-                    $return['save_new_parent_id'] 	= true;
-                }
+                // new_parent_id
+                $this->{'Category'}->save($category);
 
                 $moved_node = $this->{'Category'}->find('first', array(
                     'conditions' => array('Category.id' => (int)$moved_node_id),
@@ -298,21 +294,14 @@
 
                 if($position_length > 0){
                     $this->{'Category'}->moveUp($moved_node_id, $position_length);
-//                    $return['status'] = 'subió '.$position_length.' posiciones.';
-                }else{
-                    // son sucesivos
-//                    $return['status'] =  'se mantiene';
                 }
 
             }
 
         }
 
-        if(isset($return)){
-            $return += $this->categories();
-        }else{
-            $return = null;
-        }
+
+        $return += $this->categories();
 
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
