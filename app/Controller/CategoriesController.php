@@ -309,7 +309,7 @@
         ));
 
         if($children){
-            foreach($children as $k => $v){
+            foreach($children as $v){
                 $return['categories'][$v['Category']['id']] = $v['Category']['name'];
             }
             $return['children'] = true;
