@@ -255,7 +255,7 @@ $(document).ready(function(){
 
                         if(response['delete']){
 
-                            if(response['countCategories']){
+                            if(response['countCategories'] > 0){
                                 var treeData = response['categories'];
                                 replaceWholeTree(treeData);
                             }else{
@@ -324,21 +324,43 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        var alert = $("#CategoryEditForm");
+                        var categoryEditForm = $("#CategoryEditForm");
 
-                        if(response['save']){
-                            $("#EditCategoryName").attr({"value":response['Category']['name']});
+                        if(response['Edit']){
+                            categoryEditForm.find(".alert-success").fadeIn();
 
-                            if(response['countCategories']){
-                                var treeData = response['categories'];
-                                replaceWholeTree(treeData);
-                            }
+                            // update input in CategoryEditForm
+                            $("#EditCategoryName").attr({"value":response['Edit']['Category']['name']});
 
-                            validate.removeValidationStates('CategoryAddForm');
-                            $('#edit_category_name_modal').modal('hide');
+                            setTimeout(function(){
+                                $("#CategoryEditForm").find(".alert-success").fadeOut();
+                            },2000);
+
                         }else{
-                            alert.find(".alert-danger").fadeIn();
-                            setTimeout(function(){ $("#CategoryEditForm").find(".alert-danger").fadeOut()},7000);
+                            categoryEditForm.find(".alert-danger").fadeIn();
+                            categoryEditForm.find(".modal-body").hide();
+                            categoryEditForm.find(".modal-footer").hide();
+
+                            setTimeout(function(){
+                                $('#edit_category_name_modal').modal('hide');
+                                validate.removeValidationStates('CategoryEditForm');
+
+                                var categoryEditForm = $("#CategoryEditForm");
+                                categoryEditForm.find(".alert-danger").fadeOut();
+                                categoryEditForm.find(".modal-body").show();
+                                categoryEditForm.find(".modal-footer").show();
+
+                            },3000);
+                        }
+
+
+
+                        if(response['countCategories'] > 0){
+                            var treeData = response['categories'];
+                            replaceWholeTree(treeData);
+                        }else{
+                            $('#tree').css({"display":"none"});
+                            $('#no-tree').show();
                         }
 
                     },

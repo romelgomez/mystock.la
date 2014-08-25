@@ -122,23 +122,13 @@
             )
         );
 
+        $return = array();
+
         $this->{'Category'}->set($category);
         if($this->{'Category'}->validates()){
-            if($this->{'Category'}->save($category)){
-                $return = $this->{'Category'}->read();
-                $return['save'] = true;
-            }else{
-                $return['save'] = false; // ++++++++++++++ ha ocurrido un error +++++++++++++++
-            }
-            $return['validates'] = true;
+            $return['Edit'] = $this->{'Category'}->save($category);
         }else{
-            $return['validates'] = false;
-            // se envía los campos faltantes o algún error que pudiese haber ocurrido.
-            $errors = $this->{'Category'}->validationErrors;
-            foreach($errors as $k=>$v){
-                $tmp = 'category_'.$k;
-                $return['fields'][Inflector::camelize($tmp)] = $v[0];
-            }
+            $return['Edit'] = false;
         }
 
         $return += $this->categories();
