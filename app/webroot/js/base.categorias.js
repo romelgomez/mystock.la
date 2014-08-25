@@ -426,15 +426,31 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        var alert = $("#CategoryAddForm");
+                        var categoryAddForm = $("#CategoryAddForm");
 
-                        if(response['save']){
-                            alert.find(".alert-success").fadeIn();
-                            setTimeout(function(){ $("#CategoryAddForm").find(".alert-success").fadeOut(); },7000);
+                        if(response['Add']){
+                            categoryAddForm.find(".alert-success").fadeIn();
                             validate.removeValidationStates('CategoryAddForm');
+
+                            setTimeout(function(){
+                                $("#CategoryAddForm").find(".alert-success").fadeOut();
+                            },2000);
+
                         }else{
-                            alert.find(".alert-danger").fadeIn();
-                            setTimeout(function(){ $("#CategoryAddForm").find(".alert-danger").fadeOut()},7000);
+                            categoryAddForm.find(".alert-danger").fadeIn();
+                            categoryAddForm.find(".modal-body").hide();
+                            categoryAddForm.find(".modal-footer").hide();
+
+                            setTimeout(function(){
+                                $('#new_category_modal').modal('hide');
+                                validate.removeValidationStates('CategoryAddForm');
+
+                                var categoryAddForm = $("#CategoryAddForm");
+                                categoryAddForm.find(".alert-danger").fadeOut();
+                                categoryAddForm.find(".modal-body").show();
+                                categoryAddForm.find(".modal-footer").show();
+
+                            },3000);
                         }
 
                         if(response['countCategories'] > 0){
