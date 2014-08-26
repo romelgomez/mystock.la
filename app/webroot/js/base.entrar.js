@@ -24,6 +24,8 @@
             });
         });
 
+        var notification;
+
         var request_parameters = {
             "requestType":"form",
             "type":"post",
@@ -36,13 +38,17 @@
                 ]
             },
             "callbacks":{
-                "beforeSend":function(){},
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
                     var userForm = $("#UserForm");
 
                     if(response['Send']){
+                        base.ajaxRequestNotification("success",notification);
+
                         userForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserForm');
 
@@ -50,6 +56,8 @@
                             $("#UserForm").find(".alert-success").fadeOut();
                         },2000);
                     }else{
+                        base.ajaxRequestNotification("error",notification);
+
                         userForm.find(".alert-danger").fadeIn();
                         userForm.find(".modal-body").find(".form-group").hide();
                         userForm.find(".modal-footer").hide();
@@ -68,7 +76,9 @@
 
 
                 },
-                "error":function(){},
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
                 "complete":function(response){}
             }
         };
@@ -121,6 +131,8 @@
             });
         });
 
+        var notification;
+
         var request_parameters = {
             "requestType":"form",
             "type":"post",
@@ -135,13 +147,17 @@
                 ]
             },
             "callbacks":{
-                "beforeSend":function(){},
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
                     var userAddForm = $("#UserAddForm");
 
                     if(response['Add']){
+                        base.ajaxRequestNotification("success",notification);
+
                         userAddForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserAddForm');
 
@@ -149,6 +165,8 @@
                             $("#UserAddForm").find(".alert-success").fadeOut();
                         },2000);
                     }else{
+                        base.ajaxRequestNotification("error",notification);
+
                         userAddForm.find(".alert-danger").fadeIn();
                         userAddForm.find(".modal-body").find(".form-group").hide();
                         userAddForm.find(".modal-footer").hide();
@@ -166,7 +184,9 @@
                     }
 
                 },
-                "error":function(){},
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
                 "complete":function(response){}
             }
         };
@@ -237,6 +257,8 @@
     */
     var login = function(){
 
+        var notification;
+
         var request_parameters = {
             "requestType":"form",
             "type":"post",
@@ -250,7 +272,9 @@
                 ]
             },
             "callbacks":{
-                "beforeSend":function(){},
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
@@ -262,8 +286,12 @@
                     }
 
                 },
-                "error":function(){},
-                "complete":function(response){}
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
+                "complete":function(){
+                    notification = base.ajaxRequestNotification("complete",notification);
+                }
             }
         };
 

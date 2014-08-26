@@ -261,6 +261,12 @@
                 notification.update(defaultOptions['error']);
             }
         }
+        if(event == "complete"){
+            console.log()
+            notification.remove();
+        }
+
+
 
         return notice;
 
