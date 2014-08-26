@@ -57,13 +57,17 @@ $(document).ready(function(){
          */
         var treeMove = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/edit_category_position",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -72,16 +76,20 @@ $(document).ready(function(){
                         }
 
                         if(response['countCategories'] > 0){
+                            base.ajaxRequestNotification("success",notification);
                             var treeData = response['categories'];
                             replaceWholeTree(treeData);
                         }else{
+                            base.ajaxRequestNotification("error",notification);
                             $('#tree').css({"display":"none"});
                             $('#no-tree').show();
                         }
 
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -229,6 +237,8 @@ $(document).ready(function(){
                 }
             });
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
@@ -242,7 +252,9 @@ $(document).ready(function(){
                     ]
                 },
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -254,6 +266,7 @@ $(document).ready(function(){
                         var alert = $("#CategoryDelectForm");
 
                         if(response['delete']){
+                            base.ajaxRequestNotification("success",notification);
 
                             if(response['countCategories'] > 0){
                                 var treeData = response['categories'];
@@ -266,12 +279,16 @@ $(document).ready(function(){
                             validate.removeValidationStates('CategoryDelectForm');
                             $('#delect_category_modal').modal('hide');
                         }else{
+                            base.ajaxRequestNotification("error",notification);
+
                             alert.find(".alert-danger").fadeIn();
                             setTimeout(function(){ $("#CategoryDelectForm").find(".alert-danger").fadeOut()},7000);
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -331,9 +348,9 @@ $(document).ready(function(){
                         var categoryEditForm = $("#CategoryEditForm");
 
                         if(response['Edit']){
-                            categoryEditForm.find(".alert-success").fadeIn();
-
                             base.ajaxRequestNotification("success",notification);
+
+                            categoryEditForm.find(".alert-success").fadeIn();
 
                             // update input in CategoryEditForm
                             $("#EditCategoryName").attr({"value":response['Edit']['Category']['name']});
@@ -343,11 +360,11 @@ $(document).ready(function(){
                             },2000);
 
                         }else{
+                            base.ajaxRequestNotification("error",notification);
+
                             categoryEditForm.find(".alert-danger").fadeIn();
                             categoryEditForm.find(".modal-body").find(".form-group").hide();
                             categoryEditForm.find(".modal-footer").hide();
-
-                            base.ajaxRequestNotification("error",notification);
 
                             setTimeout(function(){
                                 $('#edit_category_name_modal').modal('hide');
@@ -415,6 +432,8 @@ $(document).ready(function(){
                 });
             });
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
@@ -427,7 +446,9 @@ $(document).ready(function(){
                     ]
                 },
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -439,6 +460,8 @@ $(document).ready(function(){
                         var categoryAddForm = $("#CategoryAddForm");
 
                         if(response['Add']){
+                            base.ajaxRequestNotification("success",notification);
+
                             categoryAddForm.find(".alert-success").fadeIn();
                             validate.removeValidationStates('CategoryAddForm');
 
@@ -447,6 +470,8 @@ $(document).ready(function(){
                             },2000);
 
                         }else{
+                            base.ajaxRequestNotification("error",notification);
+
                             categoryAddForm.find(".alert-danger").fadeIn();
                             categoryAddForm.find(".modal-body").find(".form-group").hide();
                             categoryAddForm.find(".modal-footer").hide();
@@ -472,7 +497,9 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
