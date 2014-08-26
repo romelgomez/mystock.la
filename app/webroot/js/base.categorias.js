@@ -302,6 +302,8 @@ $(document).ready(function(){
                 }
             });
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
@@ -315,7 +317,9 @@ $(document).ready(function(){
                     ]
                 },
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -329,6 +333,8 @@ $(document).ready(function(){
                         if(response['Edit']){
                             categoryEditForm.find(".alert-success").fadeIn();
 
+                            base.ajaxRequestNotification("success",notification);
+
                             // update input in CategoryEditForm
                             $("#EditCategoryName").attr({"value":response['Edit']['Category']['name']});
 
@@ -340,6 +346,8 @@ $(document).ready(function(){
                             categoryEditForm.find(".alert-danger").fadeIn();
                             categoryEditForm.find(".modal-body").find(".form-group").hide();
                             categoryEditForm.find(".modal-footer").hide();
+
+                            base.ajaxRequestNotification("error",notification);
 
                             setTimeout(function(){
                                 $('#edit_category_name_modal').modal('hide');
@@ -364,7 +372,9 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };

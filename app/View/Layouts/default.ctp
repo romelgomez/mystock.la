@@ -13,6 +13,12 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
+    <!-- font-awesome -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- pnotify https://github.com/sciactive/pnotify -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.css">
+
     <!-- http://imperavi.com/redactor/ -->
     <link rel="stylesheet" type="text/css" href="/resources/library-vendor/redactor/redactor.css">
 
@@ -145,6 +151,9 @@
     <!-- Bootstrap - https://github.com/twbs/bootstrap -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+    <!-- pnotify https://github.com/sciactive/pnotify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.js"></script>
+
     <!-- lightbox - https://github.com/ashleydw/lightbox -->
     <script type="text/javascript" src="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js" ></script>
     <script type="text/javascript">
@@ -163,8 +172,6 @@
 
     <!-- Purl - https://github.com/allmarkedup/purl -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>
-
-
 
 
     <?php

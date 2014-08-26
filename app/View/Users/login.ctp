@@ -12,12 +12,12 @@
                         <div class="panel-body">
                             <form role="form" id="LoginForm">
                                 <div class="form-group">
-                                    <label for="LoginEmail"><span class="glyphicon glyphicon-envelope"></span> Email address</label>
+                                    <label for="LoginEmail"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
                                     <input id="LoginEmail" name="LoginEmail" value="" class="form-control" type="email" maxlength="128" placeholder="Correo" tabindex="1" autocorrect="off" autocapitalize="off">
                                     <span class="help-block" style="display: none;">El campo título es obligatorio.</span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="LoginPassword"><span class="glyphicon glyphicon-lock"></span> Contraseña</label>
+                                    <label for="LoginPassword"><i class="fa fa-key fa-fw"></i> Contraseña</label>
                                     <input type="password" class="form-control" id="LoginPassword" name="LoginPassword" placeholder="Contraseña" tabindex="2">
                                     <span class="help-block" style="display: none;">El campo contraseña es obligatorio.</span>
                                 </div>

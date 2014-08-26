@@ -193,16 +193,73 @@
 (function( base, $, undefined ) {
 
 
-    var ajaxRequestNotification = function(event,notification,options){
+    base.ajaxRequestNotification = function(event,notification,options){
+
+        var defaultOptions = {
+            'init' : {
+                'title':    'Procesando',
+                'text' :    'Aguarde un momento, mientras se procesa su solicitud.',
+                'type':     'info',
+                'icon':     'fa fa-spinner fa-spin',
+                'hide':     false,
+                'closer':   false,
+                'sticker':  false,
+                'opacity':  .75,
+                'shadow':   false,
+                'history':  false
+            },
+            'success' : {
+                'title':    'Listo!',
+                'text' :    'Su solicitud ha sido procesada exitosamente.',
+                'type':     'success',
+                'hide':     true,
+                'closer':   true,
+                'sticker':  true,
+                'icon':     'glyphicon glyphicon-ok-sign',
+                'opacity':  1,
+                'shadow':   true,
+                'history':  true
+            },
+            'error': {
+                'title':    'Error!',
+                'text' :    'Ocurrió un error al intentar procesar su solicitud.',
+                'type' :    'error',
+                'icon':     'glyphicon glyphicon-warning-sign',
+                'hide':     true,
+                'closer':   true,
+                'sticker':  true,
+                'opacity':  1,
+                'shadow':   true,
+                'history':  true
+            }
+        };
 
         // beforeSend, success, error, complete
 
         if(event == "beforeSend"){
-            var notice = $.pnotify(options);
+            var notice;
+            if ( options !== undefined ) {
+                console.log(options);
+                notice = new PNotify(options);
+            }else{
+                console.log(options);
+                notice = new PNotify(defaultOptions['init']);
+            }
         }
 
-        if(event == "success" || event == "error"){
-            notification.pnotify(options);
+        if(event == "success"){
+            if ( options !== undefined ) {
+                notification.update(options);
+            }else{
+                notification.update(defaultOptions['success']);
+            }
+        }
+        if(event == "error"){
+            if ( options !== undefined ) {
+                notification.update(options);
+            }else{
+                notification.update(defaultOptions['error']);
+            }
         }
 
         return notice;
