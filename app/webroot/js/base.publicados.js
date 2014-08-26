@@ -169,13 +169,17 @@ $(document).ready(function(){
          **********************************************************************************************/
         var orderBy =  function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/products_published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -196,12 +200,16 @@ $(document).ready(function(){
                             }
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -263,13 +271,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var pagination = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/products_published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -287,12 +299,16 @@ $(document).ready(function(){
                             }
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -415,13 +431,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var search = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/products_published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -485,12 +505,16 @@ $(document).ready(function(){
 
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -670,13 +694,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var pause = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/pause",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -699,8 +727,12 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -731,13 +763,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var activate = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/activate",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -758,8 +794,12 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -813,13 +853,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var deleteProduct =  function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/delete",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -891,8 +935,12 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -1008,6 +1056,8 @@ $(document).ready(function(){
         };
 
 
+        var notification;
+
         //Public Method
         productsPublished.get = function(){
             var request_parameters = {
@@ -1016,7 +1066,9 @@ $(document).ready(function(){
                 "url":"/products_published",
                 "data":parseUrl(),
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -1047,12 +1099,16 @@ $(document).ready(function(){
 
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 

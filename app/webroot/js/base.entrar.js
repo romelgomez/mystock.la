@@ -290,7 +290,7 @@
                     base.ajaxRequestNotification("error",notification);
                 },
                 "complete":function(){
-                    notification = base.ajaxRequestNotification("complete",notification);
+                    base.ajaxRequestNotification("complete",notification);
                 }
             }
         };
