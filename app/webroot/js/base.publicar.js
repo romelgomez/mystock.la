@@ -451,6 +451,8 @@ $(document).ready(function(){
          */
         var newProduct = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
@@ -468,7 +470,9 @@ $(document).ready(function(){
                     ]
                 },
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -489,7 +493,9 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -592,6 +598,8 @@ $(document).ready(function(){
                     var pure_json_obj   = $(this).parent().children().last().html();
                     var obj             = $.parseJSON(pure_json_obj);
 
+                    var notification;
+
                     // proceso para inhabilitar una imagen
                     var request_parameters = {
                         "requestType":"custom",
@@ -599,7 +607,9 @@ $(document).ready(function(){
                         "url":"/disable_this_imagen",
                         "data":{},
                         "callbacks":{
-                            "beforeSend":function(){},
+                            "beforeSend":function(){
+                                notification = base.ajaxRequestNotification("beforeSend");
+                            },
                             "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -608,7 +618,10 @@ $(document).ready(function(){
                                 }
 
                                 if(response['status']){
+                                    base.ajaxRequestNotification("success",notification);
                                     $("#thumbnail-id-"+response['image_id']).remove();
+                                }else{
+                                    base.ajaxRequestNotification("error",notification);
                                 }
 
                                 // proceso para determinar si aun existen imágenes en la vista del producto.
@@ -624,8 +637,10 @@ $(document).ready(function(){
                                 }
 
                             },
-                            "error":function(){},
-                            "complete":function(response){}
+                            "error":function(){
+                                base.ajaxRequestNotification("error",notification);
+                            },
+                            "complete":function(){}
                         }
                     };
 
@@ -659,15 +674,6 @@ $(document).ready(function(){
                     imageProduct.ekkoLightbox();
 
 
-
-//                    //Programatically call
-//                    $('#open-image').click(function (e) {
-//                        e.preventDefault();
-//                        $(this).ekkoLightbox();
-//                    });
-
-
-
                 });
             });
         };
@@ -681,13 +687,17 @@ $(document).ready(function(){
          */
         var pause = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/pause",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -696,6 +706,7 @@ $(document).ready(function(){
                         }
 
                         if(response['result']){
+                            base.ajaxRequestNotification("success",notification);
 
                             $('#pause').css({
                                 "display": 'none'
@@ -705,12 +716,14 @@ $(document).ready(function(){
                             });
 
                         }else{
-                            window.location = "/";
+                            base.ajaxRequestNotification("error",notification);
                         }
 
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -736,13 +749,18 @@ $(document).ready(function(){
          */
         var activate = function(){
 
+
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/activate",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -751,6 +769,8 @@ $(document).ready(function(){
                         }
 
                         if(response['result']){
+                            base.ajaxRequestNotification("success",notification);
+
 
                             $('#pause').css({
                                 "display": "inline"
@@ -760,12 +780,14 @@ $(document).ready(function(){
                             });
 
                         }else{
-                            window['location'] = "/";
+                            base.ajaxRequestNotification("error",notification);
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){}
                 }
             };
 
@@ -784,13 +806,17 @@ $(document).ready(function(){
 
         var _delete =  function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/delete",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -801,7 +827,9 @@ $(document).ready(function(){
                         window['location'] = "/";
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
