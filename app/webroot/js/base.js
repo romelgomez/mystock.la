@@ -94,24 +94,6 @@
 }( window.ajax = window.ajax || {}, jQuery ));
 
 
-//<form role="form" id="SearchPublicationsForm">
-//    <div class="form-group" style="margin-bottom: 0;">
-//        <div class="input-group">
-//            <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
-//                <span class="input-group-btn">
-//                    <button class="btn btn-default" type="submit">Buscar</button>
-//                </span>
-//            </div>
-//        </div>
-//    </form>
-
-//<div class="form-group has-error has-feedback">
-//    <label class="control-label" for="inputError2">Input with error</label>
-//    <input type="text" class="form-control" id="inputError2">
-//        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-//    </div>
-
-
 // FormValidation
 (function( validate, $) {
 
@@ -209,6 +191,23 @@
 }( window.validate = window.validate || {}, jQuery ));
 
 (function( base, $, undefined ) {
+
+
+    var ajaxRequestNotification = function(event,notification,options){
+
+        // beforeSend, success, error, complete
+
+        if(event == "beforeSend"){
+            var notice = $.pnotify(options);
+        }
+
+        if(event == "success" || event == "error"){
+            notification.pnotify(options);
+        }
+
+        return notice;
+
+    };
 
     base.randomNumber = function(inferior,superior){
         var numPosibilidades = superior - inferior;

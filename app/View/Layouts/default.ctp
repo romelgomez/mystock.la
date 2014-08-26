@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css">
 
     <?php
-        echo $this->Html->css(array('refactored/base'));
+        echo $this->Html->css(array('base'));
         echo $this->fetch('css');
     ?>
 
@@ -154,9 +154,6 @@
                 event.preventDefault();
                 return $(this).ekkoLightbox();
             });
-
-
-
         });
     </script>
 

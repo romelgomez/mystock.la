@@ -52,28 +52,20 @@
                     'name'				=>	$request['name'],
                     'email'				=>	$request['email'],
                     'password'			=>	$this->{'Auth'}->password($request['password']),
-                    'activation_key'	=>	$this-> {'Auth'}->password($request['email']),
+                    'activation_key'	=>	$this->{'Auth'}->password($request['email']),
                 )
             );
 
-            //	$return['_info_to_save'] = $user;
             if($this->{'User'}->save($user)){
                 $return = $this->{'User'}->read();
                 // TODO se envía el correo.
-                $return['save'] = true;
+                $return['Add'] = true;
             }else{
-                $return['save'] = false; // ++++++++++++++ ha ocurrido un error +++++++++++++++
+                $return['Add'] = false;
             }
-            $return['validates'] = true;
 
         }else{
-            $return['validates'] = false;
-            //  se envía los campos faltantes o algún error que pudiese haber ocurrido.
-            $errors = $this->{'User'}->validationErrors;
-            foreach($errors as $k=>$v){
-                $tmp = 'user_'.$k;
-                $return['fields'][Inflector::camelize($tmp)] = $v[0];
-            }
+            $return['Add'] = false;
         }
 
         $this->{'set'}('return',$return);
@@ -122,9 +114,9 @@
 
         if($this->email($request['email'])){
             // ++++++ se envía el correo  ++++++
-            $return['send'] = true;
+            $return['Send'] = true;
         }else{
-            $return['send'] = false;
+            $return['Send'] = false;
         }
 
         $this->{'set'}('return',$return);

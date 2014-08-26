@@ -338,7 +338,7 @@ $(document).ready(function(){
 
                         }else{
                             categoryEditForm.find(".alert-danger").fadeIn();
-                            categoryEditForm.find(".modal-body").hide();
+                            categoryEditForm.find(".modal-body").find(".form-group").hide();
                             categoryEditForm.find(".modal-footer").hide();
 
                             setTimeout(function(){
@@ -347,7 +347,7 @@ $(document).ready(function(){
 
                                 var categoryEditForm = $("#CategoryEditForm");
                                 categoryEditForm.find(".alert-danger").fadeOut();
-                                categoryEditForm.find(".modal-body").show();
+                                categoryEditForm.find(".modal-body").find(".form-group").show();
                                 categoryEditForm.find(".modal-footer").show();
 
                             },3000);
@@ -438,7 +438,7 @@ $(document).ready(function(){
 
                         }else{
                             categoryAddForm.find(".alert-danger").fadeIn();
-                            categoryAddForm.find(".modal-body").hide();
+                            categoryAddForm.find(".modal-body").find(".form-group").hide();
                             categoryAddForm.find(".modal-footer").hide();
 
                             setTimeout(function(){
@@ -447,7 +447,7 @@ $(document).ready(function(){
 
                                 var categoryAddForm = $("#CategoryAddForm");
                                 categoryAddForm.find(".alert-danger").fadeOut();
-                                categoryAddForm.find(".modal-body").show();
+                                categoryAddForm.find(".modal-body").find(".form-group").show();
                                 categoryAddForm.find(".modal-footer").show();
 
                             },3000);

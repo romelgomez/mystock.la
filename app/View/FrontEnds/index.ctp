@@ -73,5 +73,4 @@
 
 
 
-<?php echo $this->Html->css('base.sidebar_menu',false); ?>
 <?php echo $this->Html->script('base.index',false); ?>

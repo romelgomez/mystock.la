@@ -63,11 +63,11 @@
 
 
                     <!-- Mensajes post ajax request -->
-                    <div id="alertSuccess" class="alert alert-success alert-dismissible" style="display: none;" role="alert">
+                    <div class="alert alert-success alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                         ¡Se ha enviado un mensaje a su correo para confirmar su información!
                     </div>
-                    <div id="alertError" class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
+                    <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                         ¡Ha ocurrido algún error, intente nuevamente o también puede probar recargar la página si persiste el error!
                     </div>

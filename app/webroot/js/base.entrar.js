@@ -40,14 +40,32 @@
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
-                    if(response['send']){
-                        $("#recoverySuccess ").fadeIn();
-                        setTimeout(function(){ $("#recoverySuccess").fadeOut() },7000);
+                    var userForm = $("#UserForm");
+
+                    if(response['Send']){
+                        userForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserForm');
+
+                        setTimeout(function(){
+                            $("#UserForm").find(".alert-success").fadeOut();
+                        },2000);
                     }else{
-                        $("#recoveryError").fadeIn();
-                        setTimeout(function(){$("#recoveryError").fadeOut()},7000);
+                        userForm.find(".alert-danger").fadeIn();
+                        userForm.find(".modal-body").find(".form-group").hide();
+                        userForm.find(".modal-footer").hide();
+
+                        setTimeout(function(){
+                            $('#recoverModal').modal('hide');
+                            validate.removeValidationStates('UserForm');
+
+                            var userForm = $("#UserForm");
+                            userForm.find(".alert-danger").fadeOut();
+                            userForm.find(".modal-body").find(".form-group").show();
+                            userForm.find(".modal-footer").show();
+
+                        },3000);
                     }
+
 
                 },
                 "error":function(){},
@@ -121,13 +139,30 @@
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
 
-                    if(response['save']){
-                        $("#alertSuccess").fadeIn();
-                        setTimeout(function(){ $("#alertSuccess").fadeOut() },7000);
+                    var userAddForm = $("#UserAddForm");
+
+                    if(response['Add']){
+                        userAddForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserAddForm');
+
+                        setTimeout(function(){
+                            $("#UserAddForm").find(".alert-success").fadeOut();
+                        },2000);
                     }else{
-                        $("#alertError").fadeIn();
-                        setTimeout(function(){$("#alertError").fadeOut()},7000);
+                        userAddForm.find(".alert-danger").fadeIn();
+                        userAddForm.find(".modal-body").find(".form-group").hide();
+                        userAddForm.find(".modal-footer").hide();
+
+                        setTimeout(function(){
+                            $('#newUserModal').modal('hide');
+                            validate.removeValidationStates('UserAddForm');
+
+                            var userAddForm = $("#UserAddForm");
+                            userAddForm.find(".alert-danger").fadeOut();
+                            userAddForm.find(".modal-body").find(".form-group").show();
+                            userAddForm.find(".modal-footer").show();
+
+                        },3000);
                     }
 
                 },

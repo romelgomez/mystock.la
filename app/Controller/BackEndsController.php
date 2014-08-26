@@ -1,6 +1,6 @@
 <?php class BackEndsController extends AppController {
-	
-	public function index(){
-	}
-	
-} ?>
+
+    public function index(){
+    }
+
+}
