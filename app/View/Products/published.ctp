@@ -16,6 +16,13 @@
                 <div class="col-xs-12">
 
                     <div class="row">
+                        <div class="col-xs-12">
+                            <h1 id="type" class="page-header" style="margin-top: 0;">Publicados</h1>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
                         <div class="col-xs-6 col-sm-4">
                             <!-- búsqueda.
                             ------------------------------------------------------------------------------------------>
@@ -84,7 +91,7 @@
 
                     <hr>
 
-                    <div id="published" ></div>
+                    <div id="products" ></div>
 
                     <hr style="margin-bottom: 0">
 
@@ -111,7 +118,7 @@
                 <h4 class="modal-title" id="myModalLabel">¿Realmente quieres borrar esta publicación?</h4>
             </div>
             <div class="modal-body">
-                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido, pausar la publicacion permitirá que la publicidad y contactos estén disponible a los clientes, teniendo claro que la publicación quedará inhabilitada para ser ofertada a través del sistema.
+                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido, pausar la publicación permitirá que la publicidad y contactos estén disponible a los clientes, teniendo claro que la publicación quedará inhabilitada para ser ofertada a través del sistema.
             </div>
             <div class="modal-footer">
                 <button id="delete_product" type="button" class="btn btn-danger">Confirmar</button>

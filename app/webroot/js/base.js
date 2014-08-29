@@ -239,10 +239,8 @@
         if(event == "beforeSend"){
             var notice;
             if ( options !== undefined ) {
-                console.log(options);
                 notice = new PNotify(options);
             }else{
-                console.log(options);
                 notice = new PNotify(defaultOptions['init']);
             }
         }
@@ -262,14 +260,10 @@
             }
         }
         if(event == "complete"){
-            console.log()
             notification.remove();
         }
 
-
-
         return notice;
-
     };
 
     base.randomNumber = function(inferior,superior){

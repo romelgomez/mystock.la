@@ -3,7 +3,7 @@
 $(document).ready(function(){
 
 
-    (function( productsPublished, $) {
+    (function( products, $, undefined) {
 
         //Private Property
         var lastResponseInfo = {};
@@ -174,7 +174,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -187,7 +187,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
                             if(response['data'].length > 0){
                                 // hay publicaciones
 
@@ -276,7 +276,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -288,7 +288,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
                             if(response['data'].length > 0){
                                 // hay publicaciones
                                 setLastResponseInfo(response);
@@ -436,7 +436,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -487,7 +487,7 @@ $(document).ready(function(){
                                 $("#products-for-this-search").css({"display":"inherit"});
 
                                 // se muestran las publicaciones
-                                $("#published").css({"display":"inherit"});
+                                $("#products").css({"display":"inherit"});
 
                             }else{
 
@@ -499,7 +499,7 @@ $(document).ready(function(){
                                 $("#no-products-for-this-search").css({"display":"inherit"});
 
                                 // se oculta las publicaciones
-                                $("#published").css({"display":"none"});
+                                $("#products").css({"display":"none"});
 
                             }
 
@@ -736,7 +736,7 @@ $(document).ready(function(){
                 }
             };
 
-            var elements = $("#published").find(".pause");
+            var elements = $("#products").find(".pause");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -803,7 +803,7 @@ $(document).ready(function(){
                 }
             };
 
-            var elements = $("#published").find(".activate");
+            var elements = $("#products").find(".activate");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -829,7 +829,7 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var edit = function(){
 
-            var elements = $("#published").find(".edit");
+            var elements = $("#products").find(".edit");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -945,7 +945,7 @@ $(document).ready(function(){
             };
 
 
-            var elements = $("#published").find(".delete");
+            var elements = $("#products").find(".delete");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -1037,7 +1037,7 @@ $(document).ready(function(){
                         $("#information-panel").css({"display":""});
 
                         // se establece las publicaciones en el DOM
-                        $('#published').html(products);
+                        $('#products').html(products);
 
                         /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
                         *********************************************************************************/
@@ -1059,11 +1059,11 @@ $(document).ready(function(){
         var notification;
 
         //Public Method
-        productsPublished.get = function(){
+        products.get = function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){
@@ -1077,7 +1077,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
 
                             // No hay productos publicados.
                             if(response['total_products'] == 0){
@@ -1115,10 +1115,10 @@ $(document).ready(function(){
             ajax.request(request_parameters);
         };
 
-    }( window.productsPublished = window.productsPublished || {}, jQuery ));
+    }( window.products = window.products || {}, jQuery ));
 
 
 
-    productsPublished.get();
+    products.get();
 
 });

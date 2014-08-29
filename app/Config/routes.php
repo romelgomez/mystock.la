@@ -76,11 +76,14 @@ Router::connect('/add_new',									array('controller' => 'products', 	'action' 
 Router::connect('/save_draft',	 							array('controller' => 'products',	'action' => 'saveDraft'));	   					// Acción Ajax - para guardar un borrador
 
 Router::connect('/publicados', 								array('controller' => 'products',	'action' => 'published'));	   					// Acción Get  - Interfaz para acceder a los productos publicados
-Router::connect('/products_published', 						array('controller' => 'products',	'action' => 'products_published'));				// Acción ajax - para obtener los productos publicados
+Router::connect('/published', 					        	array('controller' => 'products',	'action' => 'products'));				// Acción ajax - para obtener los productos publicados
 
 
 Router::connect('/borradores',	 							array('controller' => 'products',	'action' => 'drafts'));	   						// Acción Get  - Interfaz para acceder a los borradores
-Router::connect('/discard',	 								array('controller' => 'products',	'action' => 'discard'));	   					// Acción Ajax - para descartar un borrador registrado
+Router::connect('/drafts',  	 							array('controller' => 'products',	'action' => 'products'));	   					// Acción ajax - para obtener los borradores
+
+// todo remplasar por /delete
+//Router::connect('/discard',	 								array('controller' => 'products',	'action' => 'delete'));	   					// Acción Ajax - para descartar un borrador registrado
 
 Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	'action' => 'view'),  				  			// Acción Get 	- Interfaz para visualizar un producto
 	array(

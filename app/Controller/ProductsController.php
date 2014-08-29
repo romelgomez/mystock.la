@@ -310,69 +310,6 @@
     }
 
     public function search_publications(){
-
-        /*
-
-         if($this->request->is('post')){
-            $request = $this->request->data;
-        }else{
-            $request = $this->request->query;
-        }
-
-
-        $search 		= $this->cleanString($request["search"]);
-
-        $publications $this->Product->find('all', array(
-            'conditions' => array('Article.status' => 'pending')
-        ));
-        */
-
-        /*
-        $this->paginate = array(
-            'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
-            'contain' => array(
-                'Image'=>array(
-                )
-            ),
-            'order' => $order,
-            'limit' => 10,
-            'page'	=>$page
-        );
-        */
-
-        /*
-        $pending = $this->Article->find('all', array(
-            'conditions' => array('Article.status' => 'pending')
-        ));
-
-        array(
-            'conditions' => array('Model.field' => $thisValue), //array of conditions
-            'recursive' => 1, //int
-            'fields' => array('Model.field1', 'DISTINCT Model.field2'), //array of field names
-            'order' => array('Model.created', 'Model.field3 DESC'), //string or array defining order
-            'group' => array('Model.field'), //fields to GROUP BY
-            'limit' => n, //int
-            'page' => n, //int
-            'offset' => n, //int
-            'callbacks' => true //other possible values are false, 'before', 'after'
-        )
-
-        'conditions' => array(
-            'Model.is_active' => 'Y',
-            'or' => array(
-                'Model.column1 LIKE' => '%keyword%',
-                'Model.column2 LIKE' => '%keyword',
-                ...
-                ...
-        )
-        */
-
-
-/*
-        $return = FALSE;
-        $this->set('return',$return);
-        $this->render('ajax_view','ajax');
-*/
     }
 
     /*
@@ -382,131 +319,131 @@
         Recibe:             null
         Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
     */
-    public function products_published(){
-
-        $request = $this->{'request'}->input('json_decode',true);
-
-        $user_logged = $this->{'Auth'}->User();
-
-        if(!isset($request['search']) || $request['search'] == ''){
-            $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
-        }else{
-
-            $search = $this->cleanString($request["search"]);
-            $return["search"] = $search;
-            $conditions = array(
-                'Product.company_id' => $user_logged['User']['company_id'],
-                'Product.deleted'=>0,
-                'Product.published'=>1,
-                'or'=>array(
-                    'Product.title LIKE'=> '%'.$search.'%',
-                    'Product.body LIKE'=> '%'.$search.'%'
-                )
-            );
-        }
-
-        if(!isset($request['page'])  || $request['page'] == ''){
-            $page = 1;
-        }else{
-            $page = (int)$request['page'];
-        }
-
-        $order = array();
-
-        if(!isset($request['order_by']) || $request['order_by'] == ''){
-
-            $order = array(
-                'Product.created' => 'desc'
-            );
-
-        }else{
-
-            if($request['order_by'] == "mayor_precio"){
-
-                $order = array(
-                    'Product.price' => 'desc'
-                );
-            }
-            if($request['order_by'] == "menor_precio"){
-
-                $order = array(
-                    'Product.price' => 'asc'
-                );
-            }
-            if($request['order_by'] == "recientes"){
-
-
-                $order = array(
-                    'Product.created' => 'desc'
-                );
-
-            }
-            if($request['order_by'] == "antiguos"){
-
-                $order = array(
-                    'Product.created' => 'asc'
-                );
-
-            }
-
-            if($request['order_by'] == "mayor_disponibilidad"){
-
-                $order = array(
-                    'Product.quantity' => 'desc'
-                );
-            }
-            if($request['order_by'] == "menor_disponibilidad"){
-
-                $order = array(
-                    'Product.quantity' => 'asc'
-                );
-            }
-
-        }
-
-        $this->{'paginate'} = array(
-            'conditions' =>  $conditions,
-            'contain' => array(
-                'Image'=>array(
-                )
-            ),
-            'order' => $order,
-            'limit' => 10,
-            'page'	=>$page
-        );
-
-        // retornar la cantidad de registros para determinar si realmente no quedan mas registros.
-        // $conditions = ;
-
-        try {
-
-            $products = $this->{'paginate'}('Product');
-
-            // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-            $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
-
-            if($products){
-                $return['data']	= $this->product_images($products);
-            }else{
-                $return['data'] = array();
-            }
-
-            $return['result']	= true;
-
-        }catch(Exception $e){
-
-            // se re-direcciona a “/cuenta” y se establece un mensaje que indica que hubo un error al procesar la solicitud
-            $return['result'] = false;
-            $this->{'Session'}->setFlash('Error 404, lo que busca ha sido movido o eliminado o nunca existió.','error');
-
-        }
-
-        $return['info'] = $this->{'request'}->params['paging']['Product'];
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-
-    }
+//    public function products_published(){
+//
+//        $request = $this->{'request'}->input('json_decode',true);
+//
+//        $user_logged = $this->{'Auth'}->User();
+//
+//        if(!isset($request['search']) || $request['search'] == ''){
+//            $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
+//        }else{
+//
+//            $search = $this->cleanString($request["search"]);
+//            $return["search"] = $search;
+//            $conditions = array(
+//                'Product.company_id' => $user_logged['User']['company_id'],
+//                'Product.deleted'=>0,
+//                'Product.published'=>1,
+//                'or'=>array(
+//                    'Product.title LIKE'=> '%'.$search.'%',
+//                    'Product.body LIKE'=> '%'.$search.'%'
+//                )
+//            );
+//        }
+//
+//        if(!isset($request['page'])  || $request['page'] == ''){
+//            $page = 1;
+//        }else{
+//            $page = (int)$request['page'];
+//        }
+//
+//        $order = array();
+//
+//        if(!isset($request['order_by']) || $request['order_by'] == ''){
+//
+//            $order = array(
+//                'Product.created' => 'desc'
+//            );
+//
+//        }else{
+//
+//            if($request['order_by'] == "mayor_precio"){
+//
+//                $order = array(
+//                    'Product.price' => 'desc'
+//                );
+//            }
+//            if($request['order_by'] == "menor_precio"){
+//
+//                $order = array(
+//                    'Product.price' => 'asc'
+//                );
+//            }
+//            if($request['order_by'] == "recientes"){
+//
+//
+//                $order = array(
+//                    'Product.created' => 'desc'
+//                );
+//
+//            }
+//            if($request['order_by'] == "antiguos"){
+//
+//                $order = array(
+//                    'Product.created' => 'asc'
+//                );
+//
+//            }
+//
+//            if($request['order_by'] == "mayor_disponibilidad"){
+//
+//                $order = array(
+//                    'Product.quantity' => 'desc'
+//                );
+//            }
+//            if($request['order_by'] == "menor_disponibilidad"){
+//
+//                $order = array(
+//                    'Product.quantity' => 'asc'
+//                );
+//            }
+//
+//        }
+//
+//        $this->{'paginate'} = array(
+//            'conditions' =>  $conditions,
+//            'contain' => array(
+//                'Image'=>array(
+//                )
+//            ),
+//            'order' => $order,
+//            'limit' => 10,
+//            'page'	=>$page
+//        );
+//
+//        // retornar la cantidad de registros para determinar si realmente no quedan mas registros.
+//        // $conditions = ;
+//
+//        try {
+//
+//            $products = $this->{'paginate'}('Product');
+//
+//            // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+//            $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
+//
+//            if($products){
+//                $return['data']	= $this->product_images($products);
+//            }else{
+//                $return['data'] = array();
+//            }
+//
+//            $return['result']	= true;
+//
+//        }catch(Exception $e){
+//
+//            // se re-direcciona a “/cuenta” y se establece un mensaje que indica que hubo un error al procesar la solicitud
+//            $return['result'] = false;
+////            $this->{'Session'}->setFlash('Error 404, lo que busca ha sido movido o eliminado o nunca existió.','error');
+//
+//        }
+//
+//        $return['info'] = $this->{'request'}->params['paging']['Product'];
+//
+//        $this->{'set'}('return',$return);
+//        $this->{'render'}('ajax_view','ajax');
+//
+//    }
 
     /*
         Descripción:        Función para visualizar todos los productos publicados.
@@ -524,14 +461,183 @@
         Retorna:            Un array.
     */
     public function drafts(){
+//        $user_logged = $this->{'Auth'}->User();
+//
+//        $products = $this->{'Product'}->find('all',array(
+//            'conditions' => array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.status'=>0),
+//            'order' => array('Product.created DESC'),
+//        ));
+//
+//        $this->{'set'}('products',$products);
+    }
+
+//    public function getDrafts(){
+//
+////        $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
+////        $request = $this->{'request'}->input('json_decode',true);
+//
+//
+//        $return  = array();
+//        $return['request'] = $this->{'request'}->input('json_decode',true);
+//        $return['url_action'] = $this->{'request'}->url;
+//
+//        $this->{'set'}('return',$return);
+//        $this->{'render'}('ajax_view','ajax');
+//    }
+
+
+    /*
+        Descripción:
+        tipo de solicitud:  Ajax
+        tipo de acceso:     vendedor
+        Recibe:             null
+        Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
+    */
+    public function products(){
+        $request = $this->{'request'}->input('json_decode',true);
+
         $user_logged = $this->{'Auth'}->User();
 
-        $products = $this->{'Product'}->find('all',array(
-            'conditions' => array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.status'=>0),
-            'order' => array('Product.created DESC'),
-        ));
+        $url = $this->{'request'}->url;
 
-        $this->{'set'}('products',$products);
+        $return = array();
+
+        if($url == 'published' | $url == 'drafts'){
+            if($url == 'published'){
+                // search - conditions
+                if(!isset($request['search']) || $request['search'] == ''){
+                    $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
+                }else{
+                    $search = $this->cleanString($request["search"]);
+                    $return["search"] = $search;
+                    $conditions = array(
+                        'Product.company_id' => $user_logged['User']['company_id'],
+                        'Product.deleted'=>0,
+                        'Product.published'=>1,
+                        'or'=>array(
+                            'Product.title LIKE'=> '%'.$search.'%',
+                            'Product.body LIKE'=> '%'.$search.'%'
+                        )
+                    );
+                }
+
+                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+            }
+            if($url == 'drafts'){
+                // search - conditions
+                if(!isset($request['search']) || $request['search'] == ''){
+                    $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>0);
+                }else{
+                    $search = $this->cleanString($request["search"]);
+                    $return["search"] = $search;
+                    $conditions = array(
+                        'Product.company_id' => $user_logged['User']['company_id'],
+                        'Product.deleted'=>0,
+                        'Product.published'=>0,
+                        'or'=>array(
+                            'Product.title LIKE'=> '%'.$search.'%',
+                            'Product.body LIKE'=> '%'.$search.'%'
+                        )
+                    );
+                }
+
+                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>0)));
+            }
+
+            // page
+            if(!isset($request['page'])  || $request['page'] == ''){
+                $page = 1;
+            }else{
+                $page = (int)$request['page'];
+            }
+
+            // order
+            $order = array();
+            if(!isset($request['order_by']) || $request['order_by'] == ''){
+
+                $order = array(
+                    'Product.created' => 'desc'
+                );
+
+            }else{
+
+                if($request['order_by'] == "mayor_precio"){
+
+                    $order = array(
+                        'Product.price' => 'desc'
+                    );
+                }
+                if($request['order_by'] == "menor_precio"){
+
+                    $order = array(
+                        'Product.price' => 'asc'
+                    );
+                }
+                if($request['order_by'] == "recientes"){
+
+
+                    $order = array(
+                        'Product.created' => 'desc'
+                    );
+
+                }
+                if($request['order_by'] == "antiguos"){
+
+                    $order = array(
+                        'Product.created' => 'asc'
+                    );
+
+                }
+
+                if($request['order_by'] == "mayor_disponibilidad"){
+
+                    $order = array(
+                        'Product.quantity' => 'desc'
+                    );
+                }
+                if($request['order_by'] == "menor_disponibilidad"){
+
+                    $order = array(
+                        'Product.quantity' => 'asc'
+                    );
+                }
+
+            }
+
+            $this->{'paginate'} = array(
+                'conditions' =>  $conditions,
+                'contain' => array(
+                    'Image'=>array(
+                    )
+                ),
+                'order' => $order,
+                'limit' => 10,
+                'page'	=>$page
+            );
+
+
+            try {
+                $products = $this->{'paginate'}('Product');
+                if($products){
+                    $return['data']	= $this->product_images($products);
+                }else{
+                    $return['data'] = array();
+                }
+                $return['result']	= true;
+            }catch(Exception $e){
+                // se re-direcciona a “/”
+                $return['result'] = false;
+            }
+
+            $return['info'] = $this->{'request'}->params['paging']['Product'];
+
+        }
+
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
     }
 
 
