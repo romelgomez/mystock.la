@@ -45,18 +45,18 @@ Router::connect('/disable_this_imagen',	 					array('controller' => 'images', 'a
 //	O
 //	P
 
-/* /publicar, /editar_borrador, /editar usan la misma vista add para los procesos referentes, todos los proceso son compatibles en 98% por lo tanto comparten vistas , la accion es identificada por la url, 
- * solo cambia una pequeña parte de dom, los botones unicamente.  
+/* /publicar, /editar_borrador, /editar usan la misma vista add para los procesos referentes, todos los proceso son compatibles en 98% por lo tanto comparten vistas , la acción es identificada por la url,
+ * solo cambia una pequeña parte de dom, los botones únicamente.
 ***********************************************************************************************************************/
-Router::connect('/publicar',								array('controller' => 'products', 	'action' => 'add'));							// Acción Get  - Interfaz para cargar nuevos productos. 
+Router::connect('/publicar',								array('controller' => 'products', 	'action' => 'add'));							// Acción Get  - Interfaz para cargar nuevos productos.
 	
-Router::connect('/editar_borrador/:id', 					array('controller' => 'products', 	'action' => 'add'),  				  			// Accion Get  - para editar un borrador, es un producto que no a sido publicado.
+Router::connect('/editar_borrador/:id', 					array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un borrador, es un producto que no a sido publicado.
 	array(
 		'pass' => array('id'),
 		'id' => '[0-9]+'
 	));
 
-Router::connect('/editar/:id', 								array('controller' => 'products', 	'action' => 'add'),  				  			// Accion Get  - para editar un producto publicado.
+Router::connect('/editar/:id', 								array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un producto publicado.
 	array(
 		'pass' => array('id'),
 		'id' => '[0-9]+'
@@ -71,18 +71,20 @@ Router::connect('/activate', 								array('controller' => 'products',	 'action'
 Router::connect('/delete', 									array('controller' => 'products',	 'action' => 'delete'));							// Acción Ajax - borrar un producto publicado
 
 
+Router::connect('/add_new',									array('controller' => 'products', 	'action' => 'add_new'));						// Acción Ajax - para guardar una nueva publicación.
+Router::connect('/save_draft',	 							array('controller' => 'products',	'action' => 'saveDraft'));	   					// Acción Ajax - para guardar un borrador
 
-Router::connect('/add_new',									array('controller' => 'products', 	'action' => 'add_new'));						// Acción Ajax - para guadar una nueva publicación. 
-Router::connect('/save_draft',	 							array('controller' => 'products',	'action' => 'saveDraft'));	   					// Accion Ajax - para guadar un borrador
-
-Router::connect('/publicados', 								array('controller' => 'products',	'action' => 'published'));	   					// Accion Get  - Interfaz para acceder a los productos publicados 
-Router::connect('/products_published', 						array('controller' => 'products',	'action' => 'products_published'));				// Accion ajax - para obtener los productos publicados
+Router::connect('/publicados', 								array('controller' => 'products',	'action' => 'published'));	   					// Acción Get  - Interfaz para acceder a los productos publicados
+Router::connect('/borradores',	 							array('controller' => 'products',	'action' => 'drafts'));	   						// Acción Get  - Interfaz para acceder a los borradores
 
 
-Router::connect('/borradores',	 							array('controller' => 'products',	'action' => 'drafts'));	   						// Accion Get  - Interfaz para acceder a los borradores
-Router::connect('/discard',	 								array('controller' => 'products',	'action' => 'discard'));	   					// Accion Ajax - para descartar un borrador registrado
+Router::connect('/published', 					        	array('controller' => 'products',	'action' => 'products'));				// Acción ajax - para obtener los productos publicados
+Router::connect('/drafts',  	 							array('controller' => 'products',	'action' => 'products'));	   					// Acción ajax - para obtener los borradores
 
-Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	'action' => 'view'),  				  			// Accion Get 	- Interfaz para visualizar un producto	
+Router::connect('/discard',	 								array('controller' => 'products',	'action' => 'discard'));	   					// Acción Ajax - para descartar un borrador registrado
+
+
+Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	'action' => 'view'),  				  			// Acción Get 	- Interfaz para visualizar un producto
 	array(
 		'pass' => array('id','slug'),
 		'id' => '[0-9]+',
@@ -94,9 +96,9 @@ Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	
 //	S
 //	T
 //	U
-Router::connect('/salir',									array('controller' => 'users', 	'action' => 'logout'));								// Accion Get  - Para salir de la aplicación
-Router::connect('/entrar',									array('controller' => 'users', 	'action' => 'login'));								// Accion Get  - Interfaz de entrada a la aplicación o registro de un nuevo usuario.						
-Router::connect('/login',									array('controller' => 'users', 	'action' => 'in'));									// Accion Ajax - Para entrar a la aplicación.						
+Router::connect('/salir',									array('controller' => 'users', 	'action' => 'logout'));								// Acción Get  - Para salir de la aplicación
+Router::connect('/entrar',									array('controller' => 'users', 	'action' => 'login'));								// Acción Get  - Interfaz de entrada a la aplicación o registro de un nuevo usuario.
+Router::connect('/login',									array('controller' => 'users', 	'action' => 'in'));									// Acción Ajax - Para entrar a la aplicación.
 Router::connect('/new_user',								array('controller' => 'users', 	'action' => 'add'));								// Acción Ajax - Para registrar un nuevo usurio.
 Router::connect('/check_email',								array('controller' => 'users', 	'action' => 'check_email')); 						// Acción Ajax - Para determinar si el correo ya se ha registrado.  
 Router::connect('/recover_account',							array('controller' => 'users', 	'action' => 'recover_account')); 					// Acción Ajax - Para recuperar una cuenta.  

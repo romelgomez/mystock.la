@@ -1,279 +1,341 @@
-/*	Olvido Formulario
- ****************************/
+/*
+    login Formulario
 
-/* 
-	link 		#recover 
-	modal 		#recover_modal
-	form_id		#UserForm
-	url			/recover_acount 
-	
-	inputs
-	* Email
-*/
+     form_id    #LoginForm
+     url        /login
 
-// modal
-$("#recover").on('click',function(event){
-	event.preventDefault();
-	$('#recover_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
-		reset_form('UserForm');
-		recover_account._validate.resetForm();
-	});
-});
+     inputs
+        LoginEmail
+        LoginPassword
+ */
 
-var user_form_obj = {
-	"type":"post",
-	"url":"/recover_account",
-	"data":{
-		"form":{
-			"id":"UserForm",
-			"inputs":{
-				"email":{
-					"id":"Email"
-				}
-			}
-		}
-	},
-	"console_log":false,
-	"callbacks":{
-		"complete":function(response){
-			var a = response.responseText;
-			var email = $.parseJSON(a);
-			
-			if(email.send){
-				$("#recover_modal .alert-success").fadeIn();
-				setTimeout(function(){ $("#recover_modal .alert-success").fadeOut(); }, 7000);
-				recover_account._validate.resetForm();
-				reset_form("UserForm");
-			}else{
-				$("#recover_modal .alert-error").fadeIn();
-				setTimeout(function(){ $("#recover_modal .alert-error").fadeOut(); }, 7000);
-			}
-			
-		}
-	}
-}
+(function( user, $) {
 
-// validación:
-var recover_account_obj = {
-	"submitHandler": function(form) {
-		new Request(user_form_obj);
-	},
-	"rules":{
-		"Email":{
-			"required":true,
-			"email": true,
-			"remote": {
-				"url": "/check_email",
-				"type": "post",
-				"data": {
-					"UserEmail": function() {
-						return $("#Email").val();
-					}
-				}
-			},
-			"maxlength":30
-		}
-	},
-	"messages":{
-		"Email":{
-			"required":"El campo email es obligatorio.",
-			"email":"Debe proporcionar un correo valido.",
-			"remote":"No existe una cuenta asociada a tal dirección de correo electrónico. Por favor, verifique e inténtelo de nuevo.",
-			"maxlength":"El correo no debe tener mas de 30 caracteres."
-		}
-	}
-}
+    /*
+     Private Method
+     Descripción:  Recuperar una cuenta
+    */
+    var recoverAcount = function(){
 
-var recover_account = new validate_this_form("UserForm",recover_account_obj);
+        $("#recover").on('click',function(event){
+            event.preventDefault();
+            $('#recoverModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                validate.removeValidationStates('UserForm');
+            });
+        });
+
+        var notification;
+
+        var request_parameters = {
+            "requestType":"form",
+            "type":"post",
+            "url":"/recover_account",
+            "data":{},
+            "form":{
+                "id":"UserForm",
+                "inputs":[
+                    {'id':'Email', 'name':'email'}
+                ]
+            },
+            "callbacks":{
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
+                "success":function(response){
+                    $('#debug').text(JSON.stringify(response));
+
+                    var userForm = $("#UserForm");
+
+                    if(response['Send']){
+                        base.ajaxRequestNotification("success",notification);
+
+                        userForm.find(".alert-success").fadeIn();
+                        validate.removeValidationStates('UserForm');
+
+                        setTimeout(function(){
+                            $("#UserForm").find(".alert-success").fadeOut();
+                        },2000);
+                    }else{
+                        base.ajaxRequestNotification("error",notification);
+
+                        userForm.find(".alert-danger").fadeIn();
+                        userForm.find(".modal-body").find(".form-group").hide();
+                        userForm.find(".modal-footer").hide();
+
+                        setTimeout(function(){
+                            $('#recoverModal').modal('hide');
+                            validate.removeValidationStates('UserForm');
+
+                            var userForm = $("#UserForm");
+                            userForm.find(".alert-danger").fadeOut();
+                            userForm.find(".modal-body").find(".form-group").show();
+                            userForm.find(".modal-footer").show();
+
+                        },3000);
+                    }
 
 
-/*	Nuevo Usuario Formulario
- ****************************/
-/* 
-	link 		#new_user
-	modal 		#new_user_modal
-	form_id		#UserAddForm
-	url			/new_user
-	
-	inputs
-	* UserName
-	* UserEmail
-	* 	"url": "/check_email"
-	* UserPassword
-*/
+                },
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
+                "complete":function(response){}
+            }
+        };
 
-$("#new_user").on('click',function(event){
-	event.preventDefault();
-	$('#new_user_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
-		reset_form('UserAddForm');
-		new_user._validate.resetForm();
-	});
-});
+        // validación:
+        var validateObj = {
+            "submitHandler": function(){
+                ajax.request(request_parameters);
+            },
+            "rules":{
+                "Email":{
+                    "required":true,
+                    "email": true,
+                    "remote": {
+                        "url": "/check_email",
+                        "type": "post",
+                        "data": {
+                            "UserEmail": function() {
+                                return $("#Email").val();
+                            }
+                        }
+                    },
+                    "maxlength":30
+                }
+            },
+            "messages":{
+                "Email":{
+                    "required":"El campo email es obligatorio.",
+                    "email":"Debe proporcionar un correo valido.",
+                    "remote":"No existe una cuenta asociada a tal dirección de correo electrónico. Por favor, verifique e inténtelo de nuevo.",
+                    "maxlength":"El correo no debe tener mas de 30 caracteres."
+                }
+            }
+        };
 
-var new_user_obj = {
-	"type":"post",
-	"url":"/new_user", 
-	"data":{
-		"form":{
-			"id":"UserAddForm",
-			"inputs":{
-				"name":{
-					"id":"UserName"
-				},
-				"email":{
-					"id":"UserEmail"
-				},
-				"password":{
-					"id":"UserPassword"
-				}
-			}
-		}
-	},
-	"console_log":true,
-	"callbacks":{
-		"complete":function(response){
-			var a = response.responseText;
-			var obj = $.parseJSON(a);
-			//console.log(obj);
-			var status = display_status_request("UserAddForm","new_user_modal",obj);	
-			if(status){
-				new_user._validate.resetForm();
-				reset_form("UserAddForm");
-			}
-		}
-	}
-}
+        validate.form("UserForm",validateObj);
 
-// validación:
-var new_user_validate_obj = {
-	"submitHandler": function(form) {
-		new Request(new_user_obj);
-	},
-	"rules":{
-		"UserName":{
-			"required":true,
-			"lettersonly":true,
-			"minlength": 3,
-			"maxlength":20
-		},
-		"UserEmail":{
-			"required":true,
-			"email": true,
-			"remote": {
-				"url": "/check_email",
-				"type": "post",
-				"data": {
-					"inverse_result":true,
-					"UserEmail":function(){
-						return $("#UserEmail").val();
-					}
-				}
-			},
-			"maxlength":30
-		},
-		"UserPassword":{
-			"required":true,
-			"rangelength": [7, 21],
-			"notEqualToName":"UserName",
-			"notEqualToEmail":"UserEmail"
-		}
-	},
-	"messages":{
-		"UserName":{
-			"required":"El campo nombre es obligatorio.",
-			"lettersonly":"El nombre debe tener solo caracteres alfabeticos.",
-			"minlength": "El nombre debe tener almenos 3 caracteres.",
-			"maxlength":"El nombre no debe tener mas de 20 caracteres."
-		},
-		"UserEmail":{
-			"required":"El campo correo es obligatorio.",
-			"email":"Debe proporcionar un correo valido.",
-			"remote":"Ya esta registrado. Intente recuperar la cuenta.",
-			"maxlength":"El correo no debe tener mas de 30 caracteres.",
-		},
-		"UserPassword":{
-			"required":"El campo contraceña es obligatorio.",
-			"rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
-			"notEqualToName":"La clave no debe ser igual al <b>nombre.</b>", 
-			"notEqualToEmail":"La clave no debe ser igual al <b>correo.</b>"
-		}
-	}
-}
+    };
 
-var new_user = new validate_this_form("UserAddForm",new_user_validate_obj);
+    /*
+     Private Method
+     Descripción:  Nuevo Usuario
+    */
+    var newUser = function(){
 
-/*	login Formulario
- ****************************
-	form_id		#LoginForm
-	url			/login 
-	
-	inputs
-	* LoginEmail
-	* LoginPassword
-	
-*/
+        $("#newUser").on('click',function(event){
+            event.preventDefault();
+            $('#newUserModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                validate.removeValidationStates('UserAddForm');
+            });
+        });
 
-var login_user_obj = {
-	"type":"post",
-	"url":"/login", 
-	"data":{
-		"form":{
-			"id":"LoginForm",
-			"inputs":{
-				"email":{
-					"id":"LoginEmail"
-				},
-				"password":{
-					"id":"LoginPassword"
-				}
-			}
-		}
-	},
-	"console_log":false,
-	"callbacks":{
-		"complete":function(response){
-				var a 	= response.responseText;
-							
-				var obj = $.parseJSON(a);
-				
-				if(obj.login){
-					window.location = "/cuenta";
-				}else{
-					$("#login-error").fadeIn();
-					setTimeout(function(){ $("#login-error").fadeOut(); }, 7000);
-				}
-				
-		}
-	}
-}	
+        var notification;
 
-// validación:
-var login_user_validate_obj = {
-	"submitHandler": function(form) {
-		new Request(login_user_obj);
-	},
-	"rules":{
-		"LoginEmail":{
-			"required":true,
-			"email": true,
-			"maxlength":128
-		},
-		"LoginPassword":{
-			"required":true,
-			"rangelength": [7, 21]
-		}
-	},
-	"messages":{
-		"LoginEmail":{
-			"required":"El campo correo es obligatorio.",
-			"email":"Debe proporcionar un correo valido.",
-			"maxlength":"El correo no debe tener mas de 128 caracteres.",
-		},
-		"LoginPassword":{
-			"required":"El campo contraceña es obligatorio.",
-			"rangelength":"Debe ser una clave que contenga entre 7 y 21 caracteres.",
-		}
-	}
-}	
+        var request_parameters = {
+            "requestType":"form",
+            "type":"post",
+            "url":"/new_user",
+            "data":{},
+            "form":{
+                "id":"UserAddForm",
+                "inputs":[
+                    {'id':'UserName',          'name':'name'},
+                    {'id':'UserEmail',       'name':'email'},
+                    {'id':'UserPassword',       'name':'password'}
+                ]
+            },
+            "callbacks":{
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
+                "success":function(response){
+                    $('#debug').text(JSON.stringify(response));
 
-var login_user = new validate_this_form("LoginForm",login_user_validate_obj);
+                    var userAddForm = $("#UserAddForm");
+
+                    if(response['Add']){
+                        base.ajaxRequestNotification("success",notification);
+
+                        userAddForm.find(".alert-success").fadeIn();
+                        validate.removeValidationStates('UserAddForm');
+
+                        setTimeout(function(){
+                            $("#UserAddForm").find(".alert-success").fadeOut();
+                        },2000);
+                    }else{
+                        base.ajaxRequestNotification("error",notification);
+
+                        userAddForm.find(".alert-danger").fadeIn();
+                        userAddForm.find(".modal-body").find(".form-group").hide();
+                        userAddForm.find(".modal-footer").hide();
+
+                        setTimeout(function(){
+                            $('#newUserModal').modal('hide');
+                            validate.removeValidationStates('UserAddForm');
+
+                            var userAddForm = $("#UserAddForm");
+                            userAddForm.find(".alert-danger").fadeOut();
+                            userAddForm.find(".modal-body").find(".form-group").show();
+                            userAddForm.find(".modal-footer").show();
+
+                        },3000);
+                    }
+
+                },
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
+                "complete":function(response){}
+            }
+        };
+
+        // validación:
+        var validateObj = {
+            "submitHandler": function(){
+                ajax.request(request_parameters);
+            },
+            "rules":{
+                "UserName":{
+                    "required":true,
+                    "lettersonly":true,
+                    "minlength": 3,
+                    "maxlength":20
+                },
+                "UserEmail":{
+                    "required":true,
+                    "email": true,
+                    "remote": {
+                        "url": "/check_email",
+                        "type": "post",
+                        "data": {
+                            "inverse_result":true,
+                            "UserEmail":function(){
+                                return $("#UserEmail").val();
+                            }
+                        }
+                    },
+                    "maxlength":30
+                },
+                "UserPassword":{
+                    "required":true,
+                    "rangelength": [7, 21],
+                    "notEqualToName":"UserName",
+                    "notEqualToEmail":"UserEmail"
+                }
+            },
+            "messages":{
+                "UserName":{
+                    "required":"El campo nombre es obligatorio.",
+                    "lettersonly":"El nombre debe tener solo caracteres alfabéticos.",
+                    "minlength": "El nombre debe tener al menos 3 caracteres.",
+                    "maxlength":"El nombre no debe tener mas de 20 caracteres."
+                },
+                "UserEmail":{
+                    "required":"El campo correo es obligatorio.",
+                    "email":"Debe proporcionar un correo valido.",
+                    "remote":"Ya esta registrado. Intente recuperar la cuenta.",
+                    "maxlength":"El correo no debe tener mas de 30 caracteres."
+                },
+                "UserPassword":{
+                    "required":"El campo contraseña es obligatorio.",
+                    "rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
+                    "notEqualToName":"La clave no debe ser igual al nombre.",
+                    "notEqualToEmail":"La clave no debe ser igual al correo."
+                }
+            }
+        };
+
+        validate.form("UserAddForm",validateObj);
+
+    };
+
+    /*
+     Private Method
+     Descripción:  inicio de sesión
+    */
+    var login = function(){
+
+        var notification;
+
+        var request_parameters = {
+            "requestType":"form",
+            "type":"post",
+            "url":"/login",
+            "data":{},
+            "form":{
+                "id":"LoginForm",
+                "inputs":[
+                    {'id':'LoginEmail',          'name':'email'},
+                    {'id':'LoginPassword',       'name':'password'}
+                ]
+            },
+            "callbacks":{
+                "beforeSend":function(){
+                    notification = base.ajaxRequestNotification("beforeSend");
+                },
+                "success":function(response){
+                    $('#debug').text(JSON.stringify(response));
+
+                    if(response['login']){
+                        window.location = "/";
+                    }else{
+                        $("#login-error").fadeIn();
+                        setTimeout(function(){ $("#login-error").fadeOut(); }, 7000);
+                    }
+
+                },
+                "error":function(){
+                    base.ajaxRequestNotification("error",notification);
+                },
+                "complete":function(){
+                    base.ajaxRequestNotification("complete",notification);
+                }
+            }
+        };
+
+        // validación:
+        var loginUserValidateObj = {
+            "submitHandler": function(){
+                ajax.request(request_parameters);
+            },
+            "rules":{
+                "LoginEmail":{
+                    "required":true,
+                    "email": true,
+                    "maxlength":128
+                },
+                "LoginPassword":{
+                    "required":true,
+                    "rangelength": [7, 21]
+                }
+            },
+            "messages":{
+                "LoginEmail":{
+                    "required":"El campo correo es obligatorio.",
+                    "email":"Debe proporcionar un correo valido.",
+                    "maxlength":"El correo no debe tener mas de 128 caracteres."
+                },
+                "LoginPassword":{
+                    "required":"El campo contraseña es obligatorio.",
+                    "rangelength":"Debe ser una clave que contenga entre 7 y 21 caracteres."
+                }
+            }
+        };
+
+        validate.form("LoginForm",loginUserValidateObj);
+    };
+
+    //Public Method
+    user.init = function(){
+        login();
+        newUser();
+        recoverAcount();
+    };
+
+
+}( window.user = window.user || {}, jQuery ));
+
+
+user.init();

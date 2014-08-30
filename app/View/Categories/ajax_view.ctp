@@ -1,5 +1,1 @@
-<?php 
-	if(isset($return)){		
-		echo json_encode($return);
-	} 
-?>
+<?php if(isset($return)){ echo json_encode($return); }

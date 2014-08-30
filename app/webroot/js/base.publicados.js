@@ -3,7 +3,7 @@
 $(document).ready(function(){
 
 
-    (function( productsPublished, $) {
+    (function( products, $, undefined) {
 
         //Private Property
         var lastResponseInfo = {};
@@ -99,9 +99,10 @@ $(document).ready(function(){
 
             var id          = obj['product']['id'];
             var title       = obj['product']['title'];
-            var subtitle    = obj['product']['subtitle'];
             var price       = obj['product']['price'];
-            var published   = obj['product']['created'];
+
+            var date        = new Date(obj['product']['created']);
+            var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var slug        =   str_replace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
@@ -137,15 +138,13 @@ $(document).ready(function(){
             // END
 
 
-
             // se arma una publicación
             return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
                         '<a class="pull-left" href="'+link+'">'+
                             '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
-                            '<h4 class="media-heading"><a href="'+link+'" >'+title+'</a></h4>'+
-                            '<h5 class="muted" >'+subtitle+'</h5>'+
+                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+
@@ -158,7 +157,7 @@ $(document).ready(function(){
                                 '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
                                 '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
                                 '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
-                                '<span class="glyphicon glyphicon-calendar"></span> Publicado: '+published+
+                                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
                             '</div>'+
                         '</div>'+
                         '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
@@ -172,13 +171,17 @@ $(document).ready(function(){
          **********************************************************************************************/
         var orderBy =  function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -186,7 +189,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
                             if(response['data'].length > 0){
                                 // hay publicaciones
 
@@ -199,12 +202,16 @@ $(document).ready(function(){
                             }
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -266,20 +273,24 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var pagination = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
                             if(response['data'].length > 0){
                                 // hay publicaciones
                                 setLastResponseInfo(response);
@@ -290,12 +301,16 @@ $(document).ready(function(){
                             }
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -418,13 +433,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var search = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -470,7 +489,7 @@ $(document).ready(function(){
                                 $("#products-for-this-search").css({"display":"inherit"});
 
                                 // se muestran las publicaciones
-                                $("#published").css({"display":"inherit"});
+                                $("#products").css({"display":"inherit"});
 
                             }else{
 
@@ -482,18 +501,22 @@ $(document).ready(function(){
                                 $("#no-products-for-this-search").css({"display":"inherit"});
 
                                 // se oculta las publicaciones
-                                $("#published").css({"display":"none"});
+                                $("#products").css({"display":"none"});
 
                             }
 
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
@@ -673,13 +696,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var pause = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/pause",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -702,12 +729,16 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
-            var elements = $("#published").find(".pause");
+            var elements = $("#products").find(".pause");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -734,13 +765,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var activate = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/activate",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -761,12 +796,16 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
-            var elements = $("#published").find(".activate");
+            var elements = $("#products").find(".activate");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -792,7 +831,7 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var edit = function(){
 
-            var elements = $("#published").find(".edit");
+            var elements = $("#products").find(".edit");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -816,13 +855,17 @@ $(document).ready(function(){
          *************************************************************************************************************************************************************/
         var deleteProduct =  function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/delete",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 
                         if(response['expired_session']){
@@ -894,13 +937,17 @@ $(document).ready(function(){
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
 
-            var elements = $("#published").find(".delete");
+            var elements = $("#products").find(".delete");
 
             if(elements.length){
                 $(elements).each(function(){
@@ -992,7 +1039,7 @@ $(document).ready(function(){
                         $("#information-panel").css({"display":""});
 
                         // se establece las publicaciones en el DOM
-                        $('#published').html(products);
+                        $('#products').html(products);
 
                         /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
                         *********************************************************************************/
@@ -1011,15 +1058,19 @@ $(document).ready(function(){
         };
 
 
+        var notification;
+
         //Public Method
-        productsPublished.get = function(){
+        products.get = function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/products_published",
+                "url":"/published",
                 "data":parseUrl(),
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -1028,11 +1079,13 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
 
                             // No hay productos publicados.
-                            if(response['total_products'].length == 0){
-                                $("#no-products").css({"display":""});
+                            if(response['total_products'] == 0){
+                                $("#no-products").css({"display":"inherit"});
+                            }else{
+                                $("#yes-products").css({"display":"inherit"});
                             }
 
 
@@ -1048,22 +1101,26 @@ $(document).ready(function(){
 
                         }else{
                             // hay un error en la solicitud.
-                            window.location = "/cuenta";
+                            window.location = "/";
                         }
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){
+                        base.ajaxRequestNotification("complete",notification);
+                    }
                 }
             };
 
             ajax.request(request_parameters);
         };
 
-    }( window.productsPublished = window.productsPublished || {}, jQuery ));
+    }( window.products = window.products || {}, jQuery ));
 
 
 
-    productsPublished.get();
+    products.get();
 
 });
