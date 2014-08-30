@@ -498,6 +498,7 @@ $(document).ready(function(){
                             window.location = "/";
                         }
 
+
                     },
                     "error":function(){
                         base.ajaxRequestNotification("error",notification);
@@ -534,10 +535,19 @@ $(document).ready(function(){
                     };
 
                     if($('#ProductId').val()){
-                        if($("#product_thumbnails").find("a").length){
+                        if($("#product_thumbnails").find("a").length > 0){
                             /* luz verde para realizar solicitud ajax
                              ********************************/
-                            ajax.request(request_parameters);
+
+                            // Antes primero se verifica que hay contenido. La validación corriente no funciona con el WYSIWYG.
+                            var productBody = $('#ProductBody');
+                            if(productBody.val() == ''){
+                                var productBodyHelpBlock = productBody.parents('div.form-group').find('span.help-block')[0];
+                                $(productBodyHelpBlock).show();
+                            }else{
+                                ajax.request(request_parameters);
+                            }
+
                         }else{
                             /* Se invita en cargar imágenes
                              ******************************/
@@ -571,21 +581,22 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "ProductTitle":{
-                        "required":"El campo titulo es obligatorio.",
+                        "required":"El campo: Titulo, es obligatorio.",
                         "maxlength":"El titulo no debe tener mas de 200 caracteres."
                     },
                     "ProductBody":{
-                        "required":"El campo descripción es obligatorio."
+                        "required":"El campo: Descripción, es obligatorio."
                     },
                     "ProductPrice":{
-                        "required":"El campo precio es obligatorio.",
+                        "required":"El campo: Precio, es obligatorio.",
                         "number":"Solo un numero, entero o racional separado por un punto.",
                         "min":"El precio debe ser igual o mayor a 0."
                     },
                     "ProductQuantity":{
-                        "required":"El campo cantidad es obligatorio.",
+                        "required":"El campo: Cantidad disponible, es obligatorio.",
                         "digits":"Solo números enteros positivos.",
-                        "min":"La cantidad debe ser igual o mayor a 1."
+                        "min":"La cantidad debe ser igual o mayor a 1.",
+                        "number":"Por favor, introduzca un número válido."
                     }
                 }
             };

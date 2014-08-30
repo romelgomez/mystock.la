@@ -103,61 +103,66 @@
     //Public Property
     validate.validatorObject = {};
 
-    // Public Method
+    // Public Method -- inlineForm --
     validate.inlineForm = function(formId,options){
 
         options.errorPlacement = function(error, element){};
 
         options.success = function(label){};
 
-        options.highlight = function(element){
+        options.highlight = function(_element_){
+            var element = $(_element_);
             $(validationStates).each(function(k2,state){
-                if($(element).parents('.form-group').hasClass(state)){
-                    $(element).parents('.form-group').removeClass(state);
+                if(element.parents('.form-group').hasClass(state)){
+                    element.parents('.form-group').removeClass(state);
                 }
             });
-            $(element).parents('.form-group').addClass('has-warning');
+            element.parents('.form-group').addClass('has-warning');
         };
 
-        options.unhighlight = function(element){
+        options.unhighlight = function(_element_){
+            var element = $(_element_);
             $(validationStates).each(function(k2,state){
-                if($(element).parents('.form-group').hasClass(state)){
-                    $(element).parents('.form-group').removeClass(state);
+                if(element.parents('.form-group').hasClass(state)){
+                    element.parents('.form-group').removeClass(state);
                 }
             });
-            $(element).parents('.form-group').addClass('has-success');
+            element.parents('.form-group').addClass('has-success');
         };
 
         validate.validatorObject = $("#"+formId).validate(options);
 
     };
 
-    // Public Method
+    // Public Method  -- form --
     validate.form = function(formId,options){
 
         options.errorPlacement = function(error, element){
+            console.log(element);
             $(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
         };
 
         options.success = function(label){
         };
 
-        options.highlight = function(element){
+        options.highlight = function(_element_){
+            var element = $(_element_);
             $(validationStates).each(function(k2,state){
-                if($(element).parents('.form-group').hasClass(state)){
-                    $(element).parents('.form-group').removeClass(state);
+                if(element.parents('.form-group').hasClass(state)){
+                    element.parents('.form-group').removeClass(state);
                 }
             });
-            $(element).parents('.form-group').addClass('has-warning');
+            element.parents('.form-group').addClass('has-warning');
         };
 
-        options.unhighlight = function(element){
+        options.unhighlight = function(_element_){
+            var element = $(_element_);
             $(validationStates).each(function(k2,state){
-                if($(element).parents('.form-group').hasClass(state)){
-                    $(element).parents('.form-group').removeClass(state);
+                if(element.parents('.form-group').hasClass(state)){
+                    element.parents('.form-group').removeClass(state);
                 }
             });
-            $(element).parents('.form-group').addClass('has-success');
+            element.parents('.form-group').addClass('has-success');
         };
 
         validate.validatorObject = $("#"+formId).validate(options);

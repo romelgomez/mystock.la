@@ -218,7 +218,7 @@
                             <div class="form-group">
                                 <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-bookmark"></span> Titulo</label>
                                 <?php echo $this->Form->input('Product.title',array('label'=>false,'div'=>false,'class'=>'form-control','name'=>'ProductTitle','placeholder'=>'Eje: EVGA X79 Classified Intel Socket 2011 Quad Channel DDR3 32GB of DDR3 2133MHz+ 151-SE-E779-KR')); ?>
-                                <span class="help-block">El campo título es obligatorio.</span>
+                                <span class="help-block" style="display: none;">El campo título es obligatorio.</span>
                             </div>
                         </div>
                     </div>
@@ -227,8 +227,8 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label class="control-label" for="ProductBody"><span class="glyphicon glyphicon-book"></span> Descripción</label>
-                                <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody','placeholder'=>'Eje: EVGA X79 es una tarjeta madre que ...')); ?>
-                                <span class="help-block">El campo descripción es obligatorio</span>
+                                <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody')); ?>
+                                <span class="help-block" style="display: none;"><p class="text-danger">El campo descripción es obligatorio</p></span>
                             </div>
                         </div>
                     </div>
@@ -236,12 +236,12 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-tag"></span> Precio</label>
+                                <label class="control-label" for="ProductPrice"><span class="glyphicon glyphicon-tag"></span> Precio</label>
                                 <div class="input-group col-xs-4">
                                     <div class="input-group-addon">BsF</div>
                                     <?php echo $this->Form->input('Product.price',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductPrice','placeholder'=>'Eje: 1000')); ?>
                                 </div>
-                                <span class="help-block">El campo descripción es obligatorio</span>
+                                <span class="help-block" style="display: none;">El campo precio es obligatorio</span>
                             </div>
                         </div>
                     </div>
@@ -249,12 +249,12 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-th"></span> Cantidad disponible</label>
+                                <label class="control-label" for="ProductQuantity"><span class="glyphicon glyphicon-th"></span> Cantidad disponible</label>
                                 <div class="input-group col-xs-4">
                                     <div class="input-group-addon">Unidades</div>
                                     <?php echo $this->Form->input('Product.quantity',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductQuantity','placeholder'=>'Eje: 100')); ?>
                                 </div>
-                                <span class="help-block">El campo descripción es obligatorio</span>
+                                <span class="help-block" style="display: none;">El campo cantidad disponible es obligatorio</span>
                             </div>
                         </div>
                     </div>
@@ -263,7 +263,7 @@
                         <div class="col-xs-12">
 
                             <?php
-                                if(isset($this->request->data['Image'])){
+                                if(isset($this->request->data['Image']) && count($this->request->data['Image']) > 0){
                                     // hay imágenes cargadas.
                                     ?>
                                     <div class="row">
