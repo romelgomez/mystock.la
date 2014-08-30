@@ -309,13 +309,17 @@ $(document).ready(function(){
          */
         var discard = function(){
 
+            var notification;
+
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/discard",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = base.ajaxRequestNotification("beforeSend");
+                    },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
 
@@ -326,8 +330,10 @@ $(document).ready(function(){
                         window.location = "/";
 
                     },
-                    "error":function(){},
-                    "complete":function(response){}
+                    "error":function(){
+                        base.ajaxRequestNotification("error",notification);
+                    },
+                    "complete":function(){}
                 }
             };
 

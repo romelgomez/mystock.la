@@ -100,7 +100,9 @@ $(document).ready(function(){
             var id          = obj['product']['id'];
             var title       = obj['product']['title'];
             var price       = obj['product']['price'];
-            var published   = obj['product']['created'];
+
+            var date        = new Date(obj['product']['created']);
+            var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var slug        =   str_replace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
@@ -155,7 +157,7 @@ $(document).ready(function(){
                                 '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
                                 '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
                                 '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
-                                '<span class="glyphicon glyphicon-calendar"></span> Publicado: '+published+
+                                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
                             '</div>'+
                         '</div>'+
                         '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+

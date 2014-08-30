@@ -11,13 +11,18 @@
     <title>SantoMercado.com</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="/resources/library-vendor/bootstrap/css/bootstrap.css">
 
     <!-- font-awesome -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<!--    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/resources/library-vendor/font-awesome/css/font-awesome.min.css">
+
+
 
     <!-- pnotify https://github.com/sciactive/pnotify -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.css">-->
+    <link rel="stylesheet" type="text/css" href="/resources/library-vendor/pnotify/pnotify.custom.min.css">
 
     <!-- http://imperavi.com/redactor/ -->
     <link rel="stylesheet" type="text/css" href="/resources/library-vendor/redactor/redactor.css">
@@ -66,7 +71,7 @@
                                 <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> <del>Comprados</del></a></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-usd"></span> <del>Vendidos</del></a></li>
                                 <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
-                                <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> <del>Borradores</del></a></li>
+                                <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
                                 <li class="divider"></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> <del>Reputación</del></a></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>
@@ -136,7 +141,8 @@
 
 
     <!-- jQuery - https://github.com/jquery/jquery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+    <script type="text/javascript" src="/resources/library-vendor/jquery/jquery-1.11.1.js" ></script>
 
     <!-- https://github.com/carhartl/jquery-cookie -->
     <script type="text/javascript" src="/resources/library-vendor/jquery-cookie/jquery.cookie.js" ></script>
@@ -149,10 +155,15 @@
     <script type="text/javascript" src="/resources/library-vendor/redactor/langs/es.js" ></script>
 
     <!-- Bootstrap - https://github.com/twbs/bootstrap -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="/resources/library-vendor/bootstrap/js/bootstrap.js" ></script>
+
 
     <!-- pnotify https://github.com/sciactive/pnotify -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.js"></script>-->
+    <script type="text/javascript" src="/resources/library-vendor/pnotify/pnotify.custom.min.js" ></script>
+
+
 
     <!-- lightbox - https://github.com/ashleydw/lightbox -->
     <script type="text/javascript" src="/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js" ></script>
@@ -167,11 +178,15 @@
     </script>
 
     <!-- jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation -->
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
+<!--    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>-->
+<!--    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>-->
+    <script type="text/javascript" src="/resources/library-vendor/jquery-validate/jquery.validate.js" ></script>
+    <script type="text/javascript" src="/resources/library-vendor/jquery-validate/additional-methods.js" ></script>
+
 
     <!-- Purl - https://github.com/allmarkedup/purl -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>
+<!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js"></script>-->
+    <script type="text/javascript" src="/resources/library-vendor/purl/purl.js" ></script>
 
 
     <?php

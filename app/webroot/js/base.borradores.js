@@ -100,12 +100,9 @@ $(document).ready(function(){
             var id          = obj['product']['id'];
             var title       = obj['product']['title'];
             var price       = obj['product']['price'];
-            var published   = obj['product']['created'];
 
-            var slug        =   str_replace(title.toLowerCase().trim(),' ','_');
-            var link        =   '/producto/'+id+'/'+slug+'.html';
-
-            console.log(obj['imagen']);
+            var date   = new Date(obj['product']['created']);
+            var created = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var image = '';
 
@@ -115,33 +112,12 @@ $(document).ready(function(){
                 image = 'img/products/'+obj['imagen']['thumbnails']['small']['name'];
             }
 
-            var status = '';
-            var status_button = '';
+            var  link = '/editar_borrador/'+obj['product']['id'];
 
-            if(obj['product']['status']){
-                status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
-            }else{
-                status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
-            }
 
-            var quantity = obj['product']['quantity'];
-            var _quantity = '';
-
-            if(quantity == 0){
-                _quantity = '<span class="badge">0</span>';
+            if(title == '') {
+                title = '<mark>Sin título disponible</mark>';
             }
-            else if(quantity>= 1 && quantity<=5){
-                _quantity = '<span class="badge badge-important">'+quantity+'</span>';
-            }
-            else if(quantity>=6 && quantity<=10){
-                _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
-            }
-            else if(quantity>10){
-                _quantity = '<span class="badge badge-success">'+quantity+'</span>';
-            }
-            // END
 
 
             // se arma una publicación
@@ -155,13 +131,10 @@ $(document).ready(function(){
                 '<div style="margin-bottom: 10px;">'+
                 '<div class="btn-group">'+
                 '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
-                '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
                 '</div>'+
                 '</div>'+
                 '<div>'+
-                '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
-                '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
-                '<span class="glyphicon glyphicon-calendar"></span> Publicado: '+published+
+                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
                 '</div>'+
                 '</div>'+
                 '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
@@ -709,8 +682,7 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(clean_obj(pure_json_obj));
 
-                        // edit link
-                        window.location = '/editar/'+obj.product.id;
+                        window.location = '/editar_borrador/'+obj['product']['id'];
 
                     });
                 });
@@ -743,7 +715,7 @@ $(document).ready(function(){
                         //  delete_status
                         if(response['result']){
 
-                            // Exito al eliminar la publicación
+                            // Éxito al eliminar la publicación
                             $("#successful-elimination").fadeIn();
                             setTimeout(function(){ $("#successful-elimination").fadeOut(); }, 7000);
 
