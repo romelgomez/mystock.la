@@ -1,23 +1,66 @@
-
-
-
-
 $(document).ready(function(){
 
     (function( categories, $) {
 
         /*
-         Private Property
-         Descripción:  El árbol en el DOM
+         @Name              -> treeElement
+         @visibility        -> Private
+         @Type              -> Property
+         @Descripción       -> Dom element where tree is going be placed.
+         @implemented by    -> categories.main(), displayJqTreeData(), replaceWholeTree(), treeMove(), treeSelect();
          */
         var treeElement;
 
+        /*
+         @Name              -> initEstate
+         @visibility        -> Private
+         @Type              -> Property
+         @Descripción       -> Is use to determine if is necessary create new tree or replace all tree; new tree is necessary when at first load of the web there is no category or node; replace all tree is necessary when after delete all current nodes, is starting create new node.
+         @implemented by    -> categories.main(), newCategory();
+         */
+        var initEstate;
 
         /*
-         Private Method
-         Descripción:  usado por el evento tree.move, o la función treeMove
+         @Name              -> displayJqTreeData
+         @visibility        -> Private
+         @Type              -> Method
+         @Descripción       -> display initially JqTree Data.
+         @parameters        -> treeData: JqTree data.
+         @returns           -> null
+         @implemented by    -> categories.main(), newCategory();
          */
-        var move_to = function(moved_node,target_node,position){
+        var displayJqTreeData = function(treeData){
+            var options = {
+                dragAndDrop: true,
+                selectable: true,
+                autoEscape: false,
+                autoOpen: true,
+                data: treeData
+            };
+
+            treeElement.tree(options);
+        };
+
+        /*
+         @Name              -> replaceWholeTree
+         @visibility        -> Private
+         @Type              -> Method
+         @Descripción       -> Replace whole Tree.
+         @parameters        -> treeData: JqTree data.
+         @returns           -> null
+         @implemented by    -> treeMove(), newCategory(), editCategoryName(), delectCategory();
+         */
+        var replaceWholeTree = function(treeData){
+            treeElement.tree('loadData', treeData);
+        };
+
+        /*
+         @Name              -> treeMove
+         @visibility        -> Private
+         @Type              -> Method
+         @implemented by    -> treeMove()
+         */
+        var moveTo = function(moved_node,target_node,position){
             var request = {};
 
             var a = parseInt(moved_node['lft']);
@@ -49,11 +92,14 @@ $(document).ready(function(){
             }
         };
 
-
         /*
-         Private Method
-         Type event
-         Descripción:  evento que enciende al mover una categoría
+         @Name              -> treeMove
+         @visibility        -> Private
+         @Type              -> Event
+         @Descripción       -> Update tree after move one o more node's. Change left and right values and if is necessary parent_id too.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> categories.main()
          */
         var treeMove = function(){
 
@@ -115,7 +161,7 @@ $(document).ready(function(){
                         if(moved_node.parent_id == null){
                             //console.log('solo mover');
 
-                            request_this 			= move_to(moved_node,target_node,position);
+                            request_this 			= moveTo(moved_node,target_node,position);
                             request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
@@ -135,7 +181,7 @@ $(document).ready(function(){
                         if(moved_node.parent_id == target_node.parent_id){
                             //console.log('solo mover');
 
-                            request_this 			= move_to(moved_node,target_node,position);
+                            request_this 			= moveTo(moved_node,target_node,position);
                             request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
@@ -155,7 +201,7 @@ $(document).ready(function(){
                         if(moved_node.parent_id == target_node.id){
                             //console.log('solo mover');
 
-                            request_this 			= move_to(moved_node,target_node,position);
+                            request_this 			= moveTo(moved_node,target_node,position);
                             request_this.id			= parseInt(moved_node.id);
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
@@ -179,12 +225,15 @@ $(document).ready(function(){
             );
         };
 
-
         /*
-         Private Method
-         Type event
-         Descripción:  evento que enciende al selecionar una categoría
-        */
+         @Name              -> treeSelect
+         @visibility        -> Private
+         @Type              -> Event
+         @Descripción       -> Event firing after selecting a category.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> categories.main()
+         */
         var treeSelect = function(){
             treeElement.bind(
                 'tree.select',
@@ -223,9 +272,14 @@ $(document).ready(function(){
         };
 
         /*
-         Private Method
-         Descripción:  para borrar el nombre de una categoría
-        */
+         @Name              -> deleteCategory
+         @visibility        -> Private
+         @Type              -> Method
+         @Descripción       -> Delete a category.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> categories.main()
+         */
         var delectCategory = function(){
             $("#delect_category").on('click',function(event){
                 event.preventDefault();
@@ -304,9 +358,14 @@ $(document).ready(function(){
         };
 
         /*
-         Private Method
-         Descripción:  para cambiar el nombre de una categoría
-        */
+         @Name              -> editCategoryName
+         @visibility        -> Private
+         @Type              -> Method
+         @Descripción       -> Rename a category.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> categories.main()
+         */
         var editCategoryName = function(){
             $("#edit_category_name").on('click',function(event){
                 event.preventDefault();
@@ -419,8 +478,13 @@ $(document).ready(function(){
         };
 
         /*
-         Private Method
-         Descripción:  para añadir una nueva categoría
+         @Name              -> newCategory
+         @visibility        -> Private
+         @Type              -> Method
+         @Descripción       -> Add a new category.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> categories.main()
          */
         var newCategory = function(){
             $(".new_category").on('click',function(event){
@@ -487,12 +551,25 @@ $(document).ready(function(){
                         }
 
                         if(response['countCategories'] > 0){
-                            $('#no-tree').css({"display":"none"});
-                            $('#tree').fadeIn();
 
-                            var treeData = response['categories'];
-                            replaceWholeTree(treeData)
+                            var jqTreeData = response['categories'];
+
+                            $('#no-tree').hide();
+                            $('#tree').show();
+
+                            if(initEstate == 0){
+                                displayJqTreeData(jqTreeData);
+                                initEstate = 1;
+                            }else{
+                                replaceWholeTree(jqTreeData);
+                            }
+
+                        }else{
+                            $('#no-tree').show();
+                            $('#tree').hide();
                         }
+
+
 
                     },
                     "error":function(){
@@ -524,52 +601,45 @@ $(document).ready(function(){
             validate.form("CategoryAddForm",validateObj);
         };
 
-
-        var replaceWholeTree = function(treeData){
-            treeElement.tree('loadData', treeData);
-        };
-
         /*
-         Private Method
-         Descripción:  Inicializa el árbol
-        */
-        var setTree = function(treeData){
-            var options = {
-                dragAndDrop: true,
-                selectable: true,
-                autoEscape: false,
-                autoOpen: true,
-                data: treeData
-            };
-
-            treeElement.tree(options);
-        };
-
-
-        //Public Method
-        categories.init = function(){
+         @Name              -> main
+         @visibility        -> Public
+         @Type              -> Method
+         @Descripción       -> Main, Like Java Main Method.
+         @parameters        -> null
+         @returns           -> null
+         @implemented by    -> CLIENT
+         */
+        categories.main = function(){
 
             treeElement = $('#display_tree');
 
-            var treeData = $.parseJSON($('#json_tree').html());
+            var jsonTree = $('#json_tree').html();
 
-            if(treeData != null){
-                $('#tree').fadeIn();
-                setTree(treeData);
+            if(jsonTree != ''){
+                var treeData = $.parseJSON(jsonTree);
+
+                $('#tree').show();
+                displayJqTreeData(treeData);
+
             }else{
-                $('#no-tree').fadeIn();
+                initEstate = 0;
+                $('#no-tree').show();
             }
 
+            treeSelect();   // event
+            treeMove();     // event
+
             newCategory();
-            treeSelect(); // event
             editCategoryName();
             delectCategory();
-            treeMove(); // event
+
+
         };
 
     }( window.categories = window.categories || {}, jQuery ));
 
-    categories.init();
+    categories.main();
 });
 
 
