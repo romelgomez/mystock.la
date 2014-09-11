@@ -1,5 +1,3 @@
-// TODO NEW CODE
-
 //  Javascript Namespace Declaration: http://stackoverflow.com/questions/881515/javascript-namespace-declaration
 //  http://appendto.com/2010/10/how-good-c-habits-can-encourage-bad-javascript-habits-part-1/
 //
@@ -28,11 +26,23 @@
 //}( window.skillet = window.skillet || {}, jQuery ));
 
 
-// AjaxRequest
+/*
+ @Name              -> ajax
+ @Type              -> NameSpace
+ @Descripción       -> NameSpace for ajax requests methods
+ */
 (function( ajax, $, undefined ) {
 
-    //Private Method
-    function getFormData(parameters){
+    /*
+     @Name              -> getFormData
+     @visibility        -> Private
+     @Type              -> Method
+     @Descripción       -> Get values of form inputs.
+     @parameters        -> parameters: Array of objects, each object have two pairs, id: Id of input, name: Name of input;
+     @returns           -> Object
+     @implemented by    -> ajax.request()
+     */
+    var getFormData = function(parameters){
         /*
          obj = {};
 
@@ -50,10 +60,17 @@
             data[input['name']] = $('#'+input['id']).val();
         });
         return data;
-    }
+    };
 
-    //Private Method
-    function request(parameters){
+    /*
+     @Name              -> request
+     @visibility        -> Private
+     @Type              -> Method
+     @Descripción       -> make ajax request.
+     @parameters        -> parameters: JSON object with several directives.
+     @returns           -> null
+     */
+    var request = function(parameters){
         var ajax_request_parameters = {
             "type": parameters['type'],
             "url": parameters['url'],
@@ -76,134 +93,20 @@
         };
 
         $.ajax(ajax_request_parameters);
-    }
-
-    //Public Method
-    ajax.request = function(parameters){
-        if(parameters !== undefined){
-            if(parameters['requestType'] == 'form'){
-                parameters['data'] = getFormData(parameters);
-                request(parameters);
-            }
-            if(parameters['requestType'] == "custom"){
-                request(parameters);
-            }
-        }
     };
-
-}( window.ajax = window.ajax || {}, jQuery ));
-
-
-// FormValidation
-(function( validate, $) {
-
-    //Private Property
-    var validationStates = ['has-success','has-warning','has-error'];
-
-    //Public Property
-    validate.validatorObject = {};
-
-    // Public Method -- inlineForm --
-    validate.inlineForm = function(formId,options){
-
-        options.errorPlacement = function(error, element){};
-
-        options.success = function(label){};
-
-        options.highlight = function(_element_){
-            var element = $(_element_);
-            $(validationStates).each(function(k2,state){
-                if(element.parents('.form-group').hasClass(state)){
-                    element.parents('.form-group').removeClass(state);
-                }
-            });
-            element.parents('.form-group').addClass('has-warning');
-        };
-
-        options.unhighlight = function(_element_){
-            var element = $(_element_);
-            $(validationStates).each(function(k2,state){
-                if(element.parents('.form-group').hasClass(state)){
-                    element.parents('.form-group').removeClass(state);
-                }
-            });
-            element.parents('.form-group').addClass('has-success');
-        };
-
-        validate.validatorObject = $("#"+formId).validate(options);
-
-    };
-
-    // Public Method  -- form --
-    validate.form = function(formId,options){
-
-        options.errorPlacement = function(error, element){
-            console.log(element);
-            $(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
-        };
-
-        options.success = function(label){
-        };
-
-        options.highlight = function(_element_){
-            var element = $(_element_);
-            $(validationStates).each(function(k2,state){
-                if(element.parents('.form-group').hasClass(state)){
-                    element.parents('.form-group').removeClass(state);
-                }
-            });
-            element.parents('.form-group').addClass('has-warning');
-        };
-
-        options.unhighlight = function(_element_){
-            var element = $(_element_);
-            $(validationStates).each(function(k2,state){
-                if(element.parents('.form-group').hasClass(state)){
-                    element.parents('.form-group').removeClass(state);
-                }
-            });
-            element.parents('.form-group').addClass('has-success');
-        };
-
-        validate.validatorObject = $("#"+formId).validate(options);
-
-    };
-
 
     /*
-     Public Method
-     Descripción: Esta lógica se asegura de de resetear y remover los estados de validación del formulario
-     Parámetros:
-     form_id: el id del formulario.
-    */
-    validate.removeValidationStates = function(formId){
-        var form = $('#'+formId);
-        form[0].reset();
-        var inputs = form.find('input');
-        inputs.each(function(inputKey,_input_){
-            var input = $(_input_);
-            $(validationStates).each(function(stateKey,state){
-                if(input.parents('.form-group').hasClass(state)){
-                    input.parents('.form-group').removeClass(state);
-                    input.parents('.form-group').find(".help-block").fadeOut();
-                }
-            });
-        });
-    };
-
-
-
-}( window.validate = window.validate || {}, jQuery ));
-
-(function( base, $, undefined ) {
-
-
-    base.ajaxRequestNotification = function(event,notification,options){
+     @Name              -> notification
+     @visibility        -> Public
+     @Type              -> Method
+     @Descripción       -> notifies the status of ajax request.
+     */
+    ajax.notification = function(event,notification,options){
 
         var defaultOptions = {
             'init' : {
-                'title':    'Procesando',
-                'text' :    'Aguarde un momento, mientras se procesa su solicitud.',
+                'title':    'Processing',
+                'text' :    'Wait a moment while we process your request.',
                 'type':     'info',
                 'icon':     'fa fa-spinner fa-spin',
                 'hide':     false,
@@ -214,8 +117,8 @@
                 'history':  false
             },
             'success' : {
-                'title':    'Listo!',
-                'text' :    'Su solicitud ha sido procesada exitosamente.',
+                'title':    'Ready!',
+                'text' :    'Your request has been processed successfully.',
                 'type':     'success',
                 'hide':     true,
                 'closer':   true,
@@ -227,7 +130,7 @@
             },
             'error': {
                 'title':    'Error!',
-                'text' :    'Ocurrió un error al intentar procesar su solicitud.',
+                'text' :    'An error has occurred while processing your request.',
                 'type' :    'error',
                 'icon':     'glyphicon glyphicon-warning-sign',
                 'hide':     true,
@@ -271,49 +174,189 @@
         return notice;
     };
 
-    base.randomNumber = function(inferior,superior){
+    /*
+     @Name              -> request
+     @visibility        -> Public
+     @Type              -> Method
+     @Descripción       -> define what type request is.
+     @parameters        -> parameters: JSON object; .requestType is one string, can be 'form' or 'custom', form means is need one more step before make ajax request, which is get values of form inputs; custom means it ready to make ajax request.
+     @returns           -> null
+     */
+    ajax.request = function(parameters){
+        if(parameters !== undefined){
+            if(parameters['requestType'] == 'form'){
+                parameters['data'] = getFormData(parameters);
+                request(parameters);
+            }
+            if(parameters['requestType'] == "custom"){
+                request(parameters);
+            }
+        }
+    };
+
+}( window.ajax = window.ajax || {}, jQuery ));
+
+/*
+ @Name              -> validate
+ @Type              -> NameSpace
+ @Descripción       -> NameSpace for form validation methods, more info about this check this web site: http://jqueryvalidation.org/
+ */
+(function( validate, $) {
+
+    $.validator.addMethod("noSpecialChars", function(value, element) {
+        return this.optional(element) || /^[a-z0-9\x20]+$/i.test(value);
+    }, "Username must contain only letters, numbers, or underscore.");
+
+    $.validator.addMethod("notEqualToEmail", function(value, element, param) {
+        return this.optional(element) || $("#"+param).val() != value;
+    }, "This has to be different...");
+
+    $.validator.addMethod("notEqualToName", function(value, element, param) {
+        return this.optional(element) || $("#"+param).val() != value;
+    }, "This has to be different...");
+
+
+    /*
+     @Name              -> validationStates
+     @visibility        -> Private
+     @Type              -> Property
+     @Descripción       -> validation States class in bootstrap
+     */
+    var validationStates = ['has-success','has-warning','has-error'];
+
+    /*
+     @Name              -> inlineForm
+     @visibility        -> Public
+     @Type              -> Method
+     @Descripción       -> Using when is about inline form and it no show any error message.
+     @parameters        -> formId: string, id of form; options: json object, several directives.
+     @returns           -> null
+     */
+    validate.inlineForm = function(formId,options){
+
+        options.errorPlacement = function(error, element){};
+
+        options.success = function(label){};
+
+        options.highlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-warning');
+        };
+
+        options.unhighlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-success');
+        };
+
+        $("#"+formId).validate(options);
+
+    };
+
+    /*
+     @Name              -> form
+     @visibility        -> Public
+     @Type              -> Method
+     @Descripción       -> Using when is about regular form and it show error message.
+     @parameters        -> formId: string, id of form; options: json object, several directives.
+     @returns           -> null
+     */
+    validate.form = function(formId,options){
+
+        options.errorPlacement = function(error, element){
+            $(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
+        };
+
+        options.success = function(label){
+        };
+
+        options.highlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-warning');
+        };
+
+        options.unhighlight = function(element){
+            $(validationStates).each(function(k2,state){
+                if($(element).parents('.form-group').hasClass(state)){
+                    $(element).parents('.form-group').removeClass(state);
+                }
+            });
+            $(element).parents('.form-group').addClass('has-success');
+        };
+
+        $("#"+formId).validate(options);
+
+    };
+
+    /*
+     @Name              -> removeValidationStates
+     @visibility        -> Public
+     @Type              -> Method
+     @Descripción       -> (EN) Using for renew form; (ES) Renueva el formulario y remueve los estados de validación
+     @parameters        -> formId: string, id of form.
+     @returns           -> null
+     */
+    validate.removeValidationStates = function(formId){
+        var form = $('#'+formId);
+
+        form[0].reset();
+
+        $(':input',form)
+            .not(':button, :submit, :reset, :hidden')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
+
+        var inputs = form.find('input');
+        inputs.each(function(inputKey,_input_){
+            var input = $(_input_);
+            $(validationStates).each(function(stateKey,state){
+                if(input.parents('.form-group').hasClass(state)){
+                    input.parents('.form-group').removeClass(state);
+                    input.parents('.form-group').find(".help-block").fadeOut();
+                }
+            });
+        });
+    };
+
+
+
+}( window.validate = window.validate || {}, jQuery ));
+
+/*
+ @Name              -> utility
+ @Type              -> NameSpace
+ @Descripción       -> NameSpace for utilities methods
+ */
+(function( utility){
+
+    utility.randomNumber = function(inferior,superior){
         var numPosibilidades = superior - inferior;
         var aleatory = Math.random() * numPosibilidades;
         aleatory = Math.round(aleatory);
         return parseInt(inferior) + aleatory;
     };
 
-}( window.base = window.base || {}, jQuery ));
+    utility.capitaliseFirstLetter = function(string){ return string.charAt(0).toUpperCase() + string.slice(1); };
 
+    utility.stringReplace = function(string, change_this, for_this) {
+        return string.split(change_this).join(for_this);
+    };
 
-// TODO DELETE THIS CODE AFTER REFACTOR ALL CODE
+    utility.removeCommentTag = function(data){
+        var face_1 = utility.stringReplace(data,'<!--','');
+        return utility.stringReplace(face_1,'-->','');
+    };
 
-
-
-
-
-
-var display_status_request = function(form_id,parent_id,obj){
-    if(obj.validates){
-        if(obj.save){
-            $("#"+parent_id+" .alert-success").fadeIn();
-            setTimeout(function(){ $("#"+parent_id+" .alert-success").fadeOut(); }, 7000);
-            return true;
-        }else{
-            $("#"+parent_id+" .alert-error").fadeIn();
-            setTimeout(function(){ $("#"+parent_id+" .alert-error").fadeOut(); }, 7000);
-            return false;
-        }
-    }
-};
-
-
-var capitaliseFirstLetter = function(string){ return string.charAt(0).toUpperCase() + string.slice(1); }
-
-var str_replace = function(string, change_this, for_this) {
-    return string.split(change_this).join(for_this);
-};
-
-var clean_obj = function(data){
-    var face_1 = str_replace(data,'<!--','');
-    return str_replace(face_1,'-->','');
-};
-
-$.validator.addMethod("noSpecialChars", function(value, element) {
-    return this.optional(element) || /^[a-z0-9\_\x20]+$/i.test(value);
-}, "Username must contain only letters, numbers, or underscore.");
+}( window.utility = window.utility || {}, jQuery ));

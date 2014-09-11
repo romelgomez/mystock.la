@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
 
-                                <h4 id="panels" class="page-header">Instrucciones:</h4>
+                                <h4 class="page-header">Instrucciones:</h4>
 
 
                                 <strong>Para modificar la posición: </strong> Arrastra y suelta la categoría.<br>
@@ -50,7 +50,7 @@
                                     </li>
                                 </ul>
 
-                                <h4 id="panels" class="page-header">Categorías:</h4>
+                                <h4 class="page-header">Categorías:</h4>
 
                                 <div id="display_tree"></div>
 
