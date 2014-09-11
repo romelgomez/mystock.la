@@ -55,7 +55,7 @@ $(document).ready(function(){
         };
 
         /*
-         @Name              -> treeMove
+         @Name              -> moveTo
          @visibility        -> Private
          @Type              -> Method
          @implemented by    -> treeMove()
