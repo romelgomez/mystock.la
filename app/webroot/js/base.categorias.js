@@ -66,7 +66,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -76,11 +76,11 @@ $(document).ready(function(){
                         }
 
                         if(response['countCategories'] > 0){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
                             var treeData = response['categories'];
                             replaceWholeTree(treeData);
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
                             $('#tree').css({"display":"none"});
                             $('#no-tree').show();
                         }
@@ -88,7 +88,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -253,7 +253,7 @@ $(document).ready(function(){
                 },
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -266,7 +266,7 @@ $(document).ready(function(){
                         var alert = $("#CategoryDelectForm");
 
                         if(response['delete']){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
 
                             if(response['countCategories'] > 0){
                                 var treeData = response['categories'];
@@ -279,7 +279,7 @@ $(document).ready(function(){
                             validate.removeValidationStates('CategoryDelectForm');
                             $('#delect_category_modal').modal('hide');
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
 
                             alert.find(".alert-danger").fadeIn();
                             setTimeout(function(){ $("#CategoryDelectForm").find(".alert-danger").fadeOut()},7000);
@@ -287,7 +287,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -302,7 +302,6 @@ $(document).ready(function(){
 
             validate.form("CategoryDelectForm",validateObj);
         };
-
 
         /*
          Private Method
@@ -335,7 +334,7 @@ $(document).ready(function(){
                 },
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -348,7 +347,7 @@ $(document).ready(function(){
                         var categoryEditForm = $("#CategoryEditForm");
 
                         if(response['Edit']){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
 
                             categoryEditForm.find(".alert-success").fadeIn();
 
@@ -360,7 +359,7 @@ $(document).ready(function(){
                             },2000);
 
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
 
                             categoryEditForm.find(".alert-danger").fadeIn();
                             categoryEditForm.find(".modal-body").find(".form-group").hide();
@@ -390,7 +389,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -419,7 +418,6 @@ $(document).ready(function(){
 
         };
 
-
         /*
          Private Method
          Descripción:  para añadir una nueva categoría
@@ -447,7 +445,7 @@ $(document).ready(function(){
                 },
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -460,7 +458,7 @@ $(document).ready(function(){
                         var categoryAddForm = $("#CategoryAddForm");
 
                         if(response['Add']){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
 
                             categoryAddForm.find(".alert-success").fadeIn();
                             validate.removeValidationStates('CategoryAddForm');
@@ -470,7 +468,7 @@ $(document).ready(function(){
                             },2000);
 
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
 
                             categoryAddForm.find(".alert-danger").fadeIn();
                             categoryAddForm.find(".modal-body").find(".form-group").hide();
@@ -498,7 +496,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -525,8 +523,6 @@ $(document).ready(function(){
 
             validate.form("CategoryAddForm",validateObj);
         };
-
-
 
 
         var replaceWholeTree = function(treeData){

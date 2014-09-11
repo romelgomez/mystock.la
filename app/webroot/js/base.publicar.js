@@ -61,9 +61,9 @@ $(document).ready(function(){
 
 
 
-                var tmp1							= base.randomNumber(1,9999);
-                var tmp2 							= base.randomNumber(10000,20000);
-                var random_category_id_container	= 'dependent-options-'+base.randomNumber(tmp1,tmp2);
+                var tmp1							= utility.randomNumber(1,9999);
+                var tmp2 							= utility.randomNumber(10000,20000);
+                var random_category_id_container	= 'dependent-options-'+utility.randomNumber(tmp1,tmp2);
 
 
                 ul += '<div class="ulMenu" id="'+random_category_id_container+'">';
@@ -169,7 +169,7 @@ $(document).ready(function(){
                     event.preventDefault();
 
                     var path_category_id            = $(this).attr('id'); //  path-category-id-142
-                    var category_id                 = str_replace(path_category_id,'path-category-id-','');	// 142
+                    var category_id                 = utility.stringReplace(path_category_id,'path-category-id-','');	// 142
 
                     var element_id = 'category-id-'+category_id;
                     clear(element_id);// category-id-142
@@ -288,7 +288,7 @@ $(document).ready(function(){
                     event.preventDefault();
 
                     var element_id  = $(this).attr('id');                           // category-id-142
-                    var category_id = str_replace(element_id,'category-id-','');    // 142
+                    var category_id = utility.stringReplace(element_id,'category-id-','');    // 142
 
                     clear(element_id);// category-id-142
                     getChildCategories(category_id);
@@ -318,7 +318,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -331,7 +331,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){}
                 }
@@ -477,7 +477,7 @@ $(document).ready(function(){
                 },
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
                         $('#debug').text(JSON.stringify(response));
@@ -492,7 +492,7 @@ $(document).ready(function(){
                          */
 
                         if(response['result']){
-                            var slug = str_replace((response['product_title'].toLowerCase().trim()),' ','_');
+                            var slug = utility.stringReplace((response['product_title'].toLowerCase().trim()),' ','_');
                             window.location = '/producto/'+response['product_id']+'/'+slug+'.html';
                         }else{
                             window.location = "/";
@@ -501,7 +501,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -625,7 +625,7 @@ $(document).ready(function(){
                         "data":{},
                         "callbacks":{
                             "beforeSend":function(){
-                                notification = base.ajaxRequestNotification("beforeSend");
+                                notification = ajax.notification("beforeSend");
                             },
                             "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -635,10 +635,10 @@ $(document).ready(function(){
                                 }
 
                                 if(response['status']){
-                                    base.ajaxRequestNotification("success",notification);
+                                    ajax.notification("success",notification);
                                     $("#thumbnail-id-"+response['image_id']).remove();
                                 }else{
-                                    base.ajaxRequestNotification("error",notification);
+                                    ajax.notification("error",notification);
                                 }
 
                                 // proceso para determinar si aun existen imágenes en la vista del producto.
@@ -655,7 +655,7 @@ $(document).ready(function(){
 
                             },
                             "error":function(){
-                                base.ajaxRequestNotification("error",notification);
+                                ajax.notification("error",notification);
                             },
                             "complete":function(){}
                         }
@@ -713,7 +713,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -723,7 +723,7 @@ $(document).ready(function(){
                         }
 
                         if(response['result']){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
 
                             $('#pause').css({
                                 "display": 'none'
@@ -733,13 +733,13 @@ $(document).ready(function(){
                             });
 
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
                         }
 
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -776,7 +776,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -786,7 +786,7 @@ $(document).ready(function(){
                         }
 
                         if(response['result']){
-                            base.ajaxRequestNotification("success",notification);
+                            ajax.notification("success",notification);
 
 
                             $('#pause').css({
@@ -797,12 +797,12 @@ $(document).ready(function(){
                             });
 
                         }else{
-                            base.ajaxRequestNotification("error",notification);
+                            ajax.notification("error",notification);
                         }
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){}
                 }
@@ -832,7 +832,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -845,7 +845,7 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(response){}
                 }
@@ -1026,7 +1026,7 @@ $(document).ready(function(){
              */
             var file_upload_callbacks = {
                 "events":{
-                    "dragover":function(element){
+                    "dragover":function(){
                         $('#drop-files').css({
                             "border": '2px dashed #357AE8'
                         });
@@ -1034,7 +1034,7 @@ $(document).ready(function(){
                             "border": '1px solid #357AE8'
                         });
                     },
-                    "drop":function(element){
+                    "drop":function(){
                         $('#drop-files').css({
                             "border": '2px dashed #DCDCDC'
                         });
@@ -1130,7 +1130,7 @@ $(document).ready(function(){
                             //  Progression is successful.		Zero or more.
 //                            console.log('Progression is successful.');
                         },
-                        'loadend':function(evt){
+                        'loadend':function(){
                             //	Description					|	Times
                             // 	Progress has stopped.			Once.
 //                            console.log('Progress has stopped.');

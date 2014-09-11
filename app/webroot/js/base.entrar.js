@@ -39,7 +39,7 @@
             },
             "callbacks":{
                 "beforeSend":function(){
-                    notification = base.ajaxRequestNotification("beforeSend");
+                    notification = ajax.notification("beforeSend");
                 },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
@@ -47,7 +47,7 @@
                     var userForm = $("#UserForm");
 
                     if(response['Send']){
-                        base.ajaxRequestNotification("success",notification);
+                        ajax.notification("success",notification);
 
                         userForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserForm');
@@ -56,7 +56,7 @@
                             $("#UserForm").find(".alert-success").fadeOut();
                         },2000);
                     }else{
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
 
                         userForm.find(".alert-danger").fadeIn();
                         userForm.find(".modal-body").find(".form-group").hide();
@@ -77,7 +77,7 @@
 
                 },
                 "error":function(){
-                    base.ajaxRequestNotification("error",notification);
+                    ajax.notification("error",notification);
                 },
                 "complete":function(response){}
             }
@@ -148,7 +148,7 @@
             },
             "callbacks":{
                 "beforeSend":function(){
-                    notification = base.ajaxRequestNotification("beforeSend");
+                    notification = ajax.notification("beforeSend");
                 },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
@@ -156,7 +156,7 @@
                     var userAddForm = $("#UserAddForm");
 
                     if(response['Add']){
-                        base.ajaxRequestNotification("success",notification);
+                        ajax.notification("success",notification);
 
                         userAddForm.find(".alert-success").fadeIn();
                         validate.removeValidationStates('UserAddForm');
@@ -165,7 +165,7 @@
                             $("#UserAddForm").find(".alert-success").fadeOut();
                         },2000);
                     }else{
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
 
                         userAddForm.find(".alert-danger").fadeIn();
                         userAddForm.find(".modal-body").find(".form-group").hide();
@@ -185,7 +185,7 @@
 
                 },
                 "error":function(){
-                    base.ajaxRequestNotification("error",notification);
+                    ajax.notification("error",notification);
                 },
                 "complete":function(response){}
             }
@@ -273,7 +273,7 @@
             },
             "callbacks":{
                 "beforeSend":function(){
-                    notification = base.ajaxRequestNotification("beforeSend");
+                    notification = ajax.notification("beforeSend");
                 },
                 "success":function(response){
                     $('#debug').text(JSON.stringify(response));
@@ -287,10 +287,10 @@
 
                 },
                 "error":function(){
-                    base.ajaxRequestNotification("error",notification);
+                    ajax.notification("error",notification);
                 },
                 "complete":function(){
-                    base.ajaxRequestNotification("complete",notification);
+                    ajax.notification("complete",notification);
                 }
             }
         };

@@ -49,7 +49,7 @@ $(document).ready(function(){
                     $(split_segments).each(function(index,parameter){
 
                         if(parameter.indexOf("buscar_") !== -1){
-                            var search_string = str_replace(parameter,'buscar_','');
+                            var search_string = utility.stringReplace(parameter,'buscar_','');
 
                             /* La cadena search_string se manipula en el siguiente orden.
                              *
@@ -64,7 +64,7 @@ $(document).ready(function(){
 
                         }
                         if(parameter.indexOf("pagina_") !== -1){
-                            url_obj.page = parseInt(str_replace(parameter,'pagina_',''));
+                            url_obj.page = parseInt(utility.stringReplace(parameter,'pagina_',''));
                         }
                         if(parameter == "mayor_precio"){
                             url_obj.order_by = "mayor_precio";
@@ -104,7 +104,7 @@ $(document).ready(function(){
             var date        = new Date(obj['product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-            var slug        =   str_replace(title.toLowerCase().trim(),' ','_');
+            var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
 
             var image       = 'img/products/'+obj['imagen']['thumbnails']['small']['name'];
@@ -180,7 +180,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -207,10 +207,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -243,7 +243,7 @@ $(document).ready(function(){
                             // se solicita buscar algo.
                             request_this.search	= url_obj.search;
 
-                            var url = str_replace(url_obj.search,' ','_');
+                            var url = utility.stringReplace(url_obj.search,' ','_');
                             window.location = "#buscar_"+url+"/"+order_by;
 
                         }else{
@@ -282,7 +282,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 
@@ -306,10 +306,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -337,7 +337,7 @@ $(document).ready(function(){
 
                         if(url_obj.order_by != ""){
                             if(url_obj.search != ""){
-                                url = str_replace(url_obj.search,' ','_');
+                                url = utility.stringReplace(url_obj.search,' ','_');
                                 new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
@@ -348,7 +348,7 @@ $(document).ready(function(){
                             request_this.order_by = url_obj.order_by;
                         }else{
                             if(url_obj.search != ""){
-                                url = str_replace(url_obj.search,' ','_');
+                                url = utility.stringReplace(url_obj.search,' ','_');
                                 new_url = "#buscar_"+url+"/pagina_"+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
@@ -390,7 +390,7 @@ $(document).ready(function(){
 
                         if(url_obj.order_by != ""){
                             if(url_obj.search != ""){
-                                url = str_replace(url_obj.search,' ','_');
+                                url = utility.stringReplace(url_obj.search,' ','_');
                                 new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
@@ -401,7 +401,7 @@ $(document).ready(function(){
                             request_this.order_by = url_obj.order_by;
                         }else{
                             if(url_obj.search != ""){
-                                url = str_replace(url_obj.search,' ','_');
+                                url = utility.stringReplace(url_obj.search,' ','_');
                                 new_url = "#buscar_"+url+"/pagina_"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
@@ -442,7 +442,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 
@@ -453,7 +453,7 @@ $(document).ready(function(){
                         if(response['result']){
 
                             // se establece la url
-                            var url = str_replace(response['search'],' ','_');
+                            var url = utility.stringReplace(response['search'],' ','_');
                             window.location = "#buscar_"+url;
 
 
@@ -512,10 +512,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -705,7 +705,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 
@@ -730,10 +730,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -745,7 +745,7 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(clean_obj(pure_json_obj));
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         var request_this = {};
                         request_this.id  = obj.product.id;
 
@@ -774,7 +774,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 
@@ -797,10 +797,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -812,7 +812,7 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(clean_obj(pure_json_obj));
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         var request_this = {};
                         request_this.id  = obj.product.id;
                         request_parameters.data =    request_this;
@@ -839,7 +839,7 @@ $(document).ready(function(){
                     $(this).on('click',function(){
 
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(clean_obj(pure_json_obj));
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
                         // edit link
                         window.location = '/editar/'+obj.product.id;
@@ -864,7 +864,7 @@ $(document).ready(function(){
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 
@@ -938,10 +938,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -955,7 +955,7 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
                         var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(clean_obj(pure_json_obj));
+                        var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         $("#delete_product").attr({"product_id":obj['product']['id']});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
@@ -1069,7 +1069,7 @@ $(document).ready(function(){
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){
-                        notification = base.ajaxRequestNotification("beforeSend");
+                        notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
@@ -1106,10 +1106,10 @@ $(document).ready(function(){
 
                     },
                     "error":function(){
-                        base.ajaxRequestNotification("error",notification);
+                        ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        base.ajaxRequestNotification("complete",notification);
+                        ajax.notification("complete",notification);
                     }
                 }
             };
