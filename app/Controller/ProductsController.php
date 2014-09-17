@@ -12,7 +12,64 @@
         Retorna:            Array.
     */
     public function view(){
-        debug($this->{'request'}->params);
+        $user_logged    = $this->{'Auth'}->User();
+        $this->{'loadModel'}('Category');
+
+        if(isset($this->{'params'}->id)){
+            $id = $this->{'params'}->id;
+            // para editar principalmente.
+            $product_data = $this->{'Product'}->find('first', array(
+                'conditions' => array('Product.id' => $id,'Product.company_id'=>$user_logged['User']['company_id'],'Product.deleted'=>0)
+            ));
+
+            if($product_data){
+
+                if($product_data['Image']){
+                    $this->{'loadModel'}('Image');
+
+                    $data = array();
+
+                    foreach($product_data['Image'] as $index_0 => $original_imagen){
+
+                        //debug($original_imagen);
+                        $data[$index_0]['original'] 		= $original_imagen;
+                        $products[$index_0]['children'] 	=  $this->{'Image'}->find('all',array(
+                                'conditions' => array('Image.parent_id' => $original_imagen['id']),
+                                'contain' => false
+                            )
+                        );
+                        foreach($products[$index_0]['children'] as $children){
+
+                            $namespace = '';
+
+                            switch ($children['Image']['size']) {
+                                case '1920x1080':
+                                    $namespace = 'large';
+                                    break;
+                                case '900x900':
+                                    $namespace = 'median';
+                                    break;
+                                case '400x400px':
+                                    $namespace = 'small';
+                                    break;
+                            }
+
+                            $data[$index_0]['thumbnails'][$namespace] = $children['Image'];
+
+                        }
+                    }
+
+                    $product_data['Image'] = array();
+                    $product_data['Image'] = $data;
+                }
+
+                $this->{'request'}->data = $product_data;
+
+            }else{
+                $this->{'redirect'}('/');
+            }
+        }
+
     }
 
     /*
@@ -347,6 +404,8 @@
         $url = $this->{'request'}->url;
 
         $return = array();
+
+        $conditions = array();
 
         if($url == 'published' | $url == 'drafts'){
             if($url == 'published'){

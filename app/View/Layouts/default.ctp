@@ -68,12 +68,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Cuenta <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li role="presentation" class="dropdown-header">PRODUCTOS</li>
-                                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> <del>Comprados</del></a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-usd"></span> <del>Vendidos</del></a></li>
                                 <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
                                 <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> <del>Reputación</del></a></li>
                                 <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>
                             </ul>
                         </li>
