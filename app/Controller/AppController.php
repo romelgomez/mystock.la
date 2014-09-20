@@ -22,7 +22,7 @@ class AppController extends Controller {
 
     public function beforeFilter(){
 
-        // Configuracion de la Secciones
+        // Configuración de la Secciones
         Configure::write('Session', array(
             'cookie' => 'santomercado',
             'defaults' => 'database',
@@ -37,7 +37,7 @@ class AppController extends Controller {
     }
 
     public function beforeRender(){
-        // Destrulle la sección al abrir x links en otra pestaña si se coloca en la función beforeFilter.
+        // Destruye la sección al abrir x links en otra pestaña si se coloca en la función beforeFilter.
         if($this->{'Auth'}->User()){
             $this->{'set'}('userLogged',$this->{'Auth'}->User());
         }

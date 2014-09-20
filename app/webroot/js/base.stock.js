@@ -29,19 +29,22 @@ $(document).ready(function(){
              *******************************************/
 
             // Posibles urls
-            // /publicados
-            // /publicados#pagina_1
-            // /publicados#mayor_precio/pagina_1
-            // /publicados#buscar_las_mejores/mayor_precio/pagina_1
+            // /stock/3
+            // /stock/3#pagina_1
+            // /stock/3#mayor_precio/pagina_1
+            // /stock/3#buscar_las_mejores/mayor_precio/pagina_1
 
             var pathname = $(location).attr('href');
             var url = $.url(pathname);
             var segments = url.attr('fragment');
+            var userId   =  url.segment(2);
 
             var url_obj         = {};
             url_obj.search      = "";
             url_obj.page        = "";
             url_obj.order_by    = "";
+            url_obj.user_id     = userId;
+
 
             if(segments != ""){
                 var split_segments = url.attr('fragment').split('/');
@@ -137,32 +140,30 @@ $(document).ready(function(){
             }
             // END
 
+//            // se arma una publicación
+//            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
+//                '<a class="pull-left" href="'+link+'">'+
+//                    '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
+//                '</a>'+
+//                '<div class="media-body">'+
+//                    '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
+//                    '<div>'+
+//                        '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
+//                    '</div>'+
+//                '</div>'+
+//            '</div>';
 
-            // se arma una publicación
-            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
-                        '<a class="pull-left" href="'+link+'">'+
-                            '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
-                        '</a>'+
-                        '<div class="media-body">'+
-                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
-
-                            '<div style="margin-bottom: 10px;">'+
-                                '<div class="btn-group">'+
-                                    '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
-                                    status_button+
-                                    '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div>'+
-                                '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
-                                '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
-                                '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
-                                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
-                            '</div>'+
-                        '</div>'+
-                        '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
-                    '</div>';
-
+             return  '<a href="'+link+'" class="box">'+
+                '<span class="imagen_producto">'+
+                    '<img src="'+image+'" class="img-responsive" alt="Test">'+
+                '</span>'+
+                '<span class="nombre_producto">'+
+                    '<div class="nombre_producto_margen">'+title+'</div>'+
+                '</span>'+
+                '<span class="precio">'+
+                    '<div style="margin-left:5px;  margin-right:5px;">Price: '+price+'</div>'+
+                '</span>'+
+            '</a>';
 
         };
 
@@ -997,24 +998,24 @@ $(document).ready(function(){
         var preparePublications = function(){
 
             /*
-            registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
+             registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
 
-            # Solo 1 registro
-            - paginación                inhabilitada
-            - ordenar por precio        inhabilitada
-            - búsqueda                  inhabilitada
+             # Solo 1 registro
+             - paginación                inhabilitada
+             - ordenar por precio        inhabilitada
+             - búsqueda                  inhabilitada
 
-            # Entre 1 y 10 registros
-            - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
-            - ordenar por precio        habilitado
-            - búsqueda                  inhabilitada
+             # Entre 1 y 10 registros
+             - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
+             - ordenar por precio        habilitado
+             - búsqueda                  inhabilitada
 
-            # Más de 10 registros
-            - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
-            - ordenar por precio        habilitado
-            - búsqueda                  habilitado
+             # Más de 10 registros
+             - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
+             - ordenar por precio        habilitado
+             - búsqueda                  habilitado
 
-            */
+             */
 
             if(lastResponseInfo['data'].length > 0){
 
@@ -1042,7 +1043,7 @@ $(document).ready(function(){
                         $('#products').html(products);
 
                         /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                        *********************************************************************************/
+                         *********************************************************************************/
                         pause();
                         activate();
                         edit();
@@ -1065,14 +1066,14 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/stock-products",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-//                        $('#debug').text(JSON.stringify(response));
+                        $('#debug').text(JSON.stringify(response));
 
                         // Si la sesión ha expirado
                         if(response['expired_session']){

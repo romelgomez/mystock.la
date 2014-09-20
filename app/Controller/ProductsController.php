@@ -1,8 +1,13 @@
 <?php class ProductsController extends AppController {
 
+    public function beforeFilter(){
 
-    public function index(){
+        $this->{'Auth'}->allow(['stock','products']);
+
+        parent::beforeFilter();
     }
+
+
 
     /*
         Descripción:        Función para ver un producto, ofertar y preguntar por el.
@@ -369,11 +374,12 @@
     public function search_publications(){
     }
 
-
     /*
         Descripción:        Función para visualizar todos los productos publicados.
         tipo de solicitud:  get (no ajax)
         tipo de acceso:     vendedor
+        Recibe:             NULL
+        Retorna:            NULL
     */
     public function published(){
     }
@@ -382,12 +388,37 @@
         Descripción:        Función para visualizar todos los productos en estatus de borrador.
         Tipo de solicitud:  Get (no ajax)
         Tipo de acceso:     Vendedor
-        Recibe:             Null.
-        Retorna:            Un array.
+        Recibe:             NULL
+        Retorna:            NULL
     */
     public function drafts(){
     }
 
+    /*
+        Descripción:        Función para visualizar todos los productos en estatus de publicados de x usuario.
+        Tipo de solicitud:  Get (no ajax)
+        Tipo de acceso:     All can access
+        Recibe:             NULL
+        Retorna:            NULL
+    */
+    public function stock(){
+        $this->{'loadModel'}('User');
+
+        if(isset($this->{'params'}->id)){
+            $id = $this->{'params'}->id;
+            $user = $this->{'User'}->find('first', array(
+                'conditions' => array('User.id' => $id)
+            ));
+
+            if($user){
+                $this->{'request'}->data = $user;
+            }else{
+                $this->{'redirect'}('/');
+            }
+        }else{
+            $this->{'redirect'}('/');
+        }
+    }
 
     /*
         Descripción:
@@ -407,7 +438,30 @@
 
         $conditions = array();
 
-        if($url == 'published' | $url == 'drafts'){
+        if($url == 'published' || $url == 'drafts' || $url == 'stock-products' ){
+            if($url == 'stock-products'){
+
+                // search - conditions
+                if(!isset($request['search']) || $request['search'] == ''){
+                    $conditions = array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1);
+                }else{
+                    $search = $this->cleanString($request["search"]);
+                    $return["search"] = $search;
+                    $conditions = array(
+                        'Product.user_id' => $request['user_id'],
+                        'Product.deleted'=>0,
+                        'Product.published'=>1,
+                        'or'=>array(
+                            'Product.title LIKE'=> '%'.$search.'%',
+                            'Product.body LIKE'=> '%'.$search.'%'
+                        )
+                    );
+                }
+
+                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+            }
             if($url == 'published'){
                 // search - conditions
                 if(!isset($request['search']) || $request['search'] == ''){

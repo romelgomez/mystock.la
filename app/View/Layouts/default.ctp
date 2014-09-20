@@ -70,14 +70,14 @@
                                 <li role="presentation" class="dropdown-header">PRODUCTOS</li>
                                 <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
                                 <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>
+<!--                                <li class="divider"></li>-->
+<!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#"><del> Usuarios</del></a></li>
+<!--                                <li><a href="#"><del> Usuarios</del></a></li>-->
                                 <li><a href="/categorias">Categorías</a></li>
                             </ul>
                         </li>

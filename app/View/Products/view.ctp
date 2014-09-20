@@ -53,20 +53,10 @@
                             Precio: <?php echo $data['Product']['price'] ?> BsF.
                         </h2>
                     </li>
-                    <li class="list-group-item">Empresa:</li>
-                    <li class="list-group-item">Teléfonos:</li>
-                    <li class="list-group-item">Correo:</li>
-                    <li class="list-group-item">Dirección:</li>
+                    <li class="list-group-item"><a href="<?php echo '/stock/'.$data['User']['id']; ?>">@<?php echo ucfirst($data['User']['name']);  ?> Stock</a> </li>
                 </ul>
             </div>
 
        </div>
     </div>
 </div>
-
-
-
-
-<?php
-debug($this->{'request'});
-?>

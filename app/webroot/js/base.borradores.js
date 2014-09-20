@@ -107,9 +107,9 @@ $(document).ready(function(){
             var image = '';
 
             if(obj['imagen'] == undefined){
-                image = 'img/foto-no-disponible.jpg';
+                image = '/img/foto-no-disponible.jpg';
             }else{
-                image = 'img/products/'+obj['imagen']['thumbnails']['small']['name'];
+                image = '/img/products/'+obj['imagen']['thumbnails']['small']['name'];
             }
 
             var  link = '/editar_borrador/'+obj['product']['id'];

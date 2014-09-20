@@ -1,13 +1,13 @@
 <?php
 
 	/*
-	- Todas la urls estaran en minusculas. Ejemplo:
+	- Todas la urls estarán en minúsculas. Ejemplo:
 		/familias
 		/familias_sustancias
-	- Las url que estan en ingles, son aquellas que no son visibles.	
+	- Las url que están en ingles, son aquellas que no son visibles.
 	*/
 	
-	/* Ordenadas alfaveticamente por el nombre del controlador. Que es lo que se repite. */
+	/* Ordenadas alfabéticamente por el nombre del controlador. Que es lo que se repite. */
 
 
 
@@ -22,7 +22,7 @@ Router::connect('/delect_category',							array('controller' => 'categories', 'a
 Router::connect('/edit_category_name',						array('controller' => 'categories', 'action' => 'edit_category_name'));				// Acción Ajax - Para editar el nombre una categoria
 Router::connect('/edit_category_position',					array('controller' => 'categories', 'action' => 'edit_category_position'));			// Acción Ajax - Para editar la posicion de una categoria
 
-/* para la selecion de la categoria de un producto o servicio.
+/* para la selección de la categoría de un producto o servicio.
  ************************************/
 Router::connect('/get_category_child_elements', 			array('controller' => 'categories', 'action' => 'get_category_child_elements'));	// Acción Ajax - Para optener hijos que existen de una categoria padre    
 
@@ -76,6 +76,14 @@ Router::connect('/save_draft',	 							array('controller' => 'products',	'action
 
 Router::connect('/publicados', 								array('controller' => 'products',	'action' => 'published'));	   					// Acción Get  - Interfaz para acceder a los productos publicados
 Router::connect('/borradores',	 							array('controller' => 'products',	'action' => 'drafts'));	   						// Acción Get  - Interfaz para acceder a los borradores
+
+Router::connect('/stock/:id',                               array('controller' => 'products', 	'action' => 'stock'),                        // Acción Get  - Interfaz para acceder al stock del usuario
+    array(
+        'pass' => array('id','slug'),
+        'id' => '[0-9]+'
+    ));
+Router::connect('/stock-products',                          array('controller' => 'products',	'action' => 'products'));                    // Acción ajax - para obtener los productos publicados de x usuario
+
 
 
 Router::connect('/published', 					        	array('controller' => 'products',	'action' => 'products'));				// Acción ajax - para obtener los productos publicados
