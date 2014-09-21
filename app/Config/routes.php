@@ -63,7 +63,8 @@ Router::connect('/editar/:id', 								array('controller' => 'products', 	'actio
 	));
 
 
-Router::connect('/search_publications', 					array('controller' => 'products', 	'action' => 'search_publications')); 			// Acción Ajax - para pausar buscar publicaciones. 
+Router::connect('/search',                                  array('controller' => 'products',   'action' => 'search')); 			// Acción Ajax - para pausar buscar publicaciones.
+Router::connect('/search-products',                         array('controller' => 'products',   'action' => 'products')); 			// Acción Ajax - para pausar buscar publicaciones.
 
 
 Router::connect('/pause', 									array('controller' => 'products',	 'action' => 'pause'));   							// Acción Ajax - para pausar una publicación activa. 

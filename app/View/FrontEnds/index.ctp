@@ -24,13 +24,13 @@
                     <?php if(isset($categories)){ ?>
                         <?php foreach($categories as $department){ ?>
                             <div class="list-group">
-                                <a href="#" class="list-group-item active">
+                                <a href="/search#category-<?php echo strtolower($department['Category']['name']).'-'.$department['Category']['id']  ?>" class="list-group-item active">
                                     <h4 class="list-group-item-heading"><?php echo $department['Category']['name']; ?></h4>
                                 </a>
                                 <?php if($department['children']){ ?>
                                     <?php foreach($department['children'] as $category_general){ ?>
 
-                                        <a href="#" class="list-group-item">
+                                        <a href="/search#category-<?php echo strtolower($category_general['Category']['name']).'-'.$category_general['Category']['id']  ?>" class="list-group-item">
                                             <span class="badge">14</span>
                                             <h5 class="list-group-item-heading"><?php echo $category_general['Category']['name']; ?></h5>
                                         </a>
@@ -73,4 +73,4 @@
 
 
 
-<?php echo $this->Html->script('base.index',false); ?>
+<?php //echo $this->Html->script('base.index',false); ?>

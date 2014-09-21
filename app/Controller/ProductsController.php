@@ -20,12 +20,17 @@
         $user_logged    = $this->{'Auth'}->User();
         $this->{'loadModel'}('Category');
 
+
+
         if(isset($this->{'params'}->id)){
             $id = $this->{'params'}->id;
             // para editar principalmente.
             $product_data = $this->{'Product'}->find('first', array(
                 'conditions' => array('Product.id' => $id,'Product.company_id'=>$user_logged['User']['company_id'],'Product.deleted'=>0)
             ));
+
+            $category_id = $product_data['Product']['category_id'];
+            $path = $this->{'Category'}->getPath($category_id);
 
             if($product_data){
 
@@ -68,6 +73,7 @@
                     $product_data['Image'] = $data;
                 }
 
+                $product_data['Path'] = $path;
                 $this->{'request'}->data = $product_data;
 
             }else{
@@ -371,7 +377,7 @@
         $this->{'render'}('ajax_view','ajax');
     }
 
-    public function search_publications(){
+    public function search(){
     }
 
     /*
@@ -438,7 +444,29 @@
 
         $conditions = array();
 
-        if($url == 'published' || $url == 'drafts' || $url == 'stock-products' ){
+        if($url == 'published' || $url == 'drafts' || $url == 'stock-products'){
+//            if($url == 'search-products'){
+//
+//                // search - conditions
+//                if(!isset($request['search']) || $request['search'] == ''){
+//                    $conditions = array('Product.deleted'=>0,'Product.published'=>1);
+//                }else{
+//                    $search = $this->cleanString($request["search"]);
+//                    $return["search"] = $search;
+//                    $conditions = array(
+//                        'Product.deleted'=>0,
+//                        'Product.published'=>1,
+//                        'or'=>array(
+//                            'Product.title LIKE'=> '%'.$search.'%',
+//                            'Product.body LIKE'=> '%'.$search.'%'
+//                        )
+//                    );
+//                }
+//
+//                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+//                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.deleted'=>0,'Product.published'=>1)));
+//
+//            }
             if($url == 'stock-products'){
 
                 // search - conditions
@@ -934,6 +962,24 @@
     */
 
     public function product_images($products){
+
+
+        /*
+         Array deseado:
+                $data = array(
+                    'product'=>
+                    'imagen'=>array(
+                        'original'=>
+                        'thumbnails'=>array(
+                            'large'=>,
+                            'median'=>,
+                            'small'=>,
+                    )
+                )
+            )
+        */
+
+
         $this->{'loadModel'}('Image');
 
         $data = array();
@@ -972,20 +1018,6 @@
     }
 
 
-    /*
-     Array deseado:
-            $data = array(
-                'product'=>
-                'imagen'=>array(
-                    'original'=>
-                    'thumbnails'=>array(
-                        'large'=>,
-                        'median'=>,
-                        'small'=>,
-                )
-            )
-        )
-    */
 
 
 }
