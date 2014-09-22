@@ -7,20 +7,8 @@
         <div class="col-xs-12">
             <!-- start content-->
 
-            <ol class="breadcrumb">
-                <?php
-                    $pathLength = sizeof($data['Path']);
-                    foreach($data['Path'] as $index => $category){
-                        echo '<li><a href="/search#category-'.strtolower($category['Category']['name']).'-'.$category['Category']['id'].'">'.$category['Category']['name'].'</a></li>';
-                    }
-                ?>
-            </ol>
-            <a href="<?php echo '/stock/'.$data['User']['id']; ?>">@<?php echo ucfirst($data['User']['name']);  ?> Stock</a>
-
-            <hr>
-
             <div class="page-header" style="margin-top: 0;">
-                <h1><?php  echo ucfirst($data['Product']['title']) ?></h1>
+                <h1 style="margin-top: 0;"><?php  echo ucfirst($data['Product']['title']) ?></h1>
             </div>
 
             <div class="panel panel-default">
@@ -62,8 +50,13 @@
                     <li class="list-group-item bg-primary">
                         <h2 class="text-info">
                             <span class="glyphicon glyphicon-tag"></span>
-                            Precio: <?php echo $data['Product']['price'] ?> BsF.
+                            Price: <?php echo $data['Product']['price'] ?>
                         </h2>
+                    </li>
+                    <li class="list-group-item bg-primary">
+                        <h4 class="text-info">
+                            <a href="<?php echo '/stock/'.$data['User']['id']; ?>">@<?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+                        </h4>
                     </li>
                 </ul>
             </div>

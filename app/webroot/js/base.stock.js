@@ -177,7 +177,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/stock-products",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -252,6 +252,11 @@ $(document).ready(function(){
                         }
 
                         request_this.order_by   = order_by;
+
+                        var pathname            = $(location).attr('href');
+                        var currentUrl          = $.url(pathname);
+                        request_this.user_id    =  currentUrl.segment(2);
+
                         request_parameters.data = request_this;
                         ajax.request(request_parameters);
 
@@ -279,7 +284,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/stock-products",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -360,6 +365,11 @@ $(document).ready(function(){
 
                         window.location = new_url;
 
+                        var pathname            = $(location).attr('href');
+                        var currentUrl          = $.url(pathname);
+                        request_this.user_id    =  currentUrl.segment(2);
+
+
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -413,6 +423,10 @@ $(document).ready(function(){
 
                         window.location = new_url;
 
+                        var pathname            = $(location).attr('href');
+                        var currentUrl          = $.url(pathname);
+                        request_this.user_id    =  currentUrl.segment(2);
+
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -439,7 +453,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/stock-products",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -528,6 +542,11 @@ $(document).ready(function(){
                     var request_this        = {};
                     var search_string       = $("#search").val();
                     request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+
+                    var pathname            = $(location).attr('href');
+                    var currentUrl          = $.url(pathname);
+                    request_this.user_id    =  currentUrl.segment(2);
+
                     request_parameters.data =    request_this;
                     ajax.request(request_parameters);
 

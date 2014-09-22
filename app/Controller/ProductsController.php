@@ -2,7 +2,7 @@
 
     public function beforeFilter(){
 
-        $this->{'Auth'}->allow(['stock','products']);
+        $this->{'Auth'}->allow(['view','stock','products']);
 
         parent::beforeFilter();
     }
@@ -17,16 +17,13 @@
         Retorna:            Array.
     */
     public function view(){
-        $user_logged    = $this->{'Auth'}->User();
         $this->{'loadModel'}('Category');
-
-
 
         if(isset($this->{'params'}->id)){
             $id = $this->{'params'}->id;
             // para editar principalmente.
             $product_data = $this->{'Product'}->find('first', array(
-                'conditions' => array('Product.id' => $id,'Product.company_id'=>$user_logged['User']['company_id'],'Product.deleted'=>0)
+                'conditions' => array('Product.id' => $id,'Product.deleted'=>0)
             ));
 
             $category_id = $product_data['Product']['category_id'];
