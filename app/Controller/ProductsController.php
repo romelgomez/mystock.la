@@ -99,7 +99,7 @@
             $id = $this->{'params'}->id;
             // para editar principalmente.
             $product_data = $this->{'Product'}->find('first', array(
-                'conditions' => array('Product.id' => $id,'Product.company_id'=>$user_logged['User']['company_id'],'Product.deleted'=>0)
+                'conditions' => array('Product.id' => $id,'Product.user_id'=>$user_logged['User']['id'],'Product.deleted'=>0)
             ));
 
             if($product_data){
@@ -260,7 +260,7 @@
                     // se verifica que el usuario esté trabajando en un post suyo o de otro vendedor de misma compañía
                     if($request['id']){
                         $isOk = $this->{'Product'}->find('first', array(
-                            'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
+                            'conditions' => array('Product.id' => $request['id'],'Product.user_id'=>$user_logged['User']['id'])
                         ));
 
                         if($isOk){
@@ -269,7 +269,6 @@
                                 'Product'=>Array
                                 (
                                     'id'            =>  $request['id'],
-                                    'company_id'    =>  $user_logged['User']['company_id'],
                                     'user_id'       =>  $user_logged['User']['id'],
                                     'category_id'   =>  $request['category_id'],
                                     'title'         =>  $request['title'],
@@ -327,7 +326,7 @@
         // Esta lógica es cuando se guardó un borrador, por lo tanto existe un id ya definido. Se verifica que el usuario esté trabajando en un post suyo o de otro vendedor de misma compañía de no cumplir o intentar modificar el dom, el script creará otro borrador.
         if($request['id']){
             $isOk = $this->{'Product'}->find('first', array(
-                'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
+                'conditions' => array('Product.id' => $request['id'],'Product.user_id'=>$user_logged['User']['id'])
             ));
             if($isOk){
                 $id = $request['id'];
@@ -345,7 +344,6 @@
                 'id'            =>$id,
                 'user_id'       =>$user_logged['User']['id'],
                 'category_id'   =>$request['category_id'],
-                'company_id'    =>$user_logged['User']['company_id'],
                 'title'         =>$request['title'],
                 'body'			=>$request['body'],
                 'price'			=>$request['price'],
@@ -490,12 +488,12 @@
             if($url == 'published'){
                 // search - conditions
                 if(!isset($request['search']) || $request['search'] == ''){
-                    $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1);
+                    $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
                 }else{
                     $search = $this->cleanString($request["search"]);
                     $return["search"] = $search;
                     $conditions = array(
-                        'Product.company_id' => $user_logged['User']['company_id'],
+                        'Product.user_id' => $user_logged['User']['id'],
                         'Product.deleted'=>0,
                         'Product.published'=>1,
                         'or'=>array(
@@ -506,18 +504,18 @@
                 }
 
                 // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1)));
+                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
 
             }
             if($url == 'drafts'){
                 // search - conditions
                 if(!isset($request['search']) || $request['search'] == ''){
-                    $conditions = array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>0);
+                    $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);
                 }else{
                     $search = $this->cleanString($request["search"]);
                     $return["search"] = $search;
                     $conditions = array(
-                        'Product.company_id' => $user_logged['User']['company_id'],
+                        'Product.user_id' => $user_logged['User']['id'],
                         'Product.deleted'=>0,
                         'Product.published'=>0,
                         'or'=>array(
@@ -528,7 +526,7 @@
                 }
 
                 // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>0)));
+                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0)));
             }
 
             // page
@@ -643,7 +641,7 @@
         if($request['row_exist'] == 'true'){
 
             $isOk = $this->{'Product'}->find('first', array(
-                'conditions' => array('Product.id' => $request['id'],'Product.company_id'=>$user_logged['User']['company_id'])
+                'conditions' => array('Product.id' => $request['id'],'Product.user_id'=>$user_logged['User']['id'])
             ));
 
             if($isOk){
@@ -688,7 +686,7 @@
         $user_logged = $this->{'Auth'}->User();
 
         $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
+            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
         ));
 
         if($product_data){
@@ -724,7 +722,7 @@
         $user_logged = $this->{'Auth'}->User();
 
         $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
+            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
         ));
 
         if($product_data){
@@ -760,7 +758,7 @@
         $user_logged = $this->{'Auth'}->User();
 
         $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.company_id' => $user_logged['User']['company_id'])
+            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
         ));
 
         if($product_data){
@@ -780,7 +778,7 @@
                  ***************************************************************************/
                 if(isset($request['paginate'])){
 
-                    // se establecen varibles.
+                    // se establecen variables.
                     if(!isset($request['page'])){
                         $page = 1;
                     }else{
@@ -863,7 +861,7 @@
                         /* Primer intento:  pagina actual
                          *******************************************************/
                         $this->{'paginate'}= array(
-                            'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
+                            'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
                             'contain' => array(
                                 'Image'=>array(
                                 )
@@ -886,7 +884,7 @@
                             $previous_page = $page-1;
 
                             $this->{'paginate '}= array(
-                                'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
+                                'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
                                 'contain' => array(
                                     'Image'=>array(
                                     )
@@ -909,7 +907,7 @@
                                 $last_page = $this->{'request'}->params['paging']['Product']['pageCount'];
 
                                 $this->{'paginate'}= array(
-                                    'conditions' =>  array('Product.company_id' => $user_logged['User']['company_id'],'Product.deleted'=>0,'Product.published'=>1),
+                                    'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
                                     'contain' => array(
                                         'Image'=>array(
                                         )

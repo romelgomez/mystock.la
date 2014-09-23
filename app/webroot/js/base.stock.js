@@ -703,7 +703,7 @@ $(document).ready(function(){
                 info = '0 publicaciónes';
             }
 
-            // se establece la informacion de la cantidad de registros existentes
+            // se establece la información de la cantidad de registros existentes
             $("#pagination-info").find("span").html(info);
 
         };
@@ -998,7 +998,7 @@ $(document).ready(function(){
                             request_this.order_by = url_obj['order_by'];
                         }
 
-                        request_this.id  		= parseInt($(this).attr("product_id"));
+                        request_this.id  		= $(this).attr("product_id");
                         request_this.session 	= false;
                         request_this.paginate 	= true;
 

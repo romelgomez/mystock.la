@@ -32,7 +32,7 @@ class ImagesController extends AppController{
     /* Descripción: 		Función guardar y redimensionar las imágenes del producto.
      * tipo de solicitud: 	ajax-get,ajax-post
      * tipo de acceso: 		vendedor
-     * Recive: 				array.
+     * Recibe: 				array.
      * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function add(){
@@ -60,7 +60,7 @@ class ImagesController extends AppController{
             $thumbnails["small"]['name']		= $this->{'Upload'}->result;
             $thumbnails["small"]['size']		= "400x400px";
 
-            $this->{'Upload'}->upload($file, $destination); // al parecer el orde de subida influye, esta linea si va de primera las demas subidas no se ejecutan.
+            $this->{'Upload'}->upload($file, $destination); // al parecer el orden de subida influye, esta linea si va de primera las demás subidas no se ejecutan.
             $images["original"]['name'] 	= $this->{'Upload'}->result;
 
             $images['thumbnails'] 		= $thumbnails;
@@ -209,7 +209,7 @@ class ImagesController extends AppController{
             'contain' => array(
                 'Product'=>array(
                     'User'=>array(
-                        'conditions' =>array('User.company_id'=>$user_logged['User']['company_id'])
+                        'conditions' =>array('User.id'=>$user_logged['User']['id'])
                     )
                 )
             )

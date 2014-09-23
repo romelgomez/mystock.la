@@ -147,4 +147,3 @@
 
 
 <?php echo $this->Html->script('base.entrar',false); ?>
-<?php echo $this->Html->script('base.entrar-jquery.validate',false); ?>

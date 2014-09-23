@@ -19,4 +19,4 @@
 
 
 
-<?php //echo $this->Html->script('base.index',false); ?>
+<?php echo $this->Html->script('base.index',false); ?>

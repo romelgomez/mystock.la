@@ -59,7 +59,7 @@ $(document).ready(function(){
                             categoryNameAndId = categoryNameAndId.split('-');
 
                             var categoryName    = categoryNameAndId[0];
-                            url_obj.category    = parseInt(categoryNameAndId[1]);
+                            url_obj.category    = categoryNameAndId[1];
 
                             $("#search-info").text('in '+categoryName+' category');
 
@@ -996,7 +996,7 @@ $(document).ready(function(){
                             request_this.order_by = url_obj['order_by'];
                         }
 
-                        request_this.id  		= parseInt($(this).attr("product_id"));
+                        request_this.id  		= $(this).attr("product_id");
                         request_this.session 	= false;
                         request_this.paginate 	= true;
 

@@ -48,7 +48,7 @@ $(document).ready(function(){
          @Descripción       -> Replace whole Tree.
          @parameters        -> treeData: JqTree data.
          @returns           -> null
-         @implemented by    -> treeMove(), newCategory(), editCategoryName(), delectCategory();
+         @implemented by    -> treeMove(), newCategory(), editCategoryName(), deleteCategory();
          */
         var replaceWholeTree = function(treeData){
             treeElement.tree('loadData', treeData);
@@ -108,7 +108,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/edit_category_position",
+                "url":"/edit-category-position",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -153,7 +153,7 @@ $(document).ready(function(){
                      console.log('target_node',target_node);				//-> sobre, luego o internamente sobre este objeto.
                      console.log('position',position);					//-> posición: sobre, luego, internamente.
                      console.log(' ');
-                    */
+                     */
 
                     var request_this = {};
 
@@ -162,16 +162,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= moveTo(moved_node,target_node,position);
-                            request_this.id			= parseInt(moved_node.id);
+                            request_this.id			= moved_node.id;
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
-                       }else{
+                        }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= 0;
-                            request_this.moved_node_id			= parseInt(moved_node.id);
-                            request_this.target_node_id			= parseInt(target_node.id);
+                            request_this.new_parent_id			= null;
+                            request_this.moved_node_id			= moved_node.id;
+                            request_this.target_node_id			= target_node.id;
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
@@ -182,16 +182,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= moveTo(moved_node,target_node,position);
-                            request_this.id			= parseInt(moved_node.id);
+                            request_this.id			= moved_node.id;
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
                         }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= parseInt(target_node.parent_id);
-                            request_this.moved_node_id			= parseInt(moved_node.id);
-                            request_this.target_node_id			= parseInt(target_node.id);
+                            request_this.new_parent_id			= target_node.parent_id;
+                            request_this.moved_node_id			= moved_node.id;
+                            request_this.target_node_id			= target_node.id;
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
@@ -202,16 +202,16 @@ $(document).ready(function(){
                             //console.log('solo mover');
 
                             request_this 			= moveTo(moved_node,target_node,position);
-                            request_this.id			= parseInt(moved_node.id);
+                            request_this.id			= moved_node.id;
                             request_this.parent_id  = moved_node.parent_id;
                             request_this.type		= 'only_move';
 
                         }else{
                             //console.log('set_parent_and_move');
 
-                            request_this.new_parent_id			= parseInt(target_node.id);
-                            request_this.moved_node_id			= parseInt(moved_node.id);
-                            request_this.target_node_id			= parseInt(target_node.id);
+                            request_this.new_parent_id			= target_node.id;
+                            request_this.moved_node_id			= moved_node.id;
+                            request_this.target_node_id			= target_node.id;
                             request_this.position				= position;
                             request_this.type					= 'set_parent_and_move';
 
@@ -239,30 +239,30 @@ $(document).ready(function(){
                 'tree.select',
                 function(event) {
 
-                    var admin_category = $("#admin_category");
+                    var adminCategory = $("#admin-category");
 
                     if (event.node) {
                         //  EDIT
-                        $("#EditCategoryId").attr({"value":event['node']['id']});
-                        $("#EditCategoryName").attr({"value":event['node']['name']});
+                        $("#edit-category-id").val(event['node']['id']);
+                        $("#edit-category-name").val(event['node']['name']);
 
                         //  Delete
-                        $("#DelectCategoryId").attr({"value":event['node']['id']});
-                        $("#delect-category-name").html(event['node']['name']);
+                        $("#delete-category-id").val(event['node']['id']);
+                        $("#delete-category-name").text(event['node']['name']);
 
                         if(event['node']['children'].length > 0){
-                            $("#DelectCategoryBranch").parents(".form-group").show();
+                            $("#delete-category-branch").parents(".form-group").show();
                         }else{
-                            $("#DelectCategoryBranch").parents(".form-group").hide();
+                            $("#delete-category-branch").parents(".form-group").hide();
                         }
 
                         // Habilita los botones.
-                        admin_category.find("button").each(function(k,element){
+                        adminCategory.find("button").each(function(k,element){
                             $(element).removeClass("disabled");
                         });
                     }else {
                         // inhabilita los botones.
-                        admin_category.find("button").each(function(k,element){
+                        adminCategory.find("button").each(function(k,element){
                             $(element).addClass("disabled");
                         });
                     }
@@ -280,13 +280,13 @@ $(document).ready(function(){
          @returns           -> null
          @implemented by    -> categories.main()
          */
-        var delectCategory = function(){
-            $("#delect_category").on('click',function(event){
+        var deleteCategory = function(){
+            $("#delete-category").on('click',function(event){
                 event.preventDefault();
                 if(!$(this).hasClass("disabled")){
                     // Activamos el modal
-                    $('#delect_category_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
-                        validate.removeValidationStates('CategoryDelectForm');
+                    $('#delete-category-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                        validate.removeValidationStates('category-delete-form');
                     });
                 }
             });
@@ -294,17 +294,10 @@ $(document).ready(function(){
             var notification;
 
             var request_parameters = {
-                "requestType":"form",
+                "requestType":"custom",
                 "type":"post",
-                "url":"/delect_category",
+                "url":"/delete-category",
                 "data":{},
-                "form":{
-                    "id":"CategoryDelectForm",
-                    "inputs":[
-                        {'id':'DelectCategoryId', 'name':'id'},
-                        {'id':'DelectCategoryBranch', 'name':'theWholeBranch'}
-                    ]
-                },
                 "callbacks":{
                     "beforeSend":function(){
                         notification = ajax.notification("beforeSend");
@@ -317,7 +310,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        var alert = $("#CategoryDelectForm");
+                        var alert = $("#category-delete-form");
 
                         if(response['delete']){
                             ajax.notification("success",notification);
@@ -330,14 +323,20 @@ $(document).ready(function(){
                                 $('#no-tree').show();
                             }
 
-                            validate.removeValidationStates('CategoryDelectForm');
-                            $('#delect_category_modal').modal('hide');
+                            validate.removeValidationStates('category-delete-form');
+                            $('#delete-category-modal').modal('hide');
                         }else{
                             ajax.notification("error",notification);
 
                             alert.find(".alert-danger").fadeIn();
-                            setTimeout(function(){ $("#CategoryDelectForm").find(".alert-danger").fadeOut()},7000);
+                            setTimeout(function(){ $("#category-delete-form").find(".alert-danger").fadeOut()},7000);
                         }
+
+                        var adminCategory = $("#admin-category");
+                        adminCategory.find("button").each(function(k,element){
+                            $(element).addClass("disabled");
+                        });
+
 
                     },
                     "error":function(){
@@ -350,11 +349,15 @@ $(document).ready(function(){
             // validación:
             var validateObj = {
                 "submitHandler": function(){
+
+                    request_parameters['data']['id'] = $("#delete-category-id").val();
+                    request_parameters['data']['theWholeBranch'] = $("#delete-category-branch").prop('checked');;
+
                     ajax.request(request_parameters);
                 }
             };
 
-            validate.form("CategoryDelectForm",validateObj);
+            validate.form("category-delete-form",validateObj);
         };
 
         /*
@@ -367,12 +370,11 @@ $(document).ready(function(){
          @implemented by    -> categories.main()
          */
         var editCategoryName = function(){
-            $("#edit_category_name").on('click',function(event){
+            $("#edit-category").on('click',function(event){
                 event.preventDefault();
                 if(!$(this).hasClass("disabled")){
                     // Activamos el modal
-                    $('#edit_category_name_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
-                        validate.removeValidationStates('CategoryEditForm');
+                    $('#edit-category-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
                     });
                 }
             });
@@ -382,13 +384,13 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
-                "url":"/edit_category_name",
+                "url":"/edit-category",
                 "data":{},
                 "form":{
-                    "id":"CategoryEditForm",
+                    "id":"category-edit-form",
                     "inputs":[
-                        {'id':'EditCategoryId', 'name':'id'},
-                        {'id':'EditCategoryName', 'name':'name'}
+                        {'id':'edit-category-id', 'name':'id'},
+                        {'id':'edit-category-name', 'name':'name'}
                     ]
                 },
                 "callbacks":{
@@ -403,18 +405,18 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        var categoryEditForm = $("#CategoryEditForm");
+                        var categoryEditForm = $("#category-edit-form");
 
                         if(response['Edit']){
                             ajax.notification("success",notification);
 
                             categoryEditForm.find(".alert-success").fadeIn();
 
-                            // update input in CategoryEditForm
-                            $("#EditCategoryName").attr({"value":response['Edit']['Category']['name']});
+                            // update input in category-edit-form
+                            $("#edit-category-name").attr({"value":response['Edit']['Category']['name']});
 
                             setTimeout(function(){
-                                $("#CategoryEditForm").find(".alert-success").fadeOut();
+                                $("#category-edit-form").find(".alert-success").fadeOut();
                             },2000);
 
                         }else{
@@ -425,10 +427,10 @@ $(document).ready(function(){
                             categoryEditForm.find(".modal-footer").hide();
 
                             setTimeout(function(){
-                                $('#edit_category_name_modal').modal('hide');
-                                validate.removeValidationStates('CategoryEditForm');
+                                $('#edit-category-modal').modal('hide');
+                                validate.removeValidationStates('category-edit-form');
 
-                                var categoryEditForm = $("#CategoryEditForm");
+                                var categoryEditForm = $("#category-edit-form");
                                 categoryEditForm.find(".alert-danger").fadeOut();
                                 categoryEditForm.find(".modal-body").find(".form-group").show();
                                 categoryEditForm.find(".modal-footer").show();
@@ -446,6 +448,11 @@ $(document).ready(function(){
                             $('#no-tree').show();
                         }
 
+                        var adminCategory = $("#admin-category");
+                        adminCategory.find("button").each(function(k,element){
+                            $(element).addClass("disabled");
+                        });
+
                     },
                     "error":function(){
                         ajax.notification("error",notification);
@@ -460,20 +467,20 @@ $(document).ready(function(){
                     ajax.request(request_parameters);
                 },
                 "rules":{
-                    "EditCategoryName":{
+                    "edit-category-name":{
                         "required":true,
                         "maxlength":20
                     }
                 },
                 "messages":{
-                    "EditCategoryName":{
+                    "edit-category-name":{
                         "required":"El campo nombre es obligatorio.",
                         "maxlength":"El nombre de la categoría no debe tener mas de 20 caracteres."
                     }
                 }
             };
 
-            validate.form("CategoryEditForm",validateObj);
+            validate.form("category-edit-form",validateObj);
 
         };
 
@@ -487,10 +494,10 @@ $(document).ready(function(){
          @implemented by    -> categories.main()
          */
         var newCategory = function(){
-            $(".new_category").on('click',function(event){
+            $(".new-category").on('click',function(event){
                 event.preventDefault();
-                $('#new_category_modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
-                    validate.removeValidationStates('CategoryAddForm');
+                $('#new-category-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                    validate.removeValidationStates('category-add-form');
                 });
             });
 
@@ -499,12 +506,12 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
-                "url":"/new_category",
+                "url":"/new-category",
                 "data":{},
                 "form":{
-                    "id":"CategoryAddForm",
+                    "id":"category-add-form",
                     "inputs":[
-                        {'id':'CategoryName', 'name':'name'}
+                        {'id':'category-name', 'name':'name'}
                     ]
                 },
                 "callbacks":{
@@ -519,16 +526,16 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        var categoryAddForm = $("#CategoryAddForm");
+                        var categoryAddForm = $("#category-add-form");
 
                         if(response['Add']){
                             ajax.notification("success",notification);
 
                             categoryAddForm.find(".alert-success").fadeIn();
-                            validate.removeValidationStates('CategoryAddForm');
+                            validate.removeValidationStates('category-add-form');
 
                             setTimeout(function(){
-                                $("#CategoryAddForm").find(".alert-success").fadeOut();
+                                $("#category-add-form").find(".alert-success").fadeOut();
                             },2000);
 
                         }else{
@@ -539,10 +546,10 @@ $(document).ready(function(){
                             categoryAddForm.find(".modal-footer").hide();
 
                             setTimeout(function(){
-                                $('#new_category_modal').modal('hide');
-                                validate.removeValidationStates('CategoryAddForm');
+                                $('#new-category-modal').modal('hide');
+                                validate.removeValidationStates('category-add-form');
 
-                                var categoryAddForm = $("#CategoryAddForm");
+                                var categoryAddForm = $("#category-add-form");
                                 categoryAddForm.find(".alert-danger").fadeOut();
                                 categoryAddForm.find(".modal-body").find(".form-group").show();
                                 categoryAddForm.find(".modal-footer").show();
@@ -585,20 +592,20 @@ $(document).ready(function(){
                     ajax.request(request_parameters);
                 },
                 "rules":{
-                    "CategoryName":{
+                    "category-name":{
                         "required":true,
                         "maxlength":50
                     }
                 },
                 "messages":{
-                    "CategoryName":{
+                    "category-name":{
                         "required":"El campo nombre es obligatorio.",
                         "maxlength":"El nombre de la categoría no debe tener mas de 50 caracteres."
                     }
                 }
             };
 
-            validate.form("CategoryAddForm",validateObj);
+            validate.form("category-add-form",validateObj);
         };
 
         /*
@@ -612,7 +619,7 @@ $(document).ready(function(){
          */
         categories.main = function(){
 
-            treeElement = $('#display_tree');
+            treeElement = $('#display-tree');
 
             var jsonTree = $('#json_tree').html();
 
@@ -632,7 +639,7 @@ $(document).ready(function(){
 
             newCategory();
             editCategoryName();
-            delectCategory();
+            deleteCategory();
 
 
         };
@@ -641,5 +648,4 @@ $(document).ready(function(){
 
     categories.main();
 });
-
 

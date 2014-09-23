@@ -48,10 +48,8 @@
     }
 
 
-    /* Descripción: Función principal , permite visualizar las categorías, entre otras acciones administrativas realacionadas.
-     * tipo de solicitud: 	get (no-ajax)
-     * tipo de acceso: 		administrativo
-     * Recibe: 				null
+    /* Descripción: Función principal , permite visualizar las categorías, entre otras acciones administrativas relacionadas.
+     * Recibe: 				NULL
      * Retorna: 			un array
      *******************/
     public function index(){
@@ -71,12 +69,10 @@
     }
 
     /* Descripción: Función para crear nuevas categorías.
-     * tipo: 				ajax-post,ajax-get
-     * tipo de acceso: 		administrativo
-     * Recibe:			 	array
+     * Recibe:			 	JSON
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
-    public function new_category(){
+    public function newCategory(){
         $request = $this->{'request'}->input('json_decode',true);
 
         $category =	array(
@@ -102,12 +98,10 @@
     }
 
     /* Descripción: Función para editar el nombre de la categoría.
-     * tipo: 				ajax-post, ajax-get
-     * tipo de acceso: 		administrativo
-     * Recibe:			 	array
+     * Recibe:			 	JSON
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
-    public function edit_category_name(){
+    public function editCategory(){
         $request = $this->{'request'}->input('json_decode',true);
 
         $category = array(
@@ -133,12 +127,10 @@
     }
 
     /* Descripción: Función para borra una categoría y sus categorías hijas si es requerido. Actualiza todo el árbol cada vez que es llamada.
-     * tipo: 				ajax-post, ajax-get
-     * tipo de acceso: 		administrativo
-     * Recibe:			 	array
+     * Recibe:			 	JSON
      * Retorna: 			un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
     *******************/
-    public function delect_category(){
+    public function deleteCategory(){
         $request = $this->{'request'}->input('json_decode',true);
 
         $theWholeBranch 	= $request['theWholeBranch'];
@@ -151,9 +143,10 @@
 
         $return = array();
 
+
         if($category){
-            if($theWholeBranch == 1){
-                $return['delete'] = $this->{'Category'}->delete();
+            if($theWholeBranch){
+                $return['delete'] = $this->{'Category'}->delete($category['Category']['id']);
             }else{
                 $return['delete'] = $this->{'Category'}->removeFromTree($id, true);
             }
@@ -166,13 +159,11 @@
     }
 
     /* Descripción: Función para cambiar la posición de la categoría en el árbol, principalmente tiene dos secciones 1) solo mover de arriba a abajo y viceversa 2) primero establecer el parent_id y luego mover de arriba a abajo y viceversa
-     * tipo:                ajax-post, ajax-get
-     * tipo de acceso:      administrativo
-     * Recibe:              array
+     * Recibe:              JSON
      * Retorna:             un array, el cual sera transformado en un objeto JSON en la vista ajax_view.
     *******************/
 
-    public function edit_category_position(){
+    public function editCategoryPosition(){
         $request = $this->{'request'}->input('json_decode',true);
 
         $return = array();
@@ -228,7 +219,7 @@
                 /* Descripción:
                  * Antes de establecer el parent_id se cuenta cuantas categorías existen con parent_id == null tal valor
                  * representa el numero de posiciones que la categoría sera subida para posicionarse de primera.
-                 * es importante recordar que posición es before solo cuando la categoría es posicionada de primera sin padres es decir es un caso unico.
+                 * es importante recordar que posición es before solo cuando la categoría es posicionada de primera sin padres es decir es un caso único.
                 */
 
                 $position_length = $this->{'Category'}->find('count',array(
@@ -285,15 +276,12 @@
     }
 
 
-
-
     /*
-        Descripción: Función para obtener los registros dependientes de una categoría, obtener los registros donde paren_id es el id de la categoría suministrada. Además se actualiza el path: electrónicos>laptops>etc
-
-        Tipo:               Ajax
-        Tipo de acceso:     vendedor
-        Recibe:             Array
-        Retorna:            Un array, el cual será transformado en un objeto JSON en la vista ajax_view.
+    Descripción: Función para obtener los registros dependientes de una categoría, obtener los registros donde paren_id es el id de la categoría suministrada. Además se actualiza el path: electrónicos>laptops>etc
+    Tipo:               Ajax
+    Tipo de acceso:     vendedor
+    Recibe:             JSON
+    Retorna:            Un array, el cual será transformado en un objeto JSON en la vista ajax_view.
     */
 
     public function get_category_child_elements(){
@@ -332,6 +320,5 @@
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
     }
-
 
 }

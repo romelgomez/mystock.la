@@ -9,12 +9,12 @@
 
     public function index(){
 
-        $this->{'loadModel'}('Category');
-        $categories = $this->{'Category'}->find('threaded', array(
-            'order' => 'Category.lft',
-            'contain' => false
-        ));
-        $this->{'set'}('categories',$categories);
+//        $this->{'loadModel'}('Category');
+//        $categories = $this->{'Category'}->find('threaded', array(
+//            'order' => 'Category.lft',
+//            'contain' => false
+//        ));
+//        $this->{'set'}('categories',$categories);
 
     }
 

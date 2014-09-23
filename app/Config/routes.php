@@ -16,15 +16,16 @@
 //	B
 Router::connect('/cuenta',									array('controller' => 'backEnds', 	'action' => 'index'));							// Acción Get - Interfaz de administración.
 //	C
-Router::connect('/categorias',								array('controller' => 'categories', 'action' => 'index'));							// Acción Get - Interfaz administrar las categorias de productos y servicios
-Router::connect('/new_category',							array('controller' => 'categories', 'action' => 'new_category'));					// Acción Ajax - Para registrar una categoria
-Router::connect('/delect_category',							array('controller' => 'categories', 'action' => 'delect_category'));				// Acción Ajax - Para borrar una categoria
-Router::connect('/edit_category_name',						array('controller' => 'categories', 'action' => 'edit_category_name'));				// Acción Ajax - Para editar el nombre una categoria
-Router::connect('/edit_category_position',					array('controller' => 'categories', 'action' => 'edit_category_position'));			// Acción Ajax - Para editar la posicion de una categoria
+Router::connect('/categorias',								array('controller' => 'categories', 'action' => 'index'));							// Acción Get - Interfaz administrar las categorías de productos y servicios
+Router::connect('/new-category',                    array('controller' => 'categories', 'action' => 'newCategory'));               // Acción Ajax - Para registrar una categoría
+Router::connect('/delete-category',                 array('controller' => 'categories', 'action' => 'deleteCategory'));             // Acción Ajax - Para borrar una categoría
+Router::connect('/edit-category',                   array('controller' => 'categories', 'action' => 'editCategory'));         // Acción Ajax - Para editar el nombre una categoría
+Router::connect('/edit-category-position',          array('controller' => 'categories', 'action' => 'editCategoryPosition'));     // Acción Ajax - Para editar la posición de una categoría
+
 
 /* para la selección de la categoría de un producto o servicio.
  ************************************/
-Router::connect('/get_category_child_elements', 			array('controller' => 'categories', 'action' => 'get_category_child_elements'));	// Acción Ajax - Para optener hijos que existen de una categoria padre    
+Router::connect('/get_category_child_elements', 			array('controller' => 'categories', 'action' => 'get_category_child_elements'));	// Acción Ajax - Para obtener hijos que existen de una categoría padre
 
 //	D
 //	E
@@ -52,14 +53,12 @@ Router::connect('/publicar',								array('controller' => 'products', 	'action' 
 	
 Router::connect('/editar_borrador/:id', 					array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un borrador, es un producto que no a sido publicado.
 	array(
-		'pass' => array('id'),
-		'id' => '[0-9]+'
+		'pass' => array('id')
 	));
 
 Router::connect('/editar/:id', 								array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un producto publicado.
 	array(
-		'pass' => array('id'),
-		'id' => '[0-9]+'
+		'pass' => array('id')
 	));
 
 
@@ -80,8 +79,7 @@ Router::connect('/borradores',	 							array('controller' => 'products',	'action
 
 Router::connect('/stock/:id',                               array('controller' => 'products', 	'action' => 'stock'),                        // Acción Get  - Interfaz para acceder al stock del usuario
     array(
-        'pass' => array('id','slug'),
-        'id' => '[0-9]+'
+        'pass' => array('id','slug')
     ));
 Router::connect('/stock-products',                          array('controller' => 'products',	'action' => 'products'));                    // Acción ajax - para obtener los productos publicados de x usuario
 
@@ -96,7 +94,6 @@ Router::connect('/discard',	 								array('controller' => 'products',	'action' 
 Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	'action' => 'view'),  				  			// Acción Get 	- Interfaz para visualizar un producto
 	array(
 		'pass' => array('id','slug'),
-		'id' => '[0-9]+',
 		'ext' => 'html'
 	));
 
@@ -108,7 +105,7 @@ Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	
 Router::connect('/salir',									array('controller' => 'users', 	'action' => 'logout'));								// Acción Get  - Para salir de la aplicación
 Router::connect('/entrar',									array('controller' => 'users', 	'action' => 'login'));								// Acción Get  - Interfaz de entrada a la aplicación o registro de un nuevo usuario.
 Router::connect('/login',									array('controller' => 'users', 	'action' => 'in'));									// Acción Ajax - Para entrar a la aplicación.
-Router::connect('/new_user',								array('controller' => 'users', 	'action' => 'add'));								// Acción Ajax - Para registrar un nuevo usurio.
+Router::connect('/new_user',								array('controller' => 'users', 	'action' => 'add'));								// Acción Ajax - Para registrar un nuevo usuario.
 Router::connect('/check_email',								array('controller' => 'users', 	'action' => 'check_email')); 						// Acción Ajax - Para determinar si el correo ya se ha registrado.  
 Router::connect('/recover_account',							array('controller' => 'users', 	'action' => 'recover_account')); 					// Acción Ajax - Para recuperar una cuenta.  
 //	V

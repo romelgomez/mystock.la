@@ -11,9 +11,9 @@ class User extends AppModel {
      * -- name --
      *
      * v[+] y 	s[+]	- el nombre es un campo requerido
-     * v[+] y 	s[+] 	- el nombre solo debe contener caracteres alfabeticos
+     * v[+] y 	s[+] 	- el nombre solo debe contener caracteres alfabéticos
      * v[+]	y	s[+]	- el nombre no debe tener mas de 20 caracteres.
-     * v[+]	y	s[+]	- el nombre debe tener minimo 3 caracteres.
+     * v[+]	y	s[+]	- el nombre debe tener mínimo 3 caracteres.
      *
      * -- email --
      *
@@ -41,11 +41,11 @@ class User extends AppModel {
                 ),
                 'lettersOnly' => array(
                     'rule' => '/^[a-z]+$/i',
-                    'message' => 'El nombre debe tener solo caracteres alfabeticos.',
+                    'message' => 'El nombre debe tener solo caracteres alfabéticos.',
                 ),
                 'maxLength' => array(
                     'rule'    => array('minLength', 3),
-                    'message' => 'El nombre debe tener almenos 3 caracteres.',
+                    'message' => 'El nombre debe tener al menos 3 caracteres.',
                 ),
                 'maxLength' => array(
                     'rule'    => array('maxLength', 20),
@@ -73,7 +73,7 @@ class User extends AppModel {
             'password' => array(
                 'notempty' => array(
                     'rule' => array('notempty'),
-                    'message' => 'El campo contraceña es obligatorio.',
+                    'message' => 'El campo contraseña es obligatorio.',
                 )
             )
         );

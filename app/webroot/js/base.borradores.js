@@ -680,7 +680,7 @@ $(document).ready(function(){
                     $(this).on('click',function(){
 
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.stringReplace(pure_json_obj));
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
                         window.location = '/editar_borrador/'+obj['product']['id'];
 
@@ -818,7 +818,7 @@ $(document).ready(function(){
                             request_this.order_by = url_obj['order_by'];
                         }
 
-                        request_this.id  		= parseInt($(this).attr("product_id"));
+                        request_this.id  		= $(this).attr("product_id");
                         request_this.session 	= false;
                         request_this.paginate 	= true;
 

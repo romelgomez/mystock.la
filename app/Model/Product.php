@@ -30,7 +30,7 @@ class Product extends AppModel{
             ),
             'numeric' => array(
                 'rule'    => 'numeric',
-                'message' => 'Solo numeros.'
+                'message' => 'Only numbers'
             )
         ),
         'quantity' => array(
@@ -40,7 +40,7 @@ class Product extends AppModel{
             ),
             'numeric' => array(
                 'rule'    => 'numeric',
-                'message' => 'Solo numeros.'
+                'message' => 'Only numbers'
             )
         ),
     );
@@ -56,13 +56,6 @@ class Product extends AppModel{
         'Category' => array(
             'className' => 'Category',
             'foreignKey' => 'category_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
-        'Company' => array(
-            'className' => 'Company',
-            'foreignKey' => 'company_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''
