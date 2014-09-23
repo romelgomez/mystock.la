@@ -1020,277 +1020,186 @@ $(document).ready(function(){
          Descripción:  Subir las imágenes
          */
         var fileUpload = function (){
-            /*
-             Type: Objeto JSON.
-             Descripción: Almacena ordenadamente todas las acciones que ocurren tras los eventos que suceden en una solicitud xhr.
-             */
-            var file_upload_callbacks = {
-                "events":{
-                    "dragover":function(){
-                        $('#drop-files').css({
-                            "border": '2px dashed #357AE8'
-                        });
-                        $('#uploading-pictures').css({
-                            "border": '1px solid #357AE8'
-                        });
-                    },
-                    "drop":function(){
-                        $('#drop-files').css({
-                            "border": '2px dashed #DCDCDC'
-                        });
-                        $('#uploading-pictures').css({
-                            "border": '1px solid rgba(0, 0, 0, 0.3)'
-                        });
-
-                    },
-                    'progressEvent':{
-                        'loadstart':function(){
-                            //	Description					|	Times
-                            //	Progress has begun. 			Once.
-
-                            var temporary_element = '<a style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
-                                '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
-                                    '<div style="text-align: center;">'+
-                                        '<img src="/img/photocamera.png" class="img-thumbnail" >'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
-                                    '<div style="text-align: center;">'+
-                                      '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</a>';
-
-                            var dropFiles = $('#drop-files');
-
-                            if($("#optional-selection-container")){
-                                $('#optional-selection-container').css({
-                                    "display": "none"
-                                });
-                                dropFiles.append(temporary_element);
-                                this.last_element_inserted = dropFiles.children().last();
-                            }else{
-                                dropFiles.append(temporary_element);
-                                this.last_element_inserted =  dropFiles.children().last();
-                            }
-
-                            // añadir mas
-                            $('#second-files-button').css({"display":"block"});
-
-                            // permitimos guardar
-                            $('#save-this').removeClass('disabled');
-
-                        },
-                        'progress':function(evt){
-                            //	Description					|	Times
-                            //	In progress.					Zero or more.
-//                            console.log('In progress');
 
 
-                            // this.last_element_inserted
-                            /*
-                             if (evt.lengthComputable) {
-                             var percentComplete = evt.loaded / evt.total;
-                             } else {
-                             // console.log('Unable to compute progress information since the total size is unknown');
-                             }
-
-                             */
-
-                            /*	 Ejemplo:
-                             var progressBar = document.getElementById("p"),
-                             client = new XMLHttpRequest()
-                             client.open("GET", "magical-unicorns")
-                             client.onprogress = function(pe) {
-                             if(pe.lengthComputable) {
-                             progressBar.max = pe.total
-                             progressBar.value = pe.loaded
-                             }
-                             }
-                             client.onloadend = function(pe) {
-                             progressBar.value = pe.loaded
-                             }
-                             client.send()
-                             */
-
-                        },
-                        'error':function(evt){
-                            //	Description					|	Times
-                            // 	Progression failed.				Zero or more.
-//                            console.log("Progression failed.");
-
-                        },
-                        'abort':function(evt){
-                            //	Description					|	Times
-                            //	Progression is terminated.		Zero or more.
-//                            console.log("Progression is terminated.");
-                        },
-                        'load':function(evt){
-                            //	Description					|	Times
-                            //  Progression is successful.		Zero or more.
-//                            console.log('Progression is successful.');
-                        },
-                        'loadend':function(){
-                            //	Description					|	Times
-                            // 	Progress has stopped.			Once.
-//                            console.log('Progress has stopped.');
-                            //	console.log(this.last_element_inserted);
+            var file_input_element_ids  = ["first-files","second-files"];
+            var dropElementId           = $("#drop-files");
 
 
-                            var a = this.responseText;
+            var beforeUpload = function(){
+                var lastElementInserted;
 
-                            var obj = $.parseJSON(a);
-                            if(obj['expired_session']){
-                                window['location'] = "/entrar";
-                            }
+                var temporary_element = '<a style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
+                    '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
+                    '<div style="text-align: center;">'+
+                    '<img src="/img/photocamera.png" class="img-thumbnail" >'+
+                    '</div>'+
+                    '</div>'+
+                    '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
+                    '<div style="text-align: center;">'+
+                    '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
+                    '</div>'+
+                    '</div>'+
+                    '</a>';
 
-                            /*
-                             {
-                             "original":{
-                             "name":"Capturadepantallade2013-01-0619203433.png",
-                             "id":"78"
-                             },
-                             "thumbnails":{
-                             "large":{
-                             "name":"Capturadepantallade2013-01-0619203430.png",
-                             "size":"1920x1080",
-                             "id":"79"
-                             },
-                             "median":{
-                             "name":"Capturadepantallade2013-01-0619203431.png",
-                             "size":"900x900",
-                             "id":"80"
-                             },
-                             "small":{
-                             "name":"Capturadepantallade2013-01-0619203432.png",
-                             "size":"400x400px",
-                             "id":"81"
-                             }
-                             }
-                             }
-                             */
+                var dropFiles = $('#drop-files');
 
-                            var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
-                                    '<div style="text-align: center;">'+
-                                        '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                                    '<img style="width: 24px;" src="/img/x2.png">'+
-                                '</div>'+
-                                '<div style="display:none">'+a+'</div>';
+                if($("#optional-selection-container")){
+                    $('#optional-selection-container').css({
+                        "display": "none"
+                    });
+                    dropFiles.append(temporary_element);
+                    lastElementInserted = dropFiles.children().last();
+                }else{
+                    dropFiles.append(temporary_element);
+                    lastElementInserted =  dropFiles.children().last();
+                }
 
-                            $(this.last_element_inserted).html(myTemplate);
+                // añadir mas
+                $('#second-files-button').css({"display":"block"});
 
-                            $('#save-this').attr({"disabled":false});
+                // permitimos guardar
+                $('#save-this').removeClass('disabled');
 
-                            $(this.last_element_inserted).find('div.delete-this-image').click(function(){
-                                $(this).parent().remove();
-                                exist_thumbnails();
-                            });
+                return  lastElementInserted;
+            };
 
-                            // ¿siguen existiendo miniaturas luego de borrar una? no, entonces se normaliza la vista.
-                            var exist_thumbnails = function(){
-                                if(!$('#drop-files').find("a").length){
-                                    $('#optional-selection-container').css({
-                                        "display": "block"
-                                    });
-                                    $('#second-files-button').css({
-                                        "display": "none"
-                                    });
-                                    // no permitimos guardar
-                                    $('#save-this').attr({"disabled":"disabled"});
+            var upload = function(file,lastElementInserted){
+//
+                var form = new FormData();
+                form.append("product_id", $('#ProductId').val());
+                form.append("image", file);
+
+                $.ajax({
+                    url: '/image_add',
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST'
+                })
+                .done(function(response) {
+
+                    var obj = $.parseJSON(response);
+                    if(obj['expired_session']){
+                        window['location'] = "/entrar";
+                    }
+
+                    /*
+                        {
+                            "original":{
+                                "name":"Capturadepantallade2013-01-0619203433.png",
+                                    "id":"78"
+                            },
+                            "thumbnails":{
+                                "large":{
+                                    "name":"Capturadepantallade2013-01-0619203430.png",
+                                        "size":"1920x1080",
+                                        "id":"79"
+                                },
+                                "median":{
+                                    "name":"Capturadepantallade2013-01-0619203431.png",
+                                        "size":"900x900",
+                                        "id":"80"
+                                },
+                                "small":{
+                                    "name":"Capturadepantallade2013-01-0619203432.png",
+                                        "size":"400x400px",
+                                        "id":"81"
                                 }
                             }
+                        }
+                    */
 
+                    var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
+                            '<div style="text-align: center;">'+
+                            '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
+                            '</div>'+
+                            '</div>'+
+                            '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
+                            '<img style="width: 24px;" src="/img/x2.png">'+
+                            '</div>'+
+                            '<div style="display:none">'+response+'</div>';
+
+                    $(lastElementInserted).html(myTemplate);
+
+                    $('#save-this').attr({"disabled":false});
+
+                    $(lastElementInserted).find('div.delete-this-image').click(function(){
+                        $(this).parent().remove();
+                        exist_thumbnails();
+                    });
+
+                    // ¿siguen existiendo miniaturas luego de borrar una? no, entonces se normaliza la vista.
+                    var exist_thumbnails = function(){
+                        if(!$('#drop-files').find("a").length){
+                            $('#optional-selection-container').css({
+                                "display": "block"
+                            });
+                            $('#second-files-button').css({
+                                "display": "none"
+                            });
+                            // no permitimos guardar
+                            $('#save-this').attr({"disabled":"disabled"});
+                        }
+                    }
+
+                });
+
+            };
+
+            // input upload
+            $(file_input_element_ids).each(function(index, value){
+                $('#'+value).change(function(){
+                    for(var i=0; i < this.files.length; i++){
+                        var file = this.files[i];
+                        upload(file,beforeUpload());
+                    }
+                });
+            });
+
+            // drag and drop upload
+            dropElementId.on('dragover',function(event){
+                event.preventDefault();
+                event.stopPropagation();
+
+                $('#drop-files').css({
+                    "border": '2px dashed #357AE8'
+                });
+
+            });
+
+            dropElementId.on('dragenter',function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+            dropElementId.on('dragleave',function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+
+            dropElementId.on('drop',function(event){
+
+                $('#drop-files').css({
+                    "border": '2px dashed #DCDCDC'
+                });
+
+                if(event['originalEvent']['dataTransfer']){
+
+                    var filesLength = event['originalEvent']['dataTransfer']['files'].length;
+                    if(filesLength > 0) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        for (var i = 0; i < filesLength; i++) {
+                            var file = event['originalEvent']['dataTransfer']['files'][i];
+                            upload(file,beforeUpload());
                         }
                     }
                 }
-            };
 
-            /*
-             Descripción: destinada a crear un objeto FormData el cual permitirá tener acceso a los archivos que el usuario selecciona, para luego hacer una solicitud xhr.
-             Parámetros:
-             callbacks: objeto json.
-             */
-            var file_upload =  function(callbacks){
+            });
 
-                var file_input_element_ids  = ["first-files","second-files"];
-                var drop_element_id			= "drop-files";
-
-                $(file_input_element_ids).each(function(index, value){
-                    $('#'+value).change(function(){
-
-                        for(var i=0; i < this.files.length; i++){
-                            //console.log(this.files[i]);
-
-                            // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
-                            var form = new FormData();
-                            form.append("product_id", $('#ProductId').val());
-                            form.append("image", this.files[i]);
-
-                            var xhr = new XMLHttpRequest();
-
-                            // Interface ProgressEvent																	Description							|	Times
-                            xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
-                            xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
-                            xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
-                            xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
-                            xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
-                            xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
-
-                            xhr.open("post", "/image_add", true);
-                            xhr.send(form);
-                            // end código idéntico.
-
-                        }
-
-                    });
-                });
-
-                var dropElementId = $("#"+drop_element_id);
-
-                dropElementId.on('dragover',function(event){
-                    event.preventDefault();
-                    callbacks.events.dragover();
-                });
-
-                dropElementId.on('drop',function(event){
-                    event.preventDefault();
-
-                    callbacks.events.dragover();
-
-                    var length = event['originalEvent']['dataTransfer']['files']['length'];
-
-                    for (var i = 0; i < length; i++) {
-                        var file = event['dataTransfer']['files'][i];
-
-                        // start código casi idéntico: este código es en su mayoría el mismo para el evento soltar o drop
-                        var form = new FormData();
-                        form.append("product_id", $('#ProductId').val());
-                        form.append("image", file);
-
-                        var xhr = new XMLHttpRequest();
-
-                        // Interface ProgressEvent																	Description							|	Times
-                        xhr.addEventListener("loadstart", 	callbacks.events.progressEvent.loadstart,	false);		//	Progress has begun. 				Once.
-                        xhr.addEventListener("progress", 	callbacks.events.progressEvent.progress, 	false); 	// 	In progress.						Zero or more.
-                        xhr.addEventListener("error", 		callbacks.events.progressEvent.error, 		false);   	// 	Progression failed.					Zero or more.
-                        xhr.addEventListener("abort", 		callbacks.events.progressEvent.abort, 		false); 	// 	Progression is terminated.			Zero or more.
-                        xhr.addEventListener("load", 		callbacks.events.progressEvent.load, 		false);  	// 	Progression is successful.			Zero or more.
-                        xhr.addEventListener("loadend", 	callbacks.events.progressEvent.loadend,		false);  	// 	Progress has stopped.				Once.
-
-                        xhr.open("post", "/image_add", true);
-                        xhr.send(form);
-                        // end código idéntico.
-
-                    }
-
-                });
-
-            };
-
-            file_upload(file_upload_callbacks);
 
         };
 
