@@ -883,7 +883,7 @@ $(document).ready(function(){
                             $("#product-"+response['id']).fadeOut('slow',function(){
                                 $(this).remove();
 
-                                if(response['data'].length > 0){
+                                if(response['data'] !== undefined){
                                     // hay publicaciones
 
                                     var url_obj =  parseUrl();
@@ -924,10 +924,13 @@ $(document).ready(function(){
                                     window.location = "#";
 
                                     //se oculta el contenedor de los filtros
-                                    $("#information-panel").css({"display":"none"});
+                                    $("#information-panel").hide();
+
+                                    $("#yes-products").hide();
 
                                     // no hay publicaciones.
-                                    $("#no-products").css({"display":"inherit"});
+                                    $("#no-products").show();
+
                                 }
 
                             });
