@@ -128,4 +128,15 @@
     </div>
 </div>
 
-<?php echo $this->Html->script('base.publicados',false); ?>
+<?php
+
+    $scripts = array(
+        '/resources/library-vendor/jquery-validate/jquery.validate.js',
+        '/resources/library-vendor/jquery-validate/additional-methods.js',
+        '/resources/library-vendor/purl/purl.js',
+        '/resources/app/js/base.publicados.js',
+    );
+
+    echo $this->Html->script($scripts,false);
+
+?>

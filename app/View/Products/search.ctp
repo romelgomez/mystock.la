@@ -111,4 +111,4 @@
 
 
 
-<?php echo $this->Html->script('base.search',false); ?>
+<?php echo $this->Html->script('/resources/app/js/base.search.js',false); ?>

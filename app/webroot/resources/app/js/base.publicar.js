@@ -2,29 +2,6 @@ $(document).ready(function(){
 
     (function( product, $) {
 
-        //Private Method
-        var parseUrl = function(){
-            /*
-             * Descripción: destinada a procesar la url
-             * retorna un objeto.
-             *******************************************/
-
-            // Posibles urls
-            // /publicar
-            // /editar/18
-            // /borrador/18
-
-            var url = $.url();
-            var segments = url.segment();
-
-            var url_obj = {};
-            url_obj.action = segments[0];
-            url_obj.id     = segments[1] || false;
-
-            return url_obj;
-
-        };
-
         /*
          Private Method
          Descripción: para re-construir y observar eventos del menú.
@@ -100,7 +77,7 @@ $(document).ready(function(){
                     $('#menu-box').scrollLeft(scroll_value);
                 }
 
-                ul = '<div id="category-selected" class="category-selected"><div style="margin-top: 50px;" ><div style="text-align: center;"><span class="category-selected-text">Categoría seleccionada!</span> <br><img src="/img/ok.png" alt="Gracias" /></div></div></div>';
+                ul = '<div id="category-selected" class="category-selected"><div style="margin-top: 50px;" ><div style="text-align: center;"><span class="category-selected-text">Categoría seleccionada!</span> <br><img src="/resources/app/img/ok.png" alt="Gracias" /></div></div></div>';
                 menu.append(ul);
 
                 $('#ProductCategoryId').attr({"value":obj['category_id_selected']});
@@ -683,7 +660,7 @@ $(document).ready(function(){
                     var obj             = $.parseJSON(pure_json_obj);
 
                     // Proceso para visualizar la imagen
-                    var image_url = '/img/products/'+obj['thumbnails']['median']['name'];
+                    var image_url = '/resources/app/img/products/'+obj['thumbnails']['median']['name'];
 
                     var imageProduct =  $("#image-product");
 
@@ -896,13 +873,13 @@ $(document).ready(function(){
                         // Insertar la imagen del producto en la vista
                         var product_thumbnail_element = '<a id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
                             '<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">'+
-                                '<img src="/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
+                                '<img src="/resources/app/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
                             '</div>'+
                             '<div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                                '<img style="width: 24px;" src="/img/x2.png">'+
+                                '<img style="width: 24px;" src="/resources/app/img/x.png">'+
                             '</div>'+
                             '<div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">'+
-                                '<img src="/img/view.png">'+
+                                '<img src="/resources/app/img/view.png">'+
                             '</div>'+
                             '<div style="display:none;">'+image_pure_json_obj+'</div>'+
                         '</a>';
@@ -1032,12 +1009,12 @@ $(document).ready(function(){
                 var temporary_element = '<a style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
                     '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
                     '<div style="text-align: center;">'+
-                    '<img src="/img/photocamera.png" class="img-thumbnail" >'+
+                    '<img src="/resources/app/img/photocamera.png" class="img-thumbnail" >'+
                     '</div>'+
                     '</div>'+
                     '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
                     '<div style="text-align: center;">'+
-                    '<span class="upload-progress"><img src="/img/loading.gif" ></span>'+
+                    '<span class="upload-progress"><img src="/resources/app/img/loading.gif" ></span>'+
                     '</div>'+
                     '</div>'+
                     '</a>';
@@ -1112,11 +1089,11 @@ $(document).ready(function(){
 
                     var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
                             '<div style="text-align: center;">'+
-                            '<img src="/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
+                            '<img src="/resources/app/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
                             '</div>'+
                             '</div>'+
                             '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                            '<img style="width: 24px;" src="/img/x2.png">'+
+                            '<img style="width: 24px;" src="/resources/app/img/x.png">'+
                             '</div>'+
                             '<div style="display:none">'+response+'</div>';
 

@@ -124,4 +124,13 @@
     </div>
 </div>
 
-<?php echo $this->Html->script('base.borradores',false); ?>
+<?php
+
+    $scripts = array(
+        '/resources/library-vendor/purl/purl.js',
+        '/resources/app/js/base.borradores.js'
+    );
+
+    echo $this->Html->script($scripts,false);
+
+?>

@@ -3,7 +3,7 @@
 $(document).ready(function(){
 
 
-    (function( products, $, undefined) {
+    (function( productsPublished, $, undefined) {
 
         //Private Property
         var lastResponseInfo = {};
@@ -29,22 +29,19 @@ $(document).ready(function(){
              *******************************************/
 
             // Posibles urls
-            // /stock/3
-            // /stock/3#pagina_1
-            // /stock/3#mayor_precio/pagina_1
-            // /stock/3#buscar_las_mejores/mayor_precio/pagina_1
+            // /publicados
+            // /publicados#pagina_1
+            // /publicados#mayor_precio/pagina_1
+            // /publicados#buscar_las_mejores/mayor_precio/pagina_1
 
             var pathname = $(location).attr('href');
             var url = $.url(pathname);
             var segments = url.attr('fragment');
-            var userId   =  url.segment(2);
 
             var url_obj         = {};
             url_obj.search      = "";
             url_obj.page        = "";
             url_obj.order_by    = "";
-            url_obj.user_id     = userId;
-
 
             if(segments != ""){
                 var split_segments = url.attr('fragment').split('/');
@@ -104,66 +101,45 @@ $(document).ready(function(){
             var title       = obj['product']['title'];
             var price       = obj['product']['price'];
 
-            var date        = new Date(obj['product']['created']);
-            var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
+            var date   = new Date(obj['product']['created']);
+            var created = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-            var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
-            var link        =   '/producto/'+id+'/'+slug+'.html';
+            var image = '';
 
-            var image       = '/img/products/'+obj['imagen']['thumbnails']['small']['name'];
-
-            var status = '';
-            var status_button = '';
-
-            if(obj['product']['status']){
-                status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+            if(obj['imagen'] == undefined){
+                image = '/resources/app/img/foto-no-disponible.jpg';
             }else{
-                status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+                image = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
             }
 
-            var quantity = obj['product']['quantity'];
-            var _quantity = '';
+            var  link = '/editar_borrador/'+obj['product']['id'];
 
-            if(quantity == 0){
-                _quantity = '<span class="badge">0</span>';
-            }
-            else if(quantity>= 1 && quantity<=5){
-                _quantity = '<span class="badge badge-important">'+quantity+'</span>';
-            }
-            else if(quantity>=6 && quantity<=10){
-                _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
-            }
-            else if(quantity>10){
-                _quantity = '<span class="badge badge-success">'+quantity+'</span>';
-            }
-            // END
 
-//            // se arma una publicación
-//            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
-//                '<a class="pull-left" href="'+link+'">'+
-//                    '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
-//                '</a>'+
-//                '<div class="media-body">'+
-//                    '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
-//                    '<div>'+
-//                        '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
-//                    '</div>'+
-//                '</div>'+
-//            '</div>';
+            if(title == '') {
+                title = '<mark>Sin título disponible</mark>';
+            }
 
-             return  '<a href="'+link+'" class="box">'+
-                '<span class="imagen_producto">'+
-                    '<img src="'+image+'" class="img-responsive" alt="Test">'+
-                '</span>'+
-                '<span class="nombre_producto">'+
-                    '<div class="nombre_producto_margen">'+title+'</div>'+
-                '</span>'+
-                '<span class="precio">'+
-                    '<div style="margin-left:5px;  margin-right:5px;">Price: '+price+'</div>'+
-                '</span>'+
-            '</a>';
+
+            // se arma una publicación
+            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
+                '<a class="pull-left" href="'+link+'">'+
+                '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
+                '</a>'+
+                '<div class="media-body">'+
+                '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
+
+                '<div style="margin-bottom: 10px;">'+
+                '<div class="btn-group">'+
+                '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
+                '</div>'+
+                '</div>'+
+                '<div>'+
+                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
+                '</div>'+
+                '</div>'+
+                '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
+                '</div>';
+
 
         };
 
@@ -177,7 +153,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/stock-products",
+                "url":"/drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -252,11 +228,6 @@ $(document).ready(function(){
                         }
 
                         request_this.order_by   = order_by;
-
-                        var pathname            = $(location).attr('href');
-                        var currentUrl          = $.url(pathname);
-                        request_this.user_id    =  currentUrl.segment(2);
-
                         request_parameters.data = request_this;
                         ajax.request(request_parameters);
 
@@ -284,7 +255,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/stock-products",
+                "url":"/drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -365,11 +336,6 @@ $(document).ready(function(){
 
                         window.location = new_url;
 
-                        var pathname            = $(location).attr('href');
-                        var currentUrl          = $.url(pathname);
-                        request_this.user_id    =  currentUrl.segment(2);
-
-
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -423,10 +389,6 @@ $(document).ready(function(){
 
                         window.location = new_url;
 
-                        var pathname            = $(location).attr('href');
-                        var currentUrl          = $.url(pathname);
-                        request_this.user_id    =  currentUrl.segment(2);
-
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -453,7 +415,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/stock-products",
+                "url":"/drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -465,7 +427,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result']){
+                        if(response['result'] == true || response['result'] == undefined){
 
                             // se establece la url
                             var url = utility.stringReplace(response['search'],' ','_');
@@ -542,11 +504,6 @@ $(document).ready(function(){
                     var request_this        = {};
                     var search_string       = $("#search").val();
                     request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
-
-                    var pathname            = $(location).attr('href');
-                    var currentUrl          = $.url(pathname);
-                    request_this.user_id    =  currentUrl.segment(2);
-
                     request_parameters.data =    request_this;
                     ajax.request(request_parameters);
 
@@ -703,144 +660,8 @@ $(document).ready(function(){
                 info = '0 publicaciónes';
             }
 
-            // se establece la información de la cantidad de registros existentes
+            // se establece la informacion de la cantidad de registros existentes
             $("#pagination-info").find("span").html(info);
-
-        };
-
-
-        /*
-         * Private Method
-         * Descripción: función destinada a pausar una publicación activa
-         * Parámetros:  null
-         *************************************************************************************************************************************************************/
-        var pause = function(){
-
-            var notification;
-
-            var request_parameters = {
-                "requestType":"custom",
-                "type":"post",
-                "url":"/pause",
-                "data":{},
-                "callbacks":{
-                    "beforeSend":function(){
-                        notification = ajax.notification("beforeSend");
-                    },
-                    "success":function(response){
-
-                        if(response['expired_session']){
-                            window.location = "/entrar";
-                        }
-
-                        if(response['result']){
-                            $("#product-"+response['id']+' .pause').css({
-                                "display": 'none'
-                            });
-                            $("#product-"+response['id']+' .activate').css({
-                                "display": 'inline'
-                            });
-
-                            var status = '<span class="label label-warning paused-status">pausado</span>';
-                            $("#product-"+response['id']+' .active-status').replaceWith(status);
-
-                        }else{
-                            window.location = "/";
-                        }
-
-                    },
-                    "error":function(){
-                        ajax.notification("error",notification);
-                    },
-                    "complete":function(){
-                        ajax.notification("complete",notification);
-                    }
-                }
-            };
-
-            var elements = $("#products").find(".pause");
-
-            if(elements.length){
-                $(elements).each(function(){
-                    $(this).off('click');
-                    $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        var request_this = {};
-                        request_this.id  = obj.product.id;
-
-                        request_parameters.data =    request_this;
-                        ajax.request(request_parameters);
-                    });
-
-                });
-            }
-
-        };
-
-        /*
-         * Private Method
-         * Descripción: función destinada a activar una publicación pausada
-         * Parametros:  null
-         *************************************************************************************************************************************************************/
-        var activate = function(){
-
-            var notification;
-
-            var request_parameters = {
-                "requestType":"custom",
-                "type":"post",
-                "url":"/activate",
-                "data":{},
-                "callbacks":{
-                    "beforeSend":function(){
-                        notification = ajax.notification("beforeSend");
-                    },
-                    "success":function(response){
-
-                        if(response['expired_session']){
-                            window.location = "/entrar";
-                        }
-
-                        if(response['result']){
-                            $("#product-"+response['id']+' .pause').css({
-                                "display": "inline"
-                            });
-                            $("#product-"+response['id']+' .activate').css({
-                                "display": "none"
-                            });
-                            var status = '<span class="label label-success active-status">publicado</span>';
-                            $("#product-"+response['id']+' .paused-status').replaceWith(status);
-                        }else{
-                            window.location = "/";
-                        }
-
-                    },
-                    "error":function(){
-                        ajax.notification("error",notification);
-                    },
-                    "complete":function(){
-                        ajax.notification("complete",notification);
-                    }
-                }
-            };
-
-            var elements = $("#products").find(".activate");
-
-            if(elements.length){
-                $(elements).each(function(){
-                    $(this).off('click');
-                    $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        var request_this = {};
-                        request_this.id  = obj.product.id;
-                        request_parameters.data =    request_this;
-                        ajax.request(request_parameters);
-
-                    });
-                });
-            }
 
         };
 
@@ -861,8 +682,7 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
-                        // edit link
-                        window.location = '/editar/'+obj.product.id;
+                        window.location = '/editar_borrador/'+obj['product']['id'];
 
                     });
                 });
@@ -895,7 +715,7 @@ $(document).ready(function(){
                         //  delete_status
                         if(response['result']){
 
-                            // Exito al eliminar la publicación
+                            // Éxito al eliminar la publicación
                             $("#successful-elimination").fadeIn();
                             setTimeout(function(){ $("#successful-elimination").fadeOut(); }, 7000);
 
@@ -975,7 +795,7 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
                         var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
+                        var obj 			= $.parseJSON(utility.stringReplace(pure_json_obj));
                         $("#delete_product").attr({"product_id":obj['product']['id']});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
@@ -1063,8 +883,6 @@ $(document).ready(function(){
 
                         /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
                          *********************************************************************************/
-                        pause();
-                        activate();
                         edit();
                         deleteProduct();
 
@@ -1081,11 +899,11 @@ $(document).ready(function(){
         var notification;
 
         //Public Method
-        products.get = function(){
+        productsPublished.get = function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/stock-products",
+                "url":"/drafts",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){
@@ -1137,10 +955,10 @@ $(document).ready(function(){
             ajax.request(request_parameters);
         };
 
-    }( window.products = window.products || {}, jQuery ));
+    }( window.productsPublished = window.productsPublished || {}, jQuery ));
 
 
 
-    products.get();
+    productsPublished.get();
 
 });

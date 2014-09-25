@@ -112,4 +112,13 @@
 
 
 
-<?php echo $this->Html->script('base.stock',false); ?>
+<?php
+
+$scripts = array(
+    '/resources/app/js/base.stock.js'
+);
+
+
+echo $this->Html->script($scripts,false);
+
+?>

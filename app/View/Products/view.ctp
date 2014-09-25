@@ -20,8 +20,8 @@
 
                         <?php foreach($this->request->data['Image'] as $index => $imagen){ ?>
 
-                                <a href="/img/products/<?php echo $imagen['original']['name']; ?>" data-toggle="lightbox" data-gallery="multiimages" data-title="<?php echo ucfirst($data['Product']['title']) ?>" class="col-md-2 thumbnail" style=" margin: 5px;">
-                                    <img src="/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-responsive">
+                                <a href="/resources/app/img/products/<?php echo $imagen['original']['name']; ?>" data-toggle="lightbox" data-gallery="multiimages" data-title="<?php echo ucfirst($data['Product']['title']) ?>" class="col-md-2 thumbnail" style=" margin: 5px;">
+                                    <img src="/resources/app/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-responsive">
                                 </a>
 
                         <?php } ?>
@@ -64,3 +64,13 @@
        </div>
     </div>
 </div>
+
+<?php
+
+$scripts = array(
+    '/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js'
+);
+
+echo $this->Html->script($scripts,false);
+
+?>

@@ -197,4 +197,16 @@
     </div>
 </div>
 
-<?php echo $this->Html->script('base.categories',false); ?>
+<?php
+
+    $scripts = array(
+        '/resources/library-vendor/jquery-validate/jquery.validate.js',
+        '/resources/library-vendor/jquery-validate/additional-methods.js',
+        '/resources/library-vendor/jquery-cookie/jquery.cookie.js',
+        '/resources/library-vendor/jqtree/tree.jquery.js',
+        '/resources/app/js/base.categories.js'
+    );
+
+    echo $this->Html->script($scripts,false);
+
+?>

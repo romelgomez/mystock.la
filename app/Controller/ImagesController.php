@@ -42,7 +42,7 @@ class ImagesController extends AppController{
             $request = $this->{'request'}->query;
         }
 
-        $destination = WWW_ROOT."img/products/";
+        $destination = WWW_ROOT."resources/app/img/products/";
         $file = $this->{'request'}->params['form']['image'];
 
         $images = array();

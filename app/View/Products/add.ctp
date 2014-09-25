@@ -275,7 +275,7 @@
 
                                                     <div id="start-upload" style="height: 212px;  overflow: hidden;  display:none;">
                                                         <div style="overflow: hidden; padding-top: 25px; text-align: center;">
-                                                            <img src="/img/sube_imagenes.png">
+                                                            <img src="/resources/app/img/sube_imagenes.png">
                                                         </div>
                                                     </div>
                                                     <div id="product_thumbnails">
@@ -285,13 +285,13 @@
 
                                                             <a id="thumbnail-id-<?php echo $imagen['original']['id']; ?>" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">
                                                                 <div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">
-                                                                        <img src="/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-thumbnail">
+                                                                        <img src="/resources/app/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-thumbnail">
                                                                 </div>
                                                                 <div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">
-                                                                    <img style="width: 24px;" src="/img/x2.png">
+                                                                    <img style="width: 24px;" src="/resources/app/img/x.png">
                                                                 </div>
                                                                 <div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">
-                                                                    <img src="/img/view.png">
+                                                                    <img src="/resources/app/img/view.png">
                                                                 </div>
                                                                 <div style="display:none;"><?php echo json_encode($imagen); ?></div>
                                                             </a>
@@ -318,7 +318,7 @@
 
                                                     <div id="start-upload" style="height: 212px;  overflow: hidden;">
                                                         <div style="overflow: hidden; padding-top: 25px; text-align: center;">
-                                                            <img src="/img/sube_imagenes.png">
+                                                            <img src="/resources/app/img/sube_imagenes.png">
                                                         </div>
                                                     </div>
                                                     <div id="product_thumbnails" style="display:none;"></div>
@@ -427,7 +427,17 @@
 
 
 <?php
-//    debug($this->request);
-?>
 
-<?php echo $this->Html->script('base.publicar',false); ?>
+$scripts = array(
+    '/resources/library-vendor/redactor/redactor.min.js',
+    '/resources/library-vendor/redactor/langs/es.js',
+    '/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js',
+    '/resources/library-vendor/jquery-validate/jquery.validate.js',
+    '/resources/library-vendor/jquery-validate/additional-methods.js',
+    '/resources/library-vendor/purl/purl.js',
+    '/resources/app/js/base.publicar.js',
+);
+
+echo $this->Html->script($scripts,false);
+
+?>

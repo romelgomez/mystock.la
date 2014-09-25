@@ -3,7 +3,7 @@
 $(document).ready(function(){
 
 
-    (function( productsPublished, $, undefined) {
+    (function( products, $, undefined) {
 
         //Private Property
         var lastResponseInfo = {};
@@ -101,44 +101,67 @@ $(document).ready(function(){
             var title       = obj['product']['title'];
             var price       = obj['product']['price'];
 
-            var date   = new Date(obj['product']['created']);
-            var created = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
+            var date        = new Date(obj['product']['created']);
+            var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-            var image = '';
+            var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
+            var link        =   '/producto/'+id+'/'+slug+'.html';
 
-            if(obj['imagen'] == undefined){
-                image = '/img/foto-no-disponible.jpg';
+            var image       = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+
+            var status = '';
+            var status_button = '';
+
+            if(obj['product']['status']){
+                status = '<span class="label label-success active-status">publicado</span>';
+                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
-                image = '/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+                status = '<span class="label label-warning paused-status">pausado</span>';
+                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
-            var  link = '/editar_borrador/'+obj['product']['id'];
+            var quantity = obj['product']['quantity'];
+            var _quantity = '';
 
-
-            if(title == '') {
-                title = '<mark>Sin título disponible</mark>';
+            if(quantity == 0){
+                _quantity = '<span class="badge">0</span>';
             }
+            else if(quantity>= 1 && quantity<=5){
+                _quantity = '<span class="badge badge-important">'+quantity+'</span>';
+            }
+            else if(quantity>=6 && quantity<=10){
+                _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
+            }
+            else if(quantity>10){
+                _quantity = '<span class="badge badge-success">'+quantity+'</span>';
+            }
+            // END
 
 
             // se arma una publicación
             return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
-                '<a class="pull-left" href="'+link+'">'+
-                '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
-                '</a>'+
-                '<div class="media-body">'+
-                '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
+                        '<a class="pull-left" href="'+link+'">'+
+                            '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
+                        '</a>'+
+                        '<div class="media-body">'+
+                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
 
-                '<div style="margin-bottom: 10px;">'+
-                '<div class="btn-group">'+
-                '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
-                '</div>'+
-                '</div>'+
-                '<div>'+
-                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
-                '</div>'+
-                '</div>'+
-                '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
-                '</div>';
+                            '<div style="margin-bottom: 10px;">'+
+                                '<div class="btn-group">'+
+                                    '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
+                                    status_button+
+                                    '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div>'+
+                                '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
+                                '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
+                                '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
+                                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
+                            '</div>'+
+                        '</div>'+
+                        '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
+                    '</div>';
 
 
         };
@@ -153,7 +176,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -255,7 +278,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -415,7 +438,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -427,7 +450,7 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        if(response['result'] == true || response['result'] == undefined){
+                        if(response['result']){
 
                             // se establece la url
                             var url = utility.stringReplace(response['search'],' ','_');
@@ -668,6 +691,142 @@ $(document).ready(function(){
 
         /*
          * Private Method
+         * Descripción: función destinada a pausar una publicación activa
+         * Parámetros:  null
+         *************************************************************************************************************************************************************/
+        var pause = function(){
+
+            var notification;
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/pause",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){
+                        notification = ajax.notification("beforeSend");
+                    },
+                    "success":function(response){
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+                            $("#product-"+response['id']+' .pause').css({
+                                "display": 'none'
+                            });
+                            $("#product-"+response['id']+' .activate').css({
+                                "display": 'inline'
+                            });
+
+                            var status = '<span class="label label-warning paused-status">pausado</span>';
+                            $("#product-"+response['id']+' .active-status').replaceWith(status);
+
+                        }else{
+                            window.location = "/";
+                        }
+
+                    },
+                    "error":function(){
+                        ajax.notification("error",notification);
+                    },
+                    "complete":function(){
+                        ajax.notification("complete",notification);
+                    }
+                }
+            };
+
+            var elements = $("#products").find(".pause");
+
+            if(elements.length){
+                $(elements).each(function(){
+                    $(this).off('click');
+                    $(this).on('click',function(){
+                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
+                        var request_this = {};
+                        request_this.id  = obj.product.id;
+
+                        request_parameters.data =    request_this;
+                        ajax.request(request_parameters);
+                    });
+
+                });
+            }
+
+        };
+
+        /*
+         * Private Method
+         * Descripción: función destinada a activar una publicación pausada
+         * Parametros:  null
+         *************************************************************************************************************************************************************/
+        var activate = function(){
+
+            var notification;
+
+            var request_parameters = {
+                "requestType":"custom",
+                "type":"post",
+                "url":"/activate",
+                "data":{},
+                "callbacks":{
+                    "beforeSend":function(){
+                        notification = ajax.notification("beforeSend");
+                    },
+                    "success":function(response){
+
+                        if(response['expired_session']){
+                            window.location = "/entrar";
+                        }
+
+                        if(response['result']){
+                            $("#product-"+response['id']+' .pause').css({
+                                "display": "inline"
+                            });
+                            $("#product-"+response['id']+' .activate').css({
+                                "display": "none"
+                            });
+                            var status = '<span class="label label-success active-status">publicado</span>';
+                            $("#product-"+response['id']+' .paused-status').replaceWith(status);
+                        }else{
+                            window.location = "/";
+                        }
+
+                    },
+                    "error":function(){
+                        ajax.notification("error",notification);
+                    },
+                    "complete":function(){
+                        ajax.notification("complete",notification);
+                    }
+                }
+            };
+
+            var elements = $("#products").find(".activate");
+
+            if(elements.length){
+                $(elements).each(function(){
+                    $(this).off('click');
+                    $(this).on('click',function(){
+                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
+                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
+                        var request_this = {};
+                        request_this.id  = obj.product.id;
+                        request_parameters.data =    request_this;
+                        ajax.request(request_parameters);
+
+                    });
+                });
+            }
+
+        };
+
+
+        /*
+         * Private Method
          * Descripción: función que procesa la solicitud de editar una publicación,  la razón de crear una función y no un simple link que es más simple, es por la maquetación o bootstrap, como es un grupo de botones pegados, al colocar un link <a></a> se descuadra. por lo tanto es requerido usar una función.
          *************************************************************************************************************************************************************/
         var edit = function(){
@@ -682,7 +841,8 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
-                        window.location = '/editar_borrador/'+obj['product']['id'];
+                        // edit link
+                        window.location = '/editar/'+obj.product.id;
 
                     });
                 });
@@ -715,7 +875,7 @@ $(document).ready(function(){
                         //  delete_status
                         if(response['result']){
 
-                            // Éxito al eliminar la publicación
+                            // Exito al eliminar la publicación
                             $("#successful-elimination").fadeIn();
                             setTimeout(function(){ $("#successful-elimination").fadeOut(); }, 7000);
 
@@ -723,7 +883,7 @@ $(document).ready(function(){
                             $("#product-"+response['id']).fadeOut('slow',function(){
                                 $(this).remove();
 
-                                if(response['data'].length > 0){
+                                if(response['data'] !== undefined){
                                     // hay publicaciones
 
                                     var url_obj =  parseUrl();
@@ -764,10 +924,13 @@ $(document).ready(function(){
                                     window.location = "#";
 
                                     //se oculta el contenedor de los filtros
-                                    $("#information-panel").css({"display":"none"});
+                                    $("#information-panel").hide();
+
+                                    $("#yes-products").hide();
 
                                     // no hay publicaciones.
-                                    $("#no-products").css({"display":"inherit"});
+                                    $("#no-products").show();
+
                                 }
 
                             });
@@ -795,7 +958,7 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
                         var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(utility.stringReplace(pure_json_obj));
+                        var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         $("#delete_product").attr({"product_id":obj['product']['id']});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
@@ -837,24 +1000,24 @@ $(document).ready(function(){
         var preparePublications = function(){
 
             /*
-             registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
+            registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
 
-             # Solo 1 registro
-             - paginación                inhabilitada
-             - ordenar por precio        inhabilitada
-             - búsqueda                  inhabilitada
+            # Solo 1 registro
+            - paginación                inhabilitada
+            - ordenar por precio        inhabilitada
+            - búsqueda                  inhabilitada
 
-             # Entre 1 y 10 registros
-             - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
-             - ordenar por precio        habilitado
-             - búsqueda                  inhabilitada
+            # Entre 1 y 10 registros
+            - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
+            - ordenar por precio        habilitado
+            - búsqueda                  inhabilitada
 
-             # Más de 10 registros
-             - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
-             - ordenar por precio        habilitado
-             - búsqueda                  habilitado
+            # Más de 10 registros
+            - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
+            - ordenar por precio        habilitado
+            - búsqueda                  habilitado
 
-             */
+            */
 
             if(lastResponseInfo['data'].length > 0){
 
@@ -882,7 +1045,9 @@ $(document).ready(function(){
                         $('#products').html(products);
 
                         /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                         *********************************************************************************/
+                        *********************************************************************************/
+                        pause();
+                        activate();
                         edit();
                         deleteProduct();
 
@@ -899,18 +1064,18 @@ $(document).ready(function(){
         var notification;
 
         //Public Method
-        productsPublished.get = function(){
+        products.get = function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/published",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
+//                        $('#debug').text(JSON.stringify(response));
 
                         // Si la sesión ha expirado
                         if(response['expired_session']){
@@ -955,10 +1120,10 @@ $(document).ready(function(){
             ajax.request(request_parameters);
         };
 
-    }( window.productsPublished = window.productsPublished || {}, jQuery ));
+    }( window.products = window.products || {}, jQuery ));
 
 
 
-    productsPublished.get();
+    products.get();
 
 });

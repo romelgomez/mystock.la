@@ -19,4 +19,13 @@
 
 
 
-<?php echo $this->Html->script('base.index',false); ?>
+<?php
+
+    $scripts = array(
+        '/resources/app/js/base.index.js'
+    );
+
+
+    echo $this->Html->script($scripts,false);
+
+?>
