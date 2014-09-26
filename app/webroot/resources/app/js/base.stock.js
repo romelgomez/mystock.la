@@ -1103,9 +1103,11 @@ $(document).ready(function(){
 
                             // No hay productos publicados.
                             if(response['total_products'] == 0){
-                                $("#no-products").css({"display":"inherit"});
+                                $("#no-products").show();
+                                $("#yes-products").hide();
                             }else{
-                                $("#yes-products").css({"display":"inherit"});
+                                $("#no-products").hide();
+                                $("#yes-products").show();
                             }
 
 
@@ -1116,7 +1118,8 @@ $(document).ready(function(){
 
                             // Al copiar la url "/publicados#buscar_algo" en la barra de navegación, donde "algo" no existe. Y existan productos publicados.
                             if(response['data'].length == 0 && response['total_products'] > 0){
-                                window.location = "/publicados";
+                                $("#no-products").show();
+                                $("#yes-products").hide();
                             }
 
                         }else{

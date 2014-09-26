@@ -126,6 +126,14 @@
 
 <?php
 
+    // CSS
+    $css = array();
+
+    array_push($css,'/resources/app/css/base.css');
+
+    $this->Html->css($css, null, array('inline' => false));
+
+    // JS
     $scripts = array();
 
     //  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
@@ -141,6 +149,6 @@
 
     array_push($scripts,'/resources/app/js/base.borradores.js');
 
-    echo $this->Html->script($scripts,false);
+    echo $this->Html->script($scripts,array('inline' => false));
 
 ?>

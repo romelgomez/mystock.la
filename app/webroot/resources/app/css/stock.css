@@ -1,0 +1,61 @@
+a.box {
+    border: 1px solid #333;
+    float: left;
+    height: 270px;
+    margin:10px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    width: 270px;
+}
+
+a.box img {
+
+    border: none;
+
+}
+
+a.box span.imagen_producto {
+    background: black url(../img/foto-no-disponible.jpg) no-repeat;
+    display: block;
+    width: 270px;
+    height: 270px;
+
+}
+
+a.box span.nombre_producto {
+    background: black;
+    color:white;
+    font-size: 15px;
+    font-weight: bold;
+    height: 22px;
+    opacity: 0.65;
+    position: absolute;
+    top: 0;
+    width: 270px;
+}
+
+a.box:hover span.nombre_producto {
+    background: rgb(49, 112, 143);
+}
+
+a.box span.nombre_producto div.nombre_producto_margen{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+a.box span.precio {
+    background: black;
+    color:white;
+    font-size: 15px;
+    font-weight: bold;
+    height: 22px;
+    opacity: 0.65;
+    position: absolute;
+    top: 248px;
+    width: 270px;
+}
+
+a.box:hover span.precio {
+    background: rgb(49, 112, 143);
+}

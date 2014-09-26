@@ -11,16 +11,30 @@
     <title>SantoMercado.com</title>
 
     <?php
-        // layout -> default
-        $css = array(
-            '/resources/library-vendor/bootstrap/css/bootstrap.css',
-            '/resources/library-vendor/font-awesome/css/font-awesome.min.css',
-            '/resources/library-vendor/pnotify/pnotify.custom.min.css',
-            '/resources/library-vendor/redactor/redactor.css',
-            '/resources/library-vendor/jqtree/jqtree.css',
-            '/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css',
-            '/resources/app/css/base.css'
-        );
+        $css = array();
+
+        //  Bootstrap
+        //  array_push($scripts,'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+        array_push($css,'/resources/library-vendor/bootstrap/css/bootstrap.css');
+
+        //  font-awesome
+        //  array_push($scripts,'//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+        array_push($css,'/resources/library-vendor/font-awesome/css/font-awesome.min.css');
+
+        //  Pnotify https://github.com/sciactive/pnotify
+        //  array_push($scripts,'https://cdnjs.cloudflare.com/ajax/libs/pnotify/2.0.0/pnotify.core.min.css');
+        array_push($css,'/resources/library-vendor/pnotify/pnotify.custom.min.css');
+
+        //  Redactor http://imperavi.com/redactor/
+//        array_push($css,'/resources/library-vendor/redactor/redactor.css');
+
+        //  jqTree http://mbraak.github.io/jqTree/
+//        array_push($css,'/resources/library-vendor/jqtree/jqtree.css');
+
+        //  lightbox https://github.com/ashleydw/lightbox
+//        array_push($css,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css');
+
+//        array_push($css,'/resources/app/css/base.css');
 
         echo $this->Html->css($css);
 
@@ -59,6 +73,7 @@
                                 <li role="presentation" class="dropdown-header">PRODUCTOS</li>
                                 <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
                                 <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
+                                <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>">Stock</a></li>
 <!--                                <li class="divider"></li>-->
 <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
                             </ul>

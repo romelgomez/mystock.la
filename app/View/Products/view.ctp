@@ -67,11 +67,22 @@
 
 <?php
 
+    // CSS
+    $css = array();
+
+    //  lightBox https://github.com/ashleydw/lightbox
+    array_push($css,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css');
+
+    array_push($css,'/resources/app/css/base.css');
+
+    $this->Html->css($css, null, array('inline' => false));
+
+    // JS
     $scripts = array();
 
     //  lightbox  - https://github.com/ashleydw/lightbox
     array_push($scripts,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js');
 
-    echo $this->Html->script($scripts,false);
+    echo $this->Html->script($scripts,array('inline' => false));
 
 ?>

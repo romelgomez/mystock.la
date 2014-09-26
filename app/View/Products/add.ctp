@@ -425,6 +425,20 @@
 
 <?php
 
+    // CSS
+    $css = array();
+
+    //  Redactor http://imperavi.com/redactor/
+    array_push($css,'/resources/library-vendor/redactor/redactor.css');
+
+    //  lightbox https://github.com/ashleydw/lightbox
+    array_push($css,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css');
+
+    array_push($css,'/resources/app/css/base.css');
+
+    $this->Html->css($css, null, array('inline' => false));
+
+    // JS
     $scripts = array();
 
     //  Redactor - http://imperavi.com/redactor/
@@ -446,6 +460,6 @@
 
     array_push($scripts,'/resources/app/js/base.publicar.js');
 
-    echo $this->Html->script($scripts,false);
+    echo $this->Html->script($scripts,array('inline' => false));
 
 ?>
