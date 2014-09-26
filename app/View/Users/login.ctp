@@ -146,4 +146,17 @@
 </div>
 
 
-<?php echo $this->Html->script('base.entrar',false); ?>
+<?php
+    $scripts = array();
+
+//  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js');
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/jquery.validate.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/additional-methods.js');
+
+    array_push($scripts,'/resources/app/js/base.enter.js');
+
+    echo $this->Html->script($scripts,false);
+
+?>

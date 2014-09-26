@@ -197,16 +197,26 @@
     </div>
 </div>
 
+
 <?php
 
-    $scripts = array(
-        '/resources/library-vendor/jquery-validate/jquery.validate.js',
-        '/resources/library-vendor/jquery-validate/additional-methods.js',
-        '/resources/library-vendor/jquery-cookie/jquery.cookie.js',
-        '/resources/library-vendor/jqtree/tree.jquery.js',
-        '/resources/app/js/base.categories.js'
-    );
+    $scripts = array();
+
+    //  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
+    //  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js');
+    //  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/jquery.validate.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/additional-methods.js');
+
+    //  jQueryCookie - https://github.com/carhartl/jquery-cookie
+    array_push($scripts,'/resources/library-vendor/jquery-cookie/jquery.cookie.js');
+
+    //  jqTree - http://mbraak.github.io/jqTree/
+    array_push($scripts,'/resources/library-vendor/jqtree/tree.jquery.js');
+
+    array_push($scripts,'/resources/app/js/base.categories.js');
 
     echo $this->Html->script($scripts,false);
 
 ?>
+

@@ -77,7 +77,7 @@ $(document).ready(function(){
                     $('#menu-box').scrollLeft(scroll_value);
                 }
 
-                ul = '<div id="category-selected" class="category-selected"><div style="margin-top: 50px;" ><div style="text-align: center;"><span class="category-selected-text">Categoría seleccionada!</span> <br><img src="/resources/app/img/ok.png" alt="Gracias" /></div></div></div>';
+                ul = '<div id="category-selected" class="category-selected"><div style="margin-top: 20px;" ><div style="text-align: center; padding: 10px;"><span class="category-selected-text">Categoría seleccionada!</span> <br><img src="/resources/app/img/ok.png" alt="Gracias" /></div></div></div>';
                 menu.append(ul);
 
                 $('#ProductCategoryId').attr({"value":obj['category_id_selected']});

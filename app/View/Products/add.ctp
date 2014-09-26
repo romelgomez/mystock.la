@@ -423,21 +423,29 @@
 <a href="" id="image-product"  style="display: none;"></a>
 
 
-
-
-
 <?php
 
-$scripts = array(
-    '/resources/library-vendor/redactor/redactor.min.js',
-    '/resources/library-vendor/redactor/langs/es.js',
-    '/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js',
-    '/resources/library-vendor/jquery-validate/jquery.validate.js',
-    '/resources/library-vendor/jquery-validate/additional-methods.js',
-    '/resources/library-vendor/purl/purl.js',
-    '/resources/app/js/base.publicar.js',
-);
+    $scripts = array();
 
-echo $this->Html->script($scripts,false);
+    //  Redactor - http://imperavi.com/redactor/
+    array_push($scripts,'/resources/library-vendor/redactor/redactor.min.js');
+    array_push($scripts,'/resources/library-vendor/redactor/langs/es.js');
+
+    //  Ekko Lightbox  - https://github.com/ashleydw/lightbox
+    array_push($scripts,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js');
+
+    //  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
+    //  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js');
+    //  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/jquery.validate.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/additional-methods.js');
+
+    //  Purl - https://github.com/allmarkedup/purl
+    //  array_push($scripts,'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js');
+    array_push($scripts,'/resources/library-vendor/purl/purl.js');
+
+    array_push($scripts,'/resources/app/js/base.publicar.js');
+
+    echo $this->Html->script($scripts,false);
 
 ?>

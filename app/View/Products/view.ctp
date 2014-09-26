@@ -67,10 +67,11 @@
 
 <?php
 
-$scripts = array(
-    '/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js'
-);
+    $scripts = array();
 
-echo $this->Html->script($scripts,false);
+    //  lightbox  - https://github.com/ashleydw/lightbox
+    array_push($scripts,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js');
+
+    echo $this->Html->script($scripts,false);
 
 ?>

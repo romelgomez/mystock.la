@@ -8,7 +8,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-warning" role="alert" >
-                        <strong>!Alerta!</strong> no hay productos publicados aun. <a href="/publicar" class="alert-link" >Añade un nuevo producto!</a>
+                        No hay productos publicados aun. <a href="/publicar" class="alert-link" >Añade un nuevo producto!</a>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 <h4 class="modal-title" id="myModalLabel">¿Realmente quieres borrar esta publicación?</h4>
             </div>
             <div class="modal-body">
-                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido, pausar la publicación permitirá que la publicidad y contactos estén disponible a los clientes, teniendo claro que la publicación quedará inhabilitada para ser ofertada a través del sistema.
+                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido.
             </div>
             <div class="modal-footer">
                 <button id="delete_product" type="button" class="btn btn-danger">Confirmar</button>
@@ -130,12 +130,19 @@
 
 <?php
 
-    $scripts = array(
-        '/resources/library-vendor/jquery-validate/jquery.validate.js',
-        '/resources/library-vendor/jquery-validate/additional-methods.js',
-        '/resources/library-vendor/purl/purl.js',
-        '/resources/app/js/base.publicados.js',
-    );
+    $scripts = array();
+
+//  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js');
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/jquery.validate.js');
+    array_push($scripts,'/resources/library-vendor/jquery-validate/additional-methods.js');
+
+//  Purl - https://github.com/allmarkedup/purl
+//  array_push($scripts,'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js');
+    array_push($scripts,'/resources/library-vendor/purl/purl.js');
+
+    array_push($scripts,'/resources/app/js/base.publicados.js');
 
     echo $this->Html->script($scripts,false);
 
