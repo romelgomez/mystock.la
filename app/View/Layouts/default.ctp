@@ -73,7 +73,7 @@
                                 <li role="presentation" class="dropdown-header">PRODUCTOS</li>
                                 <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
                                 <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
-                                <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>">Stock</a></li>
+                                <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
 <!--                                <li class="divider"></li>-->
 <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
                             </ul>
@@ -107,9 +107,7 @@
     <div id="footer" style="margin-bottom: 20px">
         <hr>
         <div style="text-align: center;">
-            Solo empresas publican en SantoMercado.com
-            <br>
-            Copyright © 2012 Santo Mercado Venezuela S.A J-777777777-G
+            Copyright ©2014 SantoMercado.com - Todos los derechos reservados.
         </div>
     </div>
 

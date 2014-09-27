@@ -56,16 +56,9 @@
                             <li role="presentation" class="dropdown-header">PRODUCTOS</li>
                             <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
                             <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
-                            <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>">Stock</a></li>
+                            <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
                             <!--                                <li class="divider"></li>-->
                             <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <!--                                <li><a href="#"><del> Usuarios</del></a></li>-->
-                            <li><a href="/categorias">Categorías</a></li>
                         </ul>
                     </li>
                 <?php } ?>
@@ -98,20 +91,18 @@
                 </div>
 
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
-                    <h5>Automate business processes</h5>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <h5>Su negocio puesto en marcha</h5>
+                    <p>La mejor forma de iniciar su empresa, es empezar simple, y en internet.</p>
                     <img src="/resources/theme-verdor/bootstack/assets/img/arrow-left.png" alt="">
                 </div>
                 <div class="col-lg-8">
                     <img class="img-responsive" src="/resources/theme-verdor/bootstack/assets/img/app-bg.png" alt="">
-                    <!--<h4>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h4>
-                    <a href="#features" type="submit" class="btn btn-lg btn-theme smoothScroll">LEARN MORE</a>-->
                 </div>
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
                     <br>
                     <img class="pad-top" src="/resources/theme-verdor/bootstack/assets/img/arrow-right.png" alt="">
-                    <h5>Collaborate in the cloud</h5>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    <h5>Fácil de usar</h5>
+                    <p>Desde una interfaz simple, comparta su oferta de productos y servicios.</p>
                 </div>
             </div>
         </div> <!-- /container -->
@@ -122,29 +113,18 @@
     <div class="intro">
         <div class="container">
             <div class="row text-center">
-                <h2>Proven Success</h2>
+                <h2>Publicaciones Ilimitadas Gratuitas </h2>
                 <hr>
                 <br>
-                <br>
-                <div class="col-lg-3">
-                    <span class="icon-users"></span>
-                    <h3>Professional Services</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <div class="col-lg-6">
+                    <span class="glyphicon glyphicon-usd"></span>
+                    <h3>Sin Costo</h3>
+                    <p>Publicar en SantoMercado.com no representa ningún costo al Vendedor o al Cliente. Alentamos a usar cualquier opción de pago online disponible actualmente, tal como PayPal.</p>
                 </div>
-                <div class="col-lg-3">
-                    <span class="icon-stats"></span>
-                    <h3>Cost Effective</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                </div>
-                <div class="col-lg-3">
-                    <span class="icon-stack"></span>
-                    <h3>Scalable and Adaptable</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                </div>
-                <div class="col-lg-3">
-                    <span class="icon-thumbs-up"></span>
-                    <h3>Easy to Use</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <div class="col-lg-6">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <h3>Somos sociales</h3>
+                    <p>Comparta su oferta de productos y servicios, en redes sociales fácilmente.</p>
                 </div>
             </div>
             <br>
@@ -153,302 +133,15 @@
 </section>
 
 
-<!-- Features Wrap -->
-<section id="features">
-    <div class="featureswrap">
-        <div class="container">
-            <div class="row">
-                <h2 class="text-center">Features</h2>
-                <hr>
-                <br>
-                <br>
-                <div class="col-lg-6">
-                    <img class="img-responsive left" src="/resources/theme-verdor/bootstack/assets/img/mobile.png" alt="">
-                </div>
-
-                <div class="col-lg-6">
-                    <br>
-                    <!-- Accordion -->
-                    <div class="accordion ac" id="accordion2">
-                        <div class="accordion-group active">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                                    <span class="icon-cloud"></span> Collaborate in the cloud
-                                </a>
-                            </div><!-- /accordion-heading -->
-                            <div id="collapseOne" class="accordion-body collapse in">
-                                <div class="accordion-inner">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <br>
-
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                                    <span class="icon-checkmark"></span> Get started fast
-                                </a>
-                            </div>
-                            <div id="collapseTwo" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <br>
-
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                                    <span class="icon-bars"></span> Deliver real time insights
-                                </a>
-                            </div>
-                            <div id="collapseThree" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <br>
-
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-                                    <span class="icon-list"></span> Automate business processes
-                                </a>
-                            </div>
-                            <div id="collapseFour" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                </div><!-- /accordion-inner -->
-                            </div><!-- /collapse -->
-                        </div><!-- /accordion-group -->
-                        <br>
-                    </div><!-- /accordion -->
-                </div>
-            </div><!-- /row -->
-            <br><br><br>
-            <div class="row">
-                <h2 class="text-center">Multi Useful Components</h2>
-                <hr><br><br>
-                <div class="col-lg-6">
-                    <br><br>
-                    <h4><span class="icon-cogs"></span> Create customized business apps</h4>
-                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                    <br><br>
-                </div>
-
-                <div class="col-lg-6">
-                    <img class="img-responsive right" src="/resources/theme-verdor/bootstack/assets/img/tablet.png" alt="">
-                </div>
-            </div>
-            <br>
-            <br>
-            <br>
-        </div><!-- /container -->
-    </div><!-- /featureswrap -->
-</section>
-
-
 <!-- Divider 1 Section -->
 <div class="divider01">
-    <div class="container">
-        <div class="row text-center">
-            <div id="carousel-example-generic" class="carousel slide">
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <h3>"Working with Bootstack was amazing. Their team is incredible."</h3>
-                        <h4>John Doe, <em>A Company</em></h4>
-                    </div>
-                    <div class="item">
-                        <h3>"Bootstack has helped my team build amazing products. Amazing team."</h3>
-                        <h4>Jane Doe, <em>A Company</em></h4>
-                    </div>
-                </div><!-- /carousel-inner -->
-                <br>
-                <br>
-                <br>
-                <!-- Indicators - Uncomment for indicators to show
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                </ol> -->
-            </div><!-- /carousel-example -->
-        </div><!-- /row -->
+    <div class="container text-center">
+        <h3 style="margin-bottom: 20px;">Comience a publicar hoy mismo.</h3>
+        <a href="/publicados" type="button" class="btn btn-lg btn-theme2">Empieza ahora</a>
     </div><!-- /container -->
 </div><!-- /divider01 -->
 
 
-<!-- Pricing Section -->
-<section id="pricing">
-    <div class="pricingwrap">
-        <div class="container text-center">
-            <br>
-            <h2>Our Pricing Options</h2>
-            <hr><br><br>
-            <div class="row">
-                <div class="col-xs-12 col-md-3">
-                    <div class="panel panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Starter</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="the-price">
-                                <h2>$9<span class="subscript">/mo</span></h2>
-                                <small>1 month FREE Trial</small>
-                            </div>
-                            <table class="table">
-                                <tr>
-                                    <td>1 Account</td>
-                                </tr>
-                                <tr>
-                                    <td>1 Project</td>
-                                </tr>
-                                <tr>
-                                    <td>50K API Access</td>
-                                </tr>
-                                <tr>
-                                    <td>100MB Storage</td>
-                                </tr>
-                                <tr>
-                                    <td>Custom Cloud Services</td>
-                                </tr>
-                                <tr>
-                                    <td>Weekly Reports</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-md-3">
-                    <div class="panel panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Standard</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="the-price">
-                                <h2>$19<span class="subscript">/mo</span></h2>
-                                <small>1 month FREE Trial</small>
-                            </div>
-                            <table class="table">
-                                <tr>
-                                    <td>2 Accounts</td>
-                                </tr>
-                                <tr>
-                                    <td>5 Projects</td>
-                                </tr>
-                                <tr>
-                                    <td>100K API Access</td>
-                                </tr>
-                                <tr>
-                                    <td>200MB Storage</td>
-                                </tr>
-                                <tr>
-                                    <td>Custom Cloud Services</td>
-                                </tr>
-                                <tr>
-                                    <td>Weekly Reports</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-md-3">
-                    <div class="panel panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Premium</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="the-price">
-                                <h2>$39<span class="subscript">/mo</span></h2>
-                                <small>1 month FREE Trial</small>
-                            </div>
-                            <table class="table">
-                                <tr>
-                                    <td>5 Accounts</td>
-                                </tr>
-                                <tr>
-                                    <td>20 Projects</td>
-                                </tr>
-                                <tr>
-                                    <td>300K API Access</td>
-                                </tr>
-                                <tr>
-                                    <td>500MB Storage</td>
-                                </tr>
-                                <tr>
-                                    <td>Custom Cloud Services</td>
-                                </tr>
-                                <tr>
-                                    <td>Weekly Reports</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-md-3">
-                    <div class="panel panel-custom">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Enterprise</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="the-price">
-                                <h2>$59<span class="subscript">/mo</span></h2>
-                                <small>1 month FREE Trial</small>
-                            </div>
-                            <table class="table">
-                                <tr>
-                                    <td>10 Accounts</td>
-                                </tr>
-                                <tr>
-                                    <td>50 Projects</td>
-                                </tr>
-                                <tr>
-                                    <td>500K API Access</td>
-                                </tr>
-                                <tr>
-                                    <td>1GB Storage</td>
-                                </tr>
-                                <tr>
-                                    <td>Custom Cloud Services</td>
-                                </tr>
-                                <tr>
-                                    <td>Weekly Reports</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="panel-footer">
-                            <a href="#" class="btn btn-theme" role="button">Sign Up</a>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /row -->
-        </div><!-- /container -->
-    </div><!-- /pricingwrap -->
-</section>
-
-
-<!-- Divider 2 Section -->
-<div class="divider02">
-    <div class="container text-center">
-        <h3>Start your 30-day free trial today.</h3>
-        <a href="#" type="button" class="btn btn-lg btn-theme2">Get Started</a>
-    </div>
-</div><!-- /divider02 -->
 
 
 <!-- Footer Wrap -->
@@ -457,17 +150,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <h3>Contact Us</h3>
-                    <br>
-                    <p><span class="icon-location"></span> Some Address 373, Palo Alto, CA <br/>
-                        <span class="icon-phone"></span> (800) 373-7733 <br/>
-                        <span class="icon-envelope"></span> <a href="mailto:support@bootstacktheme.com">support@bootstacktheme.com</a>
-                    </p>
+                    <h3>Contáctenos</h3>
+                    <span class="icon-envelope"></span> <a href="mailto:soporte@santomercado.com">soporte@santomercado.com</a>
                 </div>
 
                 <div class="col-lg-4">
-                    <h3>We Are Social</h3>
-                    <br>
+                    <h3>Encuentranos en</h3>
                     <div id="social">
                         <a href="#" rel="tooltip" title="Facebook" class="facebook">Facebook</a>
                         <a href="#" rel="tooltip" title="Twitter" class="twitter">Twitter</a>
@@ -475,12 +163,12 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <h3>Newsletter</h3>
+                    <h3>Boletín informativo</h3>
                     <br>
-                    <p>Subscribe to our newsletter and be the first to know our latest updates.</p>
+                    <p>Suscríbete a nuestro boletín informativo y sea el primero en conocer nuestras últimas actualizaciones.</p>
                     <div class="form-inline">
-                        <input type="text" class="form-control" placeholder="Your email">
-                        <button class="btn btn-theme" type="button">Subscribe</button>
+                        <input type="text" class="form-control" placeholder="Su correo electrónico">
+                        <button class="btn btn-theme" type="button">Suscribirse</button>
                     </div>
                 </div>
             </div><!-- /row -->
@@ -493,7 +181,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy;2014 SantoMercado.com Todos los derechos reservados.</p>
+                <p>Copyright &copy;2014 SantoMercado.com - Todos los derechos reservados.</p>
             </div>
         </div><!-- /row -->
     </div><!-- /container -->

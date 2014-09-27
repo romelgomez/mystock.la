@@ -95,7 +95,6 @@
 
                     <div id="products" ></div>
 
-                    <hr style="margin-bottom: 0">
 
                 </div>
             </div>
