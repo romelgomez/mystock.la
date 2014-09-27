@@ -9,6 +9,7 @@
 
     public function index(){
 
+
 //        $this->{'loadModel'}('Category');
 //        $categories = $this->{'Category'}->find('threaded', array(
 //            'order' => 'Category.lft',
@@ -16,6 +17,7 @@
 //        ));
 //        $this->{'set'}('categories',$categories);
 
+        $this->layout = 'landingPage';
     }
 
 }
