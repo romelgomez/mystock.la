@@ -30,9 +30,9 @@ $(document).ready(function(){
 
             // Posibles urls
             // /stock/3
-            // /stock/3#pagina_1
-            // /stock/3#mayor_precio/pagina_1
-            // /stock/3#buscar_las_mejores/mayor_precio/pagina_1
+            // /publicados#pagina-1
+            // /publicados#mayor-precio/pagina-1
+            // /publicados#buscar-las_mejores/mayor-precio/pagina-1
 
             var pathname = $(location).attr('href');
             var url = $.url(pathname);
@@ -51,8 +51,8 @@ $(document).ready(function(){
                 if(split_segments.length){
                     $(split_segments).each(function(index,parameter){
 
-                        if(parameter.indexOf("buscar_") !== -1){
-                            var search_string = utility.stringReplace(parameter,'buscar_','');
+                        if(parameter.indexOf("buscar-") !== -1){
+                            var search_string = utility.stringReplace(parameter,'buscar-','');
 
                             /* La cadena search_string se manipula en el siguiente orden.
                              *
@@ -66,26 +66,35 @@ $(document).ready(function(){
                             //console.log(url_obj.search);
 
                         }
-                        if(parameter.indexOf("pagina_") !== -1){
-                            url_obj.page = parseInt(utility.stringReplace(parameter,'pagina_',''));
+                        if(parameter.indexOf("pagina-") !== -1){
+                            url_obj.page = parseInt(utility.stringReplace(parameter,'pagina-',''));
                         }
-                        if(parameter == "mayor_precio"){
-                            url_obj.order_by = "mayor_precio";
+
+                        var orderBy = $('#order-by-text');
+
+                        if(parameter == "mayor-precio"){
+                            url_obj.order_by = "mayor-precio";
+                            orderBy.text('Mayor precio');
                         }
-                        if(parameter == "menor_precio"){
-                            url_obj.order_by = "menor_precio";
+                        if(parameter == "menor-precio"){
+                            url_obj.order_by = "menor-precio";
+                            orderBy.text('Menor precio');
                         }
                         if(parameter == "recientes"){
                             url_obj.order_by = "recientes";
+                            orderBy.text('Recientes');
                         }
                         if(parameter == "antiguos"){
                             url_obj.order_by = "antiguos";
+                            orderBy.text('Antiguos');
                         }
-                        if(parameter == "mayor_disponibilidad"){
-                            url_obj.order_by = "mayor_disponibilidad";
+                        if(parameter == "mayor-disponibilidad"){
+                            url_obj.order_by = "mayor-disponibilidad";
+                            orderBy.text('Mayor disponibilidad');
                         }
-                        if(parameter == "menor_disponibilidad"){
-                            url_obj.order_by = "menor_disponibilidad";
+                        if(parameter == "menor-disponibilidad"){
+                            url_obj.order_by = "menor-disponibilidad";
+                            orderBy.text('Menor disponibilidad');
                         }
 
 
@@ -216,42 +225,62 @@ $(document).ready(function(){
                 }
             };
 
-
-            var order_by = {
-                "higher-price":"mayor_precio",
-                "lower-price":"menor_precio",
-                "recent":"recientes",
-                "oldest":"antiguos",
-                "higher-availability":"mayor_disponibilidad",
-                "lower-availability":"menor_disponibilidad"
-            };
+            var orderBy = [
+                {
+                    'id':'higher-price',
+                    'url':'mayor-precio',
+                    'text':'Mayor precio'
+                },                {
+                    'id':'lower-price',
+                    'url':'menor-precio',
+                    'text':'Menor precio'
+                },                {
+                    'id':'recent',
+                    'url':'recientes',
+                    'text':'Recientes'
+                },                {
+                    'id':'oldest',
+                    'url':'antiguos',
+                    'text':'Antiguos'
+                },                {
+                    'id':'higher-availability',
+                    'url':'mayor-disponibilidad',
+                    'text':'Mayor disponibilidad'
+                },                {
+                    'id':'lower-availability',
+                    'url':'menor-disponibilidad',
+                    'text':'Menor disponibilidad'
+                }
+            ];
 
             if(lastResponseInfo['count'] > 1){
 
-                $.each(order_by,function(id,order_by){
+                $.each(orderBy,function(index,orderBy){
 
-                    var element = $("#"+id);
+                    var element = $("#"+orderBy['id']);
 
                     element.off('click');
                     element.on('click',function(event){
                         event.preventDefault();
 
                         var url_obj =  parseUrl();
-
                         var request_this = {};
 
+                        $('#order-by-text').text(orderBy['text']);
+
+                        // Se organiza en función a una búsqueda
                         if(url_obj.search != ''){
                             // se solicita buscar algo.
                             request_this.search	= url_obj.search;
 
-                            var url = utility.stringReplace(url_obj.search,' ','_');
-                            window.location = "#buscar_"+url+"/"+order_by;
+                            var url = utility.stringReplace(url_obj.search,' ','-');
+                            window.location = "#buscar-"+url+"/"+orderBy['url'];
 
                         }else{
-                            window.location = "#"+order_by;
+                            window.location = "#"+orderBy['url'];
                         }
 
-                        request_this.order_by   = order_by;
+                        request_this.order_by   = orderBy['url'];
 
                         var pathname            = $(location).attr('href');
                         var currentUrl          = $.url(pathname);
@@ -265,10 +294,9 @@ $(document).ready(function(){
 
                 });
 
-                $("#order-by").css({"display":""});
-
+                $("#order-by").show();
             }else{
-                $("#order-by").css({"display":"none"});
+                $("#order-by").hide();
             }
 
         };
@@ -343,23 +371,23 @@ $(document).ready(function(){
 
                         if(url_obj.order_by != ""){
                             if(url_obj.search != ""){
-                                url = utility.stringReplace(url_obj.search,' ','_');
-                                new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+prev_page;
+                                url = utility.stringReplace(url_obj.search,' ','-');
+                                new_url = "#buscar-"+url+"/"+url_obj.order_by+"/pagina-"+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#"+url_obj.order_by+"/pagina_"+prev_page;
+                                new_url = "#"+url_obj.order_by+"/pagina-"+prev_page;
                             }
                             // ORDER
                             request_this.order_by = url_obj.order_by;
                         }else{
                             if(url_obj.search != ""){
-                                url = utility.stringReplace(url_obj.search,' ','_');
-                                new_url = "#buscar_"+url+"/pagina_"+prev_page;
+                                url = utility.stringReplace(url_obj.search,' ','-');
+                                new_url = "#buscar-"+url+"/pagina-"+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#pagina_"+prev_page;
+                                new_url = "#pagina-"+prev_page;
                             }
                         }
 
@@ -401,23 +429,23 @@ $(document).ready(function(){
 
                         if(url_obj.order_by != ""){
                             if(url_obj.search != ""){
-                                url = utility.stringReplace(url_obj.search,' ','_');
-                                new_url = "#buscar_"+url+"/"+url_obj.order_by+"/pagina_"+next_page;
+                                url = utility.stringReplace(url_obj.search,' ','-');
+                                new_url = "#buscar-"+url+"/"+url_obj.order_by+"/pagina-"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#"+url_obj.order_by+"/pagina_"+next_page;
+                                new_url = "#"+url_obj.order_by+"/pagina-"+next_page;
                             }
                             // ORDER
                             request_this.order_by = url_obj.order_by;
                         }else{
                             if(url_obj.search != ""){
-                                url = utility.stringReplace(url_obj.search,' ','_');
-                                new_url = "#buscar_"+url+"/pagina_"+next_page;
+                                url = utility.stringReplace(url_obj.search,' ','-');
+                                new_url = "#buscar-"+url+"/pagina-"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#pagina_"+next_page;
+                                new_url = "#pagina-"+next_page;
                             }
                         }
 
@@ -468,56 +496,31 @@ $(document).ready(function(){
                         if(response['result']){
 
                             // se establece la url
-                            var url = utility.stringReplace(response['search'],' ','_');
-                            window.location = "#buscar_"+url;
+                            var url = utility.stringReplace(response['search'],' ','-');
+                            window.location = "#buscar-"+url;
 
+                            setLastResponseInfo(response);
+                            preparePublications();
 
+                            orderBy();
+                            pagination();
+                            info();
 
+                            var searchInfo = $("#search-info");
 
                             // si hay productos publicados.
                             if(response['data'].length > 0){
-
-                                setLastResponseInfo(response);
-                                preparePublications();
-
-                                orderBy();
-                                pagination();
-                                info();
-
-                                // se oculta el mensaje que informa la no existencias de publicaciones
-                                $("#no-products-for-this-search").css({"display":"none"});
-
-                                // se establece la información de la cantidad de registros encontrados.
-                                var count = '';
-                                if(response['info']['count'] > 1){
-                                    count = response['info']['count']+' registros encontrados'
-                                }else{
-                                    count = response['info']['count']+' registro encontrado'
-                                }
-
-                                $("#product-quantity-for-this-search").html(count);
-
-                                // se establece la información de lo que se busca
-                                $("#for-this-search").html(response['search']);
-
-                                // se muestra la información acerca de la búsqueda
-                                $("#products-for-this-search").css({"display":"inherit"});
+                                searchInfo.hide();
 
                                 // se muestran las publicaciones
-                                $("#products").css({"display":"inherit"});
-
+                                $("#products").show();
                             }else{
-
-                                // se oculta el mensaje que informa que hay publicaciones
-                                $("#products-for-this-search").css({"display":"none"});
-
                                 // se muestra el mensaje que indica que no hay publicaciones
-                                $("#no-for-this-search").html(response['search']);
-                                $("#no-products-for-this-search").css({"display":"inherit"});
+                                searchInfo.text('No hay resultados para: '+response['search']);
+                                searchInfo.show();
 
                                 // se oculta las publicaciones
-                                $("#products").css({"display":"none"});
-
+                                $("#products").hide();
                             }
 
                         }else{
@@ -572,7 +575,6 @@ $(document).ready(function(){
 
 
         };
-
         /*
          * Private Method
          * Descripción:   se establece la información de la cantidad de registros existentes
@@ -781,7 +783,7 @@ $(document).ready(function(){
         /*
          * Private Method
          * Descripción: función destinada a activar una publicación pausada
-         * Parametros:  null
+         * Parámetros:  null
          *************************************************************************************************************************************************************/
         var activate = function(){
 
@@ -903,7 +905,7 @@ $(document).ready(function(){
                             $("#product-"+response['id']).fadeOut('slow',function(){
                                 $(this).remove();
 
-                                if(response['data'].length > 0){
+                                if(response['data'] !== undefined){
                                     // hay publicaciones
 
                                     var url_obj =  parseUrl();
@@ -915,7 +917,7 @@ $(document).ready(function(){
                                             if(response['info']['pageCount'] == 1){
                                                 window.location = "#"+response['win_order_by'];
                                             }else{
-                                                window.location = "#"+response['win_order_by']+'/pagina_'+response['info']['page'];
+                                                window.location = "#"+response['win_order_by']+'/pagina-'+response['info']['page'];
                                             }
                                         }else{
                                             window.location = "#"+response['win_order_by'];
@@ -925,7 +927,7 @@ $(document).ready(function(){
                                             if(response['info']['pageCount'] == 1){
                                                 window.location = "#";
                                             }else{
-                                                window.location = "#pagina_"+response['info']['page'];
+                                                window.location = "#pagina-"+response['info']['page'];
                                             }
                                         }
                                     }
@@ -944,10 +946,13 @@ $(document).ready(function(){
                                     window.location = "#";
 
                                     //se oculta el contenedor de los filtros
-                                    $("#information-panel").css({"display":"none"});
+                                    $("#information-panel").hide();
+
+                                    $("#yes-products").hide();
 
                                     // no hay publicaciones.
-                                    $("#no-products").css({"display":"inherit"});
+                                    $("#no-products").show();
+
                                 }
 
                             });
@@ -1116,7 +1121,7 @@ $(document).ready(function(){
                                 preparePublications(); // New
                             }
 
-                            // Al copiar la url "/publicados#buscar_algo" en la barra de navegación, donde "algo" no existe. Y existan productos publicados.
+                            // Al copiar la url "/publicados#buscar-algo" en la barra de navegación, donde "algo" no existe. Y existan productos publicados.
                             if(response['data'].length == 0 && response['total_products'] > 0){
                                 $("#no-products").show();
                                 $("#yes-products").hide();

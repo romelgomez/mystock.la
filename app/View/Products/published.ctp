@@ -65,7 +65,7 @@
                                 <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                            Ordenar por <span class="caret"></span>
+                                            Ordenar por: <span id="order-by-text">Recientes</span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                             <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recientes</a></li>
@@ -92,6 +92,8 @@
                     <hr>
 
                     <div id="products" ></div>
+
+                    <div id="search-info" style="display: none" class="alert alert-info" role="alert"></div>
 
                     <hr style="margin-bottom: 0">
 

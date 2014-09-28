@@ -12,8 +12,8 @@ class AppController extends Controller {
                 )
             ),
             'loginAction'=>'/entrar',
-            'loginRedirect' => '/',
-            'logoutRedirect'=> '',
+            'loginRedirect' => '/publicados',
+            'logoutRedirect'=> '/',
             'ajaxLogin'=>'expired_session'
         ),
         'Cookie',

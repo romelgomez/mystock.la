@@ -547,13 +547,13 @@
 
             }else{
 
-                if($request['order_by'] == "mayor_precio"){
+                if($request['order_by'] == "mayor-precio"){
 
                     $order = array(
                         'Product.price' => 'desc'
                     );
                 }
-                if($request['order_by'] == "menor_precio"){
+                if($request['order_by'] == "menor-precio"){
 
                     $order = array(
                         'Product.price' => 'asc'
@@ -575,13 +575,13 @@
 
                 }
 
-                if($request['order_by'] == "mayor_disponibilidad"){
+                if($request['order_by'] == "mayor-disponibilidad"){
 
                     $order = array(
                         'Product.quantity' => 'desc'
                     );
                 }
-                if($request['order_by'] == "menor_disponibilidad"){
+                if($request['order_by'] == "menor-disponibilidad"){
 
                     $order = array(
                         'Product.quantity' => 'asc'
@@ -794,12 +794,12 @@
                         $win_order_by = "recientes";
                     }else{
                         switch ($request['order_by']) {
-                            case "mayor_precio":
+                            case "mayor-precio":
 
                                 $order = array(
                                     'Product.price' => 'desc'
                                 );
-                                $win_order_by = "mayor_precio";
+                                $win_order_by = "mayor-precio";
 
                                 break;
                             case "menor_precio":
@@ -807,7 +807,7 @@
                                 $order = array(
                                     'Product.price' => 'asc'
                                 );
-                                $win_order_by = "menor_precio";
+                                $win_order_by = "menor-precio";
 
                                 break;
                             case "recientes":
@@ -826,20 +826,20 @@
                                 $win_order_by = "antiguos";
 
                                 break;
-                            case "mayor_disponibilidad":
+                            case "mayor-disponibilidad":
 
                                 $order = array(
                                     'Product.created' => 'asc'
                                 );
-                                $win_order_by = "mayor_disponibilidad";
+                                $win_order_by = "mayor-disponibilidad";
 
                                 break;
-                            case "menor_disponibilidad":
+                            case "menor-disponibilidad":
 
                                 $order = array(
                                     'Product.quantity' => 'asc'
                                 );
-                                $win_order_by = "menor_disponibilidad";
+                                $win_order_by = "menor-disponibilidad";
 
                                 break;
                             default:

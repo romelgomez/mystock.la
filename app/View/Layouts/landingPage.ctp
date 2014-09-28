@@ -161,15 +161,14 @@
                         <a href="#" rel="tooltip" title="Twitter" class="twitter">Twitter</a>
                     </div>
                 </div>
-
                 <div class="col-lg-4">
-                    <h3>Boletín informativo</h3>
-                    <br>
-                    <p>Suscríbete a nuestro boletín informativo y sea el primero en conocer nuestras últimas actualizaciones.</p>
-                    <div class="form-inline">
-                        <input type="text" class="form-control" placeholder="Su correo electrónico">
-                        <button class="btn btn-theme" type="button">Suscribirse</button>
-                    </div>
+<!--                    <h3>Boletín informativo</h3>-->
+<!--                    <br>-->
+<!--                    <p>Suscríbete a nuestro boletín informativo y sea el primero en conocer nuestras últimas actualizaciones.</p>-->
+<!--                    <div class="form-inline">-->
+<!--                        <input type="text" class="form-control" placeholder="Su correo electrónico">-->
+<!--                        <button class="btn btn-theme" type="button">Suscribirse</button>-->
+<!--                    </div>-->
                 </div>
             </div><!-- /row -->
         </div><!-- /container -->

@@ -92,6 +92,8 @@
 
                     <div id="products" ></div>
 
+                    <div id="search-info" style="display: none" class="alert alert-info" role="alert"></div>
+
                     <hr style="margin-bottom: 0">
 
                 </div>
