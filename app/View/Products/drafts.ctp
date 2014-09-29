@@ -8,7 +8,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-warning" role="alert" >
-                        No hay borradores. <a href="/publicar" class="alert-link" >Añade un nuevo producto!</a>
+                        No hay borradores. <a href="/publicar" class="alert-link" >Añade una nueva publicación</a>
                     </div>
                 </div>
             </div>

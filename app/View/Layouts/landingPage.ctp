@@ -13,10 +13,10 @@
     <!-- Bootstrap core CSS -->
     <link href="/resources/library-vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Plugins -->
-    <link href="/resources/theme-verdor/bootstack/assets/library-vendor/socicon/socicon.css" rel="stylesheet">
-    <link href="/resources/theme-verdor/bootstack/assets/library-vendor/icomoon/style.css" rel="stylesheet">
+    <link href="/resources/theme-vendor/bootstack/assets/library-vendor/socicon/socicon.css" rel="stylesheet">
+    <link href="/resources/theme-vendor/bootstack/assets/library-vendor/icomoon/style.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="/resources/theme-verdor/bootstack/assets/css/style.css" rel="stylesheet">
+    <link href="/resources/theme-vendor/bootstack/assets/css/style.css" rel="stylesheet">
     <!-- Web Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
 
@@ -26,7 +26,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="/resources/theme-verdor/bootstack/assets/js/modernizr.custom.js"></script>
+    <script src="/resources/theme-vendor/bootstack/assets/js/modernizr.custom.js"></script>
 </head>
 
 <body data-spy="scroll" data-offset="0" data-target="#navigation">
@@ -93,14 +93,14 @@
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
                     <h5>Su negocio puesto en marcha</h5>
                     <p>La mejor forma de iniciar su empresa, es empezar simple, y en internet.</p>
-                    <img src="/resources/theme-verdor/bootstack/assets/img/arrow-left.png" alt="">
+                    <img src="/resources/theme-vendor/bootstack/assets/img/arrow-left.png" alt="">
                 </div>
                 <div class="col-lg-8">
-                    <img class="img-responsive" src="/resources/theme-verdor/bootstack/assets/img/app-bg.png" alt="">
+                    <img class="img-responsive" src="/resources/theme-vendor/bootstack/assets/img/app-bg.png" alt="">
                 </div>
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
                     <br>
-                    <img class="pad-top" src="/resources/theme-verdor/bootstack/assets/img/arrow-right.png" alt="">
+                    <img class="pad-top" src="/resources/theme-vendor/bootstack/assets/img/arrow-right.png" alt="">
                     <h5>Fácil de usar</h5>
                     <p>Desde una interfaz simple, comparta su oferta de productos y servicios.</p>
                 </div>
@@ -190,10 +190,10 @@
 <script src="/resources/library-vendor/jquery/jquery-1.11.1.js"></script>
 <script src="/resources/library-vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--<script src="/resources/theme-vendor/bootstack/assets/js/jquery.easing.1.3.js"></script>-->
-<script src="/resources/theme-verdor/bootstack/assets/js/detectmobilebrowser.js"></script>
-<script src="/resources/theme-verdor/bootstack/assets/js/smoothscroll.js"></script>
-<script src="/resources/theme-verdor/bootstack/assets/js/waypoints.js"></script>
-<script src="/resources/theme-verdor/bootstack/assets/js/main.js"></script>
+<script src="/resources/theme-vendor/bootstack/assets/js/detectmobilebrowser.js"></script>
+<script src="/resources/theme-vendor/bootstack/assets/js/smoothscroll.js"></script>
+<script src="/resources/theme-vendor/bootstack/assets/js/waypoints.js"></script>
+<script src="/resources/theme-vendor/bootstack/assets/js/main.js"></script>
 <script>
     $('.carousel').carousel({
         interval: 3500,
