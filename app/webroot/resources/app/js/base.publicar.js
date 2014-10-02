@@ -1005,11 +1005,67 @@ $(document).ready(function(){
                 maxFilesize: 10,                 // MB
                 acceptedFiles: 'image/*',
                 init: function() {
-                    this.on("addedfile", function(file) { console.log("Added file."); });
 
+                    // Added file
+                    this.on("addedfile", function(file) {
+                        console.log("Added file.");
+
+                        $("#first-files").hide();
+                        $("#continue-upload").show();
+
+                        // Create the remove button
+                        var removeButton = Dropzone.createElement('<button type="button" class="btn btn-warning">Eliminar</button>');
+
+                        // Capture the Dropzone instance as closure.
+                        var _this = this;
+
+                        // Listen to the click event
+                        removeButton.addEventListener("click", function(e) {
+                            // Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            console.log('Remove the file preview',file);
+
+                            // Remove the file preview.
+                            _this.removeFile(file);
+
+                            // en el contendor #previews determinamos si existen elementos con la clases div.dz-preview, que corresponden a una imagen cargada, si existen, nada pasa, si no existen, se oculta #continue-upload y se muestra #first-files, ambos ID corresponde a botones que inicializan la carga de imágenes.
+                            var previews = $("#previews").find("div.dz-preview");
+                            if(previews.length == 0 ){
+                                $("#first-files").show();
+                                $("#continue-upload").hide();
+                            }
+
+                            // If you want to the delete the file on the server as well,
+                            // you can do the AJAX request here.
+                        });
+
+                        // Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    });
+
+                    // thumbnail
+                    this.on("thumbnail", function(file, dataURI) {
+                        console.log(dataURI);
+                    });
+
+                    // Sending
                     this.on("sending", function(file, xhr, formData) {
                         formData.append("product_id", $('#ProductId').val());
                     });
+
+                    // Success
+                    this.on("success", function(file, xhr){
+//                        console.log(file);
+                        console.log(xhr);
+                    });
+
+                    // Error
+                    this.on("error",function(file,errorMessage,xhr){
+
+                    });
+
                 }
             });
         };

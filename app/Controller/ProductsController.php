@@ -250,8 +250,8 @@
         }
         */
 
-        $this->{'loadModel'}('Image');
         if($request['id']){
+            $this->{'loadModel'}('Image');
             if($this->{'Image'}->find('first',array('conditions' => array('Image.product_id' => $request['id'],'Image.status' => 1)))){
                 // si hay imágenes subidas y aprobadas
                 $this->{'Product'}->set($request);
