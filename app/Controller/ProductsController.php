@@ -323,7 +323,7 @@
 
         $user_logged = $this->{'Auth'}->User();
 
-        // Esta lógica es cuando se guardó un borrador, por lo tanto existe un id ya definido. Se verifica que el usuario esté trabajando en un post suyo o de otro vendedor de misma compañía de no cumplir o intentar modificar el dom, el script creará otro borrador.
+        // Esta lógica es cuando se guardó un borrador, por lo tanto existe un id ya definido. Se verifica que el usuario esté trabajando en un post suyo, de no cumplir o intentar modificar el dom, el script creará otro borrador.
         if($request['id']){
             $isOk = $this->{'Product'}->find('first', array(
                 'conditions' => array('Product.id' => $request['id'],'Product.user_id'=>$user_logged['User']['id'])

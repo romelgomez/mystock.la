@@ -295,7 +295,7 @@
                     <!-- Images -->
                     <ul class="list-group">
                         <li class="list-group-item" >
-                            <h3 id="panels" class="page-header" style="margin-top: 10px;">Imágenes  <small><button id="continue-upload" type="button" class="btn btn-link clickable" style="display: none;">¡Añadir mas imágenes!</button></small></h3>
+                            <h3 id="panels" class="page-header" style="margin-top: 10px;">Imágenes  <small><button id="continue-upload" type="button" class="btn btn-link clickable" style="display: none;">¡Añadir mas imágenes!</button> <button id="upload-all" type="button" class="btn btn-link" style="display: none;">¡Subir las imágenes!</button></small></h3>
                             <div id="previews" class="well dropzone-previews" style="margin-bottom: 10px;">
                                 <button id="first-files" class="btn btn-primary clickable">Selecciona las imágenes desde la computadora</button>
                             </div>

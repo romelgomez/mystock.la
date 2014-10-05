@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    (function( product, $) {
+    (function( product, $, undefined) {
 
         /*
          Private Method
@@ -358,7 +358,9 @@ $(document).ready(function(){
          1) si es true: se hará la solicitud inmediatamente
          2) si es false o indefinido: se esperara por un evento para realizar la solicitud
          */
-        var saveDraft = function(now){
+        var saveDraft = function(now,ifSuccess){
+
+            var notification;
 
             var request_parameters = {
                 "requestType":"custom",
@@ -366,7 +368,9 @@ $(document).ready(function(){
                 "url":"/save_draft",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = ajax.notification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -376,6 +380,7 @@ $(document).ready(function(){
 
                         // {"id":"8","time":"22:04"}
                         if(response['id']){
+
                             $('#ProductId').attr({"value":response['id']});
                             $('#debugTime').css({"display":"block"});
                             $('#lastTimeSave').html(response['time']);
@@ -385,10 +390,22 @@ $(document).ready(function(){
                             // se prende
                             // se apaga y luego se prende
                             // se apaga y luego se prende
+
+                            if ( ifSuccess !== undefined ) {
+                                ifSuccess();
+                                ajax.notification("complete",notification);  // cuando sea llamada desde fileUpload()
+                            }else{
+                                ajax.notification("success",notification);   // cuando sea solicitado por el usuario
+                            }
+
+                        }else{
+                            ajax.notification("error",notification);
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        ajax.notification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -997,6 +1014,21 @@ $(document).ready(function(){
         };
 
         var  fileUpload = function(){
+
+            var layout = '<div class="dz-preview dz-file-preview">'+
+                '<div class="dz-details">'+
+                    '<div class="dz-filename"><span data-dz-name></span></div>'+
+                    '<div class="dz-size" data-dz-size></div>'+
+                    '<img data-dz-thumbnail />'+
+                '</div>'+
+                '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
+                '<div class="dz-success-mark"><span>✔</span></div>'+
+                '<div class="dz-error-mark"><span>✘</span></div>'+
+                '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
+            '</div>';
+
+
+
             $(document.body).dropzone({
                 url: "/image_add",
                 previewsContainer: "#previews",  // Define the container to display the previews
@@ -1004,17 +1036,35 @@ $(document).ready(function(){
                 paramName: "image",              // The name that will be used to transfer the file
                 maxFilesize: 10,                 // MB
                 acceptedFiles: 'image/*',
+                autoQueue: false,
+                previewTemplate: layout,
                 init: function() {
+
+                    var myDropzone = this; // closure
+
+                    $("#upload-all").on("click", function() {
+//                        console.log("clicked");
+
+                        var ifSuccess = function(){
+//                            console.log($('#ProductId').val());
+                            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
+                        };
+
+                        saveDraft(true,ifSuccess);
+
+                    });
+
 
                     // Added file
                     this.on("addedfile", function(file) {
-                        console.log("Added file.");
+//                        console.log("Added file.");
 
                         $("#first-files").hide();
                         $("#continue-upload").show();
+                        $("#upload-all").show();
 
                         // Create the remove button
-                        var removeButton = Dropzone.createElement('<button type="button" class="btn btn-warning">Eliminar</button>');
+                        var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
 
                         // Capture the Dropzone instance as closure.
                         var _this = this;
@@ -1025,8 +1075,6 @@ $(document).ready(function(){
                             e.preventDefault();
                             e.stopPropagation();
 
-                            console.log('Remove the file preview',file);
-
                             // Remove the file preview.
                             _this.removeFile(file);
 
@@ -1035,10 +1083,15 @@ $(document).ready(function(){
                             if(previews.length == 0 ){
                                 $("#first-files").show();
                                 $("#continue-upload").hide();
+                                $("#upload-all").hide();
                             }
 
                             // If you want to the delete the file on the server as well,
                             // you can do the AJAX request here.
+                            console.log('Remove the file preview',file);
+                            if(file['xhr'] !== undefined){
+                                console.log(file['xhr']['response'])
+                            }
                         });
 
                         // Add the button to the file preview element.
@@ -1058,7 +1111,8 @@ $(document).ready(function(){
                     // Success
                     this.on("success", function(file, xhr){
 //                        console.log(file);
-                        console.log(xhr);
+//                        console.log(xhr);
+//                        file.data = xhr;
                     });
 
                     // Error
@@ -1086,15 +1140,15 @@ $(document).ready(function(){
             // Se inicializa el WYSIWYG
             initRedactor();
 
-            if($('#product_thumbnails').find("a").length){
-                /* inhabilitar miniaturas del producto
-                 *****************************************/
-                disableThumbnails();
-
-                /* Visualizar en mejor resolución una miniatura habilitada del producto
-                 ************************************************************************/
-                betterVisualizing();
-            }
+//            if($('#product_thumbnails').find("a").length){
+//                /* inhabilitar miniaturas del producto
+//                 *****************************************/
+//                disableThumbnails();
+//
+//                /* Visualizar en mejor resolución una miniatura habilitada del producto
+//                 ************************************************************************/
+//                betterVisualizing();
+//            }
 
             activate();
 
