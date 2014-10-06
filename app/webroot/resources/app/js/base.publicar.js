@@ -877,6 +877,41 @@ $(document).ready(function(){
             '</div>';
 
             var removeButton = function(instance,file){
+
+                var notification;
+
+                // proceso para inhabilitar una imagen
+                var request_parameters = {
+                    "requestType":"custom",
+                    "type":"post",
+                    "url":"/disable_this_imagen",
+                    "data":{},
+                    "callbacks":{
+                        "beforeSend":function(){
+                            notification = ajax.notification("beforeSend");
+                        },
+                        "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
+
+                            if(response['expired_session']){
+                                window['location'] = "/entrar";
+                            }
+
+                            if(response['status']){
+                                ajax.notification("success",notification);
+                            }else{
+                                ajax.notification("error",notification);
+                            }
+
+                        },
+                        "error":function(){
+                            ajax.notification("error",notification);
+                        },
+                        "complete":function(){}
+                    }
+                };
+
+
                 var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
                 // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
@@ -897,10 +932,30 @@ $(document).ready(function(){
 
                     // If you want to the delete the file on the server as well,
                     // you can do the AJAX request here.
-                    console.log('Remove the file preview',file);
                     if(file['xhr'] !== undefined){
-                        console.log(file['xhr']['response'])
+                        console.log('Es una imagen recién cargada al servidor que se quiere eliminar');
+
+                        var obj = JSON.parse(file['xhr']['response']);
+
+                        request_parameters['data']['image_id']      = obj['small']['id'];
+                        request_parameters['data']['product_id']    = $('#ProductId').val();
+
+                        ajax.request(request_parameters);
+
+                    }else{
+                        if(file['id']  !== undefined){
+                            console.log('Es una imagen que esta en servidor');
+
+                            request_parameters['data']['image_id']      = file['id'];
+                            request_parameters['data']['product_id']    = $('#ProductId').val();
+
+                            ajax.request(request_parameters);
+
+                        }else{
+                            console.log('Es una imagen en cola que fue eliminada')
+                        }
                     }
+
                 });
 
                 // Add the button to the file preview element.
