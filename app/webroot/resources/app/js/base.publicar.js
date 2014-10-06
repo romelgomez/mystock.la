@@ -813,8 +813,6 @@ $(document).ready(function(){
 
         };
 
-
-
         var _delete =  function(){
 
             var notification;
@@ -864,161 +862,12 @@ $(document).ready(function(){
 
         };
 
-        /*
-         Private Method
-         Descripción: Destinado a procesar las imágenes cargadas que quedaron en el modal. Una vez cargadas la imágenes existe la opción de eliminarla, las imágenes que queden en el modal serán procesadas, si son eliminadas todas la imágenes el botón queda inhabilitado, por lo tanto esta lógica deja de ser procesada.
-         */
-        var saveThis = function(){
 
-            $('#save-this').click(function(event){
-                event.preventDefault();
-
-                $('#uploading-pictures').modal('hide');
-
-                var dropFilesThumbnail = $('#drop-files').find("a");
-
-                if(dropFilesThumbnail.length > 0){
-
-                    var images_ids = [];
-                    dropFilesThumbnail.each(function(){
-
-                        var image_pure_json_obj 	= $(this).children().last().html();
-                        var image_obj				= $.parseJSON(image_pure_json_obj);
-
-                        images_ids.push(image_obj['original']['id']);
-
-                        // Insertar la imagen del producto en la vista
-                        var product_thumbnail_element = '<a id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
-                            '<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">'+
-                                '<img src="/resources/app/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
-                            '</div>'+
-                            '<div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                                '<img style="width: 24px;" src="/resources/app/img/x.png">'+
-                            '</div>'+
-                            '<div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">'+
-                                '<img src="/resources/app/img/view.png">'+
-                            '</div>'+
-                            '<div style="display:none;">'+image_pure_json_obj+'</div>'+
-                        '</a>';
-
-                        var productThumbnails = $('#product_thumbnails');
-
-                        if(productThumbnails.find("a").length){
-                            // console.log('cuando existen lis');
-
-                            productThumbnails.append(product_thumbnail_element);
-
-                        }else{
-                            // console.log('cuando no existen lis')
-
-                            //ocultar start-upload
-                            $('#start-upload').css({
-                                "display": 'none'
-                            });
-
-                            //insertar los lis en el carrusel
-                            productThumbnails.append(product_thumbnail_element);
-
-                            //mostrar el elemento con id product_thumbnails
-                            productThumbnails.css({
-                                display: 'inherit'
-                            });
-
-                            // mostrar link -continuar cargando-
-                            $('#continue-upload').css({
-                                "display": "inline"
-                            });
-                        }
-
-                    });
-
-                    //Habilitar las miniaturas seleccionadas.
-                    var request_parameters = {
-                        "requestType":"custom",
-                        "type":"post",
-                        "url":"/enables_this_images",
-                        "data":{},
-                        "callbacks":{
-                            "beforeSend":function(){},
-                            "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
-
-                                if(response['expired_session']){
-                                    window.location = "/entrar";
-                                }
-
-                            },
-                            "error":function(){},
-                            "complete":function(response){}
-                        }
-                    };
-
-//                    console.log('images_ids',images_ids);
-                    request_parameters['data']['images_ids'] = images_ids;
-                    request_parameters['data']['product_id'] =  $('#ProductId').val();
-                    ajax.request(request_parameters);
-
-
-                    // remover la miniaturas del modal
-                    dropFilesThumbnail.each(function(){
-                        $(this).remove();
-                    });
-
-                    $('#optional-selection-container').css({
-                        "display": "block"
-                    });
-
-                    $('#second-files-button').css({
-                        "display": "none"
-                    });
-
-                    // no permitimos guardar
-                    $('#save-this').attr({"disabled":"disabled"});
-
-                    /* inhabilitar miniaturas del producto
-                     *****************************************/
-                    disableThumbnails();
-
-                    /* Visualizar en mejor resolución una miniatura habilitada del producto.
-                     *****************************************/
-                    betterVisualizing();
-
-                }
-
-            });
-
-        };
-
-        /*
-         Private Method
-         Descripción: Destinado a observar el evento de abrir el modal para cargar imágenes del producto o servicio, con el fin de establecer acciones.
-         */
-        var imagesEvents = function () {
-
-            // button
-            $("#start-upload").on('click',function(event){
-                event.preventDefault();
-                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
-            });
-
-            // modal
-            $('#uploading-pictures').on('show.bs.modal', function(){
-                saveDraft(true);
-            });
-
-            // button
-            $("#continue-upload").on('click',function(event){
-                event.preventDefault();
-                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
-            });
-        };
 
         var  fileUpload = function(){
 
             var layout = '<div class="dz-preview dz-file-preview">'+
                 '<div class="dz-details">'+
-                    '<div class="dz-filename"><span data-dz-name></span></div>'+
-                    '<div class="dz-size" data-dz-size></div>'+
                     '<img data-dz-thumbnail />'+
                 '</div>'+
                 '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
@@ -1027,6 +876,36 @@ $(document).ready(function(){
                 '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
             '</div>';
 
+            var removeButton = function(instance,file){
+                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
+                // Listen to the click event
+                removeButton.addEventListener("click", function(e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Remove the file preview.
+                    instance.removeFile(file);
+
+                    // en el contendor #previews determinamos si existen elementos con la clases div.dz-preview, que corresponden a una imagen cargada, si existen, nada pasa, si no existen, se oculta #continue-upload y se muestra #first-files, ambos ID corresponde a botones que inicializan la carga de imágenes.
+                    var previews = $("#previews").find("div.dz-preview");
+                    if(previews.length == 0 ){
+                        $("#first-files").show();
+                        $("#continue-upload").hide();
+                        $("#upload-all").hide();
+                    }
+
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                    console.log('Remove the file preview',file);
+                    if(file['xhr'] !== undefined){
+                        console.log(file['xhr']['response'])
+                    }
+                });
+
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+            };
 
 
             $(document.body).dropzone({
@@ -1054,70 +933,64 @@ $(document).ready(function(){
 
                     });
 
+                    // Para incluir las imágenes que ya estén cargadas.
+                    var pathname = $(location).attr('href');
+                    var url = $.url(pathname);
+                    var split_segments = url.attr('directory').split('/');
+                    if(split_segments[1] == 'editar' || split_segments[1] == 'editar_borrador' ){
+                        var images = JSON.parse(utility.removeCommentTag($("#images").html()));
+                        if(images.length > 0){
+                            $("#first-files").hide();
+                            $("#continue-upload").show();
+
+                            $(images).each(function(index,obj){
+//                                console.log(obj);
+                                // Create the mock file:
+                                var mockFile = { id: obj['id'], name: obj['name']};
+
+                                // Call the default addedfile event handler
+                                myDropzone.emit("addedfile", mockFile);
+
+                                // And optionally show the thumbnail of the file:
+                                myDropzone.emit("thumbnail", mockFile, "/resources/app/img/products/"+obj['name']);
+
+                                removeButton(myDropzone,mockFile);
+
+                                $(mockFile.previewElement).addClass('dz-success'); // .setAttribute("class",".dz-success");
+
+                            });
+                        }
+                    }
+
+
 
                     // Added file
-                    this.on("addedfile", function(file) {
-//                        console.log("Added file.");
+                    myDropzone.on("addedfile", function(file) {
+                        console.log("Added file.");
 
                         $("#first-files").hide();
                         $("#continue-upload").show();
                         $("#upload-all").show();
 
-                        // Create the remove button
-                        var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
+                        removeButton(myDropzone,file);
 
-                        // Capture the Dropzone instance as closure.
-                        var _this = this;
-
-                        // Listen to the click event
-                        removeButton.addEventListener("click", function(e) {
-                            // Make sure the button click doesn't submit the form:
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            // Remove the file preview.
-                            _this.removeFile(file);
-
-                            // en el contendor #previews determinamos si existen elementos con la clases div.dz-preview, que corresponden a una imagen cargada, si existen, nada pasa, si no existen, se oculta #continue-upload y se muestra #first-files, ambos ID corresponde a botones que inicializan la carga de imágenes.
-                            var previews = $("#previews").find("div.dz-preview");
-                            if(previews.length == 0 ){
-                                $("#first-files").show();
-                                $("#continue-upload").hide();
-                                $("#upload-all").hide();
-                            }
-
-                            // If you want to the delete the file on the server as well,
-                            // you can do the AJAX request here.
-                            console.log('Remove the file preview',file);
-                            if(file['xhr'] !== undefined){
-                                console.log(file['xhr']['response'])
-                            }
-                        });
-
-                        // Add the button to the file preview element.
-                        file.previewElement.appendChild(removeButton);
-                    });
-
-                    // thumbnail
-                    this.on("thumbnail", function(file, dataURI) {
-                        console.log(dataURI);
                     });
 
                     // Sending
-                    this.on("sending", function(file, xhr, formData) {
+                    myDropzone.on("sending", function(file, xhr, formData) {
                         formData.append("product_id", $('#ProductId').val());
                     });
 
                     // Success
-                    this.on("success", function(file, xhr){
+                    myDropzone.on("success", function(file, xhr){
 //                        console.log(file);
 //                        console.log(xhr);
 //                        file.data = xhr;
                     });
 
                     // Error
-                    this.on("error",function(file,errorMessage,xhr){
-
+                    myDropzone.on("error",function(file,errorMessage,xhr){
+                        // ...
                     });
 
                 }

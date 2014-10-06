@@ -106,22 +106,22 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['product']['id'];
-            var title       = obj['product']['title'];
-            var price       = obj['product']['price'];
+            var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'];
+            var price       = obj['Product']['price'];
 
-            var date   = new Date(obj['product']['created']);
+            var date   = new Date(obj['Product']['created']);
             var created = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var image = '';
 
-            if(obj['imagen'] == undefined){
+            if(obj['Image'] == undefined){
                 image = '/resources/app/img/foto-no-disponible.jpg';
             }else{
-                image = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+                image = '/resources/app/img/products/'+obj['Image'][0]['name'];
             }
 
-            var  link = '/editar_borrador/'+obj['product']['id'];
+            var  link = '/editar_borrador/'+obj['Product']['id'];
 
 
             if(title == '') {
@@ -686,7 +686,7 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
-                        window.location = '/editar_borrador/'+obj['product']['id'];
+                        window.location = '/editar_borrador/'+obj['Product']['id'];
 
                     });
                 });

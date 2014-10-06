@@ -11,3 +11,16 @@ body {
 .pull-right {
     float: right !important;
 }
+
+/*  Dropzone */
+.dropzone a.dz-remove, .dropzone-previews a.dz-remove{
+    margin-top: 5px;
+}
+
+.dropzone .dz-preview .dz-details, .dropzone-previews .dz-preview .dz-details{
+    margin-bottom: 5px;
+}
+
+.dropzone .dz-preview.dz-image-preview:hover .dz-details img, .dropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {
+    opacity: 1;
+}

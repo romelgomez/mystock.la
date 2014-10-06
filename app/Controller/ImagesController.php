@@ -44,16 +44,11 @@ class ImagesController extends AppController{
         $images = array();
 
         if($file['name']){
-            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('1920', '1080'), 'output' => 'jpg'));
-            $thumbnails["large"]['name']		= $this->{'Upload'}->result;
-
-
-            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('900', '900'), 'output' => 'jpg'));
-            $thumbnails["median"]['name']		= $this->{'Upload'}->result;
-
-
             $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('400', '400'), 'output' => 'jpg'));
             $thumbnails["small"]['name']		= $this->{'Upload'}->result;
+
+            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('900', '900'), 'output' => 'jpg'));
+            $thumbnails["large"]['name']		= $this->{'Upload'}->result;
 
             $images = $thumbnails;
         }
@@ -75,7 +70,7 @@ class ImagesController extends AppController{
                     )
                 );
 
-                if($size == 'large'){
+                if($size == 'small'){
                     $imagenTruncada['Image']['parent_id'] = null;
                     $this->{'Image'}->save($imagenTruncada);
                     $parentId = $this->{'Image'}->id;
@@ -93,17 +88,13 @@ class ImagesController extends AppController{
 
 /*
     {
-       "large":{
-          "name":"4397c285-5cb7-4431-ae09-ebb3e65ef554.jpg",
-          "id":"543098b0-fbd4-4f1a-8eb2-04f27f000007"
-       },
-       "median":{
-          "name":"fe57096c-937a-437b-a59a-8a04230b5755.jpg",
-          "id":"543098b0-5bc8-41ce-9b54-04f27f000007"
-       },
        "small":{
           "name":"27e1dc0b-15f4-4794-bbeb-f81f2a510804.jpg",
           "id":"543098b0-1830-4529-a119-04f27f000007"
+       },
+       "large":{
+          "name":"4397c285-5cb7-4431-ae09-ebb3e65ef554.jpg",
+          "id":"543098b0-fbd4-4f1a-8eb2-04f27f000007"
        }
     }
 */

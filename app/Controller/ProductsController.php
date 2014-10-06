@@ -145,45 +145,6 @@
                     }
                 }
 
-                if($product_data['Image']){
-                    $this->{'loadModel'}('Image');
-
-                    $data = array();
-
-                    foreach($product_data['Image'] as $index_0 => $original_imagen){
-
-                        //debug($original_imagen);
-                        $data[$index_0]['original'] 		= $original_imagen;
-                        $products[$index_0]['children'] 	=  $this->{'Image'}->find('all',array(
-                                'conditions' => array('Image.parent_id' => $original_imagen['id']),
-                                'contain' => false
-                            )
-                        );
-                        foreach($products[$index_0]['children'] as $children){
-
-                            $namespace = '';
-
-                            switch ($children['Image']['size']) {
-                                case '1920x1080':
-                                    $namespace = 'large';
-                                    break;
-                                case '900x900':
-                                    $namespace = 'median';
-                                    break;
-                                case '400x400px':
-                                    $namespace = 'small';
-                                    break;
-                            }
-
-                            $data[$index_0]['thumbnails'][$namespace] = $children['Image'];
-
-                        }
-                    }
-
-                    $product_data['Image'] = array();
-                    $product_data['Image'] = $data;
-                }
-
                 $this->{'request'}->data = $product_data;
                 $this->{'request'}->data['current-menu'] = json_encode($menu);
 
@@ -605,7 +566,7 @@
             try {
                 $products = $this->{'paginate'}('Product');
                 if($products){
-                    $return['data']	= $this->product_images($products);
+                    $return['data']	= $products; //$this->product_images($products);
                 }else{
                     $return['data'] = array();
                 }
@@ -959,6 +920,7 @@
 
     public function product_images($products){
 
+        debug($products,true);
 
         /*
          Array deseado:
