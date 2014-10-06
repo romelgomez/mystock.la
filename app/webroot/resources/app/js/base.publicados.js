@@ -171,7 +171,6 @@ $(document).ready(function(){
                                 '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
                             '</div>'+
                         '</div>'+
-                        '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
                     '</div>';
 
 
@@ -749,10 +748,12 @@ $(document).ready(function(){
                 $(elements).each(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
+
+                        var id = $(this).parents("div.product").attr('id');
+                        id = utility.stringReplace(id,'product-','');
+
                         var request_this = {};
-                        request_this.id  = obj['Product']['id'];
+                        request_this.id  = id;
 
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
@@ -816,10 +817,15 @@ $(document).ready(function(){
                 $(elements).each(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
+
+                        var id = $(this).parents("div.product").attr('id');
+                        id = utility.stringReplace(id,'product-','');
+
                         var request_this = {};
-                        request_this.id  = obj['Product']['id'];
+                        request_this.id  = id;
+
+
+
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -843,24 +849,11 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
 
-
                         var id = $(this).parents("div.product").attr('id');
-
-                        console.log(id);
-
                         id = utility.stringReplace(id,'product-','');
 
-                        console.log(id);
-
-
-
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-
-//                        console.log(obj);
-
                         // edit link
-//                        window.location = '/editar/'+obj['Product']['id'];
+                        window.location = '/editar/'+id;
 
                     });
                 });
@@ -892,10 +885,7 @@ $(document).ready(function(){
 
                         //  delete_status
                         if(response['result']){
-
-                            // Exito al eliminar la publicación
-                            $("#successful-elimination").fadeIn();
-                            setTimeout(function(){ $("#successful-elimination").fadeOut(); }, 7000);
+                            ajax.notification("success",notification);
 
                             // Ocultamos lentamente la publicación y luego removemos el elemento del dom.
                             $("#product-"+response['id']).fadeOut('slow',function(){
@@ -975,9 +965,11 @@ $(document).ready(function(){
 
                     $(this).off('click');
                     $(this).on('click',function(){
-                        var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        $("#delete_product").attr({"product_id":obj['Product']['id']});
+
+                        var id = $(this).parents("div.product").attr('id');
+                        id = utility.stringReplace(id,'product-','');
+
+                        $("#delete_product").attr({"product_id":id});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
                         });

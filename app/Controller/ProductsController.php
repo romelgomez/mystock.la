@@ -559,7 +559,7 @@
             try {
                 $products = $this->{'paginate'}('Product');
                 if($products){
-                    $return['data']	= $products; //$this->product_images($products);
+                    $return['data']	= $products;
                 }else{
                     $return['data'] = array();
                 }
@@ -829,7 +829,7 @@
                         $products = $this->{'paginate'}('Product');
 
                         if($products){
-                            $return['data'] 	= $this->product_images($products);
+                            $return['data'] 	= $products;
                         }
 
                     } catch (Exception $e) {
@@ -852,7 +852,7 @@
                             $products = $this->{'paginate'}('Product');
 
                             if($products){
-                                $return['data'] = $this->product_images($products);
+                                $return['data'] = $products;
                             }
 
                         }catch (Exception $e){
@@ -875,7 +875,7 @@
                                 $products = $this->{'paginate'}('Product');
 
                                 if($products){
-                                    $return['data'] = $this->product_images($products);
+                                    $return['data'] = $products;
                                 }
 
                             }catch (Exception $e){
@@ -904,69 +904,6 @@
     }
 
 
-    /*
-        Descripción:         Función para obtener las imágenes asociadas a una publicación.
-        Tipo de solicitud:   Interna
-        Recibe:              Array.
-        Retorna:             Array.
-    */
-
-    public function product_images($products){
-
-        debug($products,true);
-
-        /*
-         Array deseado:
-                $data = array(
-                    'product'=>
-                    'imagen'=>array(
-                        'original'=>
-                        'thumbnails'=>array(
-                            'large'=>,
-                            'median'=>,
-                            'small'=>,
-                    )
-                )
-            )
-        */
-
-
-        $this->{'loadModel'}('Image');
-
-        $data = array();
-
-        foreach($products as $index_0 =>$product){
-            $data[$index_0]['product'] = $product['Product'];
-
-            foreach($product['Image'] as $original_imagen){
-                $data[$index_0]['imagen']['original'] = $original_imagen;
-                $products[$index_0]['Image']['children'] =  $this->{'Image'}->find('all',array(
-                        'conditions' => array('Image.parent_id' => $original_imagen['id']),
-                        'contain' => false
-                    )
-                );
-
-                foreach($products[$index_0]['Image']['children'] as $children ){
-                    $namespace = '';
-
-                    switch ($children['Image']['size']) {
-                        case '1920x1080':
-                            $namespace = 'large';
-                            break;
-                        case '900x900':
-                            $namespace = 'median';
-                            break;
-                        case '400x400px':
-                            $namespace = 'small';
-                            break;
-                    }
-                    $data[$index_0]['imagen']['thumbnails'][$namespace] = $children['Image'];
-                }
-
-            }
-        }
-        return $data;
-    }
 
 
 
