@@ -3,6 +3,7 @@
 /app/webroot/resources/app/img/products/*.jpg
 /app/webroot/resources/app/img/products/*.png
 /app/webroot/resources/app/img/products/*.jpeg
+/app/webroot/resources/app/img/products/*.gif
 /app/tmp
 /lib
 /plugins

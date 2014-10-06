@@ -36,11 +36,7 @@ class ImagesController extends AppController{
      * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
      *******************/
     public function add(){
-        if($this->{'request'}->is('post')){
-            $request = $this->{'request'}->data;
-        }else{
-            $request = $this->{'request'}->query;
-        }
+        $request = $this->{'request'}->data;
 
         $destination = WWW_ROOT."resources/app/img/products/";
         $file = $this->{'request'}->params['form']['image'];
@@ -48,82 +44,60 @@ class ImagesController extends AppController{
         $images = array();
 
         if($file['name']){
-            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('1920', '1080'), 'output' => 'jpg'));
-            $thumbnails["large"]['name']		= $this->{'Upload'}->result;
-            $thumbnails["large"]['size']		= "1920x1080";
-
-            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('900', '900'), 'output' => 'jpg'));
-            $thumbnails["median"]['name']		= $this->{'Upload'}->result;
-            $thumbnails["median"]['size']		= "900x900";
-
             $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('400', '400'), 'output' => 'jpg'));
             $thumbnails["small"]['name']		= $this->{'Upload'}->result;
-            $thumbnails["small"]['size']		= "400x400px";
 
-            $this->{'Upload'}->upload($file, $destination); // al parecer el orden de subida influye, esta linea si va de primera las demás subidas no se ejecutan.
-            $images["original"]['name'] 	= $this->{'Upload'}->result;
+            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('900', '900'), 'output' => 'jpg'));
+            $thumbnails["large"]['name']		= $this->{'Upload'}->result;
 
-            $images['thumbnails'] 		= $thumbnails;
+            $images = $thumbnails;
         }
 
-        if(isset($images)){
-            $imagenOriginal = array(
-                'Image' => Array
-                (
-                    'parent_id' 	=> NULL,
-                    'product_id' 	=> $request['product_id'],
-                    'size' 			=> 'original',
-                    'name' 			=> $images['original']['name'],
-                    'status' 		=> 0
-                )
-            );
 
-            $this->{'Image'}->save($imagenOriginal);
-            $images['original']['id'] 	= $this->{'Image'}->id;
-            $this->{'Image'}->create();
+        if(isset($thumbnails)){
 
-            foreach($images['thumbnails'] as $key=>$object){
+            $parentId = '';
+
+            foreach($thumbnails as $size=>$object){
+
                 $imagenTruncada = array(
                     'Image' => Array
                     (
-                        'parent_id' 	=> $images['original']['id'],
                         'product_id'	=> $request['product_id'],
-                        'size' 			=> $object['size'],
+                        'size' 			=> $size,
                         'name'			=> $object['name'],
-                        'status' 		=> 0
+                        'status' 		=> 1
                     )
                 );
-                $this->{'Image'}->save($imagenTruncada);
-                $images['thumbnails'][$key]['id'] = $this->{'Image'}->id;
+
+                if($size == 'small'){
+                    $imagenTruncada['Image']['parent_id'] = null;
+                    $this->{'Image'}->save($imagenTruncada);
+                    $parentId = $this->{'Image'}->id;
+                }else{
+                    $imagenTruncada['Image']['parent_id'] = $parentId;
+                    $this->{'Image'}->save($imagenTruncada);
+                }
+
+                $images[$size]['id'] = $this->{'Image'}->id;
                 $this->{'Image'}->create();
+
             }
+
         }
 
-        /*
-                        {
-                           "original":{
-                              "name":"Capturadepantallade2013-01-0619203433.png",
-                              "id":"78"
-                           },
-                           "thumbnails":{
-                              "large":{
-                                 "name":"Capturadepantallade2013-01-0619203430.png",
-                                 "size":"1920x1080",
-                                 "id":"79"
-                              },
-                              "median":{
-                                 "name":"Capturadepantallade2013-01-0619203431.png",
-                                 "size":"900x900",
-                                 "id":"80"
-                              },
-                              "small":{
-                                 "name":"Capturadepantallade2013-01-0619203432.png",
-                                 "size":"400x400px",
-                                 "id":"81"
-                              }
-                           }
-                        }
-        */
+/*
+    {
+       "small":{
+          "name":"27e1dc0b-15f4-4794-bbeb-f81f2a510804.jpg",
+          "id":"543098b0-1830-4529-a119-04f27f000007"
+       },
+       "large":{
+          "name":"4397c285-5cb7-4431-ae09-ebb3e65ef554.jpg",
+          "id":"543098b0-fbd4-4f1a-8eb2-04f27f000007"
+       }
+    }
+*/
 
         $return = $images;
 

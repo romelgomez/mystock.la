@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    (function( product, $) {
+    (function( product, $, undefined) {
 
         /*
          Private Method
@@ -358,7 +358,9 @@ $(document).ready(function(){
          1) si es true: se hará la solicitud inmediatamente
          2) si es false o indefinido: se esperara por un evento para realizar la solicitud
          */
-        var saveDraft = function(now){
+        var saveDraft = function(now,ifSuccess){
+
+            var notification;
 
             var request_parameters = {
                 "requestType":"custom",
@@ -366,7 +368,9 @@ $(document).ready(function(){
                 "url":"/save_draft",
                 "data":{},
                 "callbacks":{
-                    "beforeSend":function(){},
+                    "beforeSend":function(){
+                        notification = ajax.notification("beforeSend");
+                    },
                     "success":function(response){
 //                        $('#debug').text(JSON.stringify(response));
 
@@ -376,6 +380,7 @@ $(document).ready(function(){
 
                         // {"id":"8","time":"22:04"}
                         if(response['id']){
+
                             $('#ProductId').attr({"value":response['id']});
                             $('#debugTime').css({"display":"block"});
                             $('#lastTimeSave').html(response['time']);
@@ -385,10 +390,22 @@ $(document).ready(function(){
                             // se prende
                             // se apaga y luego se prende
                             // se apaga y luego se prende
+
+                            if ( ifSuccess !== undefined ) {
+                                ifSuccess();
+                                ajax.notification("complete",notification);  // cuando sea llamada desde fileUpload()
+                            }else{
+                                ajax.notification("success",notification);   // cuando sea solicitado por el usuario
+                            }
+
+                        }else{
+                            ajax.notification("error",notification);
                         }
 
                     },
-                    "error":function(){},
+                    "error":function(){
+                        ajax.notification("error",notification);
+                    },
                     "complete":function(response){}
                 }
             };
@@ -497,22 +514,22 @@ $(document).ready(function(){
                      Descripción: función destinada a establecer un efecto visual de requerido sobre la sección dispuesta para cargar imágenes.
                      */
                     var start_upload = function(){
-                        var start_upload = $("#start-upload");
+                        var start_upload = $("#previews");
 
-                        start_upload.parent().css({
+                        start_upload.css({
                             "background-color":"#FFD1D1",
                             "border":"1px solid red"
                         });
                         start_upload.one("click",function(){
-                            $("#start-upload").parent().css({
-                                "background-color":"white",
+                            $("#start-upload").css({
+                                "background-color":"#f5f5f5",
                                 "border":"1px solid #CCC"
                             });
                         });
                     };
 
                     if($('#ProductId').val()){
-                        if($("#product_thumbnails").find("a").length > 0){
+                        if($("#previews").find(".dz-preview").length > 0){
                             /* luz verde para realizar solicitud ajax
                              ********************************/
 
@@ -581,71 +598,6 @@ $(document).ready(function(){
             validate.form("ProductAddForm",newProductValidateObj);
         };
 
-        /*
-         Private Method
-         Descripción: destinada inhabilitar miniaturas del producto.
-         */
-        var disableThumbnails = function(){
-            $("#product_thumbnails").find(".disable-this-product-thumbnail").each(function(){
-                $(this).off("click");
-                $(this).click(function(){
-                    var pure_json_obj   = $(this).parent().children().last().html();
-                    var obj             = $.parseJSON(pure_json_obj);
-
-                    var notification;
-
-                    // proceso para inhabilitar una imagen
-                    var request_parameters = {
-                        "requestType":"custom",
-                        "type":"post",
-                        "url":"/disable_this_imagen",
-                        "data":{},
-                        "callbacks":{
-                            "beforeSend":function(){
-                                notification = ajax.notification("beforeSend");
-                            },
-                            "success":function(response){
-//                        $('#debug').text(JSON.stringify(response));
-
-                                if(response['expired_session']){
-                                    window['location'] = "/entrar";
-                                }
-
-                                if(response['status']){
-                                    ajax.notification("success",notification);
-                                    $("#thumbnail-id-"+response['image_id']).remove();
-                                }else{
-                                    ajax.notification("error",notification);
-                                }
-
-                                // proceso para determinar si aun existen imágenes en la vista del producto.
-                                if(!$("#product_thumbnails").find("a").length){
-                                    //ocultar el elemento con id product_thumbnails
-                                    $('#product_thumbnails').css({
-                                        "display": "none"
-                                    });
-                                    //muestro start-upload
-                                    $('#start-upload').css({
-                                        "display": "inherit"
-                                    });
-                                }
-
-                            },
-                            "error":function(){
-                                ajax.notification("error",notification);
-                            },
-                            "complete":function(){}
-                        }
-                    };
-
-                    request_parameters['data']['image_id']      = obj['original']['id'];
-                    request_parameters['data']['product_id']    = $('#ProductId').val();
-
-                    ajax.request(request_parameters);
-
-                });
-            });
-        };
 
         /*
          Private Method
@@ -796,8 +748,6 @@ $(document).ready(function(){
 
         };
 
-
-
         var _delete =  function(){
 
             var notification;
@@ -847,338 +797,196 @@ $(document).ready(function(){
 
         };
 
-        /*
-         Private Method
-         Descripción: Destinado a procesar las imágenes cargadas que quedaron en el modal. Una vez cargadas la imágenes existe la opción de eliminarla, las imágenes que queden en el modal serán procesadas, si son eliminadas todas la imágenes el botón queda inhabilitado, por lo tanto esta lógica deja de ser procesada.
-         */
-        var saveThis = function(){
 
-            $('#save-this').click(function(event){
-                event.preventDefault();
 
-                $('#uploading-pictures').modal('hide');
+        var  fileUpload = function(){
 
-                var dropFilesThumbnail = $('#drop-files').find("a");
+            var layout = '<div class="dz-preview dz-file-preview">'+
+                '<div class="dz-details">'+
+                    '<img data-dz-thumbnail />'+
+                '</div>'+
+                '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
+                '<div class="dz-success-mark"><span>✔</span></div>'+
+                '<div class="dz-error-mark"><span>✘</span></div>'+
+                '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
+            '</div>';
 
-                if(dropFilesThumbnail.length > 0){
+            var removeButton = function(instance,file){
 
-                    var images_ids = [];
-                    dropFilesThumbnail.each(function(){
+                var notification;
 
-                        var image_pure_json_obj 	= $(this).children().last().html();
-                        var image_obj				= $.parseJSON(image_pure_json_obj);
+                // proceso para inhabilitar una imagen
+                var request_parameters = {
+                    "requestType":"custom",
+                    "type":"post",
+                    "url":"/disable_this_imagen",
+                    "data":{},
+                    "callbacks":{
+                        "beforeSend":function(){
+                            notification = ajax.notification("beforeSend");
+                        },
+                        "success":function(response){
+//                        $('#debug').text(JSON.stringify(response));
 
-                        images_ids.push(image_obj['original']['id']);
+                            if(response['expired_session']){
+                                window['location'] = "/entrar";
+                            }
 
-                        // Insertar la imagen del producto en la vista
-                        var product_thumbnail_element = '<a id="thumbnail-id-'+image_obj['original']['id']+'" style="overflow: hidden; width: 200px; height: 200px; float: left; margin: 5px;">'+
-                            '<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;">'+
-                                '<img src="/resources/app/img/products/'+image_obj['thumbnails']['small']['name']+'" class="img-thumbnail" />'+
-                            '</div>'+
-                            '<div class="disable-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                                '<img style="width: 24px;" src="/resources/app/img/x.png">'+
-                            '</div>'+
-                            '<div class="view-this-product-thumbnail" style="overflow: hidden; z-index: 1; margin-top:-120px; margin-left: 80px; position: relative;  padding-right: 2px; padding-top: 2px; width: 32px; height: 32px; cursor: pointer;">'+
-                                '<img src="/resources/app/img/view.png">'+
-                            '</div>'+
-                            '<div style="display:none;">'+image_pure_json_obj+'</div>'+
-                        '</a>';
+                            if(response['status']){
+                                ajax.notification("success",notification);
+                            }else{
+                                ajax.notification("error",notification);
+                            }
 
-                        var productThumbnails = $('#product_thumbnails');
+                        },
+                        "error":function(){
+                            ajax.notification("error",notification);
+                        },
+                        "complete":function(){}
+                    }
+                };
 
-                        if(productThumbnails.find("a").length){
-                            // console.log('cuando existen lis');
 
-                            productThumbnails.append(product_thumbnail_element);
+                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
+                // Listen to the click event
+                removeButton.addEventListener("click", function(e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Remove the file preview.
+                    instance.removeFile(file);
+
+                    // en el contendor #previews determinamos si existen elementos con la clases div.dz-preview, que corresponden a una imagen cargada, si existen, nada pasa, si no existen, se oculta #continue-upload y se muestra #first-files, ambos ID corresponde a botones que inicializan la carga de imágenes.
+                    var previews = $("#previews").find("div.dz-preview");
+                    if(previews.length == 0 ){
+                        $("#first-files").show();
+                        $("#continue-upload").hide();
+                        $("#upload-all").hide();
+                    }
+
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                    if(file['xhr'] !== undefined){
+//                        console.log('Es una imagen recién cargada al servidor que se quiere eliminar');
+
+                        var obj = JSON.parse(file['xhr']['response']);
+
+                        request_parameters['data']['image_id']      = obj['small']['id'];
+                        request_parameters['data']['product_id']    = $('#ProductId').val();
+
+                        ajax.request(request_parameters);
+
+                    }else{
+                        if(file['id']  !== undefined){
+//                            console.log('Es una imagen que esta en servidor');
+
+                            request_parameters['data']['image_id']      = file['id'];
+                            request_parameters['data']['product_id']    = $('#ProductId').val();
+
+                            ajax.request(request_parameters);
 
                         }else{
-                            // console.log('cuando no existen lis')
-
-                            //ocultar start-upload
-                            $('#start-upload').css({
-                                "display": 'none'
-                            });
-
-                            //insertar los lis en el carrusel
-                            productThumbnails.append(product_thumbnail_element);
-
-                            //mostrar el elemento con id product_thumbnails
-                            productThumbnails.css({
-                                display: 'inherit'
-                            });
-
-                            // mostrar link -continuar cargando-
-                            $('#continue-upload').css({
-                                "display": "inline"
-                            });
+//                            console.log('Es una imagen en cola que fue eliminada')
                         }
+                    }
 
-                    });
+                });
 
-                    //Habilitar las miniaturas seleccionadas.
-                    var request_parameters = {
-                        "requestType":"custom",
-                        "type":"post",
-                        "url":"/enables_this_images",
-                        "data":{},
-                        "callbacks":{
-                            "beforeSend":function(){},
-                            "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
-
-                                if(response['expired_session']){
-                                    window.location = "/entrar";
-                                }
-
-                            },
-                            "error":function(){},
-                            "complete":function(response){}
-                        }
-                    };
-
-//                    console.log('images_ids',images_ids);
-                    request_parameters['data']['images_ids'] = images_ids;
-                    request_parameters['data']['product_id'] =  $('#ProductId').val();
-                    ajax.request(request_parameters);
-
-
-                    // remover la miniaturas del modal
-                    dropFilesThumbnail.each(function(){
-                        $(this).remove();
-                    });
-
-                    $('#optional-selection-container').css({
-                        "display": "block"
-                    });
-
-                    $('#second-files-button').css({
-                        "display": "none"
-                    });
-
-                    // no permitimos guardar
-                    $('#save-this').attr({"disabled":"disabled"});
-
-                    /* inhabilitar miniaturas del producto
-                     *****************************************/
-                    disableThumbnails();
-
-                    /* Visualizar en mejor resolución una miniatura habilitada del producto.
-                     *****************************************/
-                    betterVisualizing();
-
-                }
-
-            });
-
-        };
-
-        /*
-         Private Method
-         Descripción: Destinado a observar el evento de abrir el modal para cargar imágenes del producto o servicio, con el fin de establecer acciones.
-         */
-        var imagesEvents = function () {
-            $("#start-upload").on('click',function(event){
-                event.preventDefault();
-                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
-            });
-
-            $('#uploading-pictures').on('show.bs.modal', function(){
-                saveDraft(true);
-            });
-
-            $("#continue-upload").on('click',function(event){
-                event.preventDefault();
-                $('#uploading-pictures').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false});
-            });
-        };
-
-        /*
-         Private Method
-         Descripción:  Subir las imágenes
-         */
-        var fileUpload = function (){
-
-
-            var file_input_element_ids  = ["first-files","second-files"];
-            var dropElementId           = $("#drop-files");
-
-
-            var beforeUpload = function(){
-                var lastElementInserted;
-
-                var temporary_element = '<a style="overflow: hidden;  width: 200px; height: 200px; float: left; margin: 5px;" >'+
-                    '<div style="overflow: hidden; width: 200px; padding-top: 30px;" >'+
-                    '<div style="text-align: center;">'+
-                    '<img src="/resources/app/img/photocamera.png" class="img-thumbnail" >'+
-                    '</div>'+
-                    '</div>'+
-                    '<div style="overflow: hidden; width: 200px; margin-top: 5px;" >'+
-                    '<div style="text-align: center;">'+
-                    '<span class="upload-progress"><img src="/resources/app/img/loading.gif" ></span>'+
-                    '</div>'+
-                    '</div>'+
-                    '</a>';
-
-                var dropFiles = $('#drop-files');
-
-                if($("#optional-selection-container")){
-                    $('#optional-selection-container').css({
-                        "display": "none"
-                    });
-                    dropFiles.append(temporary_element);
-                    lastElementInserted = dropFiles.children().last();
-                }else{
-                    dropFiles.append(temporary_element);
-                    lastElementInserted =  dropFiles.children().last();
-                }
-
-                // añadir mas
-                $('#second-files-button').css({"display":"block"});
-
-                // permitimos guardar
-                $('#save-this').removeClass('disabled');
-
-                return  lastElementInserted;
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
             };
 
-            var upload = function(file,lastElementInserted){
-//
-                var form = new FormData();
-                form.append("product_id", $('#ProductId').val());
-                form.append("image", file);
 
-                $.ajax({
-                    url: '/image_add',
-                    data: form,
-                    processData: false,
-                    contentType: false,
-                    type: 'POST'
-                })
-                .done(function(response) {
+            $(document.body).dropzone({
+                url: "/image_add",
+                previewsContainer: "#previews",  // Define the container to display the previews
+                clickable: ".clickable",         // Define the element that should be used as click trigger to select files.
+                paramName: "image",              // The name that will be used to transfer the file
+                maxFilesize: 10,                 // MB
+                acceptedFiles: 'image/*',
+                autoQueue: false,
+                previewTemplate: layout,
+                init: function() {
 
-                    var obj = $.parseJSON(response);
-                    if(obj['expired_session']){
-                        window['location'] = "/entrar";
-                    }
+                    var myDropzone = this; // closure
 
-                    /*
-                        {
-                            "original":{
-                                "name":"Capturadepantallade2013-01-0619203433.png",
-                                    "id":"78"
-                            },
-                            "thumbnails":{
-                                "large":{
-                                    "name":"Capturadepantallade2013-01-0619203430.png",
-                                        "size":"1920x1080",
-                                        "id":"79"
-                                },
-                                "median":{
-                                    "name":"Capturadepantallade2013-01-0619203431.png",
-                                        "size":"900x900",
-                                        "id":"80"
-                                },
-                                "small":{
-                                    "name":"Capturadepantallade2013-01-0619203432.png",
-                                        "size":"400x400px",
-                                        "id":"81"
-                                }
-                            }
-                        }
-                    */
+                    $("#upload-all").on("click", function() {
+//                        console.log("clicked");
 
-                    var myTemplate = 	'<div style="overflow: hidden; width: 200px; height: 200px; z-index: 0; position: relative;" >'+
-                            '<div style="text-align: center;">'+
-                            '<img src="/resources/app/img/products/'+obj['thumbnails']['small']['name']+'" class="img-thumbnail" >'+
-                            '</div>'+
-                            '</div>'+
-                            '<div class="delete-this-image" style="overflow: hidden; z-index: 1; margin-top:-200px; position: relative; float: right; cursor: pointer;">'+
-                            '<img style="width: 24px;" src="/resources/app/img/x.png">'+
-                            '</div>'+
-                            '<div style="display:none">'+response+'</div>';
+                        var ifSuccess = function(){
+//                            console.log($('#ProductId').val());
+                            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
+                        };
 
-                    $(lastElementInserted).html(myTemplate);
+                        saveDraft(true,ifSuccess);
 
-                    $('#save-this').attr({"disabled":false});
-
-                    $(lastElementInserted).find('div.delete-this-image').click(function(){
-                        $(this).parent().remove();
-                        exist_thumbnails();
                     });
 
-                    // ¿siguen existiendo miniaturas luego de borrar una? no, entonces se normaliza la vista.
-                    var exist_thumbnails = function(){
-                        if(!$('#drop-files').find("a").length){
-                            $('#optional-selection-container').css({
-                                "display": "block"
+                    // Para incluir las imágenes que ya estén cargadas.
+                    var pathname = $(location).attr('href');
+                    var url = $.url(pathname);
+                    var split_segments = url.attr('directory').split('/');
+                    if(split_segments[1] == 'editar' || split_segments[1] == 'editar_borrador' ){
+                        var images = JSON.parse(utility.removeCommentTag($("#images").html()));
+                        if(images.length > 0){
+                            $("#first-files").hide();
+                            $("#continue-upload").show();
+
+                            $(images).each(function(index,obj){
+//                                console.log(obj);
+                                // Create the mock file:
+                                var mockFile = { id: obj['id'], name: obj['name']};
+
+                                // Call the default addedfile event handler
+                                myDropzone.emit("addedfile", mockFile);
+
+                                // And optionally show the thumbnail of the file:
+                                myDropzone.emit("thumbnail", mockFile, "/resources/app/img/products/"+obj['name']);
+
+                                removeButton(myDropzone,mockFile);
+
+                                $(mockFile.previewElement).addClass('dz-success'); // .setAttribute("class",".dz-success");
+
                             });
-                            $('#second-files-button').css({
-                                "display": "none"
-                            });
-                            // no permitimos guardar
-                            $('#save-this').attr({"disabled":"disabled"});
                         }
                     }
 
-                });
 
-            };
 
-            // input upload
-            $(file_input_element_ids).each(function(index, value){
-                $('#'+value).change(function(){
-                    for(var i=0; i < this.files.length; i++){
-                        var file = this.files[i];
-                        upload(file,beforeUpload());
-                    }
-                });
-            });
+                    // Added file
+                    myDropzone.on("addedfile", function(file) {
+                        console.log("Added file.");
 
-            // drag and drop upload
-            dropElementId.on('dragover',function(event){
-                event.preventDefault();
-                event.stopPropagation();
+                        $("#first-files").hide();
+                        $("#continue-upload").show();
+                        $("#upload-all").show();
 
-                $('#drop-files').css({
-                    "border": '2px dashed #357AE8'
-                });
+                        removeButton(myDropzone,file);
 
-            });
+                    });
 
-            dropElementId.on('dragenter',function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
+                    // Sending
+                    myDropzone.on("sending", function(file, xhr, formData) {
+                        formData.append("product_id", $('#ProductId').val());
+                    });
 
-            dropElementId.on('dragleave',function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            });
+                    // Success
+                    myDropzone.on("success", function(file, xhr){
+//                        console.log(file);
+//                        console.log(xhr);
+//                        file.data = xhr;
+                    });
 
-            dropElementId.on('drop',function(event){
+                    // Error
+                    myDropzone.on("error",function(file,errorMessage,xhr){
+                        // ...
+                    });
 
-                $('#drop-files').css({
-                    "border": '2px dashed #DCDCDC'
-                });
-
-                if(event['originalEvent']['dataTransfer']){
-
-                    var filesLength = event['originalEvent']['dataTransfer']['files'].length;
-                    if(filesLength > 0) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        for (var i = 0; i < filesLength; i++) {
-                            var file = event['originalEvent']['dataTransfer']['files'][i];
-                            upload(file,beforeUpload());
-                        }
-                    }
                 }
-
             });
-
-
         };
+
 
         //Public Method
         product.init = function(){
@@ -1195,15 +1003,15 @@ $(document).ready(function(){
             // Se inicializa el WYSIWYG
             initRedactor();
 
-            if($('#product_thumbnails').find("a").length){
-                /* inhabilitar miniaturas del producto
-                 *****************************************/
-                disableThumbnails();
-
-                /* Visualizar en mejor resolución una miniatura habilitada del producto
-                 ************************************************************************/
-                betterVisualizing();
-            }
+//            if($('#product_thumbnails').find("a").length){
+//                /* inhabilitar miniaturas del producto
+//                 *****************************************/
+//                disableThumbnails();
+//
+//                /* Visualizar en mejor resolución una miniatura habilitada del producto
+//                 ************************************************************************/
+//                betterVisualizing();
+//            }
 
             activate();
 
@@ -1211,14 +1019,16 @@ $(document).ready(function(){
 
             _delete();
 
+            // IMAGES
             // procesa las imágenes cargadas que quedaron en el modal
-            saveThis();
+//            saveThis();
 
             // observar el evento de abrir el modal para cargar imágenes del producto o servicio
-            imagesEvents();
+//            imagesEvents();
 
             // Subir las imágenes
             fileUpload();
+
 
         };
 

@@ -106,22 +106,22 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['product']['id'];
-            var title       = obj['product']['title'];
-            var price       = obj['product']['price'];
+            var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'];
+            var price       = obj['Product']['price'];
 
-            var date   = new Date(obj['product']['created']);
+            var date   = new Date(obj['Product']['created']);
             var created = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var image = '';
 
-            if(obj['imagen'] == undefined){
+            if(obj['Image'] == undefined){
                 image = '/resources/app/img/foto-no-disponible.jpg';
             }else{
-                image = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+                image = '/resources/app/img/products/'+obj['Image'][0]['name'];
             }
 
-            var  link = '/editar_borrador/'+obj['product']['id'];
+            var  link = '/editar_borrador/'+obj['Product']['id'];
 
 
             if(title == '') {
@@ -130,7 +130,7 @@ $(document).ready(function(){
 
 
             // se arma una publicación
-            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
+            return  '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px;" >'+
                 '<a class="pull-left" href="'+link+'">'+
                 '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                 '</a>'+
@@ -146,7 +146,6 @@ $(document).ready(function(){
                 '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
                 '</div>'+
                 '</div>'+
-                '<div style="display:none;"><!--'+JSON.stringify(obj)+'--></div>'+
                 '</div>';
 
 
@@ -683,10 +682,10 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
 
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
+                        var id = $(this).parents("div.product").attr('id');
+                        id = utility.stringReplace(id,'product-','');
 
-                        window.location = '/editar_borrador/'+obj['product']['id'];
+                        window.location = '/editar_borrador/'+id;
 
                     });
                 });
@@ -798,9 +797,11 @@ $(document).ready(function(){
 
                     $(this).off('click');
                     $(this).on('click',function(){
-                        var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(utility.stringReplace(pure_json_obj));
-                        $("#delete_product").attr({"product_id":obj['product']['id']});
+
+                        var id = $(this).parents("div.product").attr('id');
+                        id = utility.stringReplace(id,'product-','');
+
+                        $("#delete_product").attr({"product_id":id});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
                         });

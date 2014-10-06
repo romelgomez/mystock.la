@@ -109,22 +109,22 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['product']['id'];
-            var title       = obj['product']['title'];
-            var price       = obj['product']['price'];
+            var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'];
+            var price       = obj['Product']['price'];
 
-            var date        = new Date(obj['product']['created']);
+            var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
 
-            var image       = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+            var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
             var status = '';
             var status_button = '';
 
-            if(obj['product']['status']){
+            if(obj['Product']['status']){
                 status = '<span class="label label-success active-status">publicado</span>';
                 status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
@@ -132,7 +132,7 @@ $(document).ready(function(){
                 status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
-            var quantity = obj['product']['quantity'];
+            var quantity = obj['Product']['quantity'];
             var _quantity = '';
 
             if(quantity == 0){
@@ -711,311 +711,8 @@ $(document).ready(function(){
         };
 
 
-        /*
-         * Private Method
-         * Descripción: función destinada a pausar una publicación activa
-         * Parámetros:  null
-         *************************************************************************************************************************************************************/
-        var pause = function(){
-
-            var notification;
-
-            var request_parameters = {
-                "requestType":"custom",
-                "type":"post",
-                "url":"/pause",
-                "data":{},
-                "callbacks":{
-                    "beforeSend":function(){
-                        notification = ajax.notification("beforeSend");
-                    },
-                    "success":function(response){
-
-                        if(response['expired_session']){
-                            window.location = "/entrar";
-                        }
-
-                        if(response['result']){
-                            $("#product-"+response['id']+' .pause').css({
-                                "display": 'none'
-                            });
-                            $("#product-"+response['id']+' .activate').css({
-                                "display": 'inline'
-                            });
-
-                            var status = '<span class="label label-warning paused-status">pausado</span>';
-                            $("#product-"+response['id']+' .active-status').replaceWith(status);
-
-                        }else{
-                            window.location = "/";
-                        }
-
-                    },
-                    "error":function(){
-                        ajax.notification("error",notification);
-                    },
-                    "complete":function(){
-                        ajax.notification("complete",notification);
-                    }
-                }
-            };
-
-            var elements = $("#products").find(".pause");
-
-            if(elements.length){
-                $(elements).each(function(){
-                    $(this).off('click');
-                    $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        var request_this = {};
-                        request_this.id  = obj.product.id;
-
-                        request_parameters.data =    request_this;
-                        ajax.request(request_parameters);
-                    });
-
-                });
-            }
-
-        };
-
-        /*
-         * Private Method
-         * Descripción: función destinada a activar una publicación pausada
-         * Parámetros:  null
-         *************************************************************************************************************************************************************/
-        var activate = function(){
-
-            var notification;
-
-            var request_parameters = {
-                "requestType":"custom",
-                "type":"post",
-                "url":"/activate",
-                "data":{},
-                "callbacks":{
-                    "beforeSend":function(){
-                        notification = ajax.notification("beforeSend");
-                    },
-                    "success":function(response){
-
-                        if(response['expired_session']){
-                            window.location = "/entrar";
-                        }
-
-                        if(response['result']){
-                            $("#product-"+response['id']+' .pause').css({
-                                "display": "inline"
-                            });
-                            $("#product-"+response['id']+' .activate').css({
-                                "display": "none"
-                            });
-                            var status = '<span class="label label-success active-status">publicado</span>';
-                            $("#product-"+response['id']+' .paused-status').replaceWith(status);
-                        }else{
-                            window.location = "/";
-                        }
-
-                    },
-                    "error":function(){
-                        ajax.notification("error",notification);
-                    },
-                    "complete":function(){
-                        ajax.notification("complete",notification);
-                    }
-                }
-            };
-
-            var elements = $("#products").find(".activate");
-
-            if(elements.length){
-                $(elements).each(function(){
-                    $(this).off('click');
-                    $(this).on('click',function(){
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        var request_this = {};
-                        request_this.id  = obj.product.id;
-                        request_parameters.data =    request_this;
-                        ajax.request(request_parameters);
-
-                    });
-                });
-            }
-
-        };
 
 
-        /*
-         * Private Method
-         * Descripción: función que procesa la solicitud de editar una publicación,  la razón de crear una función y no un simple link que es más simple, es por la maquetación o bootstrap, como es un grupo de botones pegados, al colocar un link <a></a> se descuadra. por lo tanto es requerido usar una función.
-         *************************************************************************************************************************************************************/
-        var edit = function(){
-
-            var elements = $("#products").find(".edit");
-
-            if(elements.length){
-                $(elements).each(function(){
-                    $(this).off('click');
-                    $(this).on('click',function(){
-
-                        var pure_json_obj   = $(this).parents("div.media").children().last().html();
-                        var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
-
-                        // edit link
-                        window.location = '/editar/'+obj.product.id;
-
-                    });
-                });
-            }
-        };
-
-        /*
-         * Private Method
-         * Descripción: función que procesa la solicitud de borrar una publicación
-         *************************************************************************************************************************************************************/
-        var deleteProduct =  function(){
-
-            var notification;
-
-            var request_parameters = {
-                "requestType":"custom",
-                "type":"post",
-                "url":"/delete",
-                "data":{},
-                "callbacks":{
-                    "beforeSend":function(){
-                        notification = ajax.notification("beforeSend");
-                    },
-                    "success":function(response){
-
-                        if(response['expired_session']){
-                            window.location = "/entrar";
-                        }
-
-                        //  delete_status
-                        if(response['result']){
-
-                            // Exito al eliminar la publicación
-                            $("#successful-elimination").fadeIn();
-                            setTimeout(function(){ $("#successful-elimination").fadeOut(); }, 7000);
-
-                            // Ocultamos lentamente la publicación y luego removemos el elemento del dom.
-                            $("#product-"+response['id']).fadeOut('slow',function(){
-                                $(this).remove();
-
-                                if(response['data'] !== undefined){
-                                    // hay publicaciones
-
-                                    var url_obj =  parseUrl();
-
-                                    // START Esta lógica permite resolver la url, ya que puede sufrir cambios debido a la eliminación de publicaciones. un caso es cuando se borran todas las publicaciones de la página 2, el sistema automáticamente muestra las publicaciones de la página 1, hay es cuando esta lógica entra en acción, resolviendo la como debe ser según la data mostrada.
-                                    // esta definido  order_by
-                                    if(url_obj['order_by'] != ''){
-                                        if(url_obj['page'] != ''){
-                                            if(response['info']['pageCount'] == 1){
-                                                window.location = "#"+response['win_order_by'];
-                                            }else{
-                                                window.location = "#"+response['win_order_by']+'/pagina-'+response['info']['page'];
-                                            }
-                                        }else{
-                                            window.location = "#"+response['win_order_by'];
-                                        }
-                                    }else{
-                                        if(url_obj['page'] != ''){
-                                            if(response['info']['pageCount'] == 1){
-                                                window.location = "#";
-                                            }else{
-                                                window.location = "#pagina-"+response['info']['page'];
-                                            }
-                                        }
-                                    }
-                                    // END
-
-                                    if(response['info']['pageCount'] == 1){
-                                        $("#prev-page").off('click');
-                                        $("#next-page").off('click');
-                                        $("#pagination").css({"display":"none"});
-                                    }
-
-                                    setLastResponseInfo(response);
-                                    preparePublications();
-
-                                }else{
-                                    window.location = "#";
-
-                                    //se oculta el contenedor de los filtros
-                                    $("#information-panel").hide();
-
-                                    $("#yes-products").hide();
-
-                                    // no hay publicaciones.
-                                    $("#no-products").show();
-
-                                }
-
-                            });
-
-                        }else{
-                            window.location = "/";
-                        }
-
-                    },
-                    "error":function(){
-                        ajax.notification("error",notification);
-                    },
-                    "complete":function(){
-                        ajax.notification("complete",notification);
-                    }
-                }
-            };
-
-
-            var elements = $("#products").find(".delete");
-
-            if(elements.length){
-                $(elements).each(function(){
-
-                    $(this).off('click');
-                    $(this).on('click',function(){
-                        var pure_json_obj = $(this).parents("div.media").children().last().html();
-                        var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        $("#delete_product").attr({"product_id":obj['product']['id']});
-
-                        $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
-                        });
-                    });
-
-                    var element = $("#delete_product");
-
-                    element.off('click');
-                    element.on('click',function(){
-                        $('#delete_product_modal').modal('hide');
-
-                        var request_this = {};
-
-                        var url_obj =  parseUrl();
-                        if(url_obj['page'] != ''){
-                            request_this.page   = url_obj['page'];
-                        }
-                        if(url_obj['order_by'] != ''){
-                            request_this.order_by = url_obj['order_by'];
-                        }
-
-                        request_this.id  		= $(this).attr("product_id");
-                        request_this.session 	= false;
-                        request_this.paginate 	= true;
-
-                        request_parameters.data = request_this;
-                        ajax.request(request_parameters);
-
-                    });
-
-                });
-            }
-
-        };
 
 
         //Private Method
@@ -1066,12 +763,6 @@ $(document).ready(function(){
                         // se establece las publicaciones en el DOM
                         $('#products').html(products);
 
-                        /* se llama a los observadores de eventos para procesar solicitudes relacionadas.
-                         *********************************************************************************/
-                        pause();
-                        activate();
-                        edit();
-                        deleteProduct();
 
                     }
                     // END
