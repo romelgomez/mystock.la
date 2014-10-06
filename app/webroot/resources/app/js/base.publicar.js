@@ -514,22 +514,22 @@ $(document).ready(function(){
                      Descripción: función destinada a establecer un efecto visual de requerido sobre la sección dispuesta para cargar imágenes.
                      */
                     var start_upload = function(){
-                        var start_upload = $("#start-upload");
+                        var start_upload = $("#previews");
 
-                        start_upload.parent().css({
+                        start_upload.css({
                             "background-color":"#FFD1D1",
                             "border":"1px solid red"
                         });
                         start_upload.one("click",function(){
-                            $("#start-upload").parent().css({
-                                "background-color":"white",
+                            $("#start-upload").css({
+                                "background-color":"#f5f5f5",
                                 "border":"1px solid #CCC"
                             });
                         });
                     };
 
                     if($('#ProductId').val()){
-                        if($("#product_thumbnails").find("a").length > 0){
+                        if($("#previews").find(".dz-preview").length > 0){
                             /* luz verde para realizar solicitud ajax
                              ********************************/
 
@@ -598,71 +598,6 @@ $(document).ready(function(){
             validate.form("ProductAddForm",newProductValidateObj);
         };
 
-        /*
-         Private Method
-         Descripción: destinada inhabilitar miniaturas del producto.
-         */
-        var disableThumbnails = function(){
-            $("#product_thumbnails").find(".disable-this-product-thumbnail").each(function(){
-                $(this).off("click");
-                $(this).click(function(){
-                    var pure_json_obj   = $(this).parent().children().last().html();
-                    var obj             = $.parseJSON(pure_json_obj);
-
-                    var notification;
-
-                    // proceso para inhabilitar una imagen
-                    var request_parameters = {
-                        "requestType":"custom",
-                        "type":"post",
-                        "url":"/disable_this_imagen",
-                        "data":{},
-                        "callbacks":{
-                            "beforeSend":function(){
-                                notification = ajax.notification("beforeSend");
-                            },
-                            "success":function(response){
-//                        $('#debug').text(JSON.stringify(response));
-
-                                if(response['expired_session']){
-                                    window['location'] = "/entrar";
-                                }
-
-                                if(response['status']){
-                                    ajax.notification("success",notification);
-                                    $("#thumbnail-id-"+response['image_id']).remove();
-                                }else{
-                                    ajax.notification("error",notification);
-                                }
-
-                                // proceso para determinar si aun existen imágenes en la vista del producto.
-                                if(!$("#product_thumbnails").find("a").length){
-                                    //ocultar el elemento con id product_thumbnails
-                                    $('#product_thumbnails').css({
-                                        "display": "none"
-                                    });
-                                    //muestro start-upload
-                                    $('#start-upload').css({
-                                        "display": "inherit"
-                                    });
-                                }
-
-                            },
-                            "error":function(){
-                                ajax.notification("error",notification);
-                            },
-                            "complete":function(){}
-                        }
-                    };
-
-                    request_parameters['data']['image_id']      = obj['original']['id'];
-                    request_parameters['data']['product_id']    = $('#ProductId').val();
-
-                    ajax.request(request_parameters);
-
-                });
-            });
-        };
 
         /*
          Private Method
@@ -933,7 +868,7 @@ $(document).ready(function(){
                     // If you want to the delete the file on the server as well,
                     // you can do the AJAX request here.
                     if(file['xhr'] !== undefined){
-                        console.log('Es una imagen recién cargada al servidor que se quiere eliminar');
+//                        console.log('Es una imagen recién cargada al servidor que se quiere eliminar');
 
                         var obj = JSON.parse(file['xhr']['response']);
 
@@ -944,7 +879,7 @@ $(document).ready(function(){
 
                     }else{
                         if(file['id']  !== undefined){
-                            console.log('Es una imagen que esta en servidor');
+//                            console.log('Es una imagen que esta en servidor');
 
                             request_parameters['data']['image_id']      = file['id'];
                             request_parameters['data']['product_id']    = $('#ProductId').val();
@@ -952,7 +887,7 @@ $(document).ready(function(){
                             ajax.request(request_parameters);
 
                         }else{
-                            console.log('Es una imagen en cola que fue eliminada')
+//                            console.log('Es una imagen en cola que fue eliminada')
                         }
                     }
 

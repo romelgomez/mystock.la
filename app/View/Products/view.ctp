@@ -1,4 +1,7 @@
-<?php $data = $this->{'request'}->{'data'}; ?>
+<?php
+//    debug($this->{'request'});
+    $data = $this->{'request'}->{'data'};
+?>
 
 <!-- Content
 ===================== -->
@@ -20,8 +23,8 @@
 
                         <?php foreach($this->request->data['Image'] as $index => $imagen){ ?>
 
-                                <a href="/resources/app/img/products/<?php echo $imagen['original']['name']; ?>" data-toggle="lightbox" data-gallery="multiimages" data-title="<?php echo ucfirst($data['Product']['title']) ?>" class="col-md-2 thumbnail" style=" margin: 5px;">
-                                    <img src="/resources/app/img/products/<?php echo $imagen['thumbnails']['small']['name']; ?>" class="img-responsive">
+                                <a href="/resources/app/img/products/<?php echo $imagen['large']; ?>" data-toggle="lightbox" data-gallery="multiimages" data-title="<?php echo ucfirst($data['Product']['title']) ?>" class="col-md-2 thumbnail" style=" margin: 5px;">
+                                    <img src="/resources/app/img/products/<?php echo $imagen['small']; ?>" class="img-responsive">
                                 </a>
 
                         <?php } ?>

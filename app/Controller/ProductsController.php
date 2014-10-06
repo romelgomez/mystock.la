@@ -31,44 +31,37 @@
 
             if($product_data){
 
+                // Start
+
+//                [
+//                  {'small':'f155d610-a8c7-4aee-b4f1-98f0b3442012.jpg','large':'f155d610-a8c7-4aee-b4f1-98f0b34420ss.jpg'},
+//                  {'small':'0c05ec97-aa2d-4cf7-a80f-20d8e1c38887.jpg','large':'0c05ec97-aa2d-4cf7-a80f-20d8e1c38855.jpg'}
+//                ]
+
                 if($product_data['Image']){
                     $this->{'loadModel'}('Image');
 
                     $data = array();
 
-                    foreach($product_data['Image'] as $index_0 => $original_imagen){
+                    foreach($product_data['Image'] as $index_0 => $smallImagen){
 
                         //debug($original_imagen);
-                        $data[$index_0]['original'] 		= $original_imagen;
-                        $products[$index_0]['children'] 	=  $this->{'Image'}->find('all',array(
-                                'conditions' => array('Image.parent_id' => $original_imagen['id']),
+                        $data[$index_0]['small'] 		= $smallImagen['name'];
+
+                        $largeImagen	=  $this->{'Image'}->find('first',array(
+                                'conditions' => array('Image.parent_id' => $smallImagen['id'],'Image.size'=>'large'),
                                 'contain' => false
                             )
                         );
-                        foreach($products[$index_0]['children'] as $children){
 
-                            $namespace = '';
+                        $data[$index_0]['large'] 		= $largeImagen['Image']['name'];
 
-                            switch ($children['Image']['size']) {
-                                case '1920x1080':
-                                    $namespace = 'large';
-                                    break;
-                                case '900x900':
-                                    $namespace = 'median';
-                                    break;
-                                case '400x400px':
-                                    $namespace = 'small';
-                                    break;
-                            }
-
-                            $data[$index_0]['thumbnails'][$namespace] = $children['Image'];
-
-                        }
                     }
 
                     $product_data['Image'] = array();
                     $product_data['Image'] = $data;
                 }
+                // End
 
                 $product_data['Path'] = $path;
                 $this->{'request'}->data = $product_data;

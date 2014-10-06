@@ -106,22 +106,24 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['product']['id'];
-            var title       = obj['product']['title'];
-            var price       = obj['product']['price'];
+//            console.log
 
-            var date        = new Date(obj['product']['created']);
+            var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'];
+            var price       = obj['Product']['price'];
+
+            var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
 
-            var image       = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+            var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
             var status = '';
             var status_button = '';
 
-            if(obj['product']['status']){
+            if(obj['Product']['status']){
                 status = '<span class="label label-success active-status">publicado</span>';
                 status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
@@ -129,7 +131,7 @@ $(document).ready(function(){
                 status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
-            var quantity = obj['product']['quantity'];
+            var quantity = obj['Product']['quantity'];
             var _quantity = '';
 
             if(quantity == 0){
@@ -148,7 +150,7 @@ $(document).ready(function(){
 
 
             // se arma una publicación
-            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
+            return  '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px;" >'+
                         '<a class="pull-left" href="'+link+'">'+
                             '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
@@ -750,7 +752,7 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         var request_this = {};
-                        request_this.id  = obj.product.id;
+                        request_this.id  = obj['Product']['id'];
 
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
@@ -817,7 +819,7 @@ $(document).ready(function(){
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
                         var request_this = {};
-                        request_this.id  = obj.product.id;
+                        request_this.id  = obj['Product']['id'];
                         request_parameters.data =    request_this;
                         ajax.request(request_parameters);
 
@@ -841,11 +843,24 @@ $(document).ready(function(){
                     $(this).off('click');
                     $(this).on('click',function(){
 
+
+                        var id = $(this).parents("div.product").attr('id');
+
+                        console.log(id);
+
+                        id = utility.stringReplace(id,'product-','');
+
+                        console.log(id);
+
+
+
                         var pure_json_obj   = $(this).parents("div.media").children().last().html();
                         var obj             = $.parseJSON(utility.removeCommentTag(pure_json_obj));
 
+//                        console.log(obj);
+
                         // edit link
-                        window.location = '/editar/'+obj.product.id;
+//                        window.location = '/editar/'+obj['Product']['id'];
 
                     });
                 });
@@ -962,7 +977,7 @@ $(document).ready(function(){
                     $(this).on('click',function(){
                         var pure_json_obj = $(this).parents("div.media").children().last().html();
                         var obj 			= $.parseJSON(utility.removeCommentTag(pure_json_obj));
-                        $("#delete_product").attr({"product_id":obj['product']['id']});
+                        $("#delete_product").attr({"product_id":obj['Product']['id']});
 
                         $('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
                         });

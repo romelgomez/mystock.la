@@ -109,22 +109,22 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['product']['id'];
-            var title       = obj['product']['title'];
-            var price       = obj['product']['price'];
+            var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'];
+            var price       = obj['Product']['price'];
 
-            var date        = new Date(obj['product']['created']);
+            var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
             var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
             var link        =   '/producto/'+id+'/'+slug+'.html';
 
-            var image       = '/resources/app/img/products/'+obj['imagen']['thumbnails']['small']['name'];
+            var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
             var status = '';
             var status_button = '';
 
-            if(obj['product']['status']){
+            if(obj['Product']['status']){
                 status = '<span class="label label-success active-status">publicado</span>';
                 status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
@@ -132,7 +132,7 @@ $(document).ready(function(){
                 status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
-            var quantity = obj['product']['quantity'];
+            var quantity = obj['Product']['quantity'];
             var _quantity = '';
 
             if(quantity == 0){
