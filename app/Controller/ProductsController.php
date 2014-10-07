@@ -19,6 +19,10 @@
     public function view(){
         $this->{'loadModel'}('Category');
 
+        $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
+        $this->{'set'}('url_action',$url_action);
+
+
         if(isset($this->{'params'}->id)){
             $id = $this->{'params'}->id;
             // para editar principalmente.

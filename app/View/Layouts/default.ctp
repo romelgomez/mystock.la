@@ -4,8 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+
+    <?php
+    // facebook
+    if(isset($url_action)){
+//        debug($url_action);
+        if($url_action == 'producto'){
+            echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['Product']['title'].'" />';
+            echo '<meta property="og:type" content="website" />';
+            echo '<meta property="og:site_name" content="SantoMercado" />';
+            echo '<meta property="og:description" content="A good some product" />';
+            echo '<meta property="og:image" content="http://www.santomercado.net/resources/app/img/products/'.$this->request->data['Image'][0]['large'].'" />';
+            echo '<meta property="og:app_id" content="599188036854190" />';
+
+        }
+    }
+    ?>
+
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
     <title>SantoMercado.com</title>
