@@ -165,7 +165,7 @@ $(document).ready(function(){
                                 '</div>'+
                             '</div>'+
                             '<div>'+
-                                '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
+                                '<span class="glyphicon glyphicon-tag"></span> Precio: $'+price+'<br>'+
                                 '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
                                 '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
                                 '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+

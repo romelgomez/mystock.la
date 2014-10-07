@@ -115,7 +115,7 @@ $(document).ready(function(){
 
             var image = '';
 
-            if(obj['Image'] == undefined){
+            if(obj['Image'] == undefined || obj['Image'].length == 0){
                 image = '/resources/app/img/foto-no-disponible.jpg';
             }else{
                 image = '/resources/app/img/products/'+obj['Image'][0]['name'];

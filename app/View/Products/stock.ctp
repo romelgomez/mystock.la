@@ -10,7 +10,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-info" role="alert" >
-                        @<?php echo ucfirst($data['User']['name']);  ?> no tiene productos en existencia
+                        <?php echo ucfirst($data['User']['name']);  ?> no tiene productos en existencia
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;">@<?php echo ucfirst($data['User']['name']);  ?> Stock</h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0;"><?php echo ucfirst($data['User']['name']);  ?> Stock</h1>
                         </div>
                     </div>
 

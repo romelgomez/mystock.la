@@ -262,7 +262,7 @@
                                         <div class="form-group">
                                             <label class="control-label" for="ProductPrice"><span class="glyphicon glyphicon-tag"></span> Precio</label>
                                             <div class="input-group col-xs-4">
-                                                <div class="input-group-addon">BsF</div>
+                                                <div class="input-group-addon">$</div>
                                                 <?php echo $this->Form->input('Product.price',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductPrice','placeholder'=>'Eje: 1000')); ?>
                                             </div>
                                             <span class="help-block" style="display: none;">El campo precio es obligatorio</span>
@@ -295,9 +295,7 @@
                     <!-- Images -->
                     <div id="images" style="display: none"><!--<?php
                         if(isset($this->request->data['Image'])){
-                            if(sizeof($this->request->data['Image']) > 0){
-                                echo json_encode($this->request->data['Image']);
-                            }
+                            echo json_encode($this->request->data['Image']);
                         }
                     ?>--></div>
                     <ul class="list-group">
