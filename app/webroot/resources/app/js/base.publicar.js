@@ -565,11 +565,13 @@ $(document).ready(function(){
                     "ProductPrice":{
                         "required":true,
                         "number": true,
+                        "maxlength":10,
                         "min":0
                     },
                     "ProductQuantity":{
                         "required":true,
                         "digits": true,
+                        "maxlength":10,
                         "min":1
                     }
                 },
@@ -584,13 +586,15 @@ $(document).ready(function(){
                     "ProductPrice":{
                         "required":"El campo: Precio, es obligatorio.",
                         "number":"Solo un numero, entero o racional separado por un punto.",
+                        "maxlength":"El precio no debe de tener mas de 10 dígitos",
                         "min":"El precio debe ser igual o mayor a 0."
                     },
                     "ProductQuantity":{
                         "required":"El campo: Cantidad disponible, es obligatorio.",
                         "digits":"Solo números enteros positivos.",
                         "min":"La cantidad debe ser igual o mayor a 1.",
-                        "number":"Por favor, introduzca un número válido."
+                        "number":"Por favor, introduzca un número válido.",
+                        "maxlength":"La cantidad disponible expresada no debe de tener mas de 10 dígitos"
                     }
                 }
             };

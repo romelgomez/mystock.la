@@ -53,12 +53,12 @@
                     <li class="list-group-item bg-primary">
                         <h2 class="text-info">
                             <span class="glyphicon glyphicon-tag"></span>
-                            Price: <?php echo $data['Product']['price'] ?>
+                            Precio: $<?php echo $data['Product']['price'] ?>
                         </h2>
                     </li>
                     <li class="list-group-item bg-primary">
                         <h4 class="text-info">
-                            <a href="<?php echo '/stock/'.$data['User']['id']; ?>">@<?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+                            <a href="<?php echo '/stock/'.$data['User']['id']; ?>"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
                         </h4>
                     </li>
                 </ul>

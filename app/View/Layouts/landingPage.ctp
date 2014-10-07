@@ -102,7 +102,7 @@
                     <br>
                     <img class="pad-top" src="/resources/theme-vendor/bootstack/assets/img/arrow-right.png" alt="">
                     <h5>Fácil de usar</h5>
-                    <p>Desde una interfaz simple, comparta su oferta de productos y servicios.</p>
+                    <p>Desde una interfaz simple, comparta su oferta de productos en redes sociales.</p>
                 </div>
             </div>
         </div> <!-- /container -->

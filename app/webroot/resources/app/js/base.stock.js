@@ -110,8 +110,15 @@ $(document).ready(function(){
         var prepareProduct = function(obj){
 
             var id          = obj['Product']['id'];
-            var title       = obj['Product']['title'];
             var price       = obj['Product']['price'];
+
+            var title = '';
+            if(obj['Product']['title'].length > 32){
+                title = obj['Product']['title'].slice(0, 32)+' ...';
+            }else{
+                title = obj['Product']['title'];
+            }
+
 
             var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
@@ -170,7 +177,7 @@ $(document).ready(function(){
                     '<div class="nombre_producto_margen">'+title+'</div>'+
                 '</span>'+
                 '<span class="precio">'+
-                    '<div style="margin-left:5px;  margin-right:5px;">Price: '+price+'</div>'+
+                    '<div style="margin-left:5px;  margin-right:5px;">Precio: $'+price+'</div>'+
                 '</span>'+
             '</a>';
 
