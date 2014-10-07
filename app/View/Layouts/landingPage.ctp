@@ -155,11 +155,11 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <h3>Encuentranos en</h3>
-                    <div id="social">
-                        <a href="#" rel="tooltip" title="Facebook" class="facebook">Facebook</a>
-                        <a href="#" rel="tooltip" title="Twitter" class="twitter">Twitter</a>
-                    </div>
+<!--                    <h3>Encuentranos en</h3>-->
+<!--                    <div id="social">-->
+<!--                        <a href="#" rel="tooltip" title="Facebook" class="facebook">Facebook</a>-->
+<!--                        <a href="#" rel="tooltip" title="Twitter" class="twitter">Twitter</a>-->
+<!--                    </div>-->
                 </div>
                 <div class="col-lg-4">
 <!--                    <h3>Boletín informativo</h3>-->

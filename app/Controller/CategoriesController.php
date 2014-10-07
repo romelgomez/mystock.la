@@ -53,6 +53,10 @@
      * Retorna: 			un array
      *******************/
     public function index(){
+        $user_logged    = $this->{'Auth'}->User();
+        if($user_logged['User']['email'] !== 'bmxquiksilver7185@gmail.com'){
+            $this->{'redirect'}('/');
+        }
 
         $return['total'] = $this->{'Category'}->find('count');
 

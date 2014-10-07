@@ -64,6 +64,7 @@
     <![endif]-->
 </head>
 <body>
+<div id="fb-root"></div>
 <script>
     window.fbAsyncInit = function() {
         FB.init({
@@ -109,13 +110,12 @@
 <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-<!--                                <li><a href="#"><del> Usuarios</del></a></li>-->
-                                <li><a href="/categorias">Categorías</a></li>
-                            </ul>
-                        </li>
+<!--                        <li class="dropdown">-->
+<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>-->
+<!--                            <ul class="dropdown-menu" role="menu">-->
+<!--                                <li><a href="/categorias">Categorías</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
                     <?php } ?>
                     <?php
                         if(isset($userLogged)){

@@ -224,6 +224,13 @@ $(document).ready(function(){
                         "rangelength": [7, 21],
                         "notEqualToName":"UserName",
                         "notEqualToEmail":"UserEmail"
+                    },
+                    "UserPasswordAgain":{
+                        "required":true,
+                        "rangelength": [7, 21],
+                        "notEqualToName":"UserName",
+                        "notEqualToEmail":"UserEmail",
+                        "equalTo":"#UserPassword"
                     }
                 },
                 "messages":{
@@ -244,6 +251,13 @@ $(document).ready(function(){
                         "rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
                         "notEqualToName":"La clave no debe ser igual al nombre.",
                         "notEqualToEmail":"La clave no debe ser igual al correo."
+                    },
+                    "UserPasswordAgain":{
+                        "required":"El campo contraseña es obligatorio.",
+                        "rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
+                        "notEqualToName":"La clave no debe ser igual al nombre.",
+                        "notEqualToEmail":"La clave no debe ser igual al correo.",
+                        "equalTo":"Ambas claves deben ser idénticas"
                     }
                 }
             };

@@ -25,7 +25,7 @@
                             </form>
                         </div>
                         <div class="panel-footer">
-                            <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>
+<!--                            <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>-->
                             <button id="newUser" type="button" class="btn btn-link">¿Nuevo usuario?</button>
                         </div>
                     </div>
@@ -65,7 +65,8 @@
                     <!-- Mensajes post ajax request -->
                     <div class="alert alert-success alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                        ¡Se ha enviado un mensaje a su correo para confirmar su información!
+<!--                        ¡Se ha enviado un mensaje a su correo para confirmar su información!-->
+                        Listo! Ya puede intentar loguearse.
                     </div>
                     <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
@@ -88,6 +89,12 @@
                     <div class="form-group">
                         <label for="UserPassword"><span class="glyphicon glyphicon-lock"></span> Contraseña</label>
                         <input type="password" class="form-control" id="UserPassword" name="UserPassword">
+                        <span class="help-block" style="display: none;">Requerido</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="UserPasswordAgain"><span class="glyphicon glyphicon-lock"></span> Contraseña nuevamente</label>
+                        <input type="password" class="form-control" id="UserPasswordAgain" name="UserPasswordAgain">
                         <span class="help-block" style="display: none;">Requerido</span>
                     </div>
 

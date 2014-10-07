@@ -52,7 +52,7 @@
                     'name'				=>	$request['name'],
                     'email'				=>	$request['email'],
                     'password'			=>	$this->{'Auth'}->password($request['password']),
-                    'activation_key'	=>	$this->{'Auth'}->password($request['email']),
+                    'activation_key'	=>	String::uuid(),
                 )
             );
 
