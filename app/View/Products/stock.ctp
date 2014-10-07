@@ -19,7 +19,15 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;"><?php echo ucfirst($data['User']['name']);  ?> Stock</h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0;"><a href="/stock/<?php echo $data['User']['id']; ?>"><?php echo ucfirst($data['User']['name']);  ?> Stock</a></h1>
+
+                            <div
+                                class="fb-like"
+                                data-send="true"
+                                data-width="450"
+                                data-show-faces="true">
+                            </div>
+                            <hr>
                         </div>
                     </div>
 

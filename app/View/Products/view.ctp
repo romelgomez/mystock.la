@@ -61,6 +61,14 @@
                             <a href="<?php echo '/stock/'.$data['User']['id']; ?>"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
                         </h4>
                     </li>
+                    <li class="list-group-item bg-primary">
+                        <div style="margin-top: 5px;"
+                            class="fb-like"
+                            data-send="true"
+                            data-width="450"
+                            data-show-faces="true">
+                        </div>
+                    </li>
                 </ul>
             </div>
 
