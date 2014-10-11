@@ -44,11 +44,17 @@ class ImagesController extends AppController{
         $images = array();
 
         if($file['name']){
+            // parent
             $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('400', '400'), 'output' => 'jpg'));
             $thumbnails["small"]['name']		= $this->{'Upload'}->result;
 
+            // child
             $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('900', '900'), 'output' => 'jpg'));
             $thumbnails["large"]['name']		= $this->{'Upload'}->result;
+
+            // child
+            $this->{'Upload'}->upload($file, $destination,null, array('type' => 'resizecrop', 'size' => array('1200', '630'), 'output' => 'jpg'));
+            $thumbnails["facebook"]['name']		= $this->{'Upload'}->result;
 
             $images = $thumbnails;
         }

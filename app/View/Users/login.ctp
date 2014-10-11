@@ -76,7 +76,7 @@
 
                     <div class="form-group">
                         <label for="UserName"><span class="glyphicon glyphicon-user"></span> Primer Nombre</label>
-                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria">
+                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria, MariaSharapova, TennisShop">
                         <span class="help-block" style="display: none;">Requerido</span>
                     </div>
 

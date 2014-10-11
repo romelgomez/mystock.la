@@ -1,13 +1,13 @@
 <?php
 
-	/*
-	- Todas la urls estarán en minúsculas. Ejemplo:
-		/familias
-		/familias_sustancias
-	- Las url que están en ingles, son aquellas que no son visibles.
-	*/
-	
-	/* Ordenadas alfabéticamente por el nombre del controlador. Que es lo que se repite. */
+/*
+- Todas la urls estarán en minúsculas. Ejemplo:
+    /familias
+    /familias_sustancias
+- Las url que están en ingles, son aquellas que no son visibles.
+*/
+
+/* Ordenadas alfabéticamente por el nombre del controlador. Que es lo que se repite. */
 
 
 
@@ -50,16 +50,16 @@ Router::connect('/disable_this_imagen',	 					array('controller' => 'images', 'a
  * solo cambia una pequeña parte de dom, los botones únicamente.
 ***********************************************************************************************************************/
 Router::connect('/publicar',								array('controller' => 'products', 	'action' => 'add'));							// Acción Get  - Interfaz para cargar nuevos productos.
-	
+
 Router::connect('/editar_borrador/:id', 					array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un borrador, es un producto que no a sido publicado.
-	array(
-		'pass' => array('id')
-	));
+    array(
+        'pass' => array('id')
+    ));
 
 Router::connect('/editar/:id', 								array('controller' => 'products', 	'action' => 'add'),  				  			// Acción Get  - para editar un producto publicado.
-	array(
-		'pass' => array('id')
-	));
+    array(
+        'pass' => array('id')
+    ));
 
 
 Router::connect('/search',                                  array('controller' => 'products',   'action' => 'search')); 			// Acción Ajax - para pausar buscar publicaciones.
@@ -92,10 +92,10 @@ Router::connect('/discard',	 								array('controller' => 'products',	'action' 
 
 
 Router::connect('/producto/:id/:slug', 						array('controller' => 'products', 	'action' => 'view'),  				  			// Acción Get 	- Interfaz para visualizar un producto
-	array(
-		'pass' => array('id','slug'),
-		'ext' => 'html'
-	));
+    array(
+        'pass' => array('id','slug'),
+        'ext' => 'html'
+    ));
 
 //	Q
 //	R
@@ -116,7 +116,7 @@ Router::connect('/recover_account',							array('controller' => 'users', 	'actio
 
 
 /**
- * Load all plugin routes.  See the CakePlugin documentation on 
+ * Load all plugin routes.  See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
-	// CakePlugin::routes();
+// CakePlugin::routes();

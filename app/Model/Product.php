@@ -5,12 +5,6 @@ class Product extends AppModel{
     public $actsAs = array('Containable');
 
     public $validate = array(
-        'category_id' => array(
-            'notempty' => array(
-                'rule' => array('notempty'),
-                'message' => 'error',
-            )
-        ),
         'title' => array(
             'notempty' => array(
                 'rule' => array('notempty'),
@@ -49,13 +43,6 @@ class Product extends AppModel{
         'User' => array(
             'className' => 'User',
             'foreignKey' => 'user_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
-        'Category' => array(
-            'className' => 'Category',
-            'foreignKey' => 'category_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''

@@ -98,66 +98,8 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <?php
-                if(isset($url_action)){
-                    if($url_action == 'editar' || $url_action == 'editar_borrador'){
-                        echo '<div id="current-menu" style="display:none;">'.$this->request->data['current-menu'].'</div>';
-                    }
-                }
-            ?>
 
-            <section id="category-selector" style="display: none;" >
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <!-- Category Selector -->
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="row" id="category-selector">
-                                    <div class="col-xs-12">
-                                        <h1 class="page-header" style="margin-top: 0;">Seleccione una categoría <small>la que mejor se adapte al producto que desea publicar.</small></h1>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <ul id="path" class="breadcrumb" style=" border: 1px solid #CCC; padding: 6px 15px; ">
-                                            <li class="active" >Publicar</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="well well-sm">
-                                            <div id="menu-box"  style=" border: 1px solid #B9B9B9; height: 265px; border-top-left-radius: 6px 6px; border-top-right-radius: 6px 6px;border-bottom-left-radius: 6px 6px;border-bottom-right-radius: 6px 6px;overflow-x: scroll;overflow-y: hidden;" >
-                                                <div id="menu" style="overflow: hidden;">
-                                                    <?php
-                                                    if(isset($base_menu)){
-                                                        echo  '<div class="ulMenu" id="default-options">';
-                                                        foreach($base_menu as $k => $v){
-                                                            echo '<div class="liMenu" id="category-id-'.$v['Category']['id'].'"> '.$v['Category']['name'].'</div>';
-                                                        }
-                                                        echo '</div>';
-                                                    }
-                                                    ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <button id="add-content" type="button" class="btn btn-primary disabled" disabled="disabled">Confirmar y continuar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-
-
-            <section id="add-product" style="display: none;">
+            <section id="add-product">
                 <div  class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">Nueva Publicación</h3>
@@ -168,9 +110,8 @@
                             <div class="col-xs-12">
 
                                 <?php
-                                echo $this->Form->create('Product',  array('url' => "#",'role'=>'form'));
-                                echo $this->Form->hidden('Product.id');
-                                echo $this->Form->hidden('Product.category_id');
+                                    echo $this->Form->create('Product',  array('url' => "#",'role'=>'form'));
+                                    echo $this->Form->hidden('Product.id');
                                 ?>
 
                                 <!-- Actions -->
@@ -213,22 +154,6 @@
                                             }
                                         }
                                         ?>
-                                    </div>
-                                </div>
-
-                                <!-- Breadcrumb -->
-                                <div class="row" style="margin-bottom: 10px;">
-                                    <div class="col-xs-12">
-                                        <ul id="path2" class="breadcrumb" style=" border: 1px solid #CCC; padding: 6px 15px; margin-bottom: 0;">
-                                            <li class="active" ></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <!-- Edit category -->
-                                <div class="row" style="margin-bottom: 10px;">
-                                    <div class="col-xs-12">
-                                        <button id="edit-category" type="button" class="btn btn-default" >Editar Categoría</button>
                                     </div>
                                 </div>
 

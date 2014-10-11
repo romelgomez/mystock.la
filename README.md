@@ -1,10 +1,10 @@
 # SantoMercado
 
-This project in not longer supported, in instead we set new repository where we merge it with openshift seed to cakephp projects. 
+~~This project in not longer supported, in instead we set new repository where we merge it with openshift seed to cakephp projects.~~
 
-Clone the new repository in: https://github.com/romelgomez/santomercado-in-openshift
+~~Clone the new repository in: https://github.com/romelgomez/santomercado-in-openshift~~
 
-This project repository will be deleted in the future.   
+~~This project repository will be deleted in the future.~~   
 
 
 ## Installation 

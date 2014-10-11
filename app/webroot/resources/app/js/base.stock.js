@@ -112,18 +112,19 @@ $(document).ready(function(){
             var id          = obj['Product']['id'];
             var price       = obj['Product']['price'];
 
-            var title = '';
-            if(obj['Product']['title'].length > 32){
-                title = obj['Product']['title'].slice(0, 32)+' ...';
-            }else{
-                title = obj['Product']['title'];
+            var title = obj['Product']['title'].trim();
+            if(title.length > 32){
+                title = title.slice(0, 30)+' ...';
             }
 
 
             var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-            var slug        =   utility.stringReplace(title.toLowerCase().trim(),' ','_');
+            var slug = utility.stringReplace(title.toLowerCase(),'/','');
+            slug =  slug.replace(/\s+/g, ' ');
+            slug = utility.stringReplace(slug,' ','-');
+
             var link        =   '/producto/'+id+'/'+slug+'.html';
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];

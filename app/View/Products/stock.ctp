@@ -1,4 +1,7 @@
-<?php $data = $this->{'request'}->{'data'}; ?>
+<?php
+//    debug($this->{'request'});
+    $data = $this->{'request'}->{'data'};
+?>
 
 <!-- Content
 ===================== -->
@@ -19,7 +22,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;"><a href="/stock/<?php echo $data['User']['id']; ?>"><?php echo ucfirst($data['User']['name']);  ?> Stock</a></h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 100px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;"><a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a></h1>
 
                             <div
                                 class="fb-like"
@@ -101,10 +104,10 @@
 
                     <hr>
 
-                    <div id="products" ></div>
+                    <div id="products" style="overflow: hidden;" ></div>
 
-                    <div id="search-info" style="display: none" class="alert alert-info" role="alert"></div>
-
+                    <hr>
+                    <div class="fb-comments" data-href="http://www.santomercado.com/stock/<?php echo $this->{'request'}->{'data'}['User']['id']; ?>" data-numposts="5" data-colorscheme="light" data-width="100%"></div>
 
                 </div>
             </div>

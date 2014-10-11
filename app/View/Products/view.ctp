@@ -11,6 +11,11 @@
         <div class="col-xs-12">
             <!-- start content-->
 
+            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 100px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
+                <a href="<?php echo '/stock/'.$data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+            </h1>
+
+
             <div class="page-header" style="margin-top: 0;">
                 <h1 style="margin-top: 0;"><?php  echo ucfirst($data['Product']['title']) ?></h1>
             </div>
@@ -58,17 +63,25 @@
                         </h2>
                     </li>
                     <li class="list-group-item bg-primary">
-                        <h4 class="text-info">
-                            <a href="<?php echo '/stock/'.$data['User']['id']; ?>"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
-                        </h4>
-                    </li>
-                    <li class="list-group-item bg-primary">
+
                         <div style="margin-top: 5px;"
-                            class="fb-like"
-                            data-send="true"
-                            data-width="450"
-                            data-show-faces="true">
+                             class="fb-like"
+                             data-send="true"
+                             data-width="450"
+                             data-show-faces="true">
                         </div>
+                        <hr style="margin-top: 10px; margin-bottom: 15px;">
+                        <?php
+                        // lazy solution
+                        $foo    = trim($data['Product']['title']);
+                        $foo    = str_replace('/', '',$foo);
+                        $foo    = preg_replace( '/\s+/', ' ', $foo);
+                        $title  = str_replace(' ', '-',$foo);
+
+                        echo '<div class="fb-comments" data-href="http://www.santomercado.com/producto/'.$data['Product']['id'].'/'.$title.'.html" data-numposts="5" data-colorscheme="light" data-width="100%"></div>';
+
+                        ?>
+
                     </li>
                 </ul>
             </div>

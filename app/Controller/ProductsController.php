@@ -17,7 +17,6 @@
         Retorna:            Array.
     */
     public function view(){
-        $this->{'loadModel'}('Category');
 
         $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
         $this->{'set'}('url_action',$url_action);
@@ -30,8 +29,6 @@
                 'conditions' => array('Product.id' => $id,'Product.deleted'=>0)
             ));
 
-            $category_id = $product_data['Product']['category_id'];
-            $path = $this->{'Category'}->getPath($category_id);
 
             if($product_data){
 
@@ -41,6 +38,33 @@
 //                  {'small':'f155d610-a8c7-4aee-b4f1-98f0b3442012.jpg','large':'f155d610-a8c7-4aee-b4f1-98f0b34420ss.jpg'},
 //                  {'small':'0c05ec97-aa2d-4cf7-a80f-20d8e1c38887.jpg','large':'0c05ec97-aa2d-4cf7-a80f-20d8e1c38855.jpg'}
 //                ]
+
+//                array(
+//                    (int) 0 => array(
+//                        'Image' => array(
+//                            'id' => '54355e00-1ed4-4d58-a9bc-188a7f00000b',
+//                            'parent_id' => '54355dff-0ec4-4439-b942-188a7f00000b',
+//                            'product_id' => '54355dff-048c-419f-94f2-188a7f00000b',
+//                            'size' => 'large',
+//                            'name' => 'a99bf8f9-6eee-4541-b6ff-7472b2927d63.jpg',
+//                            'status' => true,
+//                            'created' => '2014-10-08 11:23:36',
+//                            'modified' => '2014-10-08 11:23:36'
+//                        )
+//                    ),
+//                    (int) 1 => array(
+//                        'Image' => array(
+//                            'id' => '54355e00-f9fc-43b3-bc87-188a7f00000b',
+//                            'parent_id' => '54355dff-0ec4-4439-b942-188a7f00000b',
+//                            'product_id' => '54355dff-048c-419f-94f2-188a7f00000b',
+//                            'size' => 'facebook',
+//                            'name' => 'ecf03890-f6d7-4f12-894f-439b75cb92de.jpg',
+//                            'status' => true,
+//                            'created' => '2014-10-08 11:23:36',
+//                            'modified' => '2014-10-08 11:23:36'
+//                        )
+//                    )
+//                )
 
                 if($product_data['Image']){
                     $this->{'loadModel'}('Image');
@@ -52,13 +76,15 @@
                         //debug($original_imagen);
                         $data[$index_0]['small'] 		= $smallImagen['name'];
 
-                        $largeImagen	=  $this->{'Image'}->find('first',array(
-                                'conditions' => array('Image.parent_id' => $smallImagen['id'],'Image.size'=>'large'),
+                        $images	=  $this->{'Image'}->find('all',array(
+                                'conditions' => array('Image.parent_id' => $smallImagen['id']),
                                 'contain' => false
                             )
                         );
 
-                        $data[$index_0]['large'] 		= $largeImagen['Image']['name'];
+                        foreach($images as $index_1 => $image){
+                            $data[$index_0][$image['Image']['size']] = $image['Image']['name'];
+                        }
 
                     }
 
@@ -67,7 +93,7 @@
                 }
                 // End
 
-                $product_data['Path'] = $path;
+//                $product_data['Path'] = $path;
                 $this->{'request'}->data = $product_data;
 
             }else{
@@ -86,7 +112,6 @@
     */
     public function add(){
         $user_logged    = $this->{'Auth'}->User();
-        $this->{'loadModel'}('Category');
 
         $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
         $this->{'set'}('url_action',$url_action);
@@ -116,72 +141,17 @@
                     }
                 }
 
-                /* Se extrae la data relacionada con la categoría seleccionada para establecer o reconstruir el menú y path tal y como el vendedor lo dejo por última vez
-                 *******************************************************************************************************************************************************/
-                $category_id = $product_data['Product']['category_id'];
-
-                /* menu
-                 *******/
-                $path = $this->{'Category'}->getPath($category_id);
-
-                $menu = array();
-
-                foreach($path as $index => $category){
-                    $menu[$index]['id']             = $category['Category']['id'];
-                    $menu[$index]['name']           = $category['Category']['name'];
-
-                    $children                       = $this->get_category_child_elements($category['Category']['id']);
-
-                    if($children['children']){
-                        $menu[$index]['categories'] 	= $children['categories'];
-                        $menu[$index]['children'] 		= true;
-                    }else{
-
-                        $menu[$index]['category_id_selected'] 	= $children['category_id_selected'];
-                        $menu[$index]['children'] 				= false;
-                    }
-                }
-
                 $this->{'request'}->data = $product_data;
-                $this->{'request'}->data['current-menu'] = json_encode($menu);
 
             }else{
                 $this->{'redirect'}('/');
             }
         }
 
-        $categories = $this->{'Category'}->find('all', array(
-            'conditions' => array('Category.parent_id'=>null),
-            'order' => 'lft ASC',
-            'contain' => false
-        ));
-        // la base del árbol de categorías en la vista.
-        $this->{'set'}('base_menu',$categories);
+
     }
 
-    /*
-        Descripción:        Función para obtener las categorías dependientes o hijas de la categoría proporcionada.
-        Tipo de solicitud:  Interna.
-        Recibe:             Int.
-        Retorna:            Array.
-    */
-    private function get_category_child_elements($category_id){
-        $children = $this->{'Category'}->find('all', array(
-            'conditions' => array('Category.parent_id'=>$category_id),
-            'order' => 'lft ASC'
-        ));
-        if($children){
-            foreach($children as $v){
-                $return['categories'][$v['Category']['id']] = $v['Category']['name'];
-            }
-            $return['children'] = true;
 
-        }else{
-            $return['category_id_selected'] = $category_id;
-            $return['children'] = false;
-        }
-        return $return;
-    }
 
     /*
         Descripción: Función destinada a añadir una nueva publicación, los datos suministrados deberán estar completos,
@@ -200,7 +170,6 @@
         $request
         {
            "id":"6",
-           "category_id":"145",
            "title":"hola",
            "body":"hola",
            "price":"21",
@@ -228,7 +197,6 @@
                                 (
                                     'id'            =>  $request['id'],
                                     'user_id'       =>  $user_logged['User']['id'],
-                                    'category_id'   =>  $request['category_id'],
                                     'title'         =>  $request['title'],
                                     'body'          =>  $request['body'],
                                     'price'         =>  $request['price'],
@@ -301,7 +269,6 @@
             (
                 'id'            =>$id,
                 'user_id'       =>$user_logged['User']['id'],
-                'category_id'   =>$request['category_id'],
                 'title'         =>$request['title'],
                 'body'			=>$request['body'],
                 'price'			=>$request['price'],
@@ -362,6 +329,9 @@
     */
     public function stock(){
         $this->{'loadModel'}('User');
+
+        $url_action = strstr($this->{'request'}->url, '/', true); // Desde PHP 5.3.0
+        $this->{'set'}('url_action',$url_action);
 
         if(isset($this->{'params'}->id)){
             $id = $this->{'params'}->id;

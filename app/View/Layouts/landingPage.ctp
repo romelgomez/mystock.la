@@ -7,7 +7,10 @@
     <meta name="description" content="Bootstack - Bootstrap 3 Landing Page Theme">
     <meta name="keywords" content="">
     <meta name="author" content="Daniely Wright">
-    <link href="/resources/theme-vendor/bootstack/assets/img/favicon.png" rel="shortcut icon" >
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <title>SantoMercado.com</title>
 
     <!-- Bootstrap core CSS -->
@@ -137,7 +140,7 @@
 <div class="divider01">
     <div class="container text-center">
         <h3 style="margin-bottom: 20px;">Comience a publicar hoy mismo.</h3>
-        <a href="/publicados" type="button" class="btn btn-lg btn-theme2">Empieza ahora</a>
+        <a href="/publicar" type="button" class="btn btn-lg btn-theme2">Empieza ahora</a>
     </div><!-- /container -->
 </div><!-- /divider01 -->
 

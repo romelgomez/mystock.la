@@ -107,7 +107,7 @@ $(document).ready(function(){
         var prepareProduct = function(obj){
 
             var id          = obj['Product']['id'];
-            var title       = obj['Product']['title'];
+            var title       = obj['Product']['title'].trim();
             var price       = obj['Product']['price'];
 
             var date   = new Date(obj['Product']['created']);

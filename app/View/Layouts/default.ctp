@@ -7,21 +7,44 @@
 
     <?php
     // facebook
+//    debug($url_action);
     if(isset($url_action)){
 //        debug($url_action);
         if($url_action == 'producto'){
+
+            // lazy solution
+            $foo    = trim($this->{'request'}->{'data'}['Product']['title']);
+            $foo    = str_replace('/', '',$foo);
+            $foo    = preg_replace( '/\s+/', ' ', $foo);
+            $title  = str_replace(' ', '-',$foo);
+
+
+
             echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['Product']['title'].'" />';
+            echo '<meta property="og:url" content="http://www.santomercado.com/producto/'.$this->{'request'}->{'data'}['Product']['id'].'/'.$title.'.html" />';
             echo '<meta property="og:type" content="website" />';
             echo '<meta property="og:site_name" content="SantoMercado" />';
-            echo '<meta property="og:description" content="A good some product" />';
-            echo '<meta property="og:image" content="http://www.santomercado.net/resources/app/img/products/'.$this->request->data['Image'][0]['large'].'" />';
-            echo '<meta property="og:app_id" content="599188036854190" />';
+            echo '<meta property="og:description" content="'.strip_tags($this->{'request'}->{'data'}['Product']['body']).'" />';
+            echo '<meta property="og:image" content="http://www.santomercado.com/resources/app/img/products/'.$this->request->data['Image'][0]['facebook'].'" />';
+            echo '<meta property="fb:app_id" content="599188036854190" />';
 
+        }
+
+
+        if($url_action == 'stock'){
+            echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['User']['name'].' Stock" />';
+            echo '<meta property="og:url" content="http://www.santomercado.com/stock/'.$this->{'request'}->{'data'}['User']['id'].'" />';
+            echo '<meta property="og:type" content="website" />';
+            echo '<meta property="og:site_name" content="SantoMercado" />';
+            echo '<meta property="og:description" content="Visita el stock de producto y/o servicios que tengo para ti" />';
+            echo '<meta property="og:image" content="http://www.santomercado.com/resources/app/img/benjaminFranklin.jpg" />';
+            echo '<meta property="fb:app_id" content="599188036854190" />';
         }
     }
     ?>
 
-    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <title>SantoMercado.com</title>
 
@@ -72,6 +95,11 @@
             xfbml      : true,
             version    : 'v2.1'
         });
+
+        FB.getLoginStatus(function(response) {
+            console.log(response);
+        })
+
     };
 
     (function(d, s, id){
@@ -110,12 +138,6 @@
 <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
                             </ul>
                         </li>
-<!--                        <li class="dropdown">-->
-<!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración <span class="caret"></span></a>-->
-<!--                            <ul class="dropdown-menu" role="menu">-->
-<!--                                <li><a href="/categorias">Categorías</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
                     <?php } ?>
                     <?php
                         if(isset($userLogged)){
