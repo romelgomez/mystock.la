@@ -2,7 +2,7 @@
 
     public function beforeFilter(){
 
-        $this->{'Auth'}->allow(['view','stock','products']);
+        $this->{'Auth'}->allow(array('view','stock','products'));
 
         parent::beforeFilter();
     }

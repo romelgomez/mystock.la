@@ -14,6 +14,7 @@
 
             // lazy solution
             $foo    = trim($this->{'request'}->{'data'}['Product']['title']);
+            $foo    = strtolower($foo);
             $foo    = str_replace('/', '',$foo);
             $foo    = preg_replace( '/\s+/', ' ', $foo);
             $title  = str_replace(' ', '-',$foo);
@@ -26,7 +27,7 @@
             echo '<meta property="og:site_name" content="SantoMercado" />';
             echo '<meta property="og:description" content="'.strip_tags($this->{'request'}->{'data'}['Product']['body']).'" />';
             echo '<meta property="og:image" content="http://www.santomercado.com/resources/app/img/products/'.$this->request->data['Image'][0]['facebook'].'" />';
-            echo '<meta property="fb:app_id" content="599188036854190" />';
+            echo '<meta property="fb:app_id" content="338515926310582" />';
 
         }
 
@@ -38,7 +39,7 @@
             echo '<meta property="og:site_name" content="SantoMercado" />';
             echo '<meta property="og:description" content="Visita el stock de producto y/o servicios que tengo para ti" />';
             echo '<meta property="og:image" content="http://www.santomercado.com/resources/app/img/benjaminFranklin.jpg" />';
-            echo '<meta property="fb:app_id" content="599188036854190" />';
+            echo '<meta property="fb:app_id" content="338515926310582" />';
         }
     }
     ?>
@@ -91,15 +92,10 @@
 <script>
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '599188036854190',
+            appId      : '338515926310582',
             xfbml      : true,
             version    : 'v2.1'
         });
-
-        FB.getLoginStatus(function(response) {
-            console.log(response);
-        })
-
     };
 
     (function(d, s, id){

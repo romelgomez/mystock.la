@@ -74,6 +74,7 @@
                         <?php
                         // lazy solution
                         $foo    = trim($data['Product']['title']);
+                        $foo    = strtolower($foo);
                         $foo    = str_replace('/', '',$foo);
                         $foo    = preg_replace( '/\s+/', ' ', $foo);
                         $title  = str_replace(' ', '-',$foo);
