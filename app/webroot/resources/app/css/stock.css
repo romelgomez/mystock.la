@@ -16,7 +16,7 @@ a.box img {
 }
 
 a.box span.imagen_producto {
-    background: black url(../img/foto-no-disponible.jpg) no-repeat;
+    background: black url(../img/ico_cargando_270x270px.gif) no-repeat;
     display: block;
     width: 270px;
     height: 270px;

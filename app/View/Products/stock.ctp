@@ -46,9 +46,8 @@
 
 
                     <div class="row">
-                        <div class="col-xs-6 col-sm-4">
-                            <!-- búsqueda.
-                            ------------------------------------------------------------------------------------------>
+                        <div class="col-md-4">
+                            <!-- búsqueda. -->
                             <form role="form" id="SearchPublicationsForm">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <div class="input-group">
@@ -59,11 +58,9 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
-                        <div class="col-xs-6 col-sm-4"></div>
-                        <div class="col-xs-6 col-sm-4">
-
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
                             <div class="pull-right">
 
                                 <!-- Información.
@@ -108,8 +105,8 @@
                                 </div>
 
                             </div>
-
                         </div>
+
                     </div>
 
                     <hr>
