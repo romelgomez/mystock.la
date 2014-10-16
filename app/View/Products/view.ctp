@@ -63,13 +63,19 @@
                         </h2>
                     </li>
                     <li class="list-group-item bg-primary">
-
-                        <div style="margin-top: 5px;"
-                             class="fb-like"
-                             data-send="true"
-                             data-width="450"
-                             data-show-faces="true">
+                        <div class="pw-widget pw-counter-vertical">
+                            <a class="pw-button-facebook pw-look-native"></a>
+                            <a class="pw-button-twitter pw-look-native"></a>
+                            <a class="pw-button-googleplus pw-look-native"></a>
+                            <a class="pw-button-pinterest pw-look-native"></a>
+                            <a class="pw-button-linkedin pw-look-native"></a>
+                            <a class="pw-button-tumblr pw-look-native"></a>
+                            <a class="pw-button-reddit pw-look-native"></a>
+                            <a class="pw-button-blogger pw-look-native"></a>
+                            <a class="pw-button-post-share"></a>
+                            <a class="pw-button-email pw-look-native"></a>
                         </div>
+                        <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=4a68gt2qi4hhevvdnlj5&retina=true" type="text/javascript"></script>
                         <hr style="margin-top: 10px; margin-bottom: 15px;">
                         <?php
                         // lazy solution
@@ -82,6 +88,9 @@
                         echo '<div class="fb-comments" data-href="http://www.santomercado.com/producto/'.$data['Product']['id'].'/'.$title.'.html" data-numposts="5" data-colorscheme="light" data-width="100%"></div>';
 
                         ?>
+
+
+
 
                     </li>
                 </ul>

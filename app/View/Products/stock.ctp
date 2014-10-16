@@ -24,12 +24,22 @@
                         <div class="col-xs-12">
                             <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 100px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;"><a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a></h1>
 
-                            <div
-                                class="fb-like"
-                                data-send="true"
-                                data-width="450"
-                                data-show-faces="true">
+                            <hr style="margin-top: 10px; margin-bottom: 15px;">
+                            <div class="pw-widget pw-counter-vertical">
+                                <a class="pw-button-facebook pw-look-native"></a>
+                                <a class="pw-button-twitter pw-look-native"></a>
+                                <a class="pw-button-googleplus pw-look-native"></a>
+                                <a class="pw-button-pinterest pw-look-native"></a>
+                                <a class="pw-button-linkedin pw-look-native"></a>
+                                <a class="pw-button-tumblr pw-look-native"></a>
+                                <a class="pw-button-reddit pw-look-native"></a>
+                                <a class="pw-button-blogger pw-look-native"></a>
+                                <a class="pw-button-post-share"></a>
+                                <a class="pw-button-email pw-look-native"></a>
                             </div>
+                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=4a68gt2qi4hhevvdnlj5&retina=true" type="text/javascript"></script>
+
+
                             <hr>
                         </div>
                     </div>
@@ -105,9 +115,6 @@
                     <hr>
 
                     <div id="products" style="overflow: hidden;" ></div>
-
-                    <hr>
-                    <div class="fb-comments" data-href="http://www.santomercado.com/stock/<?php echo $this->{'request'}->{'data'}['User']['id']; ?>" data-numposts="5" data-colorscheme="light" data-width="100%"></div>
 
                 </div>
             </div>

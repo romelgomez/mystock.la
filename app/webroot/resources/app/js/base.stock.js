@@ -121,7 +121,11 @@ $(document).ready(function(){
             var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-            var slug = utility.stringReplace(title.toLowerCase(),'/','');
+            var slug = obj['Product']['title'].trim().toLowerCase();
+            slug = utility.stringReplace(slug,'®','');
+            slug = utility.stringReplace(slug,':','');
+            slug = utility.stringReplace(slug,'/','');
+            slug = utility.stringReplace(slug,'|','');
             slug =  slug.replace(/\s+/g, ' ');
             slug = utility.stringReplace(slug,' ','-');
 
