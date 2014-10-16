@@ -111,7 +111,14 @@
 
                     <hr>
 
-                    <div id="products" style="overflow: hidden;" ></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Stock</h3>
+                        </div>
+                        <div id="products" class="panel-body"></div>
+                    </div>
+
+<!--                    <div id="products" style="overflow: hidden;" ></div>-->
 
                 </div>
             </div>
