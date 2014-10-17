@@ -39,6 +39,8 @@
             }
 
 
+            echo '<title>SantoMercado.com - '.$this->{'request'}->{'data'}['Product']['title'].' - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
+
             echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['Product']['title'].'" />';
             echo '<meta property="og:url" content="http://www.santomercado.com/producto/'.$this->{'request'}->{'data'}['Product']['id'].'/'.$title.'.html" />';
             echo '<meta property="og:type" content="website" />';
@@ -59,6 +61,10 @@
 
 
         if($url_action == 'stock'){
+
+            echo '<title>SantoMercado.com  - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
+
+
             echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['User']['name'].' Stock" />';
             echo '<meta property="og:url" content="http://www.santomercado.com/stock/'.$this->{'request'}->{'data'}['User']['id'].'" />';
             echo '<meta property="og:type" content="website" />';
@@ -81,7 +87,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>SantoMercado.com</title>
+
 
     <?php
         $css = array();
