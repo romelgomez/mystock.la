@@ -22,7 +22,14 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 100px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;"><a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a></h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 300px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
+                                <a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+                                <?php
+                                    if(isset($userLogged)){
+                                        echo '- <a id="change-banner" href="#" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;" class="rotate"><i class="fa fa-camera"></i></a>';
+                                    }
+                                ?>
+                            </h1>
 
                             <hr style="margin-top: 10px; margin-bottom: 15px;">
                             <div class="pw-widget pw-counter-vertical">
@@ -134,11 +141,69 @@
 </div>
 
 
+    <div id="change-banner-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Cambiar el banner</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active"><a href="#gallery" role="tab" data-toggle="tab">Galería</a></li>
+                        <li><a href="#profile" role="tab" data-toggle="tab">Perfil</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="gallery">
+                            <div class="well well-sm" style="border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0;">
+
+                                <div class="row">
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="/resources/app/img/benjaminFranklin.jpg" alt="...">
+                                            <div class="caption">
+                                                <input type="radio" name="optionsRadios" id="radiosSuccess1" value="option1" checked>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile">
+                            <div class="well well-sm" style="border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0;">
+                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
+                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
+                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 
 <?php
 
     // CSS
     $css = array();
+
+    if(isset($userLogged)){
+        array_push($css,'/resources/library-vendor/hover/hover-min.css');
+    }
 
     array_push($css,'/resources/app/css/stock.css');
     array_push($css,'/resources/app/css/base.css');
@@ -157,6 +222,12 @@
     //  Purl - https://github.com/allmarkedup/purl
     //  array_push($scripts,'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js');
     array_push($scripts,'/resources/library-vendor/purl/purl.js');
+
+
+    if(isset($userLogged)){
+        array_push($scripts,'/resources/app/js/base.banners.js');
+    }
+
 
     array_push($scripts,'/resources/app/js/base.stock.js');
 

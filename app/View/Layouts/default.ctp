@@ -156,7 +156,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">SantoMercado.com</a>
+                <a class="navbar-brand" href="/">MyStock.LA</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">

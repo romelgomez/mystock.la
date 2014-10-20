@@ -11,8 +11,13 @@
         <div class="col-xs-12">
             <!-- start content-->
 
-            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 100px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
+            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 300px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
                 <a href="<?php echo '/stock/'.$data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+                <?php
+                    if(isset($userLogged)){
+                        echo '- <a id="change-banner" href="#" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;" class="rotate"><i class="fa fa-camera"></i></a>';
+                    }
+                ?>
             </h1>
 
 
@@ -105,6 +110,10 @@
     // CSS
     $css = array();
 
+    if(isset($userLogged)){
+        array_push($css,'/resources/library-vendor/hover/hover-min.css');
+    }
+
     //  lightBox https://github.com/ashleydw/lightbox
     array_push($css,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.css');
 
@@ -117,6 +126,10 @@
 
     //  lightbox  - https://github.com/ashleydw/lightbox
     array_push($scripts,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js');
+
+    if(isset($userLogged)){
+        array_push($scripts,'/resources/app/js/base.banners.js');
+    }
 
     echo $this->Html->script($scripts,array('inline' => false));
 

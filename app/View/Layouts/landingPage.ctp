@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>SantoMercado.com</title>
+    <title>MySock.la</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/library-vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/"><span class="icon-stack"></span> SantoMercado.com</a>
+            <a class="navbar-brand" href="/"><span class="icon-stack"></span> MyStock.LA</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -79,14 +79,14 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <h1>Bienvenido a <b>SantoMercado.com</b></h1>
-                    <h3>Muestre sus productos o servicios a quien le conoce</h3>
+                    <h1>Welcome to <b>MyStock.LA</b></h1>
+                    <h3>Showcase your products or services in social networks</h3>
                     <br>
                 </div>
 
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
-                    <h5>Su negocio puesto en marcha</h5>
-                    <p>La mejor forma de iniciar su empresa, es empezar simple, y en internet.</p>
+                    <h5>Start your business</h5>
+                    <p>The best way to start your business is to start simple, and online.</p>
                     <img src="/resources/theme-vendor/bootstack/assets/img/arrow-left.png" alt="">
                 </div>
                 <div class="col-lg-8">
@@ -95,8 +95,7 @@
                 <div class="col-lg-2 hidden-xs hidden-sm hidden-md">
                     <br>
                     <img class="pad-top" src="/resources/theme-vendor/bootstack/assets/img/arrow-right.png" alt="">
-                    <h5>Fácil de usar</h5>
-                    <p>Desde una interfaz simple, comparta su oferta de productos en redes sociales.</p>
+                    <h5>Easy to use and share</h5>
                 </div>
             </div>
         </div> <!-- /container -->
@@ -107,19 +106,9 @@
     <div class="intro">
         <div class="container">
             <div class="row text-center">
-                <h2>Publicaciones Ilimitadas Gratuitas </h2>
+                <h2>Free Unlimited Publications</h2>
                 <hr>
-                <br>
-                <div class="col-lg-6">
-                    <span class="glyphicon glyphicon-usd"></span>
-                    <h3>Sin Costo</h3>
-                    <p>Publicar en SantoMercado.com no representa ningún costo al Vendedor o al Cliente. Alentamos a usar cualquier opción de pago online disponible actualmente, tal como PayPal.</p>
-                </div>
-                <div class="col-lg-6">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    <h3>Somos sociales</h3>
-                    <p>Comparta su oferta de productos y servicios, en redes sociales fácilmente.</p>
-                </div>
+                <h3>No fees at all. You can define or implement any payment option that you know!</h3>
             </div>
             <br>
         </div> <!-- /container -->
@@ -130,8 +119,8 @@
 <!-- Divider 1 Section -->
 <div class="divider01">
     <div class="container text-center">
-        <h3 style="margin-bottom: 20px;">Comience a publicar hoy mismo.</h3>
-        <a href="/publicar" type="button" class="btn btn-lg btn-theme2">Empieza ahora</a>
+        <h3 style="margin-bottom: 20px;">Start publishing today!</h3>
+        <a href="/publicar" type="button" class="btn btn-lg btn-theme2" style="font-family: 'Lato', sans-serif">Go!</a>
     </div><!-- /container -->
 </div><!-- /divider01 -->
 
@@ -144,7 +133,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <h3>Contáctenos</h3>
+                    <h3>Contact us</h3>
                     <span class="icon-envelope"></span> <a href="mailto:soporte@santomercado.com">soporte@santomercado.com</a>
                 </div>
 
@@ -174,7 +163,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy;2014 SantoMercado.com - Todos los derechos reservados.</p>
+                <p>Copyright &copy;2014 MyStock.LA - All rights reserved.</p>
             </div>
         </div><!-- /row -->
     </div><!-- /container -->
