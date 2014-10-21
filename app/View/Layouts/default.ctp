@@ -39,7 +39,7 @@
             }
 
 
-            echo '<title>SantoMercado.com - '.$this->{'request'}->{'data'}['Product']['title'].' - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
+            echo '<title>MyStock.LA - '.$this->{'request'}->{'data'}['Product']['title'].' - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
 
             echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['Product']['title'].'" />';
             echo '<meta property="og:url" content="http://www.santomercado.com/producto/'.$this->{'request'}->{'data'}['Product']['id'].'/'.$title.'.html" />';
@@ -62,7 +62,7 @@
 
         if($url_action == 'stock'){
 
-            echo '<title>SantoMercado.com  - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
+            echo '<title>MyStock.LA  - '.$this->{'request'}->{'data'}['User']['name'].' Stock</title>';
 
 
             echo '<meta property="og:title" content="'.$this->{'request'}->{'data'}['User']['name'].' Stock" />';
@@ -81,6 +81,8 @@
             echo '<meta name="twitter:image:src" content="http://www.santomercado.com/resources/app/img/benjaminFranklin.jpg" />';
             echo '<meta name="twitter:url" content="http://www.santomercado.com/stock/'.$this->{'request'}->{'data'}['User']['id'].'" />';
         }
+    }else{
+        echo '<title>MyStock.LA</title>';
     }
     ?>
 
@@ -162,13 +164,13 @@
                 <ul class="nav navbar-nav">
 
                     <?php if(isset($userLogged)){ ?>
-                        <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publicar</a></li>
+                        <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publish</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Cuenta <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Account <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li role="presentation" class="dropdown-header">PRODUCTOS</li>
-                                <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
-                                <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
+                                <li role="presentation" class="dropdown-header">PRODUCTS</li>
+                                <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Published</a></li>
+                                <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Drafts</a></li>
                                 <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
 <!--                                <li class="divider"></li>-->
 <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
@@ -177,9 +179,9 @@
                     <?php } ?>
                     <?php
                         if(isset($userLogged)){
-                            echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Salir</a></li>';
+                            echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
                         }else{
-                            echo '<li class=""><a href="/entrar"><span class="glyphicon glyphicon-off"></span> Entrar</a></li>';
+                            echo '<li class=""><a href="/entrar"><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
                         }
                     ?>
                 </ul>
@@ -196,7 +198,7 @@
     <div id="footer" style="margin-bottom: 20px">
         <hr>
         <div style="text-align: center;">
-            Copyright ©2014 SantoMercado.com - Todos los derechos reservados.
+            Copyright &copy;2014 MyStock.LA - All rights reserved.
         </div>
     </div>
 

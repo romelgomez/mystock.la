@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>MySock.la</title>
+    <title>MyStock.la</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/library-vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,46 +28,46 @@
     <script src="/resources/theme-vendor/bootstack/assets/js/modernizr.custom.js"></script>
 </head>
 
-<body data-spy="scroll" data-offset="0" data-target="#navigation">
+<body>
 
 
 
-<!-- Fixed navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><span class="icon-stack"></span> MyStock.LA</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <?php if(isset($userLogged)){ ?>
-                    <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publicar</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Cuenta <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="presentation" class="dropdown-header">PRODUCTOS</li>
-                            <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Publicados</a></li>
-                            <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Borradores</a></li>
-                            <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
-                        </ul>
-                    </li>
-                <?php } ?>
-                <?php
-                if(isset($userLogged)){
-                    echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Salir</a></li>';
-                }else{
-                    echo '<li class=""><a href="/entrar"><span class="glyphicon glyphicon-off"></span> Entrar</a></li>';
-                }
-                ?>
-            </ul>
-        </div><!--/.nav-collapse -->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">MyStock.LA</a>
     </div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+
+            <?php if(isset($userLogged)){ ?>
+                <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publish</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Account <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" class="dropdown-header">PRODUCTS</li>
+                        <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Published</a></li>
+                        <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Drafts</a></li>
+                        <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
+                        <!--                                <li class="divider"></li>-->
+                        <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
+                    </ul>
+                </li>
+            <?php } ?>
+            <?php
+            if(isset($userLogged)){
+                echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
+            }else{
+                echo '<li class=""><a href="/entrar"><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
+            }
+            ?>
+        </ul>
+    </div><!--/.nav-collapse -->
 </div>
 
 
@@ -134,7 +134,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <h3>Contact us</h3>
-                    <span class="icon-envelope"></span> <a href="mailto:soporte@santomercado.com">soporte@santomercado.com</a>
+                    <span class="icon-envelope"></span> <a href="mailto:soporte@santomercado.com">support@mystock.la</a>
                 </div>
 
                 <div class="col-lg-4">

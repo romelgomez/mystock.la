@@ -276,7 +276,7 @@ a:focus {
 .headerwrap {
 	background: url("../img/header-bg.jpg") no-repeat center top;
 	background-size: cover;
-	padding-top: 80px;
+	padding-top: 20px;
 }
 
 .headerwrap .col-lg-2 {

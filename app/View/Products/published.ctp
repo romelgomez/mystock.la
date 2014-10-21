@@ -17,7 +17,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;">Publicados</h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0;">Published</h1>
                         </div>
                     </div>
 
@@ -31,7 +31,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">Buscar</button>
+                                    <button class="btn btn-default" type="submit">Search</button>
                                 </span>
                                     </div>
                                 </div>
@@ -54,8 +54,8 @@
                                 <div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
                                     <div style=" float: left; margin-right: 10px; ">
                                         <div class="btn-group" >
-                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Anterior</button>
-                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Próximo</button>
+                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
+                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
                                         </div>
                                     </div>
                                 </div>
