@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <title>MyStock.la</title>
+    <title>MyStock.LA</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/library-vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

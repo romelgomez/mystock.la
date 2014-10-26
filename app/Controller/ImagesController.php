@@ -111,62 +111,6 @@ class ImagesController extends AppController{
         $this->{'render'}('ajax_view','ajax');
     }
 
-    /* Descripción: 		Función para habilitar la selección de imágenes cargadas por el vendedor.
-     * tipo de solicitud: 	ajax-get,ajax-post
-     * tipo de acceso: 		vendedor
-     * Recibe: 				array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
-    public function enables_this_images(){
-        $request = $this->{'request'}->input('json_decode',true);
-
-
-        /*
-        print_r($request);
-
-        Array
-        (
-            [images_ids] => Array
-                (
-                    [0] => 1154
-                    [1] => 1146
-                    [2] => 1142
-                    [3] => 1150
-                    [4] => 1138
-                )
-
-            [product_id] => 212
-        )
-        */
-
-        $return = array();
-
-        // verificar y actualizar los registros.
-        foreach($request['images_ids'] as $image_id){
-            $image = $this->{'Image'}->find('first', array(
-                'conditions' => array('Image.id' => $image_id,'Image.product_id'=>$request['product_id']),
-                'contain' => false
-            ));
-            if($image){
-                $update = array(
-                    'Image'=>array(
-                        'id'=>	$image['Image']['id'],
-                        'status'=> 1,
-                    )
-                );
-
-                if ($this->{'Image'}->save($update)) {
-                    $return['status'] = true;
-                }else{
-                    $return['status'] = false;
-                }
-            }
-            $this->{'Image'}->create();
-        }
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-    }
 
 
     public function disable_this_imagen(){
