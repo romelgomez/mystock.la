@@ -140,54 +140,33 @@
     </div>
 </div>
 
+    <!-- seller banners if exist-->
+    <div id="images" style="display: none"><!--<?php
+        if(isset($this->request->data['Banner'])){
+            echo json_encode($this->request->data['Image']);
+        }
+        ?>--></div>
 
+
+<!-- Add banners modal -->
     <div id="change-banner-modal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Cambiar el banner</h4>
+                    <h4 class="modal-title">Change the banner: <span id="current-banner"></span></h4>
                 </div>
                 <div class="modal-body">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="active"><a href="#gallery" role="tab" data-toggle="tab">Galería</a></li>
-                        <li><a href="#profile" role="tab" data-toggle="tab">Perfil</a></li>
-                    </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="gallery">
-                            <div class="well well-sm" style="border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0;">
-
-                                <div class="row">
-
-                                    <div class="col-sm-6 col-md-4">
-                                        <div class="thumbnail">
-                                            <img src="/resources/app/img/benjaminFranklin.jpg" alt="...">
-                                            <div class="caption">
-                                                <input type="radio" name="optionsRadios" id="radiosSuccess1" value="option1" checked>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="profile">
-                            <div class="well well-sm" style="border-top: 0; border-top-left-radius: 0; border-top-right-radius: 0;">
-                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
-                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
-                                <img src="/resources/app/img/benjaminFranklin.jpg" alt="..." class="img-thumbnail img-responsive" style="max-width: 200px">
-                            </div>
-                        </div>
+                    <div id="previews" class="well dropzone-previews" style="margin-bottom: 10px;">
+                        <button id="first-files" class="btn btn-primary clickable">Selecciona las imágenes desde la computadora</button>
                     </div>
+
 
                 </div>
                 <div class="modal-footer">
+                    <button id="continue-upload" type="button" class="btn btn-link clickable" >¡Añadir mas imágenes!</button>
+                    <button id="upload-all" type="button" class="btn btn-link" >¡Subir las imágenes!</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary">Guardar cambios</button>
                 </div>

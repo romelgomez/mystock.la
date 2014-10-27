@@ -80,22 +80,12 @@ class User extends AppModel {
 
         */
 
-    /*
     public  $hasMany = array(
-                'Product' => array(
-                    'className' => 'Product',
-                    'foreignKey' => 'user_id',
-                    'dependent' => false,
-                    'conditions' => '',
-                    'fields' => '',
-                    'order' => '',
-                    'limit' => '',
-                    'offset' => '',
-                    'exclusive' => '',
-                    'finderQuery' => '',
-                    'counterQuery' => ''
-                )
-            );
-    */
+        'Banner' => array(
+            'className' => 'Banner',
+            'foreignKey' => 'user_id',
+            'conditions' => array('Banner.deleted'=>0)
+        )
+    );
 
 }
