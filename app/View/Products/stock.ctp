@@ -141,9 +141,9 @@
 </div>
 
     <!-- seller banners if exist-->
-    <div id="images" style="display: none"><!--<?php
-        if(isset($this->request->data['Banner'])){
-            echo json_encode($this->request->data['Image']);
+    <div id="banners" style="display: none"><!--<?php
+        if(isset($banners)){
+            echo json_encode($banners);
         }
         ?>--></div>
 
@@ -165,10 +165,14 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button id="continue-upload" type="button" class="btn btn-link clickable" >¡Añadir mas imágenes!</button>
-                    <button id="upload-all" type="button" class="btn btn-link" >¡Subir las imágenes!</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar cambios</button>
+                    <div class="pull-left">
+                        <button id="continue-upload" type="button" class="btn btn-link clickable" style="display: none;" >¡Añadir mas imágenes!</button>
+                        <button id="upload-all" type="button" class="btn btn-link" style="display: none;" >¡Subir las imágenes!</button>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary">Guardar cambios</button>
+                    </div>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -182,6 +186,9 @@
 
     if(isset($userLogged)){
         array_push($css,'/resources/library-vendor/hover/hover-min.css');
+
+        // dropzone - https://github.com/enyo/dropzone
+        array_push($css,'/resources/library-vendor/dropzone/css/dropzone.css');
     }
 
     array_push($css,'/resources/app/css/stock.css');
@@ -204,6 +211,9 @@
 
 
     if(isset($userLogged)){
+        //  dropzone  - https://github.com/sciactive/pnotify
+        array_push($scripts,'/resources/library-vendor/dropzone/dropzone.js');
+
         array_push($scripts,'/resources/app/js/base.banners.js');
     }
 

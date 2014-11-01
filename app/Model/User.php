@@ -80,12 +80,12 @@ class User extends AppModel {
 
         */
 
-    public  $hasMany = array(
-        'Banner' => array(
-            'className' => 'Banner',
-            'foreignKey' => 'user_id',
-            'conditions' => array('Banner.deleted'=>0)
-        )
-    );
+//    public  $hasMany = array(
+//        'Banner' => array(
+//            'className' => 'Banner',
+//            'foreignKey' => 'user_id',
+//            'conditions' => array('Banner.deleted'=>0)
+//        )
+//    );
 
 }

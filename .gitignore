@@ -4,6 +4,11 @@
 /app/webroot/resources/app/img/products/*.png
 /app/webroot/resources/app/img/products/*.jpeg
 /app/webroot/resources/app/img/products/*.gif
+/app/webroot/resources/app/img/banners/*.jpg
+/app/webroot/resources/app/img/banners/*.png
+/app/webroot/resources/app/img/banners/*.jpeg
+/app/webroot/resources/app/img/banners/*.gif
+
 /app/tmp
 /lib
 /plugins

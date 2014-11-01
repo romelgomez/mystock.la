@@ -654,6 +654,7 @@ $(document).ready(function(){
                         var ifSuccess = function(){
 //                            console.log($('#ProductId').val());
                             myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
+                            $("#upload-all").hide();
                         };
 
                         saveDraft(true,ifSuccess);

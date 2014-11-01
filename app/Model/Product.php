@@ -53,7 +53,7 @@ class Product extends AppModel{
         'Image' => array(
             'className' => 'Image',
             'foreignKey' => 'product_id',
-            'conditions' =>array('Image.size'=>'small','Image.status'=>1)
+            'conditions' =>array('Image.size'=>'small','Image.deleted'=>0)
         )
     );
 

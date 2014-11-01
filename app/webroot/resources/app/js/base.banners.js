@@ -22,7 +22,7 @@ $(document).ready(function() {
                 var request_parameters = {
                     "requestType":"custom",
                     "type":"post",
-                    "url":"/disable_this_imagen",
+                    "url":"/delete-banner",
                     "data":{},
                     "callbacks":{
                         "beforeSend":function(){
@@ -76,7 +76,6 @@ $(document).ready(function() {
                         var obj = JSON.parse(file['xhr']['response']);
 
                         request_parameters['data']['image_id']      = obj['small']['id'];
-                        request_parameters['data']['product_id']    = $('#ProductId').val();
 
                         ajax.request(request_parameters);
 
@@ -85,7 +84,6 @@ $(document).ready(function() {
 //                            console.log('Es una imagen que esta en servidor');
 
                             request_parameters['data']['image_id']      = file['id'];
-                            request_parameters['data']['product_id']    = $('#ProductId').val();
 
                             ajax.request(request_parameters);
 
@@ -102,7 +100,7 @@ $(document).ready(function() {
 
 
             $(document.body).dropzone({
-                url: "/image_add",
+                url: "/add-banner",
                 previewsContainer: "#previews",  // Define the container to display the previews
                 clickable: ".clickable",         // Define the element that should be used as click trigger to select files.
                 paramName: "image",              // The name that will be used to transfer the file
@@ -117,42 +115,59 @@ $(document).ready(function() {
                     $("#upload-all").on("click", function() {
 //                        console.log("clicked");
 
-                        var ifSuccess = function(){
-//                            console.log($('#ProductId').val());
-                            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
-                        };
-
-                        saveDraft(true,ifSuccess);
+                        myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
+                        $("#upload-all").hide();
 
                     });
 
-                    // Para incluir las imágenes que ya estén cargadas.
-                    var pathname = $(location).attr('href');
-                    var url = $.url(pathname);
-                    var split_segments = url.attr('directory').split('/');
-                    if(split_segments[1] == 'editar' || split_segments[1] == 'editar_borrador' ){
-                        var images = JSON.parse(utility.removeCommentTag($("#images").html()));
-                        if(images.length > 0){
-                            $("#first-files").hide();
-                            $("#continue-upload").show();
+                    var images = JSON.parse(utility.removeCommentTag($("#banners").html()));
 
-                            $(images).each(function(index,obj){
-//                                console.log(obj);
-                                // Create the mock file:
-                                var mockFile = { id: obj['id'], name: obj['name']};
+                    /*
+                    [
+                        {
+                            "small":{
+                                "id":"54545857-a46c-429f-af96-44fc7f000007",
+                                "name":"cbac9717-3859-43a9-b845-f1c578c3213c.jpg"
+                            },
+                            "facebook":{
+                                "id":"54545857-83a0-4e4b-9e28-44fc7f000007",
+                                "name":"1c217e5e-6302-4591-bc01-b92142ff6e22.jpg"
+                            }
+                        },
+                        {
+                            "small":{
+                                "id":"54545e49-ee90-407e-9e44-46d27f000007",
+                                "name":"aa36701e-7188-4636-ad6d-7886a085053e.jpg"
+                            },
+                            "facebook":{
+                                "id":"54545e49-929c-4051-b149-46d27f000007",
+                                "name":"ee8b1e37-3588-4e86-bf64-6c61b8f1b25b.jpg"
+                            }
+                        },
+                    ]
+                    */
 
-                                // Call the default addedfile event handler
-                                myDropzone.emit("addedfile", mockFile);
+                    if(images.length > 0){
+                        $("#first-files").hide();
+                        $("#continue-upload").show();
 
-                                // And optionally show the thumbnail of the file:
-                                myDropzone.emit("thumbnail", mockFile, "/resources/app/img/products/"+obj['name']);
+//                        console.log(images);
 
-                                removeButton(myDropzone,mockFile);
+                        $(images).each(function(index,obj){
+                                console.log(obj);
+                            // Create the mock file:
+                            var mockFile = { id: obj['small']['id'], name: obj['small']['name']};
 
-                                $(mockFile.previewElement).addClass('dz-success'); // .setAttribute("class",".dz-success");
+                            // Call the default addedfile event handler
+                            myDropzone.emit("addedfile", mockFile);
 
-                            });
-                        }
+                            // And optionally show the thumbnail of the file:
+                            myDropzone.emit("thumbnail", mockFile, "/resources/app/img/banners/"+obj['small']['name']);
+
+                            removeButton(myDropzone,mockFile);
+                            $(mockFile.previewElement).addClass('dz-success'); // .setAttribute("class",".dz-success");
+
+                        });
                     }
 
 
@@ -171,7 +186,6 @@ $(document).ready(function() {
 
                     // Sending
                     myDropzone.on("sending", function(file, xhr, formData) {
-                        formData.append("product_id", $('#ProductId').val());
                     });
 
                     // Success
@@ -206,7 +220,7 @@ $(document).ready(function() {
         //Public Method
         banners.main = function() {
             changeBanner();
-
+            fileUpload();
 
         };
 
