@@ -151,7 +151,7 @@ class UploadComponent extends Object {
         if (is_null($type)) $type = 'resize';
         if (is_null($size)) $size = 100;
         if (is_null($output)) $output = 'jpg';
-        if (is_null($quality)) $quality = 75;
+        if (is_null($quality)) $quality = 100;
 
         // -- format variables
         $type = strtolower($type);
@@ -186,10 +186,10 @@ class UploadComponent extends Object {
         if (is_numeric($quality)) {
             $quality = intval($quality);
             if ($quality > 100 || $quality < 1) {
-                $quality = 75;
+                $quality = 100;
             }
         } else {
-            $quality = 75;
+            $quality = 100;
         }
 
         // -- get some information about the file
