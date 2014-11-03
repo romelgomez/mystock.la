@@ -14,6 +14,52 @@ $(document).ready(function() {
                 '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
                 '</div>';
 
+            var selectButton = function(instance,file){
+                var notification;
+                var selectButton = Dropzone.createElement('<a class="dz-select" style="cursor:pointer" >Select</a>');
+
+                selectButton.addEventListener("click", function(e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var banner = '';
+
+                    // If you want to the delete the file on the server as well,
+                    // you can do the AJAX request here.
+                    if(file['xhr'] !== undefined){
+//                        console.log('Es una imagen recién cargada al servidor que se quiere seleccionar');
+
+                        var obj = JSON.parse(file['xhr']['response']);
+
+                        banner = obj['facebook']['name'];
+                        $('#banner').css('background-image', 'url(' + '/resources/app/img/banners/'+ banner + ')');
+
+//                        request_parameters['data']['image_id']      = obj['small']['id'];
+//                        ajax.request(request_parameters);
+
+                    }else{
+                        if(file['id']  !== undefined){
+//                            console.log('Es una imagen que esta en servidor');
+
+                            banner = file['obj']['facebook']['name'];
+                            $('#banner').css('background-image', 'url(' + '/resources/app/img/banners/'+ banner + ')');
+
+
+//                            request_parameters['data']['image_id']      = file['id'];
+//                            ajax.request(request_parameters);
+
+                        }else{
+//                            console.log('Es una imagen en cola que fue eliminada')
+                        }
+                    }
+
+                });
+
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(selectButton);
+            };
+
             var removeButton = function(instance,file){
 
                 var notification;
@@ -50,7 +96,7 @@ $(document).ready(function() {
                 };
 
 
-                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
+                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Delete</a>');
                 // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
                     // Make sure the button click doesn't submit the form:
@@ -112,14 +158,16 @@ $(document).ready(function() {
 
                     var myDropzone = this; // closure
 
+                    // Upload all files
                     $("#upload-all").on("click", function() {
 //                        console.log("clicked");
 
                         myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED)); // Tell Dropzone to process all queued files.
-                        $("#upload-all").hide();
+                        $("#upload-all").fadeOut();
 
                     });
 
+                    // Banners in database
                     var images = JSON.parse(utility.removeCommentTag($("#banners").html()));
 
                     /*
@@ -154,9 +202,9 @@ $(document).ready(function() {
 //                        console.log(images);
 
                         $(images).each(function(index,obj){
-                                console.log(obj);
+//                                console.log(obj);
                             // Create the mock file:
-                            var mockFile = { id: obj['small']['id'], name: obj['small']['name']};
+                            var mockFile = { id: obj['small']['id'], name: obj['small']['name'], obj:obj};
 
                             // Call the default addedfile event handler
                             myDropzone.emit("addedfile", mockFile);
@@ -166,6 +214,8 @@ $(document).ready(function() {
 
                             removeButton(myDropzone,mockFile);
                             $(mockFile.previewElement).addClass('dz-success'); // .setAttribute("class",".dz-success");
+
+                            selectButton(myDropzone,mockFile);
 
                         });
                     }
@@ -193,6 +243,9 @@ $(document).ready(function() {
 //                        console.log(file);
 //                        console.log(xhr);
 //                        file.data = xhr;
+
+                        selectButton(myDropzone,file);
+
                     });
 
                     // Error

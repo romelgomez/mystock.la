@@ -584,7 +584,7 @@ $(document).ready(function(){
                 };
 
 
-                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Eliminar</a>');
+                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Delete</a>');
                 // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
                     // Make sure the button click doesn't submit the form:

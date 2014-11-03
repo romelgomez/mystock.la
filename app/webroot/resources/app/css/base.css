@@ -24,3 +24,26 @@ body {
 .dropzone .dz-preview.dz-image-preview:hover .dz-details img, .dropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {
     opacity: 1;
 }
+
+
+.dropzone a.dz-select,
+.dropzone-previews a.dz-select {
+    background-image: -webkit-linear-gradient(top, #fafafa, #eee);
+    background-image: -moz-linear-gradient(top, #fafafa, #eee);
+    background-image: -o-linear-gradient(top, #fafafa, #eee);
+    background-image: -ms-linear-gradient(top, #fafafa, #eee);
+    background-image: linear-gradient(to bottom, #fafafa, #eee);
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #eee;
+    text-decoration: none;
+    display: block;
+    padding: 4px 5px;
+    text-align: center;
+    color: #aaa;
+    margin-top: 5px;
+}
+.dropzone a.dz-select:hover,
+.dropzone-previews a.dz-select:hover {
+    color: #666;
+}
