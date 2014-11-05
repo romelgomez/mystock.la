@@ -32,7 +32,8 @@ body {
     background-image: -moz-linear-gradient(top, #fafafa, #eee);
     background-image: -o-linear-gradient(top, #fafafa, #eee);
     background-image: -ms-linear-gradient(top, #fafafa, #eee);
-    background-image: linear-gradient(to bottom, #fafafa, #eee);
+    color: #FFF;
+    background-image: linear-gradient(to bottom, #428bca, #357ebd);
     -webkit-border-radius: 2px;
     border-radius: 2px;
     border: 1px solid #eee;
@@ -40,10 +41,32 @@ body {
     display: block;
     padding: 4px 5px;
     text-align: center;
-    color: #aaa;
     margin-top: 5px;
 }
 .dropzone a.dz-select:hover,
 .dropzone-previews a.dz-select:hover {
-    color: #666;
+    background-image: linear-gradient(to bottom, #497EAC, #357ebd);
+}
+
+
+.dropzone a.dz-delete,
+.dropzone-previews a.dz-delete {
+    background-image: -webkit-linear-gradient(top, #fafafa, #eee);
+    background-image: -moz-linear-gradient(top, #fafafa, #eee);
+    background-image: -o-linear-gradient(top, #fafafa, #eee);
+    background-image: -ms-linear-gradient(top, #fafafa, #eee);
+    color: #FFF;
+    background-image: linear-gradient(to bottom, #EE0700, #B90000);
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #eee;
+    text-decoration: none;
+    display: block;
+    padding: 4px 5px;
+    text-align: center;
+    margin-top: 5px;
+}
+.dropzone a.dz-delete:hover,
+.dropzone-previews a.dz-delete:hover {
+    background-image: linear-gradient(to bottom, #C5241F, #B90000);
 }

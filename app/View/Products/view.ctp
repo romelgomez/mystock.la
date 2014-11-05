@@ -1,6 +1,5 @@
 <?php
 //    debug($this->{'request'});
-//    debug($this->{'request'});
     $data = $this->{'request'}->{'data'};
 ?>
 
@@ -11,7 +10,15 @@
         <div class="col-xs-12">
             <!-- start content-->
 
-            <h1 id="type" class="page-header" style="margin-top: 0; background: url('/resources/app/img/benjaminFranklin.jpg') no-repeat center;padding-top: 300px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
+            <?php
+                if($data['User']['banner'] !== NULL){
+                    $banner = '/resources/app/img/banners/'.$data['User']['banner'];
+                }else{
+                    $banner = '/resources/app/img/benjaminFranklin.jpg';
+                }
+            ?>
+
+            <h1 id="type" class="page-header" style="margin-top: 0; background: url('<?php echo $banner; ?>') no-repeat center;padding-top: 300px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
                 <a href="<?php echo '/stock/'.$data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
             </h1>
 

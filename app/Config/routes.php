@@ -36,6 +36,7 @@ Router::connect('/',										array('controller' => 'frontEnds', 	'action' => 'i
 //	I
 Router::connect('/add-banner',								array('controller' => 'images', 'action' => 'addBanner'));
 Router::connect('/delete-banner',	 					    array('controller' => 'images', 'action' => 'deleteBanner'));
+Router::connect('/select-banner',	 					    array('controller' => 'images', 'action' => 'selectBanner'));
 
 Router::connect('/image_add',								array('controller' => 'images', 'action' => 'add'));
 Router::connect('/enables_this_images',	 					array('controller' => 'images', 'action' => 'enables_this_images'));

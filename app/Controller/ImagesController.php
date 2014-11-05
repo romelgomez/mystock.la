@@ -112,12 +112,64 @@ class ImagesController extends AppController{
         $this->{'render'}('ajax_view','ajax');
     }
 
+    public function disable_this_imagen(){
+        $request = $this->{'request'}->input('json_decode',true);
+
+
+        $user_logged = $this->{'Auth'}->User();
+
+        /*
+        print_r($request);
+        Array
+        (
+            [image_id] => 1390
+            [product_id] => 230
+        )
+        */
+
+        $image = $this->{'Image'}->find('first', array(
+            'conditions' => array('Image.id' => $request['image_id'],'Image.product_id'=>$request['product_id']),
+            'contain' => array(
+                'Product'=>array(
+                    'User'=>array(
+                        'conditions' =>array('User.id'=>$user_logged['User']['id'])
+                    )
+                )
+            )
+        ));
+
+        $return = array();
+
+        if($image){
+            $update = array(
+                'Image'=>array(
+                    'id'=>	$image['Image']['id'],
+                    'deleted'=> 1
+                )
+            );
+            if($this->{'Image'}->save($update)) {
+                $return['image_id'] = $request['image_id'];
+                $return['status'] 	= true;
+            }else{
+                $return['status'] = false;
+            }
+
+        }
+
+        $this->{'set'}('return',$return);
+        $this->{'render'}('ajax_view','ajax');
+    }
+
+
+    # BANNERS
+    #################################################################################################
+
     /* Descripción: 		Guardar y redimensiona los banners.
-     * tipo de solicitud: 	ajax-get,ajax-post
-     * tipo de acceso: 		vendedor
-     * Recibe: 				array.
-     * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     *******************/
+    * tipo de solicitud: 	ajax-get,ajax-post
+    * tipo de acceso: 		vendedor
+    * Recibe: 				array.
+    * Retorna: 			un array. el cual sera transformado en un objeto JSON en la vista ajax_view.
+    *******************/
     public function addBanner(){
         $user_logged = $this->{'Auth'}->User();
 
@@ -203,8 +255,7 @@ class ImagesController extends AppController{
 
         /*
         print_r($request);
-        Array
-        (
+        Array(
             [image_id] => 1390
         )
         */
@@ -235,57 +286,31 @@ class ImagesController extends AppController{
         $this->{'render'}('ajax_view','ajax');
     }
 
-
-
-
-
-    public function disable_this_imagen(){
+    public function selectBanner(){
+        $user_logged = $this->{'Auth'}->User();
         $request = $this->{'request'}->input('json_decode',true);
 
+        $this->{'loadModel'}('User');
 
-        $user_logged = $this->{'Auth'}->User();
-
-        /*
-        print_r($request);
-        Array
-        (
-            [image_id] => 1390
-            [product_id] => 230
-        )
-        */
-
-        $image = $this->{'Image'}->find('first', array(
-            'conditions' => array('Image.id' => $request['image_id'],'Image.product_id'=>$request['product_id']),
-            'contain' => array(
-                'Product'=>array(
-                    'User'=>array(
-                        'conditions' =>array('User.id'=>$user_logged['User']['id'])
-                    )
-                )
+        $update = array(
+            'User'=>array(
+                'id'=>	    $user_logged['User']['id'],
+                'banner'=>	$request['facebook']['name'],
             )
-        ));
+        );
 
-        $return = array();
-
-        if($image){
-            $update = array(
-                'Image'=>array(
-                    'id'=>	$image['Image']['id'],
-                    'deleted'=> 1
-                )
-            );
-            if($this->{'Image'}->save($update)) {
-                $return['image_id'] = $request['image_id'];
-                $return['status'] 	= true;
-            }else{
-                $return['status'] = false;
-            }
-
+        if($this->{'User'}->save($update)) {
+            $return['status'] 	= true;
+        }else{
+            $return['status'] = false;
         }
+
+//        $return = $request;
 
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
     }
+
 
 
 }

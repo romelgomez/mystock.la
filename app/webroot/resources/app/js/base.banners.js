@@ -15,7 +15,45 @@ $(document).ready(function() {
                 '</div>';
 
             var selectButton = function(instance,file){
+
                 var notification;
+
+                // proceso para establecer un banner
+                var request_parameters = {
+                    "requestType":"custom",
+                    "type":"post",
+                    "url":"/select-banner",
+                    "data":{},
+                    "callbacks":{
+                        "beforeSend":function(){
+                            notification = ajax.notification("beforeSend");
+                        },
+                        "success":function(response){
+
+                            if(response['expired_session']){
+                                window['location'] = "/entrar";
+                            }
+
+                            if(response['status']){
+                                ajax.notification("success",notification);
+
+                                $("#reload-the-page").fadeIn().on("click",function(){
+                                    window.location.reload(true);
+                                });
+
+                            }else{
+                                ajax.notification("error",notification);
+                            }
+
+                        },
+                        "error":function(){
+                            ajax.notification("error",notification);
+                        },
+                        "complete":function(){}
+                    }
+                };
+
+
                 var selectButton = Dropzone.createElement('<a class="dz-select" style="cursor:pointer" >Select</a>');
 
                 selectButton.addEventListener("click", function(e) {
@@ -25,8 +63,6 @@ $(document).ready(function() {
 
                     var banner = '';
 
-                    // If you want to the delete the file on the server as well,
-                    // you can do the AJAX request here.
                     if(file['xhr'] !== undefined){
 //                        console.log('Es una imagen recién cargada al servidor que se quiere seleccionar');
 
@@ -35,8 +71,8 @@ $(document).ready(function() {
                         banner = obj['facebook']['name'];
                         $('#banner').css('background-image', 'url(' + '/resources/app/img/banners/'+ banner + ')');
 
-//                        request_parameters['data']['image_id']      = obj['small']['id'];
-//                        ajax.request(request_parameters);
+                        request_parameters['data']      = obj;
+                        ajax.request(request_parameters);
 
                     }else{
                         if(file['id']  !== undefined){
@@ -45,9 +81,8 @@ $(document).ready(function() {
                             banner = file['obj']['facebook']['name'];
                             $('#banner').css('background-image', 'url(' + '/resources/app/img/banners/'+ banner + ')');
 
-
-//                            request_parameters['data']['image_id']      = file['id'];
-//                            ajax.request(request_parameters);
+                            request_parameters['data']    = file['obj'];
+                            ajax.request(request_parameters);
 
                         }else{
 //                            console.log('Es una imagen en cola que fue eliminada')
@@ -96,7 +131,7 @@ $(document).ready(function() {
                 };
 
 
-                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Delete</a>');
+                var removeButton = Dropzone.createElement('<a class="dz-delete" style="cursor:pointer;" >Delete</a>');
                 // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
                     // Make sure the button click doesn't submit the form:
