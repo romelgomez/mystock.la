@@ -29,7 +29,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Imágenes:</h3>
+                    <h3 class="panel-title">Images:</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row" style="margin: 0;">
@@ -48,7 +48,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Descripción:</h3>
+                    <h3 class="panel-title">Description:</h3>
                 </div>
                 <div class="panel-body">
                     <?php  echo ucfirst($data['Product']['body']) ?>
@@ -58,7 +58,7 @@
             <div class="panel panel-warning">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
-                    <h3 class="panel-title">Detalles:</h3>
+                    <h3 class="panel-title">Details:</h3>
                 </div>
 
                 <!-- List group -->
@@ -66,7 +66,7 @@
                     <li class="list-group-item bg-primary">
                         <h2 class="text-info">
                             <span class="glyphicon glyphicon-tag"></span>
-                            Precio: $<?php echo $data['Product']['price'] ?>
+                            Price: $<?php echo $data['Product']['price'] ?>
                         </h2>
                     </li>
                     <li class="list-group-item bg-primary">

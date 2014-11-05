@@ -8,7 +8,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-warning" role="alert" >
-                        No hay productos publicados aun. <a href="/publicar" class="alert-link" >Añade un nuevo producto!</a>
+                        No products published yet. <a href="/publicar" class="alert-link" >Add a new product!</a>
                     </div>
                 </div>
             </div>
@@ -65,21 +65,21 @@
                                 <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                            Ordenar por: <span id="order-by-text">Recientes</span> <span class="caret"></span>
+                                            Sort by: <span id="order-by-text">Recent</span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recientes</a></li>
-                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antiguos</a></li>
+                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recent</a></li>
+                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antique</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Mayor precio</a></li>
-                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Menor precio</a></li>
+                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Higher price</a></li>
+                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Mayor disponibilidad</a></li>
-                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Menor disponibilidad</a></li>
+                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Greater availability</a></li>
+                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -103,7 +103,7 @@
                                 <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                            Sort by <span class="caret"></span>
+                                            Sort by:  <span id="order-by-text">Recent</span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                             <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recent</a></li>
