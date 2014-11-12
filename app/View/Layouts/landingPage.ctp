@@ -46,13 +46,13 @@
         <ul class="nav navbar-nav">
 
             <?php if(isset($userLogged)){ ?>
-                <li class=""><a href="/publicar"><span class="glyphicon glyphicon-globe"></span> Publish</a></li>
+                <li class=""><a href="/publish"><span class="glyphicon glyphicon-globe"></span> Publish</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Account <?php if(isset($userLogged)){ echo '( '.$userLogged['User']['name'].' )'; } ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li role="presentation" class="dropdown-header">PRODUCTS</li>
-                        <li><a href="/publicados"><span class="glyphicon glyphicon-bullhorn"></span> Published</a></li>
-                        <li><a href="/borradores"><span class="glyphicon glyphicon-pencil"></span> Drafts</a></li>
+                        <li><a href="/published"><span class="glyphicon glyphicon-bullhorn"></span> Published</a></li>
+                        <li><a href="/drafts"><span class="glyphicon glyphicon-pencil"></span> Drafts</a></li>
                         <li><a href="/stock/<?php echo $userLogged['User']['id']; ?>"><span class="glyphicon glyphicon-th"></span> Stock</a></li>
                         <!--                                <li class="divider"></li>-->
                         <!--                                <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> <del>Configuración</del></a></li>-->
@@ -61,9 +61,9 @@
             <?php } ?>
             <?php
             if(isset($userLogged)){
-                echo '<li class=""><a href="/salir"><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
+                echo '<li class=""><a href="/logout"><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
             }else{
-                echo '<li class=""><a href="/entrar"><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
+                echo '<li class=""><a href="/login"><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
             }
             ?>
         </ul>
@@ -120,7 +120,7 @@
 <div class="divider01">
     <div class="container text-center">
         <h3 style="margin-bottom: 20px;">Start publishing today!</h3>
-        <a href="/publicar" type="button" class="btn btn-lg btn-theme2" style="font-family: 'Lato', sans-serif">Go!</a>
+        <a href="/publish" type="button" class="btn btn-lg btn-theme2" style="font-family: 'Lato', sans-serif">Go!</a>
     </div><!-- /container -->
 </div><!-- /divider01 -->
 

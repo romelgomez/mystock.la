@@ -102,7 +102,7 @@
             <section id="add-product">
                 <div  class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Nueva Publicación</h3>
+                        <h3 class="panel-title">New publication</h3>
                     </div>
                     <div class="panel-body">
 
@@ -128,28 +128,28 @@
                                         */
                                         if(isset($url_action)){
                                             // edit
-                                            if($url_action =='editar'){
+                                            if($url_action =='edit'){
                                                 $status = $this->request->data['Product']['status'];
                                                 ?>
-                                                <button id="update" type="submit" class="btn btn-primary">Actualizar</button>
+                                                <button id="update" type="submit" class="btn btn-primary">Update</button>
                                                 <?php if($status){  // esta publicado,  por lo tanto el elemento activate_container debe esta oculto. ?>
-                                                    <button id="pause" type="button" class="btn btn-default">Pausar</button>
-                                                    <button id="activate" type="button" class="btn btn-default" style="display:none;">Activar</button>
+                                                    <button id="pause" type="button" class="btn btn-default">Pause</button>
+                                                    <button id="activate" type="button" class="btn btn-default" style="display:none;">Enable</button>
                                                 <?php }else{        // esta pausado,    por lo tanto el elemento pause_container debe esta oculto. ?>
-                                                    <button id="pause" type="button" class="btn btn-default" style=" display:none;">Pausar</button>
-                                                    <button id="activate" type="button" class="btn btn-default">Activar</button>
+                                                    <button id="pause" type="button" class="btn btn-default" style=" display:none;">Pause</button>
+                                                    <button id="activate" type="button" class="btn btn-default">Enable</button>
                                                 <?php } ?>
-                                                <button id="delete" class="btn btn-danger" type="button">Borrar</button>
-                                                <div id="debugTime" style="padding-top: 10px; display:none;">La publicación se ha actualizado a las <span id="lastTimeSave"></span> (Hace <span id="minutesElapsed">0</span> minutos)</div>
+                                                <button id="delete" class="btn btn-danger" type="button">Delete</button>
+                                                <div id="debugTime" style="padding-top: 10px; display:none;">The publication was updated at <span id="lastTimeSave"></span> (Minutes <span id="minutesElapsed">0</span> ago)</div>
                                             <?php
                                             }
                                             // newProduct, editDraft
-                                            if($url_action =='editar_borrador' || $url_action == false){
+                                            if($url_action =='edit-draft' || $url_action == false){
                                                 ?>
-                                                <button id="publish"	class="btn btn-primary"	type="submit"   >Publicar</button>
-                                                <button id="save-now" 	class="btn btn-success"	type="button" style="margin-left: 4px;"  >Guardar Ahora</button>
-                                                <button id="discard"	class="btn btn-warning"	type="button" style="margin-left: 4px;"  >Descartar</button>
-                                                <div id="debugTime" style="padding-top: 10px; display:none;">El borrador se ha guardado a las <span id="lastTimeSave"></span> (Hace <span id="minutesElapsed">0</span> minutos)</div>
+                                                <button id="publish"	class="btn btn-primary"	type="submit"   >Publish</button>
+                                                <button id="save-now" 	class="btn btn-success"	type="button" style="margin-left: 4px;"  >Save Now</button>
+                                                <button id="discard"	class="btn btn-warning"	type="button" style="margin-left: 4px;"  >Discard</button>
+                                                <div id="debugTime" style="padding-top: 10px; display:none;">The draft was updated at <span id="lastTimeSave"></span> (Minutes <span id="minutesElapsed">0</span> ago)</div>
                                             <?php
                                             }
                                         }
@@ -163,9 +163,9 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-bookmark"></span> Titulo</label>
-                                            <?php echo $this->Form->input('Product.title',array('label'=>false,'div'=>false,'class'=>'form-control','name'=>'ProductTitle','placeholder'=>'Eje: EVGA X79 Classified Intel Socket 2011 Quad Channel DDR3 32GB of DDR3 2133MHz+ 151-SE-E779-KR')); ?>
-                                            <span class="help-block" style="display: none;">El campo título es obligatorio.</span>
+                                            <label class="control-label" for="ProductTitle"><span class="glyphicon glyphicon-bookmark"></span> Title</label>
+                                            <?php echo $this->Form->input('Product.title',array('label'=>false,'div'=>false,'class'=>'form-control','name'=>'ProductTitle','placeholder'=>'')); ?>
+                                            <span class="help-block" style="display: none;">Required</span>
                                         </div>
                                     </div>
                                 </div>
@@ -174,9 +174,9 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <label class="control-label" for="ProductBody"><span class="glyphicon glyphicon-book"></span> Descripción</label>
+                                            <label class="control-label" for="ProductBody"><span class="glyphicon glyphicon-book"></span> Description</label>
                                             <?php echo $this->Form->textarea('Product.body',array('label'=>false,'div'=>false,'rows'=>7,'class'=>'form-control','name'=>'ProductBody')); ?>
-                                            <span class="help-block" style="display: none;"><p class="text-danger">El campo descripción es obligatorio</p></span>
+                                            <span class="help-block" style="display: none;"><p class="text-danger">The description is required</p></span>
                                         </div>
                                     </div>
                                 </div>
@@ -185,12 +185,12 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <label class="control-label" for="ProductPrice"><span class="glyphicon glyphicon-tag"></span> Precio</label>
+                                            <label class="control-label" for="ProductPrice"><span class="glyphicon glyphicon-tag"></span> Price</label>
                                             <div class="input-group col-xs-4">
                                                 <div class="input-group-addon">$</div>
                                                 <?php echo $this->Form->input('Product.price',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductPrice','placeholder'=>'Eje: 1000')); ?>
                                             </div>
-                                            <span class="help-block" style="display: none;">El campo precio es obligatorio</span>
+                                            <span class="help-block" style="display: none;">Required</span>
                                         </div>
                                     </div>
                                 </div>
@@ -199,12 +199,12 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <label class="control-label" for="ProductQuantity"><span class="glyphicon glyphicon-th"></span> Cantidad disponible</label>
+                                            <label class="control-label" for="ProductQuantity"><span class="glyphicon glyphicon-th"></span> Quantity in stock</label>
                                             <div class="input-group col-xs-4">
-                                                <div class="input-group-addon">Unidades</div>
+                                                <div class="input-group-addon">Units</div>
                                                 <?php echo $this->Form->input('Product.quantity',array('label'=>false,'div'=>false,'type'=>'number','class'=>'form-control','name'=>'ProductQuantity','placeholder'=>'Eje: 100')); ?>
                                             </div>
-                                            <span class="help-block" style="display: none;">El campo cantidad disponible es obligatorio</span>
+                                            <span class="help-block" style="display: none;">Required</span>
                                         </div>
                                     </div>
                                 </div>
@@ -225,9 +225,9 @@
                     ?>--></div>
                     <ul class="list-group">
                         <li class="list-group-item" >
-                            <h3 id="panels" class="page-header" style="margin-top: 10px;">Imágenes  <small><button id="continue-upload" type="button" class="btn btn-link clickable" style="display: none;">¡Añadir mas imágenes!</button> <button id="upload-all" type="button" class="btn btn-link" style="display: none;">¡Subir las imágenes!</button></small></h3>
+                            <h3 id="panels" class="page-header" style="margin-top: 10px;">Images  <small><button id="continue-upload" type="button" class="btn btn-link clickable" style="display: none;">Add more pictures!</button> <button id="upload-all" type="button" class="btn btn-link" style="display: none;">Upload images!</button></small></h3>
                             <div id="previews" class="well dropzone-previews" style="margin-bottom: 10px;">
-                                <button id="first-files" class="btn btn-primary clickable">Selecciona las imágenes desde la computadora</button>
+                                <button id="first-files" class="btn btn-primary clickable">Select the images from the computer</button>
                             </div>
                         </li>
                     </ul>
@@ -235,8 +235,8 @@
 
                 <div class="alert alert-warning" role="alert">
                     <ul>
-                        <li>Al escribir el titulo por favor sigue esta convención: Marca - Nombre - Características relevantes - Numero de parte o Modelo.</li>
-                        <li>Las imágenes son de carácter obligatorio. De no tener al menos una imagen cargada, el sistema no mostrará la publicación a los clientes.</li>
+                        <li>When writing the title please follow this convention: Brand - Name - Relevant Features - Part Number or Model.</li>
+                        <li>The images are obligatory. Without at least one image loaded, the system not displayed the publication to customers.</li>
                     </ul>
                 </div>
             </section><!-- End #add-product -->
@@ -275,7 +275,7 @@
 
     //  Redactor - http://imperavi.com/redactor/
     array_push($scripts,'/resources/library-vendor/redactor/redactor.min.js');
-    array_push($scripts,'/resources/library-vendor/redactor/langs/es.js');
+//    array_push($scripts,'/resources/library-vendor/redactor/langs/es.js');
 
     //  Ekko Lightbox  - https://github.com/ashleydw/lightbox
     array_push($scripts,'/resources/library-vendor/ekko-lightbox/ekko-lightbox.min.js');

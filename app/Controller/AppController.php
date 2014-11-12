@@ -15,7 +15,7 @@ class AppController extends Controller {
                     'fields' => array('username' => 'email')
                 )
             ),
-            'loginAction'=>'/entrar',
+            'loginAction'=>'/login',
             'loginRedirect' => '/publicados',
             'logoutRedirect'=> '/',
             'ajaxLogin'=>'expired_session'

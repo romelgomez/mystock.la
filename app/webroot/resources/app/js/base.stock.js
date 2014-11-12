@@ -129,7 +129,7 @@ $(document).ready(function(){
             slug =  slug.replace(/\s+/g, ' ');
             slug = utility.stringReplace(slug,' ','-');
 
-            var link        =   '/producto/'+id+'/'+slug+'.html';
+            var link        =   '/product/'+id+'/'+slug+'.html';
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
@@ -138,10 +138,10 @@ $(document).ready(function(){
 
             if(obj['Product']['status']){
                 status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }else{
                 status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
             }
 
             var quantity = obj['Product']['quantity'];
@@ -182,7 +182,7 @@ $(document).ready(function(){
                     '<div class="nombre_producto_margen">'+title+'</div>'+
                 '</span>'+
                 '<span class="precio">'+
-                    '<div style="margin-left:5px;  margin-right:5px;">Precio: $'+price+'</div>'+
+                    '<div style="margin-left:5px;  margin-right:5px;">Price: $'+price+'</div>'+
                 '</span>'+
             '</a>';
 
@@ -576,8 +576,8 @@ $(document).ready(function(){
                 "messages":{
                     "search":{
                         "required":"Es preciso definir el campo para proceder con la búsqueda.",
-                        "maxlength":"Hay un límite de 100 caracteres.",
-                        "noSpecialChars":"No esta permitido usar caracteres especiales."
+                        "maxlength":"There is a limit of 100 characters.",
+                        "noSpecialChars":"Not allowed to use special characters."
                     }
                 }
             };
@@ -694,7 +694,7 @@ $(document).ready(function(){
 
             if(lastResponseInfo['count'] > 0){
                 if(lastResponseInfo['count'] == 1){
-                    info = '1 publicación';
+                    info = '1 publication';
                 }else{
 
                     var de = '';
@@ -714,7 +714,7 @@ $(document).ready(function(){
 
                 }
             }else{
-                info = '0 publicaciónes';
+                info = '0 publications';
             }
 
             // se establece la información de la cantidad de registros existentes

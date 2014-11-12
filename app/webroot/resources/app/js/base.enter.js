@@ -235,29 +235,29 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "UserName":{
-                        "required":"El campo nombre es obligatorio.",
-                        "lettersonly":"El nombre debe tener solo caracteres alfabéticos.",
-                        "minlength": "El nombre debe tener al menos 3 caracteres.",
-                        "maxlength":"El nombre no debe tener mas de 20 caracteres."
+                        "required":"The name is required.",
+                        "lettersonly":"The name must have only alphabetic characters.",
+                        "minlength": "The name must have at least 3 characters.",
+                        "maxlength":"The name must not be longer than 20 characters."
                     },
                     "UserEmail":{
-                        "required":"El campo correo es obligatorio.",
-                        "email":"Debe proporcionar un correo valido.",
-                        "remote":"Ya esta registrado. Intente recuperar la cuenta.",
-                        "maxlength":"El correo no debe tener mas de 30 caracteres."
+                        "required":"The email is required.",
+                        "email":"You must provide a valid email.",
+                        "remote":"Already registered. Try to recover the account.",
+                        "maxlength":"The email must not have more than 30 characters."
                     },
                     "UserPassword":{
-                        "required":"El campo contraseña es obligatorio.",
-                        "rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
-                        "notEqualToName":"La clave no debe ser igual al nombre.",
-                        "notEqualToEmail":"La clave no debe ser igual al correo."
+                        "required":"The password is required.",
+                        "rangelength":"You must provide a password that is between 7 and 21 characters.",
+                        "notEqualToName":"The key does not match the name.",
+                        "notEqualToEmail":"The key must not be equal to email."
                     },
                     "UserPasswordAgain":{
-                        "required":"El campo contraseña es obligatorio.",
-                        "rangelength":"Debe proporcionar una clave que contenga entre 7 y 21 caracteres.",
-                        "notEqualToName":"La clave no debe ser igual al nombre.",
-                        "notEqualToEmail":"La clave no debe ser igual al correo.",
-                        "equalTo":"Ambas claves deben ser idénticas"
+                        "required":"The password is required.",
+                        "rangelength":"You must provide a password that is between 7 and 21 characters.",
+                        "notEqualToName":"The key does not match the name.",
+                        "notEqualToEmail":"The key must not be equal to email.",
+                        "equalTo":"Both password must be identical."
                     }
                 }
             };
@@ -277,7 +277,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
-                "url":"/login",
+                "url":"/in",
                 "data":{},
                 "form":{
                     "id":"LoginForm",
@@ -319,7 +319,7 @@ $(document).ready(function(){
                     "LoginEmail":{
                         "required":true,
                         "email": true,
-                        "maxlength":128
+                        "maxlength":30
                     },
                     "LoginPassword":{
                         "required":true,
@@ -328,13 +328,13 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "LoginEmail":{
-                        "required":"El campo correo es obligatorio.",
-                        "email":"Debe proporcionar un correo valido.",
-                        "maxlength":"El correo no debe tener mas de 128 caracteres."
+                        "required":"The email is required.",
+                        "email":"You must provide a valid email.",
+                        "maxlength":"The email must not have more than 30 characters."
                     },
                     "LoginPassword":{
-                        "required":"El campo contraseña es obligatorio.",
-                        "rangelength":"Debe ser una clave que contenga entre 7 y 21 caracteres."
+                        "required":"The password is required.",
+                        "rangelength":"You must provide a password that is between 7 and 21 characters."
                     }
                 }
             };

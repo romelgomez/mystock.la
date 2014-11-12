@@ -8,7 +8,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-warning" role="alert" >
-                        No hay borradores. <a href="/publicar" class="alert-link" >Añade una nueva publicación</a>
+						No drafts. <a href="/publicar" class="alert-link" >Add a new product!</a>
                     </div>
                 </div>
             </div>
@@ -17,7 +17,7 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;">Borradores</h1>
+                            <h1 id="type" class="page-header" style="margin-top: 0;">Drafts</h1>
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">Buscar</button>
+                                    <button class="btn btn-default" type="submit">Search</button>
                                 </span>
                                     </div>
                                 </div>
@@ -53,8 +53,8 @@
                                 <div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
                                     <div style=" float: left; margin-right: 10px; ">
                                         <div class="btn-group" >
-                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Anterior</button>
-                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Próximo</button>
+                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
+                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
                                         </div>
                                     </div>
                                 </div>
@@ -64,21 +64,21 @@
                                 <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                            Ordenar por <span class="caret"></span>
+											Sort by: <span id="order-by-text">Recent</span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recientes</a></li>
-                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antiguos</a></li>
+                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recent</a></li>
+                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antique</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Mayor precio</a></li>
-                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Menor precio</a></li>
+                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Higher price</a></li>
+                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Mayor disponibilidad</a></li>
-                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Menor disponibilidad</a></li>
+                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Greater availability</a></li>
+                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -116,11 +116,11 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: 0;">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Realmente quieres borrar este borrador?</h4>
+                <h4 class="modal-title" id="myModalLabel">Do you really want to delete this draft?</h4>
             </div>
             <div class="modal-footer">
-                <button id="delete_product" type="button" class="btn btn-danger">Confirmar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button id="delete_product" type="button" class="btn btn-danger">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

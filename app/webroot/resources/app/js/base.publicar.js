@@ -7,9 +7,10 @@ $(document).ready(function(){
 
 
         var initRedactor = function(){
-            $('#ProductBody')['redactor']({
-                lang: 'es'
-            });
+            //$('#ProductBody')['redactor']({
+            //    lang: 'es'
+            //});
+			$('#ProductBody')['redactor']();
         };
 
         /*
@@ -205,7 +206,7 @@ $(document).ready(function(){
                         if(response['result']){
                             var slug = utility.stringReplace((response['product_title'].toLowerCase().trim()),' ','-');
                             slug = utility.stringReplace(slug,'/','-');
-                            window.location = '/producto/'+response['product_id']+'/'+slug+'.html';
+                            window.location = '/product/'+response['product_id']+'/'+slug+'.html';
                         }else{
                             window.location = "/";
                         }
@@ -310,24 +311,24 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "ProductTitle":{
-                        "required":"El campo: Titulo, es obligatorio.",
-                        "maxlength":"El titulo no debe tener mas de 200 caracteres."
+                        "required":"Title is required.",
+                        "maxlength":"The title should not be longer than 200 characters."
                     },
                     "ProductBody":{
-                        "required":"El campo: Descripción, es obligatorio."
+                        "required":"Description is required."
                     },
                     "ProductPrice":{
-                        "required":"El campo: Precio, es obligatorio.",
-                        "number":"Solo un numero, entero o racional separado por un punto.",
-                        "maxlength":"El precio no debe de tener mas de 10 dígitos",
-                        "min":"El precio debe ser igual o mayor a 0."
+                        "required":"Price is required.",
+                        "number":"Only a number, integer or rational separated by a dot.",
+                        "maxlength":"The price should not have more than 10 digits",
+                        "min":"The price must be equal or greater than 0."
                     },
                     "ProductQuantity":{
-                        "required":"El campo: Cantidad disponible, es obligatorio.",
-                        "digits":"Solo números enteros positivos.",
-                        "min":"La cantidad debe ser igual o mayor a 1.",
-                        "number":"Por favor, introduzca un número válido.",
-                        "maxlength":"La cantidad disponible expresada no debe de tener mas de 10 dígitos"
+                        "required":"Quantity available is required.",
+                        "digits":"Only positive integers.",
+                        "min":"The quantity must be equal to or greater than 1.",
+                        "number":"Please enter a valid number.",
+                        "maxlength":"Available quantity expressed should not be longer than 10 digits"
                     }
                 }
             };
@@ -340,26 +341,26 @@ $(document).ready(function(){
          Private Method
          Descripción: para visualizar en mejor resolución una miniatura habilitada del producto.
          */
-        var betterVisualizing = function(){
-            $("#product_thumbnails").find(".view-this-product-thumbnail").each(function(){
-                $(this).off("click");
-                $(this).click(function(){
-
-                    var pure_json_obj   = $(this).parent().children().last().html();
-                    var obj             = $.parseJSON(pure_json_obj);
-
-                    // Proceso para visualizar la imagen
-                    var image_url = '/resources/app/img/products/'+obj['thumbnails']['median']['name'];
-
-                    var imageProduct =  $("#image-product");
-
-                    imageProduct.attr({"href":image_url});
-                    imageProduct.ekkoLightbox();
-
-
-                });
-            });
-        };
+        //var betterVisualizing = function(){
+        //    $("#product_thumbnails").find(".view-this-product-thumbnail").each(function(){
+        //        $(this).off("click");
+        //        $(this).click(function(){
+        //
+        //            var pure_json_obj   = $(this).parent().children().last().html();
+        //            var obj             = $.parseJSON(pure_json_obj);
+        //
+        //            // Proceso para visualizar la imagen
+        //            var image_url = '/resources/app/img/products/'+obj['thumbnails']['median']['name'];
+        //
+        //            var imageProduct =  $("#image-product");
+        //
+        //            imageProduct.attr({"href":image_url});
+        //            imageProduct.ekkoLightbox();
+        //
+        //
+        //        });
+        //    });
+        //};
 
 
         /*
@@ -584,7 +585,7 @@ $(document).ready(function(){
                 };
 
 
-                var removeButton = Dropzone.createElement('<a class="dz-remove" style="cursor:pointer" >Delete</a>');
+                var removeButton = Dropzone.createElement('<a class="dz-delete" style="cursor:pointer" >Delete</a>');
                 // Listen to the click event
                 removeButton.addEventListener("click", function(e) {
                     // Make sure the button click doesn't submit the form:
@@ -602,6 +603,9 @@ $(document).ready(function(){
                         $("#upload-all").hide();
                     }
 
+
+					var productId = $('#ProductId');
+
                     // If you want to the delete the file on the server as well,
                     // you can do the AJAX request here.
                     if(file['xhr'] !== undefined){
@@ -610,7 +614,7 @@ $(document).ready(function(){
                         var obj = JSON.parse(file['xhr']['response']);
 
                         request_parameters['data']['image_id']      = obj['small']['id'];
-                        request_parameters['data']['product_id']    = $('#ProductId').val();
+                        request_parameters['data']['product_id']    = productId.val();
 
                         ajax.request(request_parameters);
 
@@ -619,7 +623,7 @@ $(document).ready(function(){
 //                            console.log('Es una imagen que esta en servidor');
 
                             request_parameters['data']['image_id']      = file['id'];
-                            request_parameters['data']['product_id']    = $('#ProductId').val();
+                            request_parameters['data']['product_id']    = productId.val();
 
                             ajax.request(request_parameters);
 
@@ -665,7 +669,7 @@ $(document).ready(function(){
                     var pathname = $(location).attr('href');
                     var url = $.url(pathname);
                     var split_segments = url.attr('directory').split('/');
-                    if(split_segments[1] == 'editar' || split_segments[1] == 'editar_borrador' ){
+                    if(split_segments[1] == 'edit' || split_segments[1] == 'edit-draft' ){
                         var images = JSON.parse(utility.removeCommentTag($("#images").html()));
                         if(images.length > 0){
                             $("#first-files").hide();

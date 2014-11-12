@@ -71,27 +71,27 @@ $(document).ready(function(){
 
                         if(parameter == "mayor-precio"){
                             url_obj.order_by = "mayor-precio";
-                            orderBy.text('Mayor precio');
+                            orderBy.text('Higher price');
                         }
                         if(parameter == "menor-precio"){
                             url_obj.order_by = "menor-precio";
-                            orderBy.text('Menor precio');
+                            orderBy.text('Lowest price');
                         }
                         if(parameter == "recientes"){
                             url_obj.order_by = "recientes";
-                            orderBy.text('Recientes');
+                            orderBy.text('Recent');
                         }
                         if(parameter == "antiguos"){
                             url_obj.order_by = "antiguos";
-                            orderBy.text('Antiguos');
+                            orderBy.text('Antique');
                         }
                         if(parameter == "mayor-disponibilidad"){
                             url_obj.order_by = "mayor-disponibilidad";
-                            orderBy.text('Mayor disponibilidad');
+                            orderBy.text('Greater availability');
                         }
                         if(parameter == "menor-disponibilidad"){
                             url_obj.order_by = "menor-disponibilidad";
-                            orderBy.text('Menor disponibilidad');
+                            orderBy.text('Lower availability');
                         }
 
 
@@ -116,16 +116,16 @@ $(document).ready(function(){
             var image = '';
 
             if(obj['Image'] == undefined || obj['Image'].length == 0){
-                image = '/resources/app/img/foto-no-disponible.jpg';
+                image = '/resources/app/img/no-image-available.png';
             }else{
                 image = '/resources/app/img/products/'+obj['Image'][0]['name'];
             }
 
-            var  link = '/editar_borrador/'+obj['Product']['id'];
+            var  link = '/edit-draft/'+obj['Product']['id'];
 
 
             if(title == '') {
-                title = '<mark>Sin título disponible</mark>';
+                title = '<mark>Untitled</mark>';
             }
 
 
@@ -139,11 +139,11 @@ $(document).ready(function(){
 
                 '<div style="margin-bottom: 10px;">'+
                 '<div class="btn-group">'+
-                '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
+                '<button class="btn btn-default edit"><i class="icon-edit"></i> Edit</button>'+
                 '</div>'+
                 '</div>'+
                 '<div>'+
-                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
+                '<span class="glyphicon glyphicon-calendar"></span> Created: '+created+
                 '</div>'+
                 '</div>'+
                 '</div>';
@@ -161,7 +161,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/get-drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -205,27 +205,27 @@ $(document).ready(function(){
                 {
                     'id':'higher-price',
                     'url':'mayor-precio',
-                    'text':'Mayor precio'
+                    'text':'Higher price'
                 },                {
                     'id':'lower-price',
                     'url':'menor-precio',
-                    'text':'Menor precio'
+                    'text':'Lowest price'
                 },                {
                     'id':'recent',
                     'url':'recientes',
-                    'text':'Recientes'
+                    'text':'Recent'
                 },                {
                     'id':'oldest',
                     'url':'antiguos',
-                    'text':'Antiguos'
+                    'text':'Antique'
                 },                {
                     'id':'higher-availability',
                     'url':'mayor-disponibilidad',
-                    'text':'Mayor disponibilidad'
+                    'text':'Greater availability'
                 },                {
                     'id':'lower-availability',
                     'url':'menor-disponibilidad',
-                    'text':'Menor disponibilidad'
+                    'text':'Lower availability'
                 }
             ];
 
@@ -283,7 +283,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/get-drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -443,7 +443,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/get-drafts",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -478,7 +478,7 @@ $(document).ready(function(){
                                 $("#products").show();
                             }else{
                                 // se muestra el mensaje que indica que no hay publicaciones
-                                searchInfo.text('No hay resultados para: '+response['search']);
+                                searchInfo.text('No results for: '+response['search']);
                                 searchInfo.show();
 
                                 // se oculta las publicaciones
@@ -520,9 +520,9 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "search":{
-                        "required":"Es preciso definir el campo para proceder con la búsqueda.",
-                        "maxlength":"Hay un límite de 100 caracteres.",
-                        "noSpecialChars":"No esta permitido usar caracteres especiales."
+                        "required":"You must define the field to proceed with the search.",
+                        "maxlength":"There is a limit of 100 characters.",
+                        "noSpecialChars":"Not allowed to use special characters."
                     }
                 }
             };
@@ -640,7 +640,7 @@ $(document).ready(function(){
 
             if(lastResponseInfo['count'] > 0){
                 if(lastResponseInfo['count'] == 1){
-                    info = '1 publicación';
+                    info = '1 publication';
                 }else{
 
                     var de = '';
@@ -656,11 +656,11 @@ $(document).ready(function(){
                         hasta	= lastResponseInfo['page']*lastResponseInfo['current'];
                     }
 
-                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+lastResponseInfo['count']+'</b>';
+                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> of <b>'+lastResponseInfo['count']+'</b>';
 
                 }
             }else{
-                info = '0 publicaciones';
+                info = '0 publications';
             }
 
             // se establece la información de la cantidad de registros existentes
@@ -685,7 +685,7 @@ $(document).ready(function(){
                         var id = $(this).parents("div.product").attr('id');
                         id = utility.stringReplace(id,'product-','');
 
-                        window.location = '/editar_borrador/'+id;
+                        window.location = '/edit-draft/'+id;
 
                     });
                 });
@@ -908,7 +908,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/drafts",
+                "url":"/get-drafts",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){

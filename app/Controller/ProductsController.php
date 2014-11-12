@@ -128,13 +128,13 @@
 
                 /* tiene permisos para editar la publicación o un borrador pero esta jugando con la url
                  ****************************************************************************************/
-                if($url_action == 'editar'){
+                if($url_action == 'edit'){
                     if(!$product_data['Product']['published'] == 1){
                         // debug('esta editando un borrador');
                         $this->{'redirect'}('/');
                     }
                 }
-                if($url_action == 'editar_borrador'){
+                if($url_action == 'edit-draft'){
                     if(!$product_data['Product']['published'] == 0){
                         //debug('esta editando un publicado');
                         $this->{'redirect'}('/');
@@ -413,7 +413,7 @@
 
         $conditions = array();
 
-        if($url == 'published' || $url == 'drafts' || $url == 'stock-products'){
+        if($url == 'get-published' || $url == 'get-drafts' || $url == 'stock-products'){
 //            if($url == 'search-products'){
 //
 //                // search - conditions
@@ -460,7 +460,7 @@
                 $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1)));
 
             }
-            if($url == 'published'){
+            if($url == 'get-published'){
                 // search - conditions
                 if(!isset($request['search']) || $request['search'] == ''){
                     $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
@@ -482,7 +482,7 @@
                 $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
 
             }
-            if($url == 'drafts'){
+            if($url == 'get-drafts'){
                 // search - conditions
                 if(!isset($request['search']) || $request['search'] == ''){
                     $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);

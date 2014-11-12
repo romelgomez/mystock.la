@@ -71,27 +71,27 @@ $(document).ready(function(){
 
                         if(parameter == "mayor-precio"){
                             url_obj.order_by = "mayor-precio";
-                            orderBy.text('Mayor precio');
+                            orderBy.text('Higher price');
                         }
                         if(parameter == "menor-precio"){
                             url_obj.order_by = "menor-precio";
-                            orderBy.text('Menor precio');
+                            orderBy.text('Lowest price');
                         }
                         if(parameter == "recientes"){
                             url_obj.order_by = "recientes";
-                            orderBy.text('Recientes');
+                            orderBy.text('Recent');
                         }
                         if(parameter == "antiguos"){
                             url_obj.order_by = "antiguos";
-                            orderBy.text('Antiguos');
+                            orderBy.text('Antique');
                         }
                         if(parameter == "mayor-disponibilidad"){
                             url_obj.order_by = "mayor-disponibilidad";
-                            orderBy.text('Mayor disponibilidad');
+                            orderBy.text('Greater availability');
                         }
                         if(parameter == "menor-disponibilidad"){
                             url_obj.order_by = "menor-disponibilidad";
-                            orderBy.text('Menor disponibilidad');
+                            orderBy.text('Lower availability');
                         }
 
 
@@ -119,7 +119,7 @@ $(document).ready(function(){
             slug =  slug.replace(/\s+/g, ' ');
             slug = utility.stringReplace(slug,' ','-');
 
-            var link        =   '/producto/'+id+'/'+slug+'.html';
+            var link        =   '/product/'+id+'/'+slug+'.html';
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
@@ -127,11 +127,11 @@ $(document).ready(function(){
             var status_button = '';
 
             if(obj['Product']['status']){
-                status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+                status = '<span class="label label-success active-status">published</span>';
+                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Enable</button>';
             }else{
-                status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pausar</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
+                status = '<span class="label label-warning paused-status">paused</span>';
+                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Enable</button>';
             }
 
             var quantity = obj['Product']['quantity'];
@@ -162,16 +162,16 @@ $(document).ready(function(){
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+
-                                    '<button class="btn btn-default edit"><i class="icon-edit"></i> Editar</button>'+
+                                    '<button class="btn btn-default edit"><i class="icon-edit"></i> Edit</button>'+
                                     status_button+
-                                    '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Eliminar</button>'+
+                                    '<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Remove</button>'+
                                 '</div>'+
                             '</div>'+
                             '<div>'+
-                                '<span class="glyphicon glyphicon-tag"></span> Precio: $'+price+'<br>'+
-                                '<span class="glyphicon glyphicon-off"></span> Estatus: '+status+'<br>'+
-                                '<span class="glyphicon glyphicon-th"></span> Cantidad disponible: '+_quantity+'<br>'+
-                                '<span class="glyphicon glyphicon-calendar"></span> Creado: '+created+
+                                '<span class="glyphicon glyphicon-tag"></span> Price: $'+price+'<br>'+
+                                '<span class="glyphicon glyphicon-off"></span> Status: '+status+'<br>'+
+                                '<span class="glyphicon glyphicon-th"></span> Quantity in stock: '+_quantity+'<br>'+
+                                '<span class="glyphicon glyphicon-calendar"></span> Created: '+created+
                             '</div>'+
                         '</div>'+
                     '</div>';
@@ -189,7 +189,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/get-published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -232,27 +232,27 @@ $(document).ready(function(){
                 {
                     'id':'higher-price',
                     'url':'mayor-precio',
-                    'text':'Mayor precio'
+                    'text':'Higher price'
                 },                {
                     'id':'lower-price',
                     'url':'menor-precio',
-                    'text':'Menor precio'
+                    'text':'Lowest price'
                 },                {
                     'id':'recent',
                     'url':'recientes',
-                    'text':'Recientes'
+                    'text':'Recent'
                 },                {
                     'id':'oldest',
                     'url':'antiguos',
-                    'text':'Antiguos'
+                    'text':'Antique'
                 },                {
                     'id':'higher-availability',
                     'url':'mayor-disponibilidad',
-                    'text':'Mayor disponibilidad'
+                    'text':'Greater availability'
                 },                {
                     'id':'lower-availability',
                     'url':'menor-disponibilidad',
-                    'text':'Menor disponibilidad'
+                    'text':'Lower availability'
                 }
             ];
 
@@ -310,7 +310,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/get-published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -470,7 +470,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/get-published",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -505,7 +505,7 @@ $(document).ready(function(){
                                 $("#products").show();
                             }else{
                                 // se muestra el mensaje que indica que no hay publicaciones
-                                searchInfo.text('No hay resultados para: '+response['search']);
+                                searchInfo.text('No results for: '+response['search']);
                                 searchInfo.show();
 
                                 // se oculta las publicaciones
@@ -547,9 +547,9 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "search":{
-                        "required":"Es preciso definir el campo para proceder con la búsqueda.",
-                        "maxlength":"Hay un límite de 100 caracteres.",
-                        "noSpecialChars":"No esta permitido usar caracteres especiales."
+                        "required":"You must define the field to proceed with the search.",
+                        "maxlength":"There is a limit of 100 characters.",
+                        "noSpecialChars":"Not allowed to use special characters."
                     }
                 }
             };
@@ -667,7 +667,7 @@ $(document).ready(function(){
 
             if(lastResponseInfo['count'] > 0){
                 if(lastResponseInfo['count'] == 1){
-                    info = '1 publicación';
+                    info = '1 publication';
                 }else{
 
                     var de = '';
@@ -683,11 +683,11 @@ $(document).ready(function(){
                         hasta	= lastResponseInfo['page']*lastResponseInfo['current'];
                     }
 
-                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+lastResponseInfo['count']+'</b>';
+                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> of <b>'+lastResponseInfo['count']+'</b>';
 
                 }
             }else{
-                info = '0 publicaciones';
+                info = '0 publications';
             }
 
             // se establece la información de la cantidad de registros existentes
@@ -728,7 +728,7 @@ $(document).ready(function(){
                                 "display": 'inline'
                             });
 
-                            var status = '<span class="label label-warning paused-status">pausado</span>';
+                            var status = '<span class="label label-warning paused-status">paused</span>';
                             $("#product-"+response['id']+' .active-status').replaceWith(status);
 
                         }else{
@@ -798,7 +798,7 @@ $(document).ready(function(){
                             $("#product-"+response['id']+' .activate').css({
                                 "display": "none"
                             });
-                            var status = '<span class="label label-success active-status">publicado</span>';
+                            var status = '<span class="label label-success active-status">published</span>';
                             $("#product-"+response['id']+' .paused-status').replaceWith(status);
                         }else{
                             window.location = "/";
@@ -856,7 +856,7 @@ $(document).ready(function(){
                         id = utility.stringReplace(id,'product-','');
 
                         // edit link
-                        window.location = '/editar/'+id;
+                        window.location = '/edit/'+id;
 
                     });
                 });
@@ -1081,7 +1081,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/published",
+                "url":"/get-published",
                 "data":parseUrl(),
                 "callbacks":{
                     "beforeSend":function(){

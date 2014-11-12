@@ -117,14 +117,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">¿Realmente quieres borrar esta publicación?</h4>
+                <h4 class="modal-title" id="myModalLabel">Do you really want to delete this post?</h4>
             </div>
             <div class="modal-body">
-                Un alternativa mejor es pausar la publicación y activarla cuando se normalice el inventario o evento sobrevenido.
+				A better alternative is to pause the publication and activate when the inventory it normalized.
             </div>
             <div class="modal-footer">
-                <button id="delete_product" type="button" class="btn btn-danger">Confirmar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button id="delete_product" type="button" class="btn btn-danger">Confirm</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
