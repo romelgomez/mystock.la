@@ -6,6 +6,10 @@
     }
 
     public function login(){
+		if($this->{'Auth'}->login()){
+			$this->{'redirect'}('/');
+		}
+		$this->response->disableCache();
     }
 
     public function logout(){
