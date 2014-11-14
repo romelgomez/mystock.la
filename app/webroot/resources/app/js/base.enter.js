@@ -231,6 +231,9 @@ $(document).ready(function(){
                         "notEqualToName":"UserName",
                         "notEqualToEmail":"UserEmail",
                         "equalTo":"#UserPassword"
+                    },
+                    "terms-of-service":{
+                        "required":true
                     }
                 },
                 "messages":{
@@ -258,6 +261,9 @@ $(document).ready(function(){
                         "notEqualToName":"The key does not match the name.",
                         "notEqualToEmail":"The key must not be equal to email.",
                         "equalTo":"Both password must be identical."
+                    },
+					"terms-of-service":{
+                        "required":"Accept terms-of-service is required."
                     }
                 }
             };

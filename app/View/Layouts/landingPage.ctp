@@ -163,7 +163,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy;2014 MyStock.LA - All rights reserved.</p>
+                <p>Copyright &copy;2014 MyStock.LA - All rights reserved. <a href="/terms-of-service" target="_blank">Terms of Service</a> & <a href="/privacy-policy" target="_blank">Privacy Policy</a></p>
             </div>
         </div><!-- /row -->
     </div><!-- /container -->

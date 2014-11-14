@@ -1,9 +1,15 @@
 <?php class UsersController extends AppController{
 
     public function beforeFilter(){
-        $this->{'Auth'}->allow(array('add','check_email','in','recover_account'));
+        $this->{'Auth'}->allow(array('add','check_email','in','recover_account','terms_of_service','privacy_policy'));
         parent::beforeFilter();
     }
+
+	public  function terms_of_service(){
+	}
+
+	public  function privacy_policy(){
+	}
 
     public function login(){
 		if($this->{'Auth'}->login()){

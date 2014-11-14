@@ -272,7 +272,12 @@ $(document).ready(function(){
         validate.form = function(formId,options){
 
             options.errorPlacement = function(error, element){
-                $(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
+				var type = $(element).attr("type");
+				if(type == "checkbox"){
+					$(element).parents('.checkbox').find(".help-block").fadeIn().html($(error).html())
+				}else{
+					$(element).parents('.form-group').find(".help-block").fadeIn().html($(error).html());
+				}
             };
 
             options.success = function(label){

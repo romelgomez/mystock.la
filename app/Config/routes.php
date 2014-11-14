@@ -112,6 +112,8 @@ Router::connect('/in',										array('controller' => 'users', 	'action' => 'in'
 Router::connect('/new_user',								array('controller' => 'users', 	'action' => 'add'));								// Acción Ajax - Para registrar un nuevo usuario.
 Router::connect('/check_email',								array('controller' => 'users', 	'action' => 'check_email')); 						// Acción Ajax - Para determinar si el correo ya se ha registrado.
 Router::connect('/recover_account',							array('controller' => 'users', 	'action' => 'recover_account')); 					// Acción Ajax - Para recuperar una cuenta.
+Router::connect('/terms-of-service',						array('controller' => 'users', 	'action' => 'terms_of_service')); 					// Acción Get
+Router::connect('/privacy-policy',							array('controller' => 'users', 	'action' => 'privacy_policy')); 					// Acción Get
 //	V
 //	W
 //	X

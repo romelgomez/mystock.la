@@ -98,6 +98,13 @@
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
+					<div class="checkbox">
+						<label>
+							<input id="terms-of-service" name="terms-of-service" type="checkbox" value="accepted"> I have read and accept the <a href="/terms-of-service" target="_blank">Terms of Service</a>
+						</label>
+						<span class="help-block" style="display: none; color:#FF0000;">Required</span>
+					</div>
+
                 </div>
 
                 <div class="modal-footer">

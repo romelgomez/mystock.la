@@ -203,7 +203,9 @@
         <hr>
         <div style="text-align: center;">
             Copyright &copy;2014 MyStock.LA - All rights reserved.
-        </div>
+			<a href="/terms-of-service" target="_blank">Terms of Service</a> &
+			<a href="/privacy-policy" target="_blank">Privacy Policy</a>
+		</div>
     </div>
 
 <?php
