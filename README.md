@@ -43,7 +43,7 @@ ff02::2 ip6-allrouters
 
 ServerName 127.0.0.1:80
 
-# www.santomercado-openshift.net
+# www.santomercado.net
 <VirtualHost 127.0.0.2:80>
  ServerName www.santomercado.net
  DocumentRoot "/home/romelgomez/workspace/projects/current/cakephp/github.com/romelgomez/santomercado/php/app/webroot"

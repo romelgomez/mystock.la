@@ -9,7 +9,7 @@
 
     public function index(){
 
-        $this->layout = 'landingPage';
+        $this->layout = 'landingPage2';
     }
 
 }
