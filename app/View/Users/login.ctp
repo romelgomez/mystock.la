@@ -25,8 +25,8 @@
                             </form>
                         </div>
                         <div class="panel-footer">
-<!--                            <button id="recover" type="button" class="btn btn-link">¿Olvido la contraseña?</button>-->
                             <button id="newUser" type="button" class="btn btn-link">New User?</button>
+							<button id="recover" type="button" class="btn btn-link">Forgot your password?</button>
                         </div>
                     </div>
 
@@ -75,8 +75,8 @@
 
 
                     <div class="form-group">
-                        <label for="UserName"><span class="glyphicon glyphicon-user"></span> First name</label>
-                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria, MariaSharapova, TennisShop">
+                        <label for="UserName"><span class="glyphicon glyphicon-user"></span> Name</label>
+                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria, MariaSharapova, TennisShop.LA">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="UserPasswordAgain"><span class="glyphicon glyphicon-lock"></span> Password once again</label>
+                        <label for="UserPasswordAgain"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
                         <input type="password" class="form-control" id="UserPasswordAgain" name="UserPasswordAgain">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
@@ -126,7 +126,7 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Recover password</h4>
+                    <h4 class="modal-title">Forgot your password?</h4>
                 </div>
 
                 <div class="modal-body">
@@ -134,7 +134,7 @@
                     <!-- Mensajes post ajax request -->
                     <div id="recoverySuccess" class="alert alert-success alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        ¡It sent a message to confirm your email and retrieve your information!
+                        It sent a message to set new password!
                     </div>
                     <div id="recoveryError" class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
                         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -150,8 +150,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">send</button>
                 </div>
 
             </form>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MyStock.LA</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+
+
+    
+	<link rel="stylesheet" type="text/css" href="/resources/library-vendor/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/resources/library-vendor/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/resources/library-vendor/pnotify/pnotify.custom.min.css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '338515926310582',
+            xfbml      : true,
+            version    : 'v2.1'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">MyStock.LA</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+
+                                        <li class=""><a href="/login"><span class="glyphicon glyphicon-off"></span> Log in</a></li>                </ul>
+            </div><!--/.nav-collapse -->
+    </div>
+
+    <div class="main-container">
+        <h2></h2>
+<p class="error">
+	<strong>Error: </strong>
+	An Internal Error Has Occurred.</p>
+<h3>Stack Trace</h3>
+<ul class="cake-stack-trace">
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-0')">CORE/Cake/Network/Email/MailTransport.php line 51</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-0')">MailTransport->_mail(string, string, string, string, null)</a> <div id="file-excerpt-0" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$message&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">implode</span><span style="color: #007700">(</span><span style="color: #0000BB">$eol</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$email</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">message</span><span style="color: #007700">());</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$params&nbsp;</span><span style="color: #007700">=&nbsp;isset(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_config</span><span style="color: #007700">[</span><span style="color: #DD0000">'additionalParameters'</span><span style="color: #007700">])&nbsp;?&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_config</span><span style="color: #007700">[</span><span style="color: #DD0000">'additionalParameters'</span><span style="color: #007700">]&nbsp;:&nbsp;</span><span style="color: #0000BB">null</span><span style="color: #007700">;</span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_mail</span><span style="color: #007700">(</span><span style="color: #0000BB">$to</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$subject</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$message</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$headers</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$params</span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">return&nbsp;array(</span><span style="color: #DD0000">'headers'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$headers</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">'message'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$message</span><span style="color: #007700">);</span></span></code></pre></div> <div id="trace-args-0" class="cake-code-dump" style="display: none;"><pre>&#039;eee@e66ee.com&#039;
+&#039;MyStock.LA - Verify your email address&#039;
+&#039;&lt;h3&gt;MyStock.LA - Verify your email address&lt;/h3&gt;&lt;p&gt;Click in the next link to verify your email address:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.mystock.la/ve/546d5b34-2cc8-4dde-b26b-0b7d7f000007/546d5b34-8dcc-4422-a583-0b7d7f000007&quot; target=&quot;_blank&quot;&gt;Verify my email address!&lt;/a&gt;&lt;/p&gt;&lt;p&gt;NOTE: After successfully verify your email address, please delete this email.&lt;p&gt;
+
+&#039;
+&#039;From: &quot;MyStock.LA&quot; &lt;support@mystock.la&gt;
+X-Mailer: CakePHP Email
+Date: Wed, 19 Nov 2014 22:38:36 -0430
+Message-ID: &lt;546d5b34df9c4158b9560b7d7f000007@www.santomercado.net&gt;
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit&#039;
+null</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-1')">CORE/Cake/Network/Email/CakeEmail.php line 1158</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-1')">MailTransport->send(CakeEmail)</a> <div id="file-excerpt-1" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_message&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_render</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_wrap</span><span style="color: #007700">(</span><span style="color: #0000BB">$content</span><span style="color: #007700">));</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$contents&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">transportClass</span><span style="color: #007700">()-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(!empty(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_config</span><span style="color: #007700">[</span><span style="color: #DD0000">'log'</span><span style="color: #007700">]))&nbsp;{</span></span></code></pre></div> <div id="trace-args-1" class="cake-code-dump" style="display: none;"><pre>object(CakeEmail) {
+	charset =&gt; &#039;utf-8&#039;
+	headerCharset =&gt; &#039;utf-8&#039;
+	[protected] _to =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _from =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _sender =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _replyTo =&gt; array([maximum depth reached])
+	[protected] _readReceipt =&gt; array([maximum depth reached])
+	[protected] _returnPath =&gt; array([maximum depth reached])
+	[protected] _cc =&gt; array([maximum depth reached])
+	[protected] _bcc =&gt; array([maximum depth reached])
+	[protected] _messageId =&gt; true
+	[protected] _domain =&gt; &#039;www.santomercado.net&#039;
+	[protected] _subject =&gt; &#039;MyStock.LA - Verify your email address&#039;
+	[protected] _headers =&gt; array([maximum depth reached])
+	[protected] _layout =&gt; &#039;default&#039;
+	[protected] _template =&gt; &#039;&#039;
+	[protected] _viewRender =&gt; &#039;View&#039;
+	[protected] _viewVars =&gt; array([maximum depth reached])
+	[protected] _theme =&gt; null
+	[protected] _helpers =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _textMessage =&gt; &#039;&lt;h3&gt;MyStock.LA - Verify your email address&lt;/h3&gt;&lt;p&gt;Click in the next link to verify your email address:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.mystock.la/ve/546d5b34-2cc8-4dde-b26b-0b7d7f000007/546d5b34-8dcc-4422-a583-0b7d7f000007&quot; target=&quot;_blank&quot;&gt;Verify my email address!&lt;/a&gt;&lt;/p&gt;&lt;p&gt;NOTE: After successfully verify your email address, please delete this email.&lt;p&gt;
+&#039;
+	[protected] _htmlMessage =&gt; &#039;&#039;
+	[protected] _message =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _emailFormatAvailable =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _emailFormat =&gt; &#039;text&#039;
+	[protected] _transportName =&gt; &#039;Mail&#039;
+	[protected] _transportClass =&gt; object(MailTransport) {}
+	[protected] _appCharset =&gt; &#039;UTF-8&#039;
+	[protected] _attachments =&gt; array([maximum depth reached])
+	[protected] _boundary =&gt; null
+	[protected] _config =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _charset8bit =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _contentTypeCharset =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _emailPattern =&gt; &#039;/^((?:[\p{L}0-9.!#$%&amp;&#039;*+\/=?^_`{|}~-]+)*@[\p{L}0-9-.]+)$/ui&#039;
+	[protected] _configClass =&gt; &#039;EmailConfig&#039;
+}</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-2')">APP/Controller/UsersController.php line 125</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-2')">CakeEmail->send(string)</a> <div id="file-excerpt-2" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Email</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">sender</span><span style="color: #007700">(</span><span style="color: #0000BB">$sender</span><span style="color: #007700">);</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Email</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">to</span><span style="color: #007700">(</span><span style="color: #0000BB">$to</span><span style="color: #007700">);</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Email</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">subject</span><span style="color: #007700">(</span><span style="color: #0000BB">$subject</span><span style="color: #007700">);</span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">return&nbsp;</span><span style="color: #0000BB">$Email</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send</span><span style="color: #007700">(</span><span style="color: #0000BB">$message</span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}</span></span></code></pre></div> <div id="trace-args-2" class="cake-code-dump" style="display: none;"><pre>&#039;&lt;h3&gt;MyStock.LA - Verify your email address&lt;/h3&gt;&lt;p&gt;Click in the next link to verify your email address:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.mystock.la/ve/546d5b34-2cc8-4dde-b26b-0b7d7f000007/546d5b34-8dcc-4422-a583-0b7d7f000007&quot; target=&quot;_blank&quot;&gt;Verify my email address!&lt;/a&gt;&lt;/p&gt;&lt;p&gt;NOTE: After successfully verify your email address, please delete this email.&lt;p&gt;&#039;</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-3')">APP/Controller/UsersController.php line 176</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-3')">UsersController->send_email(string, array, string, string, string, string)</a> <div id="file-excerpt-3" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$to&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$return</span><span style="color: #007700">[</span><span style="color: #DD0000">'User'</span><span style="color: #007700">][</span><span style="color: #DD0000">'email'</span><span style="color: #007700">];</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$subject&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #DD0000">'MyStock.LA&nbsp;-&nbsp;Verify&nbsp;your&nbsp;email&nbsp;address'</span><span style="color: #007700">;</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">send_email</span><span style="color: #007700">(</span><span style="color: #DD0000">'default'</span><span style="color: #007700">,</span><span style="color: #0000BB">$from</span><span style="color: #007700">,</span><span style="color: #0000BB">$sender</span><span style="color: #007700">,</span><span style="color: #0000BB">$to</span><span style="color: #007700">,</span><span style="color: #0000BB">$subject</span><span style="color: #007700">,</span><span style="color: #0000BB">$message</span><span style="color: #007700">))&nbsp;{</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$return</span><span style="color: #007700">[</span><span style="color: #DD0000">'send-email'</span><span style="color: #007700">]&nbsp;=&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;</span></span></code></pre></div> <div id="trace-args-3" class="cake-code-dump" style="display: none;"><pre>&#039;default&#039;
+array(
+	&#039;support@mystock.la&#039; =&gt; &#039;MyStock.LA&#039;
+)
+&#039;support@mystock.la&#039;
+&#039;eee@e66ee.com&#039;
+&#039;MyStock.LA - Verify your email address&#039;
+&#039;&lt;h3&gt;MyStock.LA - Verify your email address&lt;/h3&gt;&lt;p&gt;Click in the next link to verify your email address:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://www.mystock.la/ve/546d5b34-2cc8-4dde-b26b-0b7d7f000007/546d5b34-8dcc-4422-a583-0b7d7f000007&quot; target=&quot;_blank&quot;&gt;Verify my email address!&lt;/a&gt;&lt;/p&gt;&lt;p&gt;NOTE: After successfully verify your email address, please delete this email.&lt;p&gt;&#039;</pre></div></li>
+	<li><a href="#">[internal function]</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-4')">UsersController->add()</a> <div id="trace-args-4" class="cake-code-dump" style="display: none;"><pre></pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-5')">CORE/Cake/Controller/Controller.php line 490</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-5')">ReflectionMethod->invokeArgs(UsersController, array)</a> <div id="file-excerpt-5" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #DD0000">'action'&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">$request</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">params</span><span style="color: #007700">[</span><span style="color: #DD0000">'action'</span><span style="color: #007700">]</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">));</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}</span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">return&nbsp;</span><span style="color: #0000BB">$method</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">invokeArgs</span><span style="color: #007700">(</span><span style="color: #0000BB">$this</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$request</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">params</span><span style="color: #007700">[</span><span style="color: #DD0000">'pass'</span><span style="color: #007700">]);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code></pre></div> <div id="trace-args-5" class="cake-code-dump" style="display: none;"><pre>object(UsersController) {
+	helpers =&gt; array(
+		[maximum depth reached]
+	)
+	components =&gt; array(
+		[maximum depth reached]
+	)
+	name =&gt; &#039;Users&#039;
+	uses =&gt; array(
+		[maximum depth reached]
+	)
+	request =&gt; object(CakeRequest) {}
+	response =&gt; object(CakeResponse) {}
+	viewPath =&gt; &#039;Users&#039;
+	layoutPath =&gt; null
+	viewVars =&gt; array(
+		[maximum depth reached]
+	)
+	view =&gt; &#039;add&#039;
+	layout =&gt; &#039;default&#039;
+	autoRender =&gt; true
+	autoLayout =&gt; true
+	Components =&gt; object(ComponentCollection) {}
+	viewClass =&gt; &#039;View&#039;
+	View =&gt; null
+	ext =&gt; &#039;.ctp&#039;
+	plugin =&gt; null
+	cacheAction =&gt; false
+	passedArgs =&gt; array([maximum depth reached])
+	scaffold =&gt; false
+	methods =&gt; array(
+		[maximum depth reached]
+	)
+	modelClass =&gt; &#039;User&#039;
+	modelKey =&gt; &#039;user&#039;
+	validationErrors =&gt; null
+	Auth =&gt; object(AuthComponent) {}
+	Cookie =&gt; object(CookieComponent) {}
+	Session =&gt; object(SessionComponent) {}
+	User =&gt; object(User) {}
+	[protected] _responseClass =&gt; &#039;CakeResponse&#039;
+	[protected] _mergeParent =&gt; &#039;AppController&#039;
+	[protected] _eventManager =&gt; object(CakeEventManager) {}
+}
+array()</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-6')">CORE/Cake/Routing/Dispatcher.php line 191</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-6')">Controller->invokeAction(CakeRequest)</a> <div id="file-excerpt-6" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$controller</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">response</span><span style="color: #007700">;</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$render&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">true</span><span style="color: #007700">;</span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$controller</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">invokeAction</span><span style="color: #007700">(</span><span style="color: #0000BB">$request</span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(</span><span style="color: #0000BB">$result&nbsp;</span><span style="color: #007700">instanceof&nbsp;</span><span style="color: #0000BB">CakeResponse</span><span style="color: #007700">)&nbsp;{</span></span></code></pre></div> <div id="trace-args-6" class="cake-code-dump" style="display: none;"><pre>object(CakeRequest) {
+	params =&gt; array(
+		[maximum depth reached]
+	)
+	data =&gt; array([maximum depth reached])
+	query =&gt; array([maximum depth reached])
+	url =&gt; &#039;new_user&#039;
+	base =&gt; &#039;&#039;
+	webroot =&gt; &#039;/&#039;
+	here =&gt; &#039;/new_user&#039;
+	[protected] _detectors =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _input =&gt; &#039;{&quot;name&quot;:&quot;eee&quot;,&quot;email&quot;:&quot;eee@e66ee.com&quot;,&quot;password&quot;:&quot;1234567&quot;}&#039;
+}</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-7')">CORE/Cake/Routing/Dispatcher.php line 165</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-7')">Dispatcher->_invoke(UsersController, CakeRequest)</a> <div id="file-excerpt-7" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">));</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">}</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$response&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">$this</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">_invoke</span><span style="color: #007700">(</span><span style="color: #0000BB">$controller</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">$request</span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">if&nbsp;(isset(</span><span style="color: #0000BB">$request</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">params</span><span style="color: #007700">[</span><span style="color: #DD0000">'return'</span><span style="color: #007700">]))&nbsp;{</span></span></code></pre></div> <div id="trace-args-7" class="cake-code-dump" style="display: none;"><pre>object(UsersController) {
+	helpers =&gt; array(
+		[maximum depth reached]
+	)
+	components =&gt; array(
+		[maximum depth reached]
+	)
+	name =&gt; &#039;Users&#039;
+	uses =&gt; array(
+		[maximum depth reached]
+	)
+	request =&gt; object(CakeRequest) {}
+	response =&gt; object(CakeResponse) {}
+	viewPath =&gt; &#039;Users&#039;
+	layoutPath =&gt; null
+	viewVars =&gt; array(
+		[maximum depth reached]
+	)
+	view =&gt; &#039;add&#039;
+	layout =&gt; &#039;default&#039;
+	autoRender =&gt; true
+	autoLayout =&gt; true
+	Components =&gt; object(ComponentCollection) {}
+	viewClass =&gt; &#039;View&#039;
+	View =&gt; null
+	ext =&gt; &#039;.ctp&#039;
+	plugin =&gt; null
+	cacheAction =&gt; false
+	passedArgs =&gt; array([maximum depth reached])
+	scaffold =&gt; false
+	methods =&gt; array(
+		[maximum depth reached]
+	)
+	modelClass =&gt; &#039;User&#039;
+	modelKey =&gt; &#039;user&#039;
+	validationErrors =&gt; null
+	Auth =&gt; object(AuthComponent) {}
+	Cookie =&gt; object(CookieComponent) {}
+	Session =&gt; object(SessionComponent) {}
+	User =&gt; object(User) {}
+	[protected] _responseClass =&gt; &#039;CakeResponse&#039;
+	[protected] _mergeParent =&gt; &#039;AppController&#039;
+	[protected] _eventManager =&gt; object(CakeEventManager) {}
+}
+object(CakeRequest) {
+	params =&gt; array(
+		[maximum depth reached]
+	)
+	data =&gt; array([maximum depth reached])
+	query =&gt; array([maximum depth reached])
+	url =&gt; &#039;new_user&#039;
+	base =&gt; &#039;&#039;
+	webroot =&gt; &#039;/&#039;
+	here =&gt; &#039;/new_user&#039;
+	[protected] _detectors =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _input =&gt; &#039;{&quot;name&quot;:&quot;eee&quot;,&quot;email&quot;:&quot;eee@e66ee.com&quot;,&quot;password&quot;:&quot;1234567&quot;}&#039;
+}</pre></div></li>
+	<li><a href="#" onclick="traceToggle(event, 'file-excerpt-8')">APP/webroot/index.php line 108</a> &rarr; <a href="#" onclick="traceToggle(event, 'trace-args-8')">Dispatcher->dispatch(CakeRequest, CakeResponse)</a> <div id="file-excerpt-8" class="cake-code-dump" style="display:none;"><pre><code><span style="color: #000000"><span style="color: #0000BB">$Dispatcher</span><span style="color: #007700">-&gt;</span><span style="color: #0000BB">dispatch</span><span style="color: #007700">(</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">CakeRequest</span><span style="color: #007700">(),</span></span></code>
+<code><span style="color: #000000"><span style="color: #0000BB">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700">new&nbsp;</span><span style="color: #0000BB">CakeResponse</span><span style="color: #007700">()</span></span></code>
+<span class="code-highlight"><code><span style="color: #000000"><span style="color: #0000BB"></span><span style="color: #007700">);</span></span></code></span>
+<code><span style="color: #000000"><span style="color: #0000BB"></span></span></code></pre></div> <div id="trace-args-8" class="cake-code-dump" style="display: none;"><pre>object(CakeRequest) {
+	params =&gt; array(
+		[maximum depth reached]
+	)
+	data =&gt; array([maximum depth reached])
+	query =&gt; array([maximum depth reached])
+	url =&gt; &#039;new_user&#039;
+	base =&gt; &#039;&#039;
+	webroot =&gt; &#039;/&#039;
+	here =&gt; &#039;/new_user&#039;
+	[protected] _detectors =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _input =&gt; &#039;{&quot;name&quot;:&quot;eee&quot;,&quot;email&quot;:&quot;eee@e66ee.com&quot;,&quot;password&quot;:&quot;1234567&quot;}&#039;
+}
+object(CakeResponse) {
+	[protected] _statusCodes =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _mimeTypes =&gt; array(
+		[maximum depth reached]
+	)
+	[protected] _protocol =&gt; &#039;HTTP/1.1&#039;
+	[protected] _status =&gt; (int) 200
+	[protected] _contentType =&gt; &#039;text/html&#039;
+	[protected] _headers =&gt; array([maximum depth reached])
+	[protected] _body =&gt; null
+	[protected] _file =&gt; null
+	[protected] _fileRange =&gt; null
+	[protected] _charset =&gt; &#039;UTF-8&#039;
+	[protected] _cacheDirectives =&gt; array([maximum depth reached])
+	[protected] _cookies =&gt; array([maximum depth reached])
+}</pre></div></li>
+</ul>
+<script type="text/javascript">
+function traceToggle(event, id) {
+	var el = document.getElementById(id);
+	el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+	event.preventDefault();
+	return false;
+}
+</script>
+    </div>
+
+
+
+    <!-- footer -->
+    <div id="footer" style="margin-bottom: 20px">
+        <hr>
+        <div style="text-align: center;">
+            Copyright &copy;2014 MyStock.LA - All rights reserved.
+			<a href="/terms-of-service" target="_blank">Terms of Service</a> &
+			<a href="/privacy-policy" target="_blank">Privacy Policy</a>
+		</div>
+    </div>
+
+
+	<script type="text/javascript" src="/resources/library-vendor/jquery/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="/resources/library-vendor/bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/resources/library-vendor/pnotify/pnotify.custom.min.js"></script>
+	<script type="text/javascript" src="/resources/app/js/base.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            // delegate calls to data-toggle="lightbox"
+            $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox();
+            });
+        });
+    </script>
+
+</body>
+</html>

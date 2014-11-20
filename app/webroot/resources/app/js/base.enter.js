@@ -107,10 +107,10 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "Email":{
-                        "required":"El campo email es obligatorio.",
-                        "email":"Debe proporcionar un correo valido.",
-                        "remote":"No existe una cuenta asociada a tal dirección de correo electrónico. Por favor, verifique e inténtelo de nuevo.",
-                        "maxlength":"El correo no debe tener mas de 30 caracteres."
+                        "required":"The email is required.",
+                        "email":"You must provide a valid email.",
+                        "remote":"There is no one associated with such email account. Please check and try again.",
+                        "maxlength":"The email must not have more than 30 characters."
                     }
                 }
             };
@@ -200,9 +200,8 @@ $(document).ready(function(){
                 "rules":{
                     "UserName":{
                         "required":true,
-                        "lettersonly":true,
                         "minlength": 3,
-                        "maxlength":20
+                        "maxlength":30
                     },
                     "UserEmail":{
                         "required":true,
@@ -239,9 +238,8 @@ $(document).ready(function(){
                 "messages":{
                     "UserName":{
                         "required":"The name is required.",
-                        "lettersonly":"The name must have only alphabetic characters.",
                         "minlength": "The name must have at least 3 characters.",
-                        "maxlength":"The name must not be longer than 20 characters."
+                        "maxlength":"The name must not be longer than 30 characters."
                     },
                     "UserEmail":{
                         "required":"The email is required.",

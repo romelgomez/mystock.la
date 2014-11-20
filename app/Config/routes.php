@@ -114,6 +114,14 @@ Router::connect('/check_email',								array('controller' => 'users', 	'action' 
 Router::connect('/recover_account',							array('controller' => 'users', 	'action' => 'recover_account')); 					// Acción Ajax - Para recuperar una cuenta.
 Router::connect('/terms-of-service',						array('controller' => 'users', 	'action' => 'terms_of_service')); 					// Acción Get
 Router::connect('/privacy-policy',							array('controller' => 'users', 	'action' => 'privacy_policy')); 					// Acción Get
+Router::connect('/ve/:id/:key', 							array('controller' => 'users', 	'action' => 'verify_email_address'),  				// Acción Get 	- Verify email address
+		array(
+				'pass' => array('id','key')
+		));
+Router::connect('/np/:id/:key', 							array('controller' => 'users', 	'action' => 'new_password'),  						// Acción Get 	- ser new password
+		array(
+				'pass' => array('id','key')
+		));
 //	V
 //	W
 //	X

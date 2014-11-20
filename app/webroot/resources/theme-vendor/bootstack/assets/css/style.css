@@ -274,7 +274,7 @@ a:focus {
 /* Header Wrap */
 
 .headerwrap {
-	background: url("../img/header-bg.jpg") no-repeat center top;
+	background: url("/resources/app/img/bg-city.jpg") no-repeat center top;
 	background-size: cover;
 	padding-top: 20px;
 }
