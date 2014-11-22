@@ -66,7 +66,9 @@ class UsersController extends AppController{
 	 @Description       -> Login real action. Sign in method.
 	 @RequestType	    -> AJAX-POST
 	 @Parameters        -> NULL
-	 @Receives       	-> JSON object
+	 @Receives       	-> JSON object parsed to array, which has 2 elements:
+		(email) 	=> Email of user account
+		(password) 	=> Password of user account
 	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
 	 */
 	public function in(){
@@ -111,6 +113,16 @@ class UsersController extends AppController{
         $this->{'render'}('ajax_view','ajax');
     }
 
+	/*
+	 @Name              -> verify_email_address
+	 @Description       -> verify email address of the new user
+	 @RequestType	    -> AJAX-POST
+	 @Parameters        -> NULL
+	 @Receives       	-> JSON object parsed to array, which has 2 elements:
+		(id)		=> Is uuid UserId;
+		(key)		=> Is uuid temp key, is related to temp_password which is hash based on that key, is processed for Security::hash blowfish pipeline, and is used to verify the user account.
+	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
+	 */
 	public function verify_email_address(){
 		$request = $this->{'request'}->params;
 
@@ -167,7 +179,8 @@ class UsersController extends AppController{
 	 @Description       -> send email again to verify email address
 	 @RequestType	    -> AJAX-POST
 	 @Parameters        -> NULL
-	 @Receives       	-> JSON object
+	 @Receives       	-> JSON object parsed to array, which has 1 elements:
+		(email) => Email of user account
 	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
 	 */
 	public function send_email_again_to_verify_email_address(){
@@ -234,7 +247,10 @@ class UsersController extends AppController{
 	 @Description       -> add new user
 	 @RequestType	    -> AJAX-POST
 	 @Parameters        -> NULL
-	 @Receives       	-> JSON object
+	 @Receives       	-> JSON object parsed to array, which has 3 elements:
+		(name) => Name of user account
+		(email) => Email of user account
+		(password) => Password of user account
 	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
 	 */
     public function add(){
@@ -312,23 +328,20 @@ class UsersController extends AppController{
 	 @Description       -> to seed if email is already in database
 	 @RequestType	    -> AJAX-POST
 	 @Parameters        -> NULL
-	 @Receives       	-> JSON object
+	 @Receives       	-> JSON object parsed to array, which has 2 elements:
+		(UserEmail)			=> Email to check in database
+		(inverse_result)	=> If you want received inverse result
 	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
 	 */
     public function check_email(){
 		$request = $this->{'request'}->data;
+		$return = false;
 
 		$userEmailConditions = array(
 				'conditions' => array('User.email' => $request['UserEmail']),
 		);
 
         $email = $this->{'User'}->find('first',$userEmailConditions);
-
-        if($email){
-            $return = true;
-        }else{
-            $return = false;
-        }
 
         if(isset($request['inverse_result'])){
             $inverse_result =  $request['inverse_result'];
@@ -339,12 +352,29 @@ class UsersController extends AppController{
                     $return = false;
                 }
             }
-        }
+        }else{
+			if($email){
+				$return = true;
+			}else{
+				$return = false;
+			}
+		}
 
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
     }
 
+	/*
+	 @Name              -> set_new_password
+	 @Description       -> To set new password
+	 @RequestType	    -> AJAX-POST
+	 @Parameters        -> NULL
+	 @Receives       	-> JSON object parsed to array, which has 3 elements:
+		(id)		=> Is uuid UserId;
+		(key)		=> Is uuid temp key, is related to temp_password which is hash based on that key, is processed for Security::hash blowfish pipeline, and is used to verify the user account.
+		(password)	=> Is the new password
+	 @Returns           -> Array
+	 */
 	public function set_new_password(){
 		$request = $this->{'request'}->input('json_decode',true);
 		$return = array();
@@ -417,10 +447,12 @@ class UsersController extends AppController{
 
 	/*
 	 @Name              -> new_password_request
-	 @Description       -> To accept or not, set new password
+	 @Description       -> To accept or not, set new password, if pass the test, the user will be able to see the form.
 	 @RequestType	    -> GET;
 	 @Parameters        -> NULL
-	 @Receives       	-> 2 Parameters, id=> is uuid UserId; key=> is uuid temp password which is processed for Security::hash blowfish pipeline.
+	 @Receives       	-> Array which has 2 elements:
+		(id)	=> Is uuid UserId;
+		(key)	=> Is uuid temp key, is related to temp_password which is hash based on that key, is processed for Security::hash blowfish pipeline, and is used to verify the user account.
 	 @Returns           -> Array
 	 */
 	public function  new_password_request(){
@@ -458,7 +490,8 @@ class UsersController extends AppController{
 	 @Description       -> for recover account
 	 @RequestType	    -> AJAX-POST;
 	 @Parameters        -> NULL
-	 @Receives       	-> JSON object;
+	 @Receives       	-> JSON object parsed to array, which has 1 elements:
+		(email) => email user account
 	 @Returns           -> Array, which is presented as json string with the json_encode() function in "ajax_view" view, in the ajax layout.
 	 */
     public function recover_account(){
