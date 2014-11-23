@@ -88,17 +88,23 @@ class UsersController extends AppController{
 		if($passwordHash === $user['User']['password']){
 			// checks that the user is not banned
 			if(!$user['User']['banned']){
-				// checks that the user has email already verified
-				if($user['User']['email_verified']){
-					if($this->{'Auth'}->login($user)){
-						$return['status'] = 'success';
+				// checks that the user is not suspended
+				if(!$user['User']['suspended']){
+					// checks that the user has email already verified
+					if($user['User']['email_verified']){
+						if($this->{'Auth'}->login($user)){
+							$return['status'] = 'success';
+						}else{
+							$return['status'] = 'error';
+							$return['message'] = 'no-login';
+						}
 					}else{
 						$return['status'] = 'error';
-						$return['message'] = 'no-login';
+						$return['message'] = 'email-not-verified';
 					}
 				}else{
 					$return['status'] = 'error';
-					$return['message'] = 'email-not-verified';
+					$return['message'] = 'suspended';
 				}
 			}else{
 				$return['status'] = 'error';
@@ -139,17 +145,18 @@ class UsersController extends AppController{
 			// checks that the email is not verified
 			if(!$user['User']['email_verified']){
 
-				$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['user']['temp_password']);
+				$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['User']['temp_password']);
 
-				if($tempPasswordHash===$user['user']['temp_password']){
-					$user =	array(
+				if($tempPasswordHash===$user['User']['temp_password']){
+					$data =	array(
 						'User'=>Array
 						(
+							'id'=>$user['User']['id'],
 							'email_verified' =>	1,
 						)
 					);
 
-					if($this->{'User'}->save($user)){
+					if($this->{'User'}->save($data)){
 						$return['status'] = 'success';
 					}else{
 						$return['status'] = 'error';
@@ -203,14 +210,15 @@ class UsersController extends AppController{
 				$publicKey	 	= String::uuid();
 				$privateKeyHash = Security::hash($publicKey);
 
-				$user =	array(
-						'User'=>Array
-						(
-								'temp_password'			=>	$privateKeyHash,
-						)
+				$data =	array(
+					'User'=>Array
+					(
+						'id'			=> $user['User']['id'],
+						'temp_password'	=> $privateKeyHash
+					)
 				);
 
-				if($this->{'User'}->save($user)){
+				if($this->{'User'}->save($data)){
 					$userData = $this->{'User'}->read();
 
 					$Email = new CakeEmail('default');
@@ -276,19 +284,19 @@ class UsersController extends AppController{
 				$publicKey	 	= String::uuid();
 				$privateKeyHash = Security::hash($publicKey);
 
-				$user =	array(
-						'User'=>Array
-						(
-								'name'					=>	$request['name'],
-								'email'					=>	$request['email'],
-								'email_verified'		=>	0,
-								'password'				=>	$passwordHash,
-								'temp_password'			=>	$privateKeyHash,
-								'banned'				=>	0,
-						)
+				$data =	array(
+					'User'=>Array
+					(
+						'name'					=>	$request['name'],
+						'email'					=>	$request['email'],
+						'email_verified'		=>	0,
+						'password'				=>	$passwordHash,
+						'temp_password'			=>	$privateKeyHash,
+						'banned'				=>	0,
+					)
 				);
 
-				if($this->{'User'}->save($user)){
+				if($this->{'User'}->save($data)){
 					$userData = $this->{'User'}->read();
 
 					$Email = new CakeEmail('default');
@@ -389,24 +397,25 @@ class UsersController extends AppController{
 
 		// checks that the user exist
 		if($user){
-			$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['user']['temp_password']);
+			$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['User']['temp_password']);
 
-			if($tempPasswordHash===$user['user']['temp_password']){
+			if($tempPasswordHash===$user['User']['temp_password']){
 				Security::setHash('blowfish');
 				$passwordHash = Security::hash($request['password']);
 
 				$publicKey	 	= String::uuid();
 				$privateKeyHash = Security::hash($publicKey);
 
-				$user =	array(
-						'User'=>Array
-						(
-								'password'				=>	$passwordHash,
-								'temp_password'			=>	$privateKeyHash,
-						)
+				$data =	array(
+					'User'=>Array
+					(
+						'id'			=>	$user['User']['id'],
+						'password'		=>	$passwordHash,
+						'temp_password'	=>	$privateKeyHash,
+					)
 				);
 
-				if($this->{'User'}->save($user)){
+				if($this->{'User'}->save($data)){
 					$userData = $this->{'User'}->read();
 
 					// Send email to notify what the password has been changed
@@ -425,14 +434,10 @@ class UsersController extends AppController{
 						$return['status'] = 'error';
 						$return['message'] = 'email-not-send';
 					}
-
 				}else{
 					$return['status'] = 'error';
 					$return['message'] = 'cannot-set-new-password';
 				}
-
-
-
 			}else{
 				$return['status'] 	= 'error';
 				$return['message']	= 'the-key-is-invalid';
@@ -441,8 +446,6 @@ class UsersController extends AppController{
 			$return['status'] = 'error';
 			$return['message'] = 'user-not-exist';
 		}
-
-
 	}
 
 	/*
@@ -468,9 +471,9 @@ class UsersController extends AppController{
 
 		// checks that the user exist
 		if($user){
-			$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['user']['temp_password']);
+			$tempPasswordHash = Security::hash($request['key'], 'blowfish', $user['User']['temp_password']);
 
-			if($tempPasswordHash===$user['user']['temp_password']){
+			if($tempPasswordHash===$user['User']['temp_password']){
 				$return['status'] 	= 'success';
 				$return['message']	= 'request-accepted';
 			}else{
@@ -516,7 +519,7 @@ class UsersController extends AppController{
 				$publicKey	 = String::uuid();
 				$privateKey  = Security::hash($publicKey);
 
-				$newTempPassword =	array(
+				$data =	array(
 						'User'=>Array
 						(
 							'id'				=>$user['User']['id'],
@@ -525,7 +528,7 @@ class UsersController extends AppController{
 						)
 				);
 
-				if($this->{'User'}->save($newTempPassword)){
+				if($this->{'User'}->save($data)){
 
 					$Email = new CakeEmail('default');
 					$Email->template('newPasswordRequest', 'newPasswordRequest');

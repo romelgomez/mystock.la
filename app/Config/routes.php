@@ -118,7 +118,9 @@ Router::connect('/ve/:id/:key', 							array('controller' => 'users', 	'action' 
 		array(
 				'pass' => array('id','key')
 		));
-Router::connect('/np/:id/:key', 							array('controller' => 'users', 	'action' => 'new_password'),  						// Acción Get 	- ser new password
+Router::connect('/sea', 									array('controller' => 'users', 	'action' => 'send_email_again_to_verify_email_address')); // Acción Ajax - send email again to verify email address
+
+Router::connect('/np/:id/:key', 							array('controller' => 'users', 	'action' => 'new_password_request'),  						// Acción Get 	- set new password
 		array(
 				'pass' => array('id','key')
 		));
