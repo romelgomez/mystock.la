@@ -42,7 +42,7 @@ $(document).ready(function(){
 
 							message = 'We already send one email to verify your account.';
 
-							form.find('.alert').html(utility.alert(message,'success'));
+							form.find('.message').html(utility.alert(message,'success'));
 						}else{
 							ajax.notification("complete",notification);
 
@@ -63,7 +63,7 @@ $(document).ready(function(){
 									message = 'An unexpected error occurred.';
 							}
 
-							form.find('.alert').html(utility.alert(message,'danger'));
+							form.find('.message').html(utility.alert(message,'danger'));
 						}
 
 					},
@@ -74,7 +74,7 @@ $(document).ready(function(){
 				}
 			};
 
-			// validación:
+			// validation:
 			var validateObj = {
 				"submitHandler": function(){
 					ajax.request(request_parameters);
@@ -84,10 +84,10 @@ $(document).ready(function(){
 						"required":true,
 						"email": true,
 						"remote": {
-							"url": "/check_email",
+							"url": "/check-email",
 							"type": "post",
 							"data": {
-								"UserEmail": function() {
+								"email": function() {
 									return $("#verify-email").val();
 								}
 							}
@@ -96,7 +96,7 @@ $(document).ready(function(){
 					}
 				},
 				"messages":{
-					"Email":{
+					"verify-email":{
 						"required":"The email is required.",
 						"email":"You must provide a valid email.",
 						"remote":"There is no one associated account with such email. Please check and try again.",
@@ -118,8 +118,8 @@ $(document).ready(function(){
 
             $("#recover").on('click',function(event){
                 event.preventDefault();
-                $('#recoverModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
-                    validate.removeValidationStates('UserForm');
+                $('#recover-account-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                    validate.removeValidationStates('recover-account-form');
                 });
             });
 
@@ -128,12 +128,12 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
-                "url":"/recover_account",
+                "url":"/recover-account",
                 "data":{},
                 "form":{
-                    "id":"UserForm",
+                    "id":"recover-account-form",
                     "inputs":[
-                        {'id':'Email', 'name':'email'}
+                        {'id':'recover-account-email', 'name':'email'}
                     ]
                 },
                 "callbacks":{
@@ -142,7 +142,7 @@ $(document).ready(function(){
                     },
                     "success":function(response){
 
-                        var form = $("#recoverUserForm");
+                        var form = $("#recover-account-form");
 
 						var message = '';
 
@@ -151,7 +151,7 @@ $(document).ready(function(){
 
 							message = 'We already send one email to recovery your account.';
 
-							form.find('.alert').html(utility.alert(message,'success'));
+							form.find('.message').html(utility.alert(message,'success'));
 						}else{
 							ajax.notification("complete",notification);
 
@@ -175,7 +175,7 @@ $(document).ready(function(){
 									message = 'An unexpected error occurred.';
 							}
 
-							form.find('.alert').html(utility.alert(message,'danger'));
+							form.find('.message').html(utility.alert(message,'danger'));
 						}
 
                     },
@@ -192,15 +192,15 @@ $(document).ready(function(){
                     ajax.request(request_parameters);
                 },
                 "rules":{
-                    "Email":{
+                    "recover-account-email":{
                         "required":true,
                         "email": true,
                         "remote": {
-                            "url": "/check_email",
+                            "url": "/check-email",
                             "type": "post",
                             "data": {
-                                "UserEmail": function() {
-                                    return $("#Email").val();
+                                "email": function() {
+                                    return $("#recover-account-email").val();
                                 }
                             }
                         },
@@ -208,7 +208,7 @@ $(document).ready(function(){
                     }
                 },
                 "messages":{
-                    "Email":{
+                    "recover-account-email":{
                         "required":"The email is required.",
                         "email":"You must provide a valid email.",
                         "remote":"There is no one associated account with such email. Please check and try again.",
@@ -217,7 +217,7 @@ $(document).ready(function(){
                 }
             };
 
-            validate.form("UserForm",validateObj);
+            validate.form("recover-account-form",validateObj);
 
         };
 
@@ -227,9 +227,9 @@ $(document).ready(function(){
          */
         var newUser = function(){
 
-            $("#newUser").on('click',function(event){
+            $("#new-user").on('click',function(event){
                 event.preventDefault();
-                $('#newUserModal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+                $('#new-user-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
                     validate.removeValidationStates('UserAddForm');
                 });
             });
@@ -239,14 +239,14 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"form",
                 "type":"post",
-                "url":"/new_user",
+                "url":"/new-user",
                 "data":{},
                 "form":{
-                    "id":"UserAddForm",
+                    "id":"new-user-form",
                     "inputs":[
-                        {'id':'UserName',          'name':'name'},
-                        {'id':'UserEmail',       'name':'email'},
-                        {'id':'UserPassword',       'name':'password'}
+                        {'id':'new-user-name',          'name':'name'},
+                        {'id':'new-user-email',       	'name':'email'},
+                        {'id':'new-user-password',      'name':'password'}
                     ]
                 },
                 "callbacks":{
@@ -255,7 +255,7 @@ $(document).ready(function(){
                     },
                     "success":function(response){
 
-						var form = $("#UserAddForm");
+						var form = $("#new-user-form");
 
 						var message = '';
 
@@ -264,7 +264,7 @@ $(document).ready(function(){
 
 							message = 'Almost ready, now we need verify your account, we already send one email to do that.';
 
-							form.find('.alert').html(utility.alert(message,'success'));
+							form.find('.message').html(utility.alert(message,'success'));
 						}else{
 							ajax.notification("complete",notification);
 
@@ -285,7 +285,7 @@ $(document).ready(function(){
 									message = 'An unexpected error occurred.';
 							}
 
-							form.find('.alert').html(utility.alert(message,'danger'));
+							form.find('.message').html(utility.alert(message,'danger'));
 						}
 
 
@@ -303,62 +303,62 @@ $(document).ready(function(){
                     ajax.request(request_parameters);
                 },
                 "rules":{
-                    "UserName":{
+                    "new-user-name":{
                         "required":true,
                         "minlength": 3,
                         "maxlength":30
                     },
-                    "UserEmail":{
+                    "new-user-email":{
                         "required":true,
                         "email": true,
                         "remote": {
-                            "url": "/check_email",
+                            "url": "/check-email",
                             "type": "post",
                             "data": {
                                 "inverse_result":true,
-                                "UserEmail":function(){
-                                    return $("#UserEmail").val();
+                                "email":function(){
+                                    return $("#new-user-email").val();
                                 }
                             }
                         },
                         "maxlength":30
                     },
-                    "UserPassword":{
+                    "new-user-password":{
                         "required":true,
                         "rangelength": [7, 21],
-                        "notEqualToName":"UserName",
-                        "notEqualToEmail":"UserEmail"
+                        "notEqualToName":"new-user-name",
+                        "notEqualToEmail":"new-user-email"
                     },
-                    "UserPasswordAgain":{
+                    "new-user-password-again":{
                         "required":true,
                         "rangelength": [7, 21],
-                        "notEqualToName":"UserName",
-                        "notEqualToEmail":"UserEmail",
-                        "equalTo":"#UserPassword"
+                        "notEqualToName":"new-user-name",
+                        "notEqualToEmail":"new-user-email",
+                        "equalTo":"#new-user-password"
                     },
                     "terms-of-service":{
                         "required":true
                     }
                 },
                 "messages":{
-                    "UserName":{
+                    "new-user-name":{
                         "required":"The name is required.",
                         "minlength": "The name must have at least 3 characters.",
                         "maxlength":"The name must not be longer than 30 characters."
                     },
-                    "UserEmail":{
+                    "new-user-email":{
                         "required":"The email is required.",
                         "email":"You must provide a valid email.",
                         "remote":"Already registered. Try to recover the account.",
                         "maxlength":"The email must not have more than 30 characters."
                     },
-                    "UserPassword":{
+                    "new-user-password":{
                         "required":"The password is required.",
                         "rangelength":"You must provide a password that is between 7 and 21 characters.",
                         "notEqualToName":"The key does not match the name.",
                         "notEqualToEmail":"The key must not be equal to email."
                     },
-                    "UserPasswordAgain":{
+                    "new-user-password-again":{
                         "required":"The password is required.",
                         "rangelength":"You must provide a password that is between 7 and 21 characters.",
                         "notEqualToName":"The key does not match the name.",
@@ -371,13 +371,13 @@ $(document).ready(function(){
                 }
             };
 
-            validate.form("UserAddForm",validateObj);
+            validate.form("new-user-form",validateObj);
 
         };
 
         /*
          Private Method
-         Descripción:  inicio de sesión
+         Description:  log in
          */
         var login = function(){
 
@@ -389,10 +389,10 @@ $(document).ready(function(){
                 "url":"/in",
                 "data":{},
                 "form":{
-                    "id":"LoginForm",
+                    "id":"login-form",
                     "inputs":[
-                        {'id':'LoginEmail',          'name':'email'},
-                        {'id':'LoginPassword',       'name':'password'}
+                        {'id':'login-email',          'name':'email'},
+                        {'id':'login-password',       'name':'password'}
                     ]
                 },
                 "callbacks":{
@@ -431,7 +431,7 @@ $(document).ready(function(){
 									message = 'An unexpected error occurred.';
 							}
 
-							$("#LoginForm").find('.alert').html(utility.alert(message,'danger'));
+							$("#login-form").find('.message').html(utility.alert(message,'danger'));
 						}
 
                     },
@@ -443,36 +443,36 @@ $(document).ready(function(){
                 }
             };
 
-            // validación:
+            // Validation:
             var loginUserValidateObj = {
                 "submitHandler": function(){
                     ajax.request(request_parameters);
                 },
                 "rules":{
-                    "LoginEmail":{
+                    "login-email":{
                         "required":true,
                         "email": true,
                         "maxlength":30
                     },
-                    "LoginPassword":{
+                    "login-password":{
                         "required":true,
                         "rangelength": [7, 21]
                     }
                 },
                 "messages":{
-                    "LoginEmail":{
+                    "login-email":{
                         "required":"The email is required.",
                         "email":"You must provide a valid email.",
                         "maxlength":"The email must not have more than 30 characters."
                     },
-                    "LoginPassword":{
+                    "login-password":{
                         "required":"The password is required.",
                         "rangelength":"You must provide a password that is between 7 and 21 characters."
                     }
                 }
             };
 
-            validate.form("LoginForm",loginUserValidateObj);
+            validate.form("login-form",loginUserValidateObj);
         };
 
         //Public Method

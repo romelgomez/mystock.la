@@ -7,7 +7,7 @@ class UsersController extends AppController{
 	 @Description       -> This is CakePHP function. Check docs for more details.
 	 */
 	public function beforeFilter(){
-        $this->{'Auth'}->allow(array('add','check_email','in','recover_account','terms_of_service','privacy_policy','new_password_request','verify_email_address','send_email_again_to_verify_email_address'));
+        $this->{'Auth'}->allow(array('add','check_email','in','recover_account','terms_of_service','privacy_policy','new_password_request','set_new_password','verify_email_address','send_email_again_to_verify_email_address'));
         parent::beforeFilter();
     }
 
@@ -351,7 +351,7 @@ class UsersController extends AppController{
 		$return = false;
 
 		$userEmailConditions = array(
-				'conditions' => array('User.email' => $request['UserEmail']),
+				'conditions' => array('User.email' => $request['email']),
 		);
 
         $email = $this->{'User'}->find('first',$userEmailConditions);
@@ -451,6 +451,9 @@ class UsersController extends AppController{
 			$return['status'] = 'error';
 			$return['message'] = 'user-not-exist';
 		}
+
+		$this->{'set'}('return',$return);
+		$this->{'render'}('ajax_view','ajax');
 	}
 
 	/*

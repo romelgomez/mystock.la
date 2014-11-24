@@ -10,24 +10,24 @@
                             <h2 class="panel-title">Enter your email and password to continue</h2>
                         </div>
                         <div class="panel-body">
-                            <form role="form" id="LoginForm">
-								<div class="alert"></div>
+                            <form role="form" id="login-form">
+								<div class="message"></div>
 
 								<div class="form-group">
-                                    <label for="LoginEmail"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
-                                    <input id="LoginEmail" name="LoginEmail" value="" class="form-control" type="email" maxlength="128" tabindex="1" autocorrect="off" autocapitalize="off">
+                                    <label for="login-email"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
+                                    <input id="login-email" name="login-email" value="" class="form-control" type="email" maxlength="128" tabindex="1" autocorrect="off" autocapitalize="off">
                                     <span class="help-block" style="display: none;"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="LoginPassword"><i class="fa fa-key fa-fw"></i> Password</label>
-                                    <input type="password" class="form-control" id="LoginPassword" name="LoginPassword" tabindex="2">
+                                    <label for="login-password"><i class="fa fa-key fa-fw"></i> Password</label>
+                                    <input type="password" class="form-control" id="login-password" name="login-password" tabindex="2">
                                     <span class="help-block" style="display: none;"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary" tabindex="3">Enter</button>
                             </form>
                         </div>
                         <div class="panel-footer">
-                            <button id="newUser" type="button" class="btn btn-link">New User?</button>
+                            <button id="new-user" type="button" class="btn btn-link">New User?</button>
 							<button id="recover" type="button" class="btn btn-link">Forgot your password?</button>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
 
 
 <!-- Modal Nuevo usuario -->
-<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="new-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" id="UserAddForm" action="#" method="post" accept-charset="utf-8">
+            <form role="form" id="new-user-form" action="#" method="post" accept-charset="utf-8">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -59,29 +59,29 @@
 
                 <div class="modal-body">
 
-					<div class="alert"></div>
+					<div class="message"></div>
 
                     <div class="form-group">
-                        <label for="UserName"><span class="glyphicon glyphicon-user"></span> Name</label>
-                        <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Eje: Maria, MariaSharapova, TennisShop.LA">
+                        <label for="new-user-name"><span class="glyphicon glyphicon-user"></span> Name</label>
+                        <input type="text" class="form-control" id="new-user-name" name="new-user-name" placeholder="Eje: Maria, MariaSharapova, TennisShop.LA">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="UserEmail"><span class="glyphicon glyphicon-envelope"></span> Email</label>
-                        <input type="email" class="form-control" id="UserEmail" name="UserEmail" placeholder="Eje: maria@gmail.com">
+                        <label for="new-user-email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
+                        <input type="email" class="form-control" id="new-user-email" name="new-user-email" placeholder="Eje: maria@gmail.com">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="UserPassword"><span class="glyphicon glyphicon-lock"></span> Password</label>
-                        <input type="password" class="form-control" id="UserPassword" name="UserPassword">
+                        <label for="new-user-password"><span class="glyphicon glyphicon-lock"></span> Password</label>
+                        <input type="password" class="form-control" id="new-user-password" name="new-user-password">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
                     <div class="form-group">
-                        <label for="UserPasswordAgain"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
-                        <input type="password" class="form-control" id="UserPasswordAgain" name="UserPasswordAgain">
+                        <label for="new-user-password-again"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
+                        <input type="password" class="form-control" id="new-user-password-again" name="new-user-password-again">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
@@ -106,10 +106,10 @@
 
 
 <!-- Modal Olvido de la contraseña  -->
-<div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="recover-account-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" id="recoverUserForm" action="#" method="post" accept-charset="utf-8">
+            <form role="form" id="recover-account-form" action="#" method="post" accept-charset="utf-8">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -118,11 +118,11 @@
 
                 <div class="modal-body">
 
-					<div class="alert"></div>
+					<div class="message"></div>
 
                     <div class="form-group">
-                        <label for="Email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
-                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Eje: maria@gmail.com">
+                        <label for="recover-account-email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
+                        <input type="email" class="form-control" id="recover-account-email" name="recover-account-email" placeholder="Eje: maria@gmail.com">
                         <span class="help-block" style="display: none;">Required</span>
                     </div>
 
@@ -151,7 +151,7 @@
 
                 <div class="modal-body">
 
-					<div class="alert"></div>
+					<div class="message"></div>
 
                     <div class="form-group">
                         <label for="verify-email"><span class="glyphicon glyphicon-envelope"></span> Email</label>

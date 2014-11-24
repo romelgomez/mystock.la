@@ -37,7 +37,10 @@ $(document).ready(function(){
 
 							message = 'Done, now try login in to your account.';
 
-							form.find('.alert').html(utility.alert(message,'success'));
+							form.find('.form-group').hide();
+							form.find('button').hide();
+
+							form.find('.message').html(utility.alert(message,'success'));
 						}else{
 							ajax.notification("complete",notification);
 
@@ -58,7 +61,7 @@ $(document).ready(function(){
 									message = 'An unexpected error occurred.';
 							}
 
-							form.find('.alert').html(utility.alert(message,'danger'));
+							form.find('.message').html(utility.alert(message,'danger'));
 						}
 
 
@@ -76,32 +79,24 @@ $(document).ready(function(){
 					ajax.request(request_parameters);
 				},
 				"rules":{
-					"UserPassword":{
+					"password":{
 						"required":true,
-						"rangelength": [7, 21],
-						"notEqualToName":"UserName",
-						"notEqualToEmail":"UserEmail"
+						"rangelength": [7, 21]
 					},
-					"UserPasswordAgain":{
+					"password-again":{
 						"required":true,
 						"rangelength": [7, 21],
-						"notEqualToName":"UserName",
-						"notEqualToEmail":"UserEmail",
-						"equalTo":"#UserPassword"
+						"equalTo":"#password"
 					}
 				},
 				"messages":{
-					"UserPassword":{
+					"password":{
 						"required":"The password is required.",
-						"rangelength":"You must provide a password that is between 7 and 21 characters.",
-						"notEqualToName":"The key does not match the name.",
-						"notEqualToEmail":"The key must not be equal to email."
+						"rangelength":"You must provide a password that is between 7 and 21 characters."
 					},
-					"UserPasswordAgain":{
+					"password-again":{
 						"required":"The password is required.",
 						"rangelength":"You must provide a password that is between 7 and 21 characters.",
-						"notEqualToName":"The key does not match the name.",
-						"notEqualToEmail":"The key must not be equal to email.",
 						"equalTo":"Both password must be identical."
 					}
 				}

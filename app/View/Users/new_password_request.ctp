@@ -2,38 +2,49 @@
 	<div class="row">
 		<div class="col-xs-12">
 
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">New password request</h3>
-				</div>
-				<div class="panel-body">
-
 					<?php
 					if($data['status'] === 'success'){
 						?>
 
-						<form role="form" id="new-password-form" action="#" method="post" accept-charset="utf-8">
+						<div class="row">
+							<div class="col-xs-6 col-md-4">
 
-							<div class="alert"></div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3 class="panel-title">Set new password</h3>
+									</div>
+									<div class="panel-body">
 
-							<input type="hidden" id="id" name="id" value="<?php echo $data['id']; ?>">
-							<input type="hidden" id="key" name="key" value="<?php echo $data['key']; ?>">
+										<form role="form" id="new-password-form" action="#" method="post" accept-charset="utf-8">
 
-							<div class="form-group">
-								<label for="password"><span class="glyphicon glyphicon-lock"></span> Password</label>
-								<input type="password" class="form-control" id="password" name="password">
-								<span class="help-block" style="display: none;">Required</span>
+											<div class="message"></div>
+
+											<input type="hidden" id="id" name="id" value="<?php echo $data['id']; ?>">
+											<input type="hidden" id="key" name="key" value="<?php echo $data['key']; ?>">
+
+											<div class="form-group">
+												<label for="password"><span class="glyphicon glyphicon-lock"></span> Password</label>
+												<input type="password" class="form-control" id="password" name="password">
+												<span class="help-block" style="display: none;">Required</span>
+											</div>
+
+											<div class="form-group">
+												<label for="password-again"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
+												<input type="password" class="form-control" id="password-again" name="password-again">
+												<span class="help-block" style="display: none;">Required</span>
+											</div>
+
+											<button type="submit" class="btn btn-primary">Save</button>
+
+										</form>
+
+									</div>
+								</div>
+
 							</div>
-
-							<div class="form-group">
-								<label for="password-again"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
-								<input type="password" class="form-control" id="password-again" name="password-again">
-								<span class="help-block" style="display: none;">Required</span>
+							<div class="col-xs-12 col-sm-6 col-md-8">
 							</div>
-
-							<button type="submit" class="btn btn-primary">Save</button>
-
-						</form>
+						</div>
 
 					<?php
 					}else{
@@ -42,16 +53,15 @@
 								echo '<div class="alert alert-danger" role="alert">This request is invalid.</div>';
 								break;
 							case "this-link-is-invalid":
-								echo '<div class="alert alert-warning" role="alert">This link is expired or is invalid.</div>';
+								echo '<div class="alert alert-danger" role="alert">This link is expired or is invalid.</div>';
 								break;
 							default:
-								echo '<div class="alert alert-warning" role="alert">An unexpected error occurred</div>';
+								echo '<div class="alert alert-danger" role="alert">An unexpected error occurred</div>';
 						}
 					}
 					?>
 
-				</div>
-			</div>
+
 
 		</div>
 	</div>

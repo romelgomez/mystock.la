@@ -13,7 +13,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-info" role="alert" >
-                        <?php echo ucfirst($data['User']['name']);  ?> have no products available
+                        <?php echo ucfirst($data['User']['name']);  ?> - not have products in stock.
                     </div>
                 </div>
             </div>
