@@ -345,7 +345,7 @@ $(document).ready(function(){
      @Type              -> NameSpace
      @Descripción       -> NameSpace for utilities methods
      */
-    (function( utility){
+    (function( utility, $, undefined){
 
         utility.randomNumber = function(inferior,superior){
             var numPosibilidades = superior - inferior;
@@ -364,6 +364,23 @@ $(document).ready(function(){
             var face_1 = utility.stringReplace(data,'<!--','');
             return utility.stringReplace(face_1,'-->','');
         };
+
+		utility.alert = function(message,type,dismiss){
+
+			if ( type == undefined ) {
+	            type = 'info';
+        	}
+
+			var close = '';
+			if ( dismiss == undefined || dismiss === true ) {
+				close = '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
+        	}
+
+			return '<div class="alert alert-' + type + ' alert-dismissible" role="alert">'+
+					close+
+					message+
+					'</div>';
+		};
 
     }( window.utility = window.utility || {}, jQuery ));
 });

@@ -10,7 +10,32 @@
 
 					<?php
 					if($data['status'] === 'success'){
-						echo "form";
+						?>
+
+						<form role="form" id="new-password-form" action="#" method="post" accept-charset="utf-8">
+
+							<div class="alert"></div>
+
+							<input type="hidden" id="id" name="id" value="<?php echo $data['id']; ?>">
+							<input type="hidden" id="key" name="key" value="<?php echo $data['key']; ?>">
+
+							<div class="form-group">
+								<label for="password"><span class="glyphicon glyphicon-lock"></span> Password</label>
+								<input type="password" class="form-control" id="password" name="password">
+								<span class="help-block" style="display: none;">Required</span>
+							</div>
+
+							<div class="form-group">
+								<label for="password-again"><span class="glyphicon glyphicon-lock"></span> Confirm Password</label>
+								<input type="password" class="form-control" id="password-again" name="password-again">
+								<span class="help-block" style="display: none;">Required</span>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Save</button>
+
+						</form>
+
+					<?php
 					}else{
 						switch ($data['message']) {
 							case "user-not-exist":
@@ -46,8 +71,13 @@ $this->Html->css($css, null, array('inline' => false));
 
 // JS
 $scripts = array();
+//  jQuery Validation Plugin - https://github.com/jzaefferer/jquery-validation
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js');
+//  array_push($scripts,'http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js');
+array_push($scripts,'/resources/library-vendor/jquery-validate/jquery.validate.js');
+array_push($scripts,'/resources/library-vendor/jquery-validate/additional-methods.js');
 
-array_push($scripts,'/resources/app/js/base.enter.js');
+array_push($scripts,'/resources/app/js/base.password.js');
 
 echo $this->Html->script($scripts,array('inline' => false));
 

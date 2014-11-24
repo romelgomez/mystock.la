@@ -11,7 +11,9 @@
                         </div>
                         <div class="panel-body">
                             <form role="form" id="LoginForm">
-                                <div class="form-group">
+								<div class="alert"></div>
+
+								<div class="form-group">
                                     <label for="LoginEmail"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
                                     <input id="LoginEmail" name="LoginEmail" value="" class="form-control" type="email" maxlength="128" tabindex="1" autocorrect="off" autocapitalize="off">
                                     <span class="help-block" style="display: none;"></span>
@@ -30,10 +32,6 @@
                         </div>
                     </div>
 
-                    <div id="login-error"  class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
-                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <strong>Alert!</strong>  The email or password <b>are not correct</b>.
-                    </div>
 
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-8">
@@ -61,18 +59,7 @@
 
                 <div class="modal-body">
 
-
-                    <!-- Mensajes post ajax request -->
-                    <div class="alert alert-success alert-dismissible" style="display: none;" role="alert">
-                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-<!--                        ¡Se ha enviado un mensaje a su correo para confirmar su información!-->
-                        Ready! You can now try to login.
-                    </div>
-                    <div class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
-                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        An error has occurred, try again, or you can also try reloading the page if the error persists!
-                    </div>
-
+					<div class="alert"></div>
 
                     <div class="form-group">
                         <label for="UserName"><span class="glyphicon glyphicon-user"></span> Name</label>
@@ -122,7 +109,7 @@
 <div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" id="UserForm" action="#" method="post" accept-charset="utf-8">
+            <form role="form" id="recoverUserForm" action="#" method="post" accept-charset="utf-8">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -131,15 +118,7 @@
 
                 <div class="modal-body">
 
-                    <!-- Mensajes post ajax request -->
-                    <div id="recoverySuccess" class="alert alert-success alert-dismissible" style="display: none;" role="alert">
-                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        It sent a message to set new password!
-                    </div>
-                    <div id="recoveryError" class="alert alert-danger alert-dismissible" style="display: none;" role="alert">
-                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        An error has occurred, try again, or you can also try reloading the page if the error persists!
-                    </div>
+					<div class="alert"></div>
 
                     <div class="form-group">
                         <label for="Email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
@@ -152,6 +131,39 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">send</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Verify email  -->
+<div class="modal fade" id="verify-email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" id="verify-email-form" action="#" method="post" accept-charset="utf-8">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Write your email for verify your account</h4>
+                </div>
+
+                <div class="modal-body">
+
+					<div class="alert"></div>
+
+                    <div class="form-group">
+                        <label for="verify-email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
+                        <input type="email" class="form-control" id="verify-email" name="verify-email" placeholder="Eje: maria@gmail.com">
+                        <span class="help-block" style="display: none;">Required</span>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send email</button>
                 </div>
 
             </form>

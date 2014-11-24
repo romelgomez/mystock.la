@@ -82,37 +82,42 @@ class UsersController extends AppController{
 
 		$user = $this->{'User'}->find('first',$options);
 
-		$passwordHash = Security::hash($request['password'], 'blowfish', $user['User']['password']);
+		if($user){
+			$passwordHash = Security::hash($request['password'], 'blowfish', $user['User']['password']);
 
-		// checks that the user password match
-		if($passwordHash === $user['User']['password']){
-			// checks that the user is not banned
-			if(!$user['User']['banned']){
-				// checks that the user is not suspended
-				if(!$user['User']['suspended']){
-					// checks that the user has email already verified
-					if($user['User']['email_verified']){
-						if($this->{'Auth'}->login($user)){
-							$return['status'] = 'success';
+			// checks that the user password match
+			if($passwordHash === $user['User']['password']){
+				// checks that the user is not banned
+				if(!$user['User']['banned']){
+					// checks that the user is not suspended
+					if(!$user['User']['suspended']){
+						// checks that the user has email already verified
+						if($user['User']['email_verified']){
+							if($this->{'Auth'}->login($user)){
+								$return['status'] = 'success';
+							}else{
+								$return['status'] = 'error';
+								$return['message'] = 'no-login';
+							}
 						}else{
 							$return['status'] = 'error';
-							$return['message'] = 'no-login';
+							$return['message'] = 'email-not-verified';
 						}
 					}else{
 						$return['status'] = 'error';
-						$return['message'] = 'email-not-verified';
+						$return['message'] = 'suspended';
 					}
 				}else{
 					$return['status'] = 'error';
-					$return['message'] = 'suspended';
+					$return['message'] = 'banned';
 				}
 			}else{
 				$return['status'] = 'error';
-				$return['message'] = 'banned';
+				$return['message'] = 'password-does-not-match';
 			}
-        }else{
+		}else{
 			$return['status'] = 'error';
-			$return['message'] = 'password-does-not-match';
+			$return['message'] = 'user-not-exist';
 		}
 
 		$this->{'set'}('return',$return);
@@ -476,6 +481,10 @@ class UsersController extends AppController{
 			if($tempPasswordHash===$user['User']['temp_password']){
 				$return['status'] 	= 'success';
 				$return['message']	= 'request-accepted';
+
+				$return['id']  = $request['id'];
+				$return['key'] = $request['key'];
+
 			}else{
 				$return['status'] 	= 'error';
 				$return['message']	= 'this-link-is-invalid';
@@ -514,39 +523,45 @@ class UsersController extends AppController{
 
 			// checks that user is not banned
 			if(!$user['User']['banned']){
-				Security::setHash('blowfish');
+				// checks that the user is not suspended
+				if(!$user['User']['suspended']){
+					Security::setHash('blowfish');
 
-				$publicKey	 = String::uuid();
-				$privateKey  = Security::hash($publicKey);
+					$publicKey	 = String::uuid();
+					$privateKey  = Security::hash($publicKey);
 
-				$data =	array(
-						'User'=>Array
-						(
-							'id'				=>$user['User']['id'],
-							'email_verified' 	=> 1,
-							'temp_password'		=>$privateKey,
-						)
-				);
+					$data =	array(
+							'User'=>Array
+							(
+									'id'				=>$user['User']['id'],
+									'email_verified' 	=> 1,
+									'temp_password'		=>$privateKey,
+							)
+					);
 
-				if($this->{'User'}->save($data)){
+					if($this->{'User'}->save($data)){
 
-					$Email = new CakeEmail('default');
-					$Email->template('newPasswordRequest', 'newPasswordRequest');
-					$Email->viewVars(array('userId' => $user['User']['id'],'publicKey'=>$publicKey));
-					$Email->emailFormat('both');
-					$Email->from(array('support@mystock.la' => 'MyStock.LA'));
-					$Email->to($user['User']['email']);
-					$Email->subject('MyStock.LA - Set new password');
+						$Email = new CakeEmail('default');
+						$Email->template('newPasswordRequest', 'newPasswordRequest');
+						$Email->viewVars(array('userId' => $user['User']['id'],'publicKey'=>$publicKey));
+						$Email->emailFormat('both');
+						$Email->from(array('support@mystock.la' => 'MyStock.LA'));
+						$Email->to($user['User']['email']);
+						$Email->subject('MyStock.LA - Set new password');
 
-					if ($Email->send()) {
-						$return['status'] = 'success';
+						if ($Email->send()) {
+							$return['status'] = 'success';
+						}else{
+							$return['status'] = 'error';
+							$return['message'] = 'email-not-send';
+						}
 					}else{
 						$return['status'] = 'error';
-						$return['message'] = 'email-not-send';
+						$return['message'] = 'cannot-set-new-parameters';
 					}
 				}else{
 					$return['status'] = 'error';
-					$return['message'] = 'cannot-set-new-parameters';
+					$return['message'] = 'suspended';
 				}
 			}else{
 				$return['status'] = 'error';

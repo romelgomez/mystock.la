@@ -8,7 +8,7 @@
             <div class="row" id="no-products" style="display: none;">
                 <div class="col-xs-12">
                     <div  class="alert alert-warning" role="alert" >
-                        No products published yet. <a href="/publicar" class="alert-link" >Add a new product!</a>
+                        No products published yet. <a href="/publish" class="alert-link" >Add a new product!</a>
                     </div>
                 </div>
             </div>

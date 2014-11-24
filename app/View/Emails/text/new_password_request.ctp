@@ -1,1 +1,1 @@
-http://www.mystock.la/np/<?php echo (string)$userId.'/'.(string)$publicKey; ?>
+http://www.mystock.la/npr/<?php echo (string)$userId.'/'.(string)$publicKey; ?>

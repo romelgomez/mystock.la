@@ -114,16 +114,21 @@ Router::connect('/check_email',								array('controller' => 'users', 	'action' 
 Router::connect('/recover_account',							array('controller' => 'users', 	'action' => 'recover_account')); 					// Acción Ajax - Para recuperar una cuenta.
 Router::connect('/terms-of-service',						array('controller' => 'users', 	'action' => 'terms_of_service')); 					// Acción Get
 Router::connect('/privacy-policy',							array('controller' => 'users', 	'action' => 'privacy_policy')); 					// Acción Get
-Router::connect('/ve/:id/:key', 							array('controller' => 'users', 	'action' => 'verify_email_address'),  				// Acción Get 	- Verify email address
-		array(
-				'pass' => array('id','key')
-		));
-Router::connect('/sea', 									array('controller' => 'users', 	'action' => 'send_email_again_to_verify_email_address')); // Acción Ajax - send email again to verify email address
 
-Router::connect('/np/:id/:key', 							array('controller' => 'users', 	'action' => 'new_password_request'),  						// Acción Get 	- set new password
+# This url is sent as a link to the user's email
+Router::connect('/ve/:id/:key', 							array('controller' => 'users', 	'action' => 'verify_email_address'),  						// Acción Get 	- Verify email address
 		array(
 				'pass' => array('id','key')
 		));
+Router::connect('/sea', 									array('controller' => 'users', 	'action' => 'send_email_again_to_verify_email_address'));  // Acción Ajax - send email again to verify email address
+
+# This url is sent as a link to the user's email
+Router::connect('/npr/:id/:key', 							array('controller' => 'users', 	'action' => 'new_password_request'),  						// Acción Get 	- to obtain access to the form to change password
+		array(
+				'pass' => array('id','key')
+		));
+Router::connect('/snp', 						array('controller' => 'users', 	'action' => 'set_new_password')); // Acción Ajax - set new password
+
 //	V
 //	W
 //	X

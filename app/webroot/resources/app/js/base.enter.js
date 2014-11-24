@@ -1,16 +1,114 @@
-/*
-    login Formulario
-
-     form_id    #LoginForm
-     url        /login
-
-     inputs
-        LoginEmail
-        LoginPassword
- */
-
 $(document).ready(function(){
     (function( user, $) {
+
+		/*
+		 Private Method
+		 Descripción:  Recuperar una cuenta
+		 */
+		var verifyEmail = function(){
+
+			$("#send-email-again").on('click',function(event){
+				event.preventDefault();
+				$('#verify-email-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
+					validate.removeValidationStates('verify-email-form');
+				});
+			});
+
+			var notification;
+
+			var request_parameters = {
+				"requestType":"form",
+				"type":"post",
+				"url":"/sea",
+				"data":{},
+				"form":{
+					"id":"verify-email-form",
+					"inputs":[
+						{'id':'verify-email', 'name':'email'}
+					]
+				},
+				"callbacks":{
+					"beforeSend":function(){
+						notification = ajax.notification("beforeSend");
+					},
+					"success":function(response){
+
+						var form = $("#verify-email-form");
+
+						var message = '';
+
+						if(response['status'] === 'success'){
+							ajax.notification("success",notification);
+
+							message = 'We already send one email to verify your account.';
+
+							form.find('.alert').html(utility.alert(message,'success'));
+						}else{
+							ajax.notification("complete",notification);
+
+							switch (response['message']) {
+								case 'user-not-exist':
+									message = 'This email does not exist in our database.';
+									break;
+								case 'already-verified':
+									message = 'This account is already verified';
+									break;
+								case 'cannot-set-new-parameters':
+									message = 'An unexpected error occurred.';
+									break;
+								case 'email-not-send':
+									message = 'An unexpected error occurred.';
+									break;
+								default:
+									message = 'An unexpected error occurred.';
+							}
+
+							form.find('.alert').html(utility.alert(message,'danger'));
+						}
+
+					},
+					"error":function(){
+						ajax.notification("error",notification);
+					},
+					"complete":function(response){}
+				}
+			};
+
+			// validación:
+			var validateObj = {
+				"submitHandler": function(){
+					ajax.request(request_parameters);
+				},
+				"rules":{
+					"verify-email":{
+						"required":true,
+						"email": true,
+						"remote": {
+							"url": "/check_email",
+							"type": "post",
+							"data": {
+								"UserEmail": function() {
+									return $("#verify-email").val();
+								}
+							}
+						},
+						"maxlength":30
+					}
+				},
+				"messages":{
+					"Email":{
+						"required":"The email is required.",
+						"email":"You must provide a valid email.",
+						"remote":"There is no one associated account with such email. Please check and try again.",
+						"maxlength":"The email must not have more than 30 characters."
+					}
+				}
+			};
+
+			validate.form("verify-email-form",validateObj);
+
+		};
+
 
         /*
          Private Method
@@ -43,38 +141,42 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
 
-                        var userForm = $("#UserForm");
+                        var form = $("#recoverUserForm");
 
-                        if(response['Send']){
-                            ajax.notification("success",notification);
+						var message = '';
 
-                            userForm.find(".alert-success").fadeIn();
-                            validate.removeValidationStates('UserForm');
+						if(response['status'] === 'success'){
+							ajax.notification("success",notification);
 
-                            setTimeout(function(){
-                                $("#UserForm").find(".alert-success").fadeOut();
-                            },2000);
-                        }else{
-                            ajax.notification("error",notification);
+							message = 'We already send one email to recovery your account.';
 
-                            userForm.find(".alert-danger").fadeIn();
-                            userForm.find(".modal-body").find(".form-group").hide();
-                            userForm.find(".modal-footer").hide();
+							form.find('.alert').html(utility.alert(message,'success'));
+						}else{
+							ajax.notification("complete",notification);
 
-                            setTimeout(function(){
-                                $('#recoverModal').modal('hide');
-                                validate.removeValidationStates('UserForm');
+							switch (response['message']) {
+								case 'user-not-exist':
+									message = 'This email does not exist in our database.';
+									break;
+								case 'banned':
+									message = 'This account was banned. Please contact us at support@mystock.la if you believe that there was a misunderstanding.';
+									break;
+								case 'suspended':
+									message = 'This account was suspended. Please contact us at support@mystock.la if you believe that there was a misunderstanding.';
+									break;
+								case 'cannot-set-new-parameters':
+									message = 'An unexpected error occurred.';
+									break;
+								case 'email-not-send':
+									message = 'An unexpected error occurred.';
+									break;
+								default:
+									message = 'An unexpected error occurred.';
+							}
 
-                                var userForm = $("#UserForm");
-                                userForm.find(".alert-danger").fadeOut();
-                                userForm.find(".modal-body").find(".form-group").show();
-                                userForm.find(".modal-footer").show();
-
-                            },3000);
-                        }
-
+							form.find('.alert').html(utility.alert(message,'danger'));
+						}
 
                     },
                     "error":function(){
@@ -109,7 +211,7 @@ $(document).ready(function(){
                     "Email":{
                         "required":"The email is required.",
                         "email":"You must provide a valid email.",
-                        "remote":"There is no one associated with such email account. Please check and try again.",
+                        "remote":"There is no one associated account with such email. Please check and try again.",
                         "maxlength":"The email must not have more than 30 characters."
                     }
                 }
@@ -152,37 +254,40 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
 
-                        var userAddForm = $("#UserAddForm");
+						var form = $("#UserAddForm");
 
-                        if(response['Add']){
-                            ajax.notification("success",notification);
+						var message = '';
 
-                            userAddForm.find(".alert-success").fadeIn();
-                            validate.removeValidationStates('UserAddForm');
+						if(response['status'] === 'success'){
+							ajax.notification("success",notification);
 
-                            setTimeout(function(){
-                                $("#UserAddForm").find(".alert-success").fadeOut();
-                            },2000);
-                        }else{
-                            ajax.notification("error",notification);
+							message = 'Almost ready, now we need verify your account, we already send one email to do that.';
 
-                            userAddForm.find(".alert-danger").fadeIn();
-                            userAddForm.find(".modal-body").find(".form-group").hide();
-                            userAddForm.find(".modal-footer").hide();
+							form.find('.alert').html(utility.alert(message,'success'));
+						}else{
+							ajax.notification("complete",notification);
 
-                            setTimeout(function(){
-                                $('#newUserModal').modal('hide');
-                                validate.removeValidationStates('UserAddForm');
+							switch (response['message']) {
+								case 'invalid-data':
+									message = 'Invalid request.';
+									break;
+								case 'user-already-exist':
+									message = 'The user already exist';
+									break;
+								case 'cannot-save-new-user':
+									message = 'An unexpected error occurred.';
+									break;
+								case 'email-not-send':
+									message = 'An unexpected error occurred.';
+									break;
+								default:
+									message = 'An unexpected error occurred.';
+							}
 
-                                var userAddForm = $("#UserAddForm");
-                                userAddForm.find(".alert-danger").fadeOut();
-                                userAddForm.find(".modal-body").find(".form-group").show();
-                                userAddForm.find(".modal-footer").show();
+							form.find('.alert').html(utility.alert(message,'danger'));
+						}
 
-                            },3000);
-                        }
 
                     },
                     "error":function(){
@@ -295,21 +400,45 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
 
-                        if(response['login']){
-                            window.location = "/";
-                        }else{
-                            $("#login-error").fadeIn();
-                            setTimeout(function(){ $("#login-error").fadeOut(); }, 7000);
-                        }
+						var message = '';
+
+						if(response['status'] === 'success'){
+							window.location = "/";
+						}else{
+							ajax.notification("complete",notification);
+
+							switch (response['message']) {
+								case 'user-not-exist':
+									message = 'This email does not exist in our database.';
+									break;
+								case 'password-does-not-match':
+									message = 'The password does not match.';
+									break;
+								case 'banned':
+									message = 'This account was banned. Please contact us at support@mystock.la if you believe that there was a misunderstanding.';
+									break;
+								case 'suspended':
+									message = 'This account was suspended. Please contact us at support@mystock.la if you believe that there was a misunderstanding.';
+									break;
+								case 'email-not-verified':
+									message = 'The email is not verified. <button id="send-email-again" type="button" class="btn btn-link">Send me the email again.</button>';
+									break;
+								case 'no-login':
+									message = 'An unexpected error occurred.';
+									break;
+								default:
+									message = 'An unexpected error occurred.';
+							}
+
+							$("#LoginForm").find('.alert').html(utility.alert(message,'danger'));
+						}
 
                     },
                     "error":function(){
                         ajax.notification("error",notification);
                     },
                     "complete":function(){
-                        ajax.notification("complete",notification);
                     }
                 }
             };
@@ -351,6 +480,7 @@ $(document).ready(function(){
             login();
             newUser();
             recoverAcount();
+			verifyEmail();
         };
 
 
