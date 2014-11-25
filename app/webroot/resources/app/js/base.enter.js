@@ -230,7 +230,7 @@ $(document).ready(function(){
             $("#new-user").on('click',function(event){
                 event.preventDefault();
                 $('#new-user-modal').modal({"backdrop":false,"keyboard":true,"show":true,"remote":false}).on('hide.bs.modal',function(){
-                    validate.removeValidationStates('UserAddForm');
+                    validate.removeValidationStates('new-user-form');
                 });
             });
 

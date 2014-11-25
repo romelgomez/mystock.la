@@ -4,9 +4,9 @@ class AppController extends Controller {
 
     public $helpers = array('Session', 'Html','Form','Time');
 
-//    public function appError() {
-//        $this->{'redirect'}('/');
-//    }
+    public function appError() {
+        $this->{'redirect'}('/');
+    }
 
     public $components = array(
         'Auth' => array(

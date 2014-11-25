@@ -70,3 +70,28 @@ body {
 .dropzone-previews a.dz-delete:hover {
     background-image: linear-gradient(to bottom, #C5241F, #B90000);
 }
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Margin bottom by footer height */
+    background: url(/resources/app/img/brickwall.png);
+	margin-bottom: 60px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+	color:#ffffff;
+}
+.navbar-inverse .navbar-brand:hover , .navbar-inverse .navbar-nav > li > a:hover{
+	color:#428bca;
+}

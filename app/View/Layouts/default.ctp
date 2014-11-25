@@ -188,9 +188,9 @@
                     <?php } ?>
                     <?php
                         if(isset($userLogged)){
-                            echo '<li class=""><a href="/logout"><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
+                            echo '<li class=""><a href="/logout" class="menu" ><span class="glyphicon glyphicon-off"></span>  Sign out</a></li>';
                         }else{
-                            echo '<li class=""><a href="/login"><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
+                            echo '<li class=""><a href="/login" class="menu" ><span class="glyphicon glyphicon-off"></span> Log in</a></li>';
                         }
                     ?>
                 </ul>
@@ -204,9 +204,8 @@
 
 
     <!-- footer -->
-    <div id="footer" style="margin-bottom: 20px">
-        <hr>
-        <div style="text-align: center;">
+    <div class="footer" style="background: #222;">
+        <div style="text-align: center; margin-top: 20px; color: #ffffff;">
             Copyright &copy;2014 MyStock.LA - All rights reserved.
 			<a href="/terms-of-service" target="_blank">Terms of Service</a> &
 			<a href="/privacy-policy" target="_blank">Privacy Policy</a>
