@@ -173,7 +173,12 @@
                         <button id="first-files" class="btn btn-primary clickable">Select the images from the computer</button>
                     </div>
 
-                    <div class="alert alert-info" role="alert" style="margin-bottom: 0;">Note: If you delete the banner selected, must select another one if you want change the banner.</div>
+                    <div class="alert alert-info" role="alert" style="margin-bottom: 0;">Notes:
+						<ol>
+							<li>If you delete the banner selected, must select another one if you want change the banner.</li>
+							<li>The banner remains in the cache of some social networks at least for 24h.</li>
+						</ol>
+					</div>
 
                 </div>
                 <div class="modal-footer">

@@ -38,6 +38,19 @@ $(document).ready(function() {
                                 ajax.notification("success",notification);
 
                                 $("#reload-the-page").fadeIn().on("click",function(){
+
+									var url = $(location).attr('href');
+									$.post(
+											'https://graph.facebook.com',
+											{
+												id: url,
+												scrape: true
+											},
+											function(response){
+												//console.log(response);
+											}
+									);
+
                                     window.location.reload(true);
                                 });
 
