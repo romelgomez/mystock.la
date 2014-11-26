@@ -152,7 +152,7 @@
 <!--                        <input type="text" class="form-control" placeholder="Su correo electrónico">-->
 <!--                        <button class="btn btn-theme" type="button">Suscribirse</button>-->
 <!--                    </div>-->
-                </div>
+                </div>Default
             </div><!-- /row -->
         </div><!-- /container -->
     </div><!-- /footerwrap -->
