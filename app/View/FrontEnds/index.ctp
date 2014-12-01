@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-6 col-md-4">
+		<div class="col-md-4">
 			<h2 style="font-family: 'Lato', sans-serif; font-weight: 300;font-size: 40px;" >Welcome to MyStock.LA </h2>
 			<span style="font-family: 'Lobster', cursive; font-size: 27px;">Los Angeles</span>
 			<hr>
@@ -20,7 +20,7 @@
 			<p class="text-center"><a href="/publish" type="button" class="btn btn-primary" style="font-size: 15px;">Start publishing today!</a></p>
 
 		</div>
-		<div class="col-xs-12 col-md-8">			<img src="/resources/app/img/laptop-blank.png" class="img-responsive"></div>
+		<div class="col-md-8">			<img src="/resources/app/img/laptop-blank.png" class="img-responsive"></div>
 	</div>
 
 </div>

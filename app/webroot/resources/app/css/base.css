@@ -60,6 +60,38 @@ hr {
 }
 
 
+.caption {
+	overflow: hidden;
+}
+
+.caption h4 {
+	white-space: nowrap;
+}
+
+.thumbnail img {
+	width: 100%;
+}
+
+.price {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.ratings {
+	padding-right: 10px;
+	padding-left: 10px;
+	color: #d17581;
+}
+
+.thumbnail {
+	padding: 0;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+	color: #333;
+}
+
+
 /*  Dropzone */
 .dropzone a.dz-remove, .dropzone-previews a.dz-remove{
     margin-top: 5px;

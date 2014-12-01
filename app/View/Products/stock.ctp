@@ -17,6 +17,13 @@
                     </div>
                 </div>
             </div>
+			<div class="row" id="no-products-for-this-search" style="display: none;">
+                <div class="col-xs-12">
+                    <div  class="alert alert-info" role="alert" >
+                        <?php echo ucfirst($data['User']['name']);  ?> - not have products in stock for this search: (<span id="this-search"></span>). <a href="/stock/<?php echo $data['User']['id']; ?>">Check the other products in their stock</a>
+                    </div>
+                </div>
+            </div>
             <div class="row" id="yes-products" style="display: none;">
                 <div class="col-xs-12">
 
@@ -106,17 +113,17 @@
                                             Sort by:  <span id="order-by-text">Recent</span> <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recent</a></li>
-                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antique</a></li>
+                                            <li><a id="latest" href="#"><span class="glyphicon glyphicon-time"></span> Latest</a></li>
+                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Oldest</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Higher price</a></li>
-                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
+                                            <li><a id="highest-price" href="#"><span class="glyphicon glyphicon-tags"></span> Highest price</a></li>
+                                            <li><a id="lowest-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
 
                                             <li class="divider"></li>
 
-                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Greater availability</a></li>
+                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Higher availability</a></li>
                                             <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
                                         </ul>
                                     </div>
@@ -133,7 +140,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Stock</h3>
                         </div>
-                        <div id="products" class="panel-body"></div>
+                        <div id="products" class="panel-body row"></div>
                     </div>
 
 <!--                    <div id="products" style="overflow: hidden;" ></div>-->

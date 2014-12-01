@@ -58,7 +58,7 @@
 
             echo '<meta name="twitter:card" content="summary_large_image" />';
             echo '<meta name="twitter:site" content="@mystockla" />';
-            echo '<meta name="twitter:title" content="'.$data['Product']['title'].'" />';
+            echo '<meta name="twitter:title" content="'.ucfirst($data['Product']['title']).'" />';
             echo '<meta name="twitter:description" content="'.$description.'">';
             echo '<meta name="twitter:image:src" content="http://www.mystock.la/resources/app/img/products/'.$data['Image'][0]['facebook'].'" />';
             echo '<meta name="twitter:url" content="http://www.mystock.la/stock/'.$data['Product']['user_id'].'" />';
@@ -85,7 +85,7 @@
 
             echo '<meta name="twitter:card" content="summary_large_image" />';
             echo '<meta name="twitter:site" content="@mystockla" />';
-            echo '<meta name="twitter:title" content="'.$data['User']['name'].' Stock" />';
+            echo '<meta name="twitter:title" content="'.ucfirst($data['User']['name']).' Stock" />';
             echo '<meta name="twitter:description" content="Visita el stock de producto y/o servicios que tengo para ti">';
             echo '<meta name="twitter:image:src" content="http://www.mystock.la/'.$banner.'" />';
             echo '<meta name="twitter:url" content="http://www.mystock.la/stock/'.$data['User']['id'].'" />';

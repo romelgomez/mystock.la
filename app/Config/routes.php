@@ -66,8 +66,6 @@ Router::connect('/edit/:id', 								array('controller' => 'products', 	'action'
     ));
 
 
-Router::connect('/search',                                  array('controller' => 'products',   'action' => 'search')); 			// Acción Ajax - para pausar buscar publicaciones.
-Router::connect('/search-products',                         array('controller' => 'products',   'action' => 'products')); 			// Acción Ajax - para pausar buscar publicaciones.
 
 
 Router::connect('/pause', 									array('controller' => 'products',	 'action' => 'pause'));   							// Acción Ajax - para pausar una publicación activa.
@@ -85,10 +83,12 @@ Router::connect('/stock/:id',                               array('controller' =
     array(
         'pass' => array('id','slug')
     ));
-Router::connect('/stock-products',                          array('controller' => 'products',	'action' => 'products'));            	        // Acción ajax - para obtener los productos publicados de x usuario
 
 
+Router::connect('/search',                                  array('controller' => 'products',   'action' => 'search')); 						// Acción Ajax - para pausar buscar publicaciones.
 
+Router::connect('/search-products',                         array('controller' => 'products',   'action' => 'products')); 						// Acción Ajax - para pausar buscar publicaciones.
+Router::connect('/stock-products',                          array('controller' => 'products',	'action' => 'products2'));            	        // Acción ajax - para obtener los productos publicados de x usuario
 Router::connect('/get-published', 					       	array('controller' => 'products',	'action' => 'products'));						// Acción ajax - para obtener los productos publicados
 Router::connect('/get-drafts',  	 						array('controller' => 'products',	'action' => 'products'));	   					// Acción ajax - para obtener los borradores
 

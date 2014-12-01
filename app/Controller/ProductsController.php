@@ -2,7 +2,7 @@
 
     public function beforeFilter(){
 
-        $this->{'Auth'}->allow(array('view','stock','products'));
+        $this->{'Auth'}->allow(array('view','stock','products','products2'));
 
         parent::beforeFilter();
     }
@@ -395,25 +395,19 @@
         }
     }
 
-    /*
-        Descripción:
-        tipo de solicitud:  Ajax
-        tipo de acceso:     vendedor
-        Recibe:             null
-        Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
-    */
-    public function products(){
-        $request = $this->{'request'}->input('json_decode',true);
+	public function products2(){
+		$request = $this->{'request'}->input('json_decode',true);
 
-        $user_logged = $this->{'Auth'}->User();
+		$user_logged = $this->{'Auth'}->User();
 
-        $url = $this->{'request'}->url;
+		$url = $this->{'request'}->url;
 
-        $return = array();
+		$return = array();
 
-        $conditions = array();
+		$conditions = array();
 
-        if($url == 'get-published' || $url == 'get-drafts' || $url == 'stock-products'){
+		if($url === 'get-published' || $url === 'get-drafts' || $url === 'stock-products'){
+
 //            if($url == 'search-products'){
 //
 //                // search - conditions
@@ -436,6 +430,188 @@
 //                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.deleted'=>0,'Product.published'=>1)));
 //
 //            }
+
+			$totalProducts 	= array();
+			$search 		= '';
+
+			switch ($url) {
+				case 'get-published':
+
+					// search - conditions
+					if(!isset($request['search']) || $request['search'] == ''){
+						$conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
+					}else{
+						$search = $this->cleanString($request["search"]);
+						$conditions = array(
+								'Product.user_id' => $user_logged['User']['id'],
+								'Product.deleted'=>0,
+								'Product.published'=>1,
+								'or'=>array(
+										'Product.title LIKE'=> '%'.$search.'%',
+										'Product.body LIKE'=> '%'.$search.'%'
+								)
+						);
+					}
+
+					// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+					$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+
+					break;
+				case 'get-drafts':
+
+					// search - conditions
+					if(!isset($request['search']) || $request['search'] == ''){
+						$conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);
+					}else{
+						$search = $this->cleanString($request["search"]);
+						$conditions = array(
+								'Product.user_id' => $user_logged['User']['id'],
+								'Product.deleted'=>0,
+								'Product.published'=>0,
+								'or'=>array(
+										'Product.title LIKE'=> '%'.$search.'%',
+										'Product.body LIKE'=> '%'.$search.'%'
+								)
+						);
+					}
+
+					// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+					$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0)));
+
+					break;
+				case 'stock-products':
+
+					// search - conditions
+					if(!isset($request['search']) || $request['search'] == ''){
+						$conditions = array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1,'Product.status'=>1);
+					}else{
+						$search = $this->cleanString($request["search"]);
+						$conditions = array(
+								'Product.user_id' => $request['user_id'],
+								'Product.deleted'=>0,
+								'Product.published'=>1,
+								'Product.status'=>1,
+								'or'=>array(
+										'Product.title LIKE'=> '%'.$search.'%',
+										'Product.body LIKE'=> '%'.$search.'%'
+								)
+						);
+					}
+
+					// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+					$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+
+					break;
+			}
+
+			// page
+			if(!isset($request['page'])  || $request['page'] == ''){
+				$page = 1;
+			}else{
+				$page = (int)$request['page'];
+			}
+
+			if(!isset($request['order-by']) || $request['order-by'] == ''){
+
+				$order = array(
+						'Product.created' => 'desc'
+				);
+
+			}else{
+
+				switch ($request['order-by']) {
+					case 'highest-price':
+						$order = array(
+								'Product.price' => 'desc'
+						);
+						break;
+					case 'lowest-price':
+						$order = array(
+								'Product.price' => 'asc'
+						);
+						break;
+					case 'latest':
+						$order = array(
+								'Product.created' => 'desc'
+						);
+						break;
+					case 'oldest':
+						$order = array(
+								'Product.created' => 'asc'
+						);
+						break;
+					case 'higher-availability':
+						$order = array(
+								'Product.quantity' => 'desc'
+						);
+						break;
+					case 'lower-availability':
+						$order = array(
+								'Product.quantity' => 'asc'
+						);
+						break;
+					default:
+						$order = array(
+								'Product.created' => 'desc'
+						);
+				}
+
+			}
+
+			$this->{'paginate'} = array(
+					'conditions' =>  $conditions,
+					'contain' => array(
+							'Image'=>array(
+							)
+					),
+					'order' => $order,
+					'limit' => 10,
+					'page'	=>$page
+			);
+
+			try {
+				$return['status'] = 'success';
+				$return['data'] 			= $this->{'paginate'}('Product');
+				$return['info'] 			= $this->{'request'}->params['paging']['Product'];
+				$return['total-products'] 	= $totalProducts;
+				$return['search'] 			= $search;
+			}catch(Exception $e){
+				$return['status'] = 'error';
+				$return['message'] = 'unknown-exception';
+			}
+
+		}else{
+			$return['status'] = 'error';
+			$return['message'] = 'bad-request';
+		}
+
+
+		$this->{'set'}('return',$return);
+		$this->{'render'}('ajax_view','ajax');
+	}
+
+
+    /*
+        Descripción:
+        tipo de solicitud:  Ajax
+        tipo de acceso:     vendedor
+        Recibe:             null
+        Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
+    */
+    public function products(){
+        $request = $this->{'request'}->input('json_decode',true);
+
+        $user_logged = $this->{'Auth'}->User();
+
+        $url = $this->{'request'}->url;
+
+        $return = array();
+
+        $conditions = array();
+
+        if($url == 'get-published' || $url == 'get-drafts' || $url == 'stock-products'){
             if($url == 'stock-products'){
 
                 // search - conditions

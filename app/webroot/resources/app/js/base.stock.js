@@ -39,20 +39,20 @@ $(document).ready(function(){
             var segments = url.attr('fragment');
             var userId   =  url.segment(2);
 
-            var url_obj         = {};
-            url_obj.search      = "";
-            url_obj.page        = "";
-            url_obj.order_by    = "";
-            url_obj.user_id     = userId;
+            var url_obj         	= {};
+            url_obj.search      	= '';
+            url_obj.page        	= '';
+            url_obj['order-by']    	= '';
+            url_obj.user_id     	= userId;
 
 
-            if(segments != ""){
+            if(segments != ''){
                 var split_segments = url.attr('fragment').split('/');
                 if(split_segments.length){
                     $(split_segments).each(function(index,parameter){
 
-                        if(parameter.indexOf("buscar-") !== -1){
-                            var search_string = utility.stringReplace(parameter,'buscar-','');
+                        if(parameter.indexOf("search-") !== -1){
+                            var search_string = utility.stringReplace(parameter,'search-','');
 
                             /* La cadena search_string se manipula en el siguiente orden.
                              *
@@ -66,35 +66,35 @@ $(document).ready(function(){
                             //console.log(url_obj.search);
 
                         }
-                        if(parameter.indexOf("pagina-") !== -1){
-                            url_obj.page = parseInt(utility.stringReplace(parameter,'pagina-',''));
+                        if(parameter.indexOf("page-") !== -1){
+                            url_obj.page = parseInt(utility.stringReplace(parameter,'page-',''));
                         }
 
                         var orderBy = $('#order-by-text');
 
-                        if(parameter == "mayor-precio"){
-                            url_obj.order_by = "mayor-precio";
-                            orderBy.text('Mayor precio');
+                        if(parameter == 'highest-price'){
+                            url_obj['order-by'] = "highest-price";
+                            orderBy.text('Highest price');
                         }
-                        if(parameter == "menor-precio"){
-                            url_obj.order_by = "menor-precio";
-                            orderBy.text('Menor precio');
+                        if(parameter == 'lowest-price'){
+                            url_obj['order-by'] = "lowest-price";
+                            orderBy.text('Lowest price');
                         }
-                        if(parameter == "recientes"){
-                            url_obj.order_by = "recientes";
-                            orderBy.text('Recientes');
+                        if(parameter == 'latest'){
+                            url_obj['order-by'] = "latest";
+                            orderBy.text('Latest');
                         }
-                        if(parameter == "antiguos"){
-                            url_obj.order_by = "antiguos";
-                            orderBy.text('Antiguos');
+                        if(parameter == 'oldest'){
+                            url_obj['order-by'] = 'oldest';
+                            orderBy.text('Oldest');
                         }
-                        if(parameter == "mayor-disponibilidad"){
-                            url_obj.order_by = "mayor-disponibilidad";
-                            orderBy.text('Mayor disponibilidad');
+                        if(parameter == 'higher-availability'){
+                            url_obj['order-by'] = 'higher-availability';
+                            orderBy.text('Higher availability');
                         }
-                        if(parameter == "menor-disponibilidad"){
-                            url_obj.order_by = "menor-disponibilidad";
-                            orderBy.text('Menor disponibilidad');
+                        if(parameter == 'lower-availability'){
+                            url_obj['order-by'] = 'lower-availability';
+                            orderBy.text('Lower availability');
                         }
 
 
@@ -116,7 +116,7 @@ $(document).ready(function(){
             if(title.length > 32){
                 title = title.slice(0, 30)+' ...';
             }
-
+			title = utility.capitaliseFirstLetter(title);
 
             var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
@@ -133,58 +133,15 @@ $(document).ready(function(){
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
-            var status = '';
-            var status_button = '';
-
-            if(obj['Product']['status']){
-                status = '<span class="label label-success active-status">publicado</span>';
-                status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Activar</button>';
-            }else{
-                status = '<span class="label label-warning paused-status">pausado</span>';
-                status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Activar</button>';
-            }
-
-            var quantity = obj['Product']['quantity'];
-            var _quantity = '';
-
-            if(quantity == 0){
-                _quantity = '<span class="badge">0</span>';
-            }
-            else if(quantity>= 1 && quantity<=5){
-                _quantity = '<span class="badge badge-important">'+quantity+'</span>';
-            }
-            else if(quantity>=6 && quantity<=10){
-                _quantity = '<span class="badge badge-warning">'+quantity+'</span>';
-            }
-            else if(quantity>10){
-                _quantity = '<span class="badge badge-success">'+quantity+'</span>';
-            }
-            // END
-
-//            // se arma una publicación
-//            return  '<div id="product-'+id+'"  class="media bg-info" style="padding: 10px;border-radius: 4px;" >'+
-//                '<a class="pull-left" href="'+link+'">'+
-//                    '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
-//                '</a>'+
-//                '<div class="media-body">'+
-//                    '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
-//                    '<div>'+
-//                        '<span class="glyphicon glyphicon-tag"></span> Precio: '+price+' BsF.<br>'+
-//                    '</div>'+
-//                '</div>'+
-//            '</div>';
-
-             return  '<a href="'+link+'" class="box">'+
-                '<span class="imagen_producto">'+
-                    '<img src="'+image+'" class="img-responsive" alt="Test">'+
-                '</span>'+
-                '<span class="nombre_producto">'+
-                    '<div class="nombre_producto_margen">'+title+'</div>'+
-                '</span>'+
-                '<span class="precio">'+
-                    '<div style="margin-left:5px;  margin-right:5px;">Price: $'+price+'</div>'+
-                '</span>'+
-            '</a>';
+			return '<div class="col-md-4">'+
+				'<div class="thumbnail">'+
+					'<a href="'+link+'"><img src="'+image+'" alt="..."></a>'+
+					'<div class="caption">'+
+						'<h3><a href="'+link+'">'+title+'</a></h3>'+
+						'<h4>Price: $'+price+'</h4>'+
+					'</div>'+
+				'</div>'+
+			'</div>';
 
         };
 
@@ -205,27 +162,35 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-//                        $('#debug').text(JSON.stringify(response));
+						console.log(response);
 
                         if(response['expired_session']){
-                            window.location = "/entrar";
+                            window.location = "/login";
                         }
 
-                        if(response['result'] == true || response['result'] == undefined){
-                            if(response['data'].length > 0){
-                                // hay publicaciones
+						if(response['status'] === 'success'){
 
-                                setLastResponseInfo(response);
-                                preparePublications();
+							if(response['data'].length > 0){
+								setLastResponseInfo(response);
+								preparePublications(); // New
 
-                            }else{
-                                // no hay publicaciones.
-                                $("#no-products").css({"display":"inherit"});
-                            }
-                        }else{
-                            // hay un error en la solicitud.
-                            window.location = "/";
-                        }
+								$("#no-products").hide();
+								$("#yes-products").show();
+							}else{
+								if(response['total-products'] > 0){
+									$("#yes-products").hide();
+									$("#no-products").hide();
+									$("#no-products-for-this-search").show();
+								}else{
+									$("#yes-products").hide();
+									$("#no-products-for-this-search").hide();
+									$("#no-products").show();
+								}
+							}
+
+						}else{
+							window.location = "/";
+						}
 
                     },
                     "error":function(){
@@ -239,29 +204,30 @@ $(document).ready(function(){
 
             var orderBy = [
                 {
-                    'id':'higher-price',
-                    'url':'mayor-precio',
-                    'text':'Mayor precio'
+                    'id':'highest-price',
+                    'url':'highest-price',
+                    'text':'Highest price'
                 },                {
-                    'id':'lower-price',
-                    'url':'menor-precio',
-                    'text':'Menor precio'
+                    'id':'lowest-price',
+                    'url':'lowest-price',
+                    'text':'Lowest price'
                 },                {
-                    'id':'recent',
-                    'url':'recientes',
-                    'text':'Recientes'
+                    'id':'latest',
+                    'url':'latest',
+                    'text':'Latest'
                 },                {
                     'id':'oldest',
-                    'url':'antiguos',
-                    'text':'Antiguos'
+                    'url':'oldest',
+                    'text':'Oldest'
                 },                {
                     'id':'higher-availability',
-                    'url':'mayor-disponibilidad',
-                    'text':'Mayor disponibilidad'
-                },                {
+                    'url':'higher-availability',
+                    'text':'Higher availability'
+                },
+				{
                     'id':'lower-availability',
-                    'url':'menor-disponibilidad',
-                    'text':'Menor disponibilidad'
+                    'url':'lower-availability',
+                    'text':'Lower availability'
                 }
             ];
 
@@ -286,13 +252,13 @@ $(document).ready(function(){
                             request_this.search	= url_obj.search;
 
                             var url = utility.stringReplace(url_obj.search,' ','-');
-                            window.location = "#buscar-"+url+"/"+orderBy['url'];
+                            window.location = "#search-"+url+"/"+orderBy['url'];
 
                         }else{
                             window.location = "#"+orderBy['url'];
                         }
 
-                        request_this.order_by   = orderBy['url'];
+                        request_this['order-by']   = orderBy['url'];
 
                         var pathname            = $(location).attr('href');
                         var currentUrl          = $.url(pathname);
@@ -333,22 +299,33 @@ $(document).ready(function(){
                     "success":function(response){
 
                         if(response['expired_session']){
-                            window.location = "/entrar";
+                            window.location = "/login";
                         }
 
-                        if(response['result'] == true || response['result'] == undefined){
-                            if(response['data'].length > 0){
-                                // hay publicaciones
-                                setLastResponseInfo(response);
-                                preparePublications();
-                            }else{
-                                // no hay publicaciones.
-                                $("#no-products").css({"display":"inherit"});
-                            }
-                        }else{
-                            // hay un error en la solicitud.
-                            window.location = "/";
-                        }
+						if(response['status'] === 'success'){
+
+							if(response['data'].length > 0){
+								setLastResponseInfo(response);
+								preparePublications(); // New
+
+								$("#no-products").hide();
+								$("#yes-products").show();
+							}else{
+								if(response['total-products'] > 0){
+									$("#yes-products").hide();
+									$("#no-products").hide();
+									$("#no-products-for-this-search").show();
+								}else{
+									$("#yes-products").hide();
+									$("#no-products-for-this-search").hide();
+									$("#no-products").show();
+								}
+							}
+
+						}else{
+							window.location = "/";
+						}
+
 
                     },
                     "error":function(){
@@ -365,7 +342,7 @@ $(document).ready(function(){
                 // si existe una pagina anterior y si la página anterior no es la 0
                 if(lastResponseInfo['prevPage'] && (lastResponseInfo['page']-1) != 0){
 
-                    var prevPage = $("#prev-page");
+                    var prevPage = $('#prev-page');
 
                     prevPage.attr({"disabled":false}).removeClass('disabled');
                     prevPage.off('click');
@@ -381,25 +358,25 @@ $(document).ready(function(){
                         var url     = '';
                         var new_url = '';
 
-                        if(url_obj.order_by != ""){
-                            if(url_obj.search != ""){
+                        if(url_obj['order-by'] != ''){
+                            if(url_obj.search != ''){
                                 url = utility.stringReplace(url_obj.search,' ','-');
-                                new_url = "#buscar-"+url+"/"+url_obj.order_by+"/pagina-"+prev_page;
+                                new_url = '#search-'+url+'/'+url_obj['order-by']+'/page-'+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#"+url_obj.order_by+"/pagina-"+prev_page;
+                                new_url = '#'+url_obj['order-by']+'/page-'+prev_page;
                             }
                             // ORDER
-                            request_this.order_by = url_obj.order_by;
+                            request_this['order-by'] = url_obj['order-by'];
                         }else{
-                            if(url_obj.search != ""){
+                            if(url_obj.search != ''){
                                 url = utility.stringReplace(url_obj.search,' ','-');
-                                new_url = "#buscar-"+url+"/pagina-"+prev_page;
+                                new_url = "#search-"+url+"/page-"+prev_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#pagina-"+prev_page;
+                                new_url = "#page-"+prev_page;
                             }
                         }
 
@@ -439,25 +416,25 @@ $(document).ready(function(){
                         var url     = '';
                         var new_url = '';
 
-                        if(url_obj.order_by != ""){
-                            if(url_obj.search != ""){
+                        if(url_obj['order-by'] != ''){
+                            if(url_obj.search != ''){
                                 url = utility.stringReplace(url_obj.search,' ','-');
-                                new_url = "#buscar-"+url+"/"+url_obj.order_by+"/pagina-"+next_page;
+                                new_url = "#search-"+url+"/"+url_obj['order-by']+"/page-"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#"+url_obj.order_by+"/pagina-"+next_page;
+                                new_url = "#"+url_obj['order-by']+"/page-"+next_page;
                             }
                             // ORDER
-                            request_this.order_by = url_obj.order_by;
+                            request_this['order-by'] = url_obj['order-by'];
                         }else{
                             if(url_obj.search != ""){
                                 url = utility.stringReplace(url_obj.search,' ','-');
-                                new_url = "#buscar-"+url+"/pagina-"+next_page;
+                                new_url = "#search-"+url+"/page-"+next_page;
                                 //SEARCH
                                 request_this.search = url_obj.search;
                             }else{
-                                new_url = "#pagina-"+next_page;
+                                new_url = "#page-"+next_page;
                             }
                         }
 
@@ -502,43 +479,38 @@ $(document).ready(function(){
                     "success":function(response){
 
                         if(response['expired_session']){
-                            window.location = "/entrar";
+                            window.location = "/login";
                         }
 
-                        if(response['result']){
+						if(response['status'] === 'success'){
 
-                            // se establece la url
-                            var url = utility.stringReplace(response['search'],' ','-');
-                            window.location = "#buscar-"+url;
+							// se establece la url
+							var url = utility.stringReplace(response['search'],' ','-');
+							window.location = "#search-"+url;
+							// is show the search text
+							$("#this-search").text(response['search']);
 
-                            setLastResponseInfo(response);
-                            preparePublications();
+							if(response['data'].length > 0){
+								setLastResponseInfo(response);
+								preparePublications(); // New
 
-                            orderBy();
-                            pagination();
-                            info();
+								$("#no-products").hide();
+								$("#yes-products").show();
+							}else{
+								if(response['total-products'] > 0){
+									$("#yes-products").hide();
+									$("#no-products").hide();
+									$("#no-products-for-this-search").show();
+								}else{
+									$("#yes-products").hide();
+									$("#no-products-for-this-search").hide();
+									$("#no-products").show();
+								}
+							}
 
-                            var searchInfo = $("#search-info");
-
-                            // si hay productos publicados.
-                            if(response['data'].length > 0){
-                                searchInfo.hide();
-
-                                // se muestran las publicaciones
-                                $("#products").show();
-                            }else{
-                                // se muestra el mensaje que indica que no hay publicaciones
-                                searchInfo.text('No hay resultados para: '+response['search']);
-                                searchInfo.show();
-
-                                // se oculta las publicaciones
-                                $("#products").hide();
-                            }
-
-                        }else{
-                            // hay un error en la solicitud.
-                            window.location = "/";
-                        }
+						}else{
+							window.location = "/";
+						}
 
                     },
                     "error":function(){
@@ -575,7 +547,7 @@ $(document).ready(function(){
                 },
                 "messages":{
                     "search":{
-                        "required":"Es preciso definir el campo para proceder con la búsqueda.",
+                        "required":"It is necessary to define the field to proceed with the search.",
                         "maxlength":"There is a limit of 100 characters.",
                         "noSpecialChars":"Not allowed to use special characters."
                     }
@@ -800,40 +772,41 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-                        $('#debug').text(JSON.stringify(response));
 
                         // Si la sesión ha expirado
                         if(response['expired_session']){
-                            window.location = "/entrar";
+                            window.location = "/login";
                         }
 
-                        if(response['result'] == true || response['result'] == undefined){
+						if(response['status'] === 'success'){
 
-                            // No hay productos publicados.
-                            if(response['total_products'] == 0){
-                                $("#no-products").show();
-                                $("#yes-products").hide();
-                            }else{
-                                $("#no-products").hide();
-                                $("#yes-products").show();
-                            }
+							if(response['data'].length > 0){
+								setLastResponseInfo(response);
+								preparePublications(); // New
 
+								$("#no-products").hide();
+								$("#yes-products").show();
+							}else{
+								if(response['total-products'] > 0){
 
-                            if(response['data'].length > 0){
-                                setLastResponseInfo(response);
-                                preparePublications(); // New
-                            }
+									if(response['search'] != undefined){
+										$("#this-search").text(response['search']);
+									}
 
-                            // Al copiar la url "/publicados#buscar-algo" en la barra de navegación, donde "algo" no existe. Y existan productos publicados.
-                            if(response['data'].length == 0 && response['total_products'] > 0){
-                                $("#no-products").show();
-                                $("#yes-products").hide();
-                            }
+									$("#yes-products").hide();
+									$("#no-products").hide();
+									$("#no-products-for-this-search").show();
+								}else{
+									$("#yes-products").hide();
+									$("#no-products-for-this-search").hide();
+									$("#no-products").show();
+								}
+							}
 
-                        }else{
-                            // hay un error en la solicitud.
-                            window.location = "/";
-                        }
+						}else{
+							window.location = "/";
+						}
+
 
                     },
                     "error":function(){
