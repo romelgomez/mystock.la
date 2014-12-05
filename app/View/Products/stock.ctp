@@ -3,6 +3,29 @@
     $data = $this->{'request'}->{'data'};
 ?>
 
+<?php
+
+if($data['User']['banner'] !== NULL){
+	$banner = '/resources/app/img/banners/'.$data['User']['banner'];
+}else{
+	$banner = '/resources/app/img/benjaminFranklin.jpg';
+}
+
+?>
+
+<header id="banner" class="page-header" style="margin-top: 0; background: url('<?php echo $banner; ?>') no-repeat center center scroll; padding: 350px 20px 10px 20px; -webkit-background-size: cover; -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;">
+	<h1>
+		<a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
+		<?php
+		if(isset($userLogged)){
+			echo '- <a id="change-banner" href="#" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;" class="rotate"><i class="fa fa-camera"></i></a>';
+		}
+		?>
+	</h1>
+</header>
+
+
+
 <!-- Content
 ===================== -->
 <div class="container-fluid">
@@ -10,146 +33,106 @@
         <div class="col-xs-12">
             <!-- start content-->
 
-            <div class="row" id="no-products" style="display: none;">
-                <div class="col-xs-12">
-                    <div  class="alert alert-info" role="alert" >
-                        <?php echo ucfirst($data['User']['name']);  ?> - not have products in stock.
-                    </div>
-                </div>
-            </div>
-			<div class="row" id="no-products-for-this-search" style="display: none;">
-                <div class="col-xs-12">
-                    <div  class="alert alert-info" role="alert" >
-                        <?php echo ucfirst($data['User']['name']);  ?> - not have products in stock for this search: (<span id="this-search"></span>). <a href="/stock/<?php echo $data['User']['id']; ?>">Check the other products in their stock</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="yes-products" style="display: none;">
-                <div class="col-xs-12">
-
-                    <div class="row">
-                        <div class="col-xs-12">
-
-                            <?php
-
-                                if($data['User']['banner'] !== NULL){
-                                    $banner = '/resources/app/img/banners/'.$data['User']['banner'];
-                                }else{
-                                    $banner = '/resources/app/img/benjaminFranklin.jpg';
-                                }
-
-                            ?>
-
-                            <h1 id="banner" class="page-header" style="margin-top: 0; background: url('<?php echo $banner; ?>') no-repeat center;padding-top: 300px;padding-left: 20px;f: white;-webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;border: 1px black double;">
-                                <a href="/stock/<?php echo $data['User']['id']; ?>" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;"><?php echo ucfirst($data['User']['name']);  ?> Stock</a>
-                                <?php
-                                    if(isset($userLogged)){
-                                        echo '- <a id="change-banner" href="#" style="text-shadow: 0 0 3px rgba(0,0,0,.8); color: #fff;" class="rotate"><i class="fa fa-camera"></i></a>';
-                                    }
-                                ?>
-                            </h1>
-
-                            <hr style="margin-top: 10px; margin-bottom: 15px;">
-                            <div class="pw-widget pw-counter-vertical">
-                                <a class="pw-button-facebook pw-look-native"></a>
-                                <a class="pw-button-twitter pw-look-native"></a>
-                                <a class="pw-button-googleplus pw-look-native"></a>
-                                <a class="pw-button-pinterest pw-look-native"></a>
-                                <a class="pw-button-linkedin pw-look-native"></a>
-                                <a class="pw-button-tumblr pw-look-native"></a>
-                                <a class="pw-button-reddit pw-look-native"></a>
-                                <a class="pw-button-blogger pw-look-native"></a>
-                                <a class="pw-button-post-share"></a>
-                                <a class="pw-button-email pw-look-native"></a>
-                            </div>
-                            <script src="http://i.po.st/static/v3/post-widget.js#publisherKey=4a68gt2qi4hhevvdnlj5&retina=true" type="text/javascript"></script>
+			<div  id="no-products" style="display: none;" class="alert alert-info" role="alert" >
+				<?php echo ucfirst($data['User']['name']);  ?> - not have products in stock.
+			</div>
 
 
-                            <hr>
-                        </div>
-                    </div>
+			<section id="yes-products" style="display: none;" >
 
+				<div class="panel panel-default" style="border: 1px solid black;">
+					<div class="panel-body" style="border-top-left-radius: 4px; border-top-right-radius: 4px; background: url(/resources/app/img/escheresque_ste.png);">
+						<div class="pw-widget pw-counter-vertical">
+							<a class="pw-button-facebook pw-look-native"></a>
+							<a class="pw-button-twitter pw-look-native"></a>
+							<a class="pw-button-googleplus pw-look-native"></a>
+							<a class="pw-button-pinterest pw-look-native"></a>
+							<a class="pw-button-linkedin pw-look-native"></a>
+							<a class="pw-button-tumblr pw-look-native"></a>
+							<a class="pw-button-reddit pw-look-native"></a>
+							<a class="pw-button-blogger pw-look-native"></a>
+							<a class="pw-button-email pw-look-native"></a>
+						</div>
+						<script src="http://i.po.st/static/v3/post-widget.js#publisherKey=4a68gt2qi4hhevvdnlj5&retina=true" type="text/javascript"></script>
+					</div>
+					<div class="panel-footer" style="background: url(/resources/app/img/escheresque.png);border-top: 1px solid gold;">
+						<div class="row">
+							<div class="col-md-4">
+								<!-- búsqueda. -->
+								<form role="form" id="SearchPublicationsForm">
+									<div class="form-group" style="margin-bottom: 0;">
+										<div class="input-group">
+											<input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="submit">Search</button>
+									</span>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<div id="info" class="pull-right">
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <!-- búsqueda. -->
-                            <form role="form" id="SearchPublicationsForm">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">Search</button>
-                                </span>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                            <div class="pull-right">
+									<!-- Información.
+                                   -------------------------------------------------------------------------------------->
+									<div id="pagination-info" style="overflow: hidden; float: left; margin-right: 10px; line-height: 30px; ">
+										<span></span>
+									</div>
 
-                                <!-- Información.
-                               -------------------------------------------------------------------------------------->
-                                <div id="pagination-info" style="overflow: hidden; float: left; margin-right: 10px; line-height: 30px; ">
-                                    <span></span>
-                                </div>
+									<!-- Paginación.
+                                    -------------------------------------------------------------------------------------->
+									<div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
+										<div style="float: left; margin-right: 10px; ">
+											<div class="btn-group" >
+												<button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
+												<button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
+											</div>
+										</div>
+									</div>
 
-                                <!-- Paginación.
-                                -------------------------------------------------------------------------------------->
-                                <div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
-                                    <div style=" float: left; margin-right: 10px; ">
-                                        <div class="btn-group" >
-                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
-                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
-                                        </div>
-                                    </div>
-                                </div>
+									<!-- Ordenar por
+                                    ---------------------------------------------------------------------------------------->
+									<div id="order-by" style="display:none; float: left; margin-right: 10px; ">
+										<div class="btn-group">
+											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+												Sort by:  <span id="order-by-text">Latest</span> <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu dropdown-menu-right" role="menu">
+												<li><a id="latest" href="#"><span class="glyphicon glyphicon-time"></span> Latest</a></li>
+												<li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Oldest</a></li>
 
-                                <!-- Ordenar por
-                                ---------------------------------------------------------------------------------------->
-                                <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                            Sort by:  <span id="order-by-text">Recent</span> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a id="latest" href="#"><span class="glyphicon glyphicon-time"></span> Latest</a></li>
-                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Oldest</a></li>
+												<li class="divider"></li>
 
-                                            <li class="divider"></li>
+												<li><a id="highest-price" href="#"><span class="glyphicon glyphicon-tags"></span> Highest price</a></li>
+												<li><a id="lowest-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
 
-                                            <li><a id="highest-price" href="#"><span class="glyphicon glyphicon-tags"></span> Highest price</a></li>
-                                            <li><a id="lowest-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
+												<li class="divider"></li>
 
-                                            <li class="divider"></li>
+												<li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Higher availability</a></li>
+												<li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
+											</ul>
+										</div>
+									</div>
 
-                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Higher availability</a></li>
-                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <hr>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Stock</h3>
-                        </div>
-                        <div id="products" class="panel-body row"></div>
-                    </div>
-
-<!--                    <div id="products" style="overflow: hidden;" ></div>-->
-
-                </div>
-            </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 
+
+
+
+				<div  id="no-products-for-this-search" style="display: none;" class="alert alert-info" role="alert" >
+					<?php echo ucfirst($data['User']['name']);  ?> - not have products in stock for this search: (<span id="no-products-for-this-search-text"></span>). <a href="/stock/<?php echo $data['User']['id']; ?>">Check the other products in their stock</a>
+				</div>
+
+				<div id="products" class="row"></div>
+
+			</section>
 
 
 
@@ -158,7 +141,7 @@
     </div>
 </div>
 
-    <!-- seller banners if exist-->
+    <!-- seller banners if exist - show json object -->
     <div id="banners" style="display: none"><!--<?php
         if(isset($banners)){
             echo json_encode($banners);

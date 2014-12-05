@@ -59,6 +59,9 @@ hr {
 	box-shadow: none;
 }
 
+.pw-button-post-share.pw-size-small .pw-button-counter-top__count, .button-type-looknative.pw-size-small .pw-button-counter-top__count, .button-type-looknative.pw-size-medium .pw-button-counter-top__count, .button-type-looknative.pw-size-large .pw-button-counter-top__count{
+	background: url(/resources/app/img/white_brick_wall.png);
+}
 
 .caption {
 	overflow: hidden;

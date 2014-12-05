@@ -20,24 +20,27 @@ $(document).ready(function(){
             lastResponseInfo['data']        = response['data'];
         };
 
-        //Private Method
+		/*
+		 @Name              -> parseUrl
+		 @visibility        -> Private
+		 @Type              -> Method
+		 @Description       -> esta function solo debe tomar los datos de la url, prodesarlos y solicitar los datos nada mas
+		 @parameters        -> NULL
+		 @returns           -> Object
+		 @implemented by    -> products.get(), orderBy()
+		 */
         var parseUrl = function () {
-            /*
-             * Type: function
-             * Descripción: destinada a procesar la url
-             * retorna un objeto.
-             *******************************************/
 
-            // Posibles urls
-            // /stock/3
-            // /publicados#pagina-1
-            // /publicados#mayor-precio/pagina-1
-            // /publicados#buscar-las_mejores/mayor-precio/pagina-1
+            // examples urls
+            // /stock/maria
+            // /published#page-1
+            // /published#mayor-precio/pagina-1
+            // /published#search-las-mejores/mayor-precio/pagina-1
 
-            var pathname = $(location).attr('href');
-            var url = $.url(pathname);
-            var segments = url.attr('fragment');
-            var userId   =  url.segment(2);
+            var pathname 	= $(location).attr('href');
+            var url 		= $.url(pathname);
+            var segments	= url.attr('fragment');
+            var userId   	= url.segment(2);
 
             var url_obj         	= {};
             url_obj.search      	= '';
@@ -133,12 +136,14 @@ $(document).ready(function(){
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
+			var thumbnailBackgroundUrl = '/resources/app/img/escheresque_ste.png';
+
 			return '<div class="col-md-4">'+
-				'<div class="thumbnail">'+
+				'<div class="thumbnail" style="background: url('+thumbnailBackgroundUrl+'); color: #ffffff; border: 1px solid black;" >'+
 					'<a href="'+link+'"><img src="'+image+'" alt="..."></a>'+
-					'<div class="caption">'+
-						'<h3><a href="'+link+'">'+title+'</a></h3>'+
-						'<h4>Price: $'+price+'</h4>'+
+					'<div class="caption" style="border-top: 1px solid gold;">'+
+						'<h3><a href="'+link+'" style="color: white;" >'+title+'</a></h3>'+
+						'<h4 style="color: gold;">Price: $'+price+'</h4>'+
 					'</div>'+
 				'</div>'+
 			'</div>';
@@ -174,16 +179,16 @@ $(document).ready(function(){
 								setLastResponseInfo(response);
 								preparePublications(); // New
 
+								$("#no-products-for-this-search").hide();
 								$("#no-products").hide();
 								$("#yes-products").show();
 							}else{
 								if(response['total-products'] > 0){
-									$("#yes-products").hide();
 									$("#no-products").hide();
+									$("#yes-products").show();
 									$("#no-products-for-this-search").show();
 								}else{
 									$("#yes-products").hide();
-									$("#no-products-for-this-search").hide();
 									$("#no-products").show();
 								}
 							}
@@ -308,16 +313,16 @@ $(document).ready(function(){
 								setLastResponseInfo(response);
 								preparePublications(); // New
 
+								$("#no-products-for-this-search").hide();
 								$("#no-products").hide();
 								$("#yes-products").show();
 							}else{
 								if(response['total-products'] > 0){
-									$("#yes-products").hide();
 									$("#no-products").hide();
+									$("#yes-products").show();
 									$("#no-products-for-this-search").show();
 								}else{
 									$("#yes-products").hide();
-									$("#no-products-for-this-search").hide();
 									$("#no-products").show();
 								}
 							}
@@ -477,6 +482,8 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
+						console.log('search',response);
+
 
                         if(response['expired_session']){
                             window.location = "/login";
@@ -484,26 +491,41 @@ $(document).ready(function(){
 
 						if(response['status'] === 'success'){
 
-							// se establece la url
-							var url = utility.stringReplace(response['search'],' ','-');
-							window.location = "#search-"+url;
-							// is show the search text
-							$("#this-search").text(response['search']);
+
+							if(response['search'] != undefined){
+								// se establece la url
+								var url = utility.stringReplace(response['search'],' ','-');
+								window.location = "#search-"+url;
+								// is show the search text
+								$("#search").text(response['search']);
+							}
 
 							if(response['data'].length > 0){
+								console.log('stage 1');
+								var orderBy = $('#order-by-text');
+								orderBy.text('Latest');
+
 								setLastResponseInfo(response);
 								preparePublications(); // New
 
+								$("#no-products-for-this-search").hide();
 								$("#no-products").hide();
+								$("#products").show();
+								$("#info").show();
 								$("#yes-products").show();
 							}else{
+								console.log('stage 2');
+
 								if(response['total-products'] > 0){
-									$("#yes-products").hide();
+									$("#no-products-for-this-search-text").text(response['search']);
+
 									$("#no-products").hide();
+									$("#products").hide();
+									$("#info").hide();
+									$("#yes-products").show();
 									$("#no-products-for-this-search").show();
 								}else{
 									$("#yes-products").hide();
-									$("#no-products-for-this-search").hide();
 									$("#no-products").show();
 								}
 							}
@@ -511,6 +533,7 @@ $(document).ready(function(){
 						}else{
 							window.location = "/";
 						}
+
 
                     },
                     "error":function(){
@@ -530,9 +553,9 @@ $(document).ready(function(){
                     var search_string       = $("#search").val();
                     request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
 
-                    var pathname            = $(location).attr('href');
-                    var currentUrl          = $.url(pathname);
-                    request_this.user_id    =  currentUrl.segment(2);
+                    var href            	= $(location).attr('href');
+                    var currentUrl          = $.url(href);
+                    request_this['user_id'] = currentUrl.segment(2);
 
                     request_parameters.data =    request_this;
                     ajax.request(request_parameters);
@@ -772,33 +795,47 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
+						console.log('get',response);
 
-                        // Si la sesión ha expirado
+
+						// Si la sesión ha expirado
                         if(response['expired_session']){
                             window.location = "/login";
                         }
 
 						if(response['status'] === 'success'){
 
+							if(response['search'] != undefined){
+								$("#search").val(response['search']);
+							}
+
 							if(response['data'].length > 0){
+								console.log('stage 1');
+
 								setLastResponseInfo(response);
 								preparePublications(); // New
 
+								$("#no-products-for-this-search").hide();
 								$("#no-products").hide();
+								$("#products").show();
+								$("#info").show();
 								$("#yes-products").show();
 							}else{
+								console.log('stage 2');
+
 								if(response['total-products'] > 0){
 
 									if(response['search'] != undefined){
-										$("#this-search").text(response['search']);
+										$("#no-products-for-this-search-text").text(response['search']);
 									}
 
-									$("#yes-products").hide();
 									$("#no-products").hide();
+									$("#products").hide();
+									$("#info").hide();
+									$("#yes-products").show();
 									$("#no-products-for-this-search").show();
 								}else{
 									$("#yes-products").hide();
-									$("#no-products-for-this-search").hide();
 									$("#no-products").show();
 								}
 							}

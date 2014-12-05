@@ -159,7 +159,7 @@
 </script>
 
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background: url(/resources/app/img/escheresque_ste.png);" >
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -197,14 +197,15 @@
             </div><!--/.nav-collapse -->
     </div>
 
-    <div class="main-container">
-        <?php echo $this->fetch('content'); ?>
-    </div>
+<!--    <div class="main-container">-->
+<!--    </div>-->
+<?php echo $this->fetch('content'); ?>
+
 
 
 
     <!-- footer -->
-    <div class="footer" style="background: #222;">
+    <div class="footer" style="background: #222; background: url(/resources/app/img/escheresque_ste.png);">
         <div style="text-align: center; margin-top: 20px; color: #ffffff;">
             Copyright &copy;2014 MyStock.LA - All rights reserved.
 			<a href="/terms-of-service" target="_blank">Terms of Service</a> &

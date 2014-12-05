@@ -153,12 +153,12 @@ $(document).ready(function(){
 
 
             // se arma una publicación
-            return  '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px;" >'+
+            return  '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px; color:white; background-color: #222; background: url(/resources/app/img/escheresque_ste.png); " >'+
                         '<a class="pull-left" href="'+link+'">'+
                             '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
-                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid #B6B6B6; padding-bottom: 9px;" ><a href="'+link+'" >'+title+'</a></h4>'+
+                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid gold; padding-bottom: 9px;" ><a href="'+link+'" style="color: #FFFFFF;" >'+title+'</a></h4>'+
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+

@@ -29,7 +29,7 @@ $(document).ready(function(){
     /*
      @Name              -> ajax
      @Type              -> NameSpace
-     @Descripción       -> NameSpace for ajax requests methods
+     @Description       -> NameSpace for ajax requests methods
      */
     (function( ajax, $, undefined ) {
 
@@ -37,7 +37,7 @@ $(document).ready(function(){
          @Name              -> getFormData
          @visibility        -> Private
          @Type              -> Method
-         @Descripción       -> Get values of form inputs.
+         @Description       -> Get values of form inputs.
          @parameters        -> parameters: Array of objects, each object have two pairs, id: Id of input, name: Name of input;
          @returns           -> Object
          @implemented by    -> ajax.request()
@@ -66,7 +66,7 @@ $(document).ready(function(){
          @Name              -> request
          @visibility        -> Private
          @Type              -> Method
-         @Descripción       -> make ajax request.
+         @Description       -> make ajax request.
          @parameters        -> parameters: JSON object with several directives.
          @returns           -> null
          */
@@ -99,7 +99,7 @@ $(document).ready(function(){
          @Name              -> notification
          @visibility        -> Public
          @Type              -> Method
-         @Descripción       -> notifies the status of ajax request.
+         @Description       -> notifies the status of ajax request.
          */
         ajax.notification = function(event,notification,options){
 
@@ -178,7 +178,7 @@ $(document).ready(function(){
          @Name              -> request
          @visibility        -> Public
          @Type              -> Method
-         @Descripción       -> define what type request is.
+         @Description       -> define what type request is.
          @parameters        -> parameters: JSON object; .requestType is one string, can be 'form' or 'custom', form means is need one more step before make ajax request, which is get values of form inputs; custom means it ready to make ajax request.
          @returns           -> null
          */
@@ -199,7 +199,7 @@ $(document).ready(function(){
     /*
      @Name              -> validate
      @Type              -> NameSpace
-     @Descripción       -> NameSpace for form validation methods, more info about this check this web site: http://jqueryvalidation.org/
+     @Description       -> NameSpace for form validation methods, more info about this check this web site: http://jqueryvalidation.org/
      */
     (function( validate, $) {
 
@@ -221,7 +221,7 @@ $(document).ready(function(){
          @Name              -> validationStates
          @visibility        -> Private
          @Type              -> Property
-         @Descripción       -> validation States class in bootstrap
+         @Description       -> validation States class in bootstrap
          */
         var validationStates = ['has-success','has-warning','has-error'];
 
@@ -229,7 +229,7 @@ $(document).ready(function(){
          @Name              -> inlineForm
          @visibility        -> Public
          @Type              -> Method
-         @Descripción       -> Using when is about inline form and it no show any error message.
+         @Description       -> Using when is about inline form and it no show any error message.
          @parameters        -> formId: string, id of form; options: json object, several directives.
          @returns           -> null
          */
@@ -265,7 +265,7 @@ $(document).ready(function(){
          @Name              -> form
          @visibility        -> Public
          @Type              -> Method
-         @Descripción       -> Using when is about regular form and it show error message.
+         @Description       -> Using when is about regular form and it show error message.
          @parameters        -> formId: string, id of form; options: json object, several directives.
          @returns           -> null
          */
@@ -309,7 +309,7 @@ $(document).ready(function(){
          @Name              -> removeValidationStates
          @visibility        -> Public
          @Type              -> Method
-         @Descripción       -> (EN) Using for renew form; (ES) Renueva el formulario y remueve los estados de validación
+         @Description       -> (EN) Using for renew form; (ES) Renueva el formulario y remueve los estados de validación
          @parameters        -> formId: string, id of form.
          @returns           -> null
          */
