@@ -13,6 +13,15 @@ hr {
 	border-top: 1px solid #959595;
 }
 
+a{
+    color:#ffffff;
+}
+
+a:hover{
+   color: #2a6496;
+   text-decoration: none;
+}
+
 .page-header {
 	border-bottom: 1px solid #959595;
 }

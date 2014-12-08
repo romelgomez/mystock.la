@@ -94,14 +94,14 @@
 
 <?php //debug($this->request);  ?>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 18px;">
     <div class="row">
         <div class="col-xs-12">
 
 
             <section id="add-product">
-                <div  class="panel panel-primary">
-                    <div class="panel-heading">
+                <div  class="panel panel-primary" style="border: 1px solid black;">
+                    <div class="panel-heading" style="background: url(/resources/app/img/escheresque_ste.png); border-bottom: 1px solid gold;">
                         <h3 class="panel-title">New publication</h3>
                     </div>
                     <div class="panel-body">

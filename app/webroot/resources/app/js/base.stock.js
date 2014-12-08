@@ -732,7 +732,7 @@ $(document).ready(function(){
 
 				preparePublications(); // New
 
-				$("#no-products-for-this-search").hide();
+				$("#search-info").hide();
 				$("#no-products").hide();
 				$("#products").show();
 				$("#info").show();
@@ -743,14 +743,14 @@ $(document).ready(function(){
 				if(lastResponseData['total-products'] > 0){
 
 					if(lastResponseData['search'] != undefined){
-						$("#no-products-for-this-search-text").text(lastResponseData['search']);
+						$("#search-info-text").text(lastResponseData['search']);
 					}
 
 					$("#no-products").hide();
 					$("#products").hide();
 					$("#info").hide();
 					$("#yes-products").show();
-					$("#no-products-for-this-search").show();
+					$("#search-info").show();
 				}else{
 					$("#yes-products").hide();
 					$("#no-products").show();
@@ -789,49 +789,6 @@ $(document).ready(function(){
 						}else{
 							window.location = "/";
 						}
-
-
-						//if(response['status'] === 'success'){
-                        //
-						//	if(response['search'] != undefined){
-						//		$("#search").val(response['search']);
-						//	}
-                        //
-						//	if(response['data'].length > 0){
-						//		console.log('stage 1');
-                        //
-						//		setLastResponseInfo(response);
-						//		preparePublications(); // New
-                        //
-						//		$("#no-products-for-this-search").hide();
-						//		$("#no-products").hide();
-						//		$("#products").show();
-						//		$("#info").show();
-						//		$("#yes-products").show();
-						//	}else{
-						//		console.log('stage 2');
-                        //
-						//		if(response['total-products'] > 0){
-                        //
-						//			if(response['search'] != undefined){
-						//				$("#no-products-for-this-search-text").text(response['search']);
-						//			}
-                        //
-						//			$("#no-products").hide();
-						//			$("#products").hide();
-						//			$("#info").hide();
-						//			$("#yes-products").show();
-						//			$("#no-products-for-this-search").show();
-						//		}else{
-						//			$("#yes-products").hide();
-						//			$("#no-products").show();
-						//		}
-						//	}
-                        //
-						//}else{
-						//	window.location = "/";
-						//}
-
 
                     },
                     "error":function(){

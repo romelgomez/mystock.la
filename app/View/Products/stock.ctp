@@ -126,8 +126,8 @@ if($data['User']['banner'] !== NULL){
 
 
 
-				<div  id="no-products-for-this-search" style="display: none;" class="alert alert-info" role="alert" >
-					<?php echo ucfirst($data['User']['name']);  ?> - not have products in stock for this search: (<span id="no-products-for-this-search-text"></span>). <a href="/stock/<?php echo $data['User']['id']; ?>">Check the other products in their stock</a>
+				<div  id="search-info" style="display: none;" class="alert alert-info" role="alert" >
+					<?php echo ucfirst($data['User']['name']);  ?> - not have products in stock for this search: (<span id="search-info-text"></span>). <a href="/stock/<?php echo $data['User']['id']; ?>">Check the other products in their stock</a>
 				</div>
 
 				<div id="products" class="row"></div>
