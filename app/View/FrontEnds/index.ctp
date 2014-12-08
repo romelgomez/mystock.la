@@ -12,9 +12,6 @@
 
 			<p class="lead">Free Unlimited Publications.</p>
 
-			<blockquote>
-				<p>Only we will take one small fee if the buyer use PayPal™ payment gateway. But you can define or implement any payment option that you know, we no take fees at all for that.</p>
-			</blockquote>
 			<hr>
 
 			<p class="text-center"><a href="/publish" type="button" class="btn btn-primary" style="font-size: 15px;">Start publishing today!</a></p>
