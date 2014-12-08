@@ -519,6 +519,8 @@
 						'Product.created' => 'desc'
 				);
 
+				$orderBy = 'latest';
+
 			}else{
 
 				switch ($request['order-by']) {
@@ -526,36 +528,43 @@
 						$order = array(
 								'Product.price' => 'desc'
 						);
+						$orderBy = 'highest-price';
 						break;
 					case 'lowest-price':
 						$order = array(
 								'Product.price' => 'asc'
 						);
+						$orderBy = 'lowest-price';
 						break;
 					case 'latest':
 						$order = array(
 								'Product.created' => 'desc'
 						);
+						$orderBy = 'latest';
 						break;
 					case 'oldest':
 						$order = array(
 								'Product.created' => 'asc'
 						);
+						$orderBy = 'oldest';
 						break;
 					case 'higher-availability':
 						$order = array(
 								'Product.quantity' => 'desc'
 						);
+						$orderBy = 'higher-availability';
 						break;
 					case 'lower-availability':
 						$order = array(
 								'Product.quantity' => 'asc'
 						);
+						$orderBy = 'lower-availability';
 						break;
 					default:
 						$order = array(
 								'Product.created' => 'desc'
 						);
+						$orderBy = 'latest';
 				}
 
 			}
@@ -567,16 +576,30 @@
 							)
 					),
 					'order' => $order,
-					'limit' => 10,
+					'limit' => 12,
 					'page'	=>$page
 			);
 
 			try {
-				$return['status'] = 'success';
-				$return['data'] 			= $this->{'paginate'}('Product');
-				$return['info'] 			= $this->{'request'}->params['paging']['Product'];
-				$return['total-products'] 	= $totalProducts;
-				$return['search'] 			= $search;
+				$return['status'] 								= 'success';
+				$return['data']['total-products'] 				= $totalProducts;
+				$return['data']['order-by'] 					= $orderBy;
+				$return['data']['search'] 						= $search;
+				$return['data']['products'] 					= $this->{'paginate'}('Product');
+				$return['data']['paging-info']['count'] 		= $this->{'request'}->params['paging']['Product']['count'];
+				$return['data']['paging-info']['current'] 		= $this->{'request'}->params['paging']['Product']['current'];
+				$return['data']['paging-info']['page'] 			= $this->{'request'}->params['paging']['Product']['page'];
+				$return['data']['paging-info']['pageCount'] 	= $this->{'request'}->params['paging']['Product']['pageCount'];
+				$return['data']['paging-info']['prevPage'] 		= $this->{'request'}->params['paging']['Product']['prevPage'];
+				$return['data']['paging-info']['nextPage'] 		= $this->{'request'}->params['paging']['Product']['nextPage'];
+
+
+
+//				$return['status'] = 'success';
+//				$return['data'] 			= $this->{'paginate'}('Product');
+//				$return['info'] 			= $this->{'request'}->params['paging']['Product'];
+//				$return['total-products'] 	= $totalProducts;
+//				$return['search'] 			= $search;
 			}catch(Exception $e){
 				$return['status'] = 'error';
 				$return['message'] = 'unknown-exception';

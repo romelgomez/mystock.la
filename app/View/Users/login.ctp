@@ -1,47 +1,37 @@
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 20px;">
     <div class="row">
-        <div class="col-xs-12">
+		<div class="col-xs-6 col-md-4">
 
-            <div class="row">
-                <div class="col-xs-6 col-md-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h2 class="panel-title">Enter your email and password to continue</h2>
+				</div>
+				<div class="panel-body">
+					<form role="form" id="login-form">
+						<div class="message"></div>
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h2 class="panel-title">Enter your email and password to continue</h2>
-                        </div>
-                        <div class="panel-body">
-                            <form role="form" id="login-form">
-								<div class="message"></div>
+						<div class="form-group">
+							<label for="login-email"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
+							<input id="login-email" name="login-email" value="" class="form-control" type="email" maxlength="128" tabindex="1" autocorrect="off" autocapitalize="off">
+							<span class="help-block" style="display: none;"></span>
+						</div>
+						<div class="form-group">
+							<label for="login-password"><i class="fa fa-key fa-fw"></i> Password</label>
+							<input type="password" class="form-control" id="login-password" name="login-password" tabindex="2">
+							<span class="help-block" style="display: none;"></span>
+						</div>
+						<button type="submit" class="btn btn-primary" tabindex="3">Enter</button>
+					</form>
+				</div>
+				<div class="panel-footer">
+					<button id="new-user" type="button" class="btn btn-link">New User?</button>
+					<button id="recover" type="button" class="btn btn-link">Forgot your password?</button>
+				</div>
+			</div>
 
-								<div class="form-group">
-                                    <label for="login-email"><i class="fa fa-envelope-o fa-fw"></i> Email address</label>
-                                    <input id="login-email" name="login-email" value="" class="form-control" type="email" maxlength="128" tabindex="1" autocorrect="off" autocapitalize="off">
-                                    <span class="help-block" style="display: none;"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="login-password"><i class="fa fa-key fa-fw"></i> Password</label>
-                                    <input type="password" class="form-control" id="login-password" name="login-password" tabindex="2">
-                                    <span class="help-block" style="display: none;"></span>
-                                </div>
-                                <button type="submit" class="btn btn-primary" tabindex="3">Enter</button>
-                            </form>
-                        </div>
-                        <div class="panel-footer">
-                            <button id="new-user" type="button" class="btn btn-link">New User?</button>
-							<button id="recover" type="button" class="btn btn-link">Forgot your password?</button>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-8">
-
-                </div>
-            </div>
-
-
-
-        </div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+		</div>
     </div>
 </div>
 

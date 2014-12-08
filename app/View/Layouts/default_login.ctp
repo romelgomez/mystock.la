@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: url(/resources/app/img/bg-city.jpg) no-repeat center center fixed; -webkit-background-size: cover;   -moz-background-size: cover;   -o-background-size: cover;   background-size: cover;">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,7 +58,7 @@
 
 			echo '<meta name="twitter:card" content="summary_large_image" />';
 			echo '<meta name="twitter:site" content="@mystockla" />';
-			echo '<meta name="twitter:title" content="'.$data['Product']['title'].'" />';
+			echo '<meta name="twitter:title" content="'.ucfirst($data['Product']['title']).'" />';
 			echo '<meta name="twitter:description" content="'.$description.'">';
 			echo '<meta name="twitter:image:src" content="http://www.mystock.la/resources/app/img/products/'.$data['Image'][0]['facebook'].'" />';
 			echo '<meta name="twitter:url" content="http://www.mystock.la/stock/'.$data['Product']['user_id'].'" />';
@@ -85,7 +85,7 @@
 
 			echo '<meta name="twitter:card" content="summary_large_image" />';
 			echo '<meta name="twitter:site" content="@mystockla" />';
-			echo '<meta name="twitter:title" content="'.$data['User']['name'].' Stock" />';
+			echo '<meta name="twitter:title" content="'.ucfirst($data['User']['name']).' Stock" />';
 			echo '<meta name="twitter:description" content="Visita el stock de producto y/o servicios que tengo para ti">';
 			echo '<meta name="twitter:image:src" content="http://www.mystock.la/'.$banner.'" />';
 			echo '<meta name="twitter:url" content="http://www.mystock.la/stock/'.$data['User']['id'].'" />';
@@ -98,8 +98,7 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
-	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
 
 	<?php
 	$css = array();
@@ -139,7 +138,7 @@
 	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body>
+<body style="background: none;">
 <div id="fb-root"></div>
 <script>
 	window.fbAsyncInit = function() {
@@ -160,7 +159,7 @@
 </script>
 
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background: url(/resources/app/img/escheresque_ste.png); border-bottom: 1px solid black;">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background: url(/resources/app/img/escheresque_ste.png); border-bottom: 1px solid black;" >
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
@@ -198,9 +197,10 @@
 	</div><!--/.nav-collapse -->
 </div>
 
-<div class="main-container">
-	<?php echo $this->fetch('content'); ?>
-</div>
+<!--    <div class="main-container">-->
+<!--    </div>-->
+<?php echo $this->fetch('content'); ?>
+
 
 
 
@@ -209,7 +209,7 @@
 	<div style="text-align: center; margin-top: 20px; color: #ffffff;">
 		Copyright &copy;2014 MyStock.LA - All rights reserved.
 		<a href="/terms-of-service" target="_blank">Terms of Service</a> &
-		<a href="/privacy-policy" target="_blank">Privacy Policy</a>.
+		<a href="/privacy-policy" target="_blank">Privacy Policy</a>
 	</div>
 </div>
 

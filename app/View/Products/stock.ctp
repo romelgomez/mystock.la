@@ -8,7 +8,7 @@
 if($data['User']['banner'] !== NULL){
 	$banner = '/resources/app/img/banners/'.$data['User']['banner'];
 }else{
-	$banner = '/resources/app/img/benjaminFranklin.jpg';
+	$banner = '/resources/app/img/los-angeles.jpg';
 }
 
 ?>

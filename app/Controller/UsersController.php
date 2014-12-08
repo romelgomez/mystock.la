@@ -46,7 +46,8 @@ class UsersController extends AppController{
 			$this->{'redirect'}('/');
 		}
 		$this->response->disableCache();
-    }
+		$this->layout = 'default_login';
+	}
 
 	/*
 	 @Name              -> logout

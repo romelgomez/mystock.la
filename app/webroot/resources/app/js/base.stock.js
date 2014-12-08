@@ -6,19 +6,7 @@ $(document).ready(function(){
     (function( products, $, undefined) {
 
         //Private Property
-        var lastResponseInfo = {};
-
-        //Private Method
-        // set many properties that will be used for many private methods
-        var setLastResponseInfo = function(response){
-            lastResponseInfo['page']        = response['info']['page'];
-            lastResponseInfo['current']     = parseInt(response['info']['current']);
-            lastResponseInfo['count']       = parseInt(response['info']['count']);   // Cantidad de publicaciones o registros
-            lastResponseInfo['prevPage']    = response['info']['prevPage'];
-            lastResponseInfo['nextPage']    = response['info']['nextPage'];
-            lastResponseInfo['pageCount']   = response['info']['pageCount'];
-            lastResponseInfo['data']        = response['data'];
-        };
+        var lastResponseData = {};
 
 		/*
 		 @Name              -> parseUrl
@@ -30,12 +18,6 @@ $(document).ready(function(){
 		 @implemented by    -> products.get(), orderBy()
 		 */
         var parseUrl = function () {
-
-            // examples urls
-            // /stock/maria
-            // /published#page-1
-            // /published#mayor-precio/pagina-1
-            // /published#search-las-mejores/mayor-precio/pagina-1
 
             var pathname 	= $(location).attr('href');
             var url 		= $.url(pathname);
@@ -73,31 +55,24 @@ $(document).ready(function(){
                             url_obj.page = parseInt(utility.stringReplace(parameter,'page-',''));
                         }
 
-                        var orderBy = $('#order-by-text');
 
                         if(parameter == 'highest-price'){
                             url_obj['order-by'] = "highest-price";
-                            orderBy.text('Highest price');
                         }
                         if(parameter == 'lowest-price'){
                             url_obj['order-by'] = "lowest-price";
-                            orderBy.text('Lowest price');
                         }
                         if(parameter == 'latest'){
                             url_obj['order-by'] = "latest";
-                            orderBy.text('Latest');
                         }
                         if(parameter == 'oldest'){
                             url_obj['order-by'] = 'oldest';
-                            orderBy.text('Oldest');
                         }
                         if(parameter == 'higher-availability'){
                             url_obj['order-by'] = 'higher-availability';
-                            orderBy.text('Higher availability');
                         }
                         if(parameter == 'lower-availability'){
                             url_obj['order-by'] = 'lower-availability';
-                            orderBy.text('Lower availability');
                         }
 
 
@@ -107,6 +82,36 @@ $(document).ready(function(){
 
             return url_obj;
         };
+
+		var currentOrder = function(order){
+
+			var orderBy = $('#order-by-text');
+
+			switch (order) {
+				case 'highest-price':
+					orderBy.text('Highest price');
+					break;
+				case 'lowest-price':
+					orderBy.text('Lowest price');
+					break;
+				case 'latest':
+					orderBy.text('Latest');
+					break;
+				case 'oldest':
+					orderBy.text('Oldest');
+					break;
+				case 'higher-availability':
+					orderBy.text('Higher availability');
+					break;
+				case 'lower-availability':
+					orderBy.text('Lower availability');
+					break;
+				default:
+					orderBy.text('Latest');
+			}
+
+		};
+
 
         // Private Method
         // give html format to the publication
@@ -174,25 +179,8 @@ $(document).ready(function(){
                         }
 
 						if(response['status'] === 'success'){
-
-							if(response['data'].length > 0){
-								setLastResponseInfo(response);
-								preparePublications(); // New
-
-								$("#no-products-for-this-search").hide();
-								$("#no-products").hide();
-								$("#yes-products").show();
-							}else{
-								if(response['total-products'] > 0){
-									$("#no-products").hide();
-									$("#yes-products").show();
-									$("#no-products-for-this-search").show();
-								}else{
-									$("#yes-products").hide();
-									$("#no-products").show();
-								}
-							}
-
+							lastResponseData = response['data'];
+							process();
 						}else{
 							window.location = "/";
 						}
@@ -236,7 +224,7 @@ $(document).ready(function(){
                 }
             ];
 
-            if(lastResponseInfo['count'] > 1){
+            if(lastResponseData['paging-info']['count'] > 1){
 
                 $.each(orderBy,function(index,orderBy){
 
@@ -308,29 +296,11 @@ $(document).ready(function(){
                         }
 
 						if(response['status'] === 'success'){
-
-							if(response['data'].length > 0){
-								setLastResponseInfo(response);
-								preparePublications(); // New
-
-								$("#no-products-for-this-search").hide();
-								$("#no-products").hide();
-								$("#yes-products").show();
-							}else{
-								if(response['total-products'] > 0){
-									$("#no-products").hide();
-									$("#yes-products").show();
-									$("#no-products-for-this-search").show();
-								}else{
-									$("#yes-products").hide();
-									$("#no-products").show();
-								}
-							}
-
+							lastResponseData = response['data'];
+							process();
 						}else{
 							window.location = "/";
 						}
-
 
                     },
                     "error":function(){
@@ -342,10 +312,10 @@ $(document).ready(function(){
                 }
             };
 
-            if(lastResponseInfo['pageCount'] > 1){
+            if(lastResponseData['paging-info']['pageCount'] > 1){
 
                 // si existe una pagina anterior y si la página anterior no es la 0
-                if(lastResponseInfo['prevPage'] && (lastResponseInfo['page']-1) != 0){
+                if(lastResponseData['paging-info']['prevPage'] && (lastResponseData['paging-info']['page']-1) != 0){
 
                     var prevPage = $('#prev-page');
 
@@ -354,7 +324,7 @@ $(document).ready(function(){
                     prevPage.on('click', function(){
 
                         var url_obj         =  parseUrl();
-                        var prev_page       = lastResponseInfo['page']-1; // también puede tomar el valor de: url_obj.page
+                        var prev_page       = lastResponseData['paging-info']['page']-1; // también puede tomar el valor de: url_obj.page
                         var request_this    = {};
 
                         // PAGE
@@ -402,7 +372,7 @@ $(document).ready(function(){
                 }
 
                 // si existe una siguiente pagina
-                if(lastResponseInfo['nextPage']){
+                if(lastResponseData['paging-info']['nextPage']){
 
                     var nextPage = $("#next-page");
 
@@ -412,7 +382,7 @@ $(document).ready(function(){
 
                         var url_obj =  parseUrl();
 
-                        var next_page = lastResponseInfo['page']+1; // también puede tomar el valor de: url_obj.page
+                        var next_page = lastResponseData['paging-info']['page']+1; // también puede tomar el valor de: url_obj.page
                         var request_this = {};
 
                         // PAGE
@@ -490,50 +460,18 @@ $(document).ready(function(){
                         }
 
 						if(response['status'] === 'success'){
+							lastResponseData = response['data'];
 
-
-							if(response['search'] != undefined){
+							if(lastResponseData['search'] != ''){
 								// se establece la url
-								var url = utility.stringReplace(response['search'],' ','-');
+								var url = utility.stringReplace(lastResponseData['search'],' ','-');
 								window.location = "#search-"+url;
-								// is show the search text
-								$("#search").text(response['search']);
 							}
 
-							if(response['data'].length > 0){
-								console.log('stage 1');
-								var orderBy = $('#order-by-text');
-								orderBy.text('Latest');
-
-								setLastResponseInfo(response);
-								preparePublications(); // New
-
-								$("#no-products-for-this-search").hide();
-								$("#no-products").hide();
-								$("#products").show();
-								$("#info").show();
-								$("#yes-products").show();
-							}else{
-								console.log('stage 2');
-
-								if(response['total-products'] > 0){
-									$("#no-products-for-this-search-text").text(response['search']);
-
-									$("#no-products").hide();
-									$("#products").hide();
-									$("#info").hide();
-									$("#yes-products").show();
-									$("#no-products-for-this-search").show();
-								}else{
-									$("#yes-products").hide();
-									$("#no-products").show();
-								}
-							}
-
+							process();
 						}else{
 							window.location = "/";
 						}
-
 
                     },
                     "error":function(){
@@ -551,7 +489,7 @@ $(document).ready(function(){
 
                     var request_this        = {};
                     var search_string       = $("#search").val();
-                    request_this.search     = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
+                    request_this['search']  = search_string.replace(/[^a-zA-Z0-9]/g,' ').trim().replace(/\s{2,}/g, ' ');
 
                     var href            	= $(location).attr('href');
                     var currentUrl          = $.url(href);
@@ -582,6 +520,7 @@ $(document).ready(function(){
 
 
         };
+
         /*
          * Private Method
          * Descripción:   se establece la información de la cantidad de registros existentes
@@ -687,25 +626,25 @@ $(document).ready(function(){
 
              */
 
-            if(lastResponseInfo['count'] > 0){
-                if(lastResponseInfo['count'] == 1){
+			if(lastResponseData['paging-info']['count'] > 0){
+                if(lastResponseData['paging-info']['count'] == 1){
                     info = '1 publication';
                 }else{
 
                     var de = '';
                     var hasta = '';
 
-                    if(lastResponseInfo['page'] == lastResponseInfo['pageCount']){
-                        de 		= lastResponseInfo['count']-lastResponseInfo['current']+1;
-                        hasta	= lastResponseInfo['count'];
+                    if(lastResponseData['paging-info']['page'] == lastResponseData['paging-info']['pageCount']){
+                        de 		= lastResponseData['paging-info']['count']-lastResponseData['paging-info']['current']+1;
+                        hasta	= lastResponseData['paging-info']['count'];
                     }
 
-                    if(lastResponseInfo['page'] < lastResponseInfo['pageCount']){
-                        de 		= (lastResponseInfo['page']*lastResponseInfo['current'])-10+1;
-                        hasta	= lastResponseInfo['page']*lastResponseInfo['current'];
+                    if(lastResponseData['paging-info']['page'] < lastResponseData['paging-info']['pageCount']){
+                        de 		= (lastResponseData['paging-info']['page']*lastResponseData['paging-info']['current'])-12+1;
+                        hasta	= lastResponseData['paging-info']['page']*lastResponseData['paging-info']['current'];
                     }
 
-                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+lastResponseInfo['count']+'</b>';
+                    var info = '<b>'+de+'</b> - <b>'+hasta+'</b> de <b>'+lastResponseData['paging-info']['count']+'</b>';
 
                 }
             }else{
@@ -726,39 +665,41 @@ $(document).ready(function(){
         var preparePublications = function(){
 
             /*
-             registros a mostrar = 10; según esta cantidad cierto comportamiento es observado.
+             registros a mostrar = 12; según esta cantidad cierto comportamiento es observado.
 
              # Solo 1 registro
              - paginación                inhabilitada
              - ordenar por precio        inhabilitada
              - búsqueda                  inhabilitada
 
-             # Entre 1 y 10 registros
+             # Entre 1 y 12 registros
              - paginación                inhabilitada - Según la cantidad de registros que se muestra en una primera vez.
              - ordenar por precio        habilitado
              - búsqueda                  inhabilitada
 
-             # Más de 10 registros
+             # Más de 12 registros
              - paginación                habilitado - Según la cantidad de registros que se muestra en una primera vez.
              - ordenar por precio        habilitado
              - búsqueda                  habilitado
 
              */
 
-            if(lastResponseInfo['data'].length > 0){
+            if(lastResponseData['products'].length > 0){
 
                 // se establece la variable que almacenara las publicaciones
                 var products    = '';
 
-                $.each(lastResponseInfo['data'],function(index,value){
+                $.each(lastResponseData['products'],function(index,value){
 
                     // se prepara las publicaciones
                     products += prepareProduct(value);
 
                     /* START  ha finalizado el bucle - este código se ejecuta una sola vez
                      *************************************************************************/
-                    if(lastResponseInfo['current']==(index+1)){
+                    if(lastResponseData['paging-info']['current']==(index+1)){
 
+
+						currentOrder(lastResponseData['order-by']);
                         orderBy();
                         pagination();
                         search();
@@ -781,11 +722,50 @@ $(document).ready(function(){
         };
 
 
-        var notification;
+		var process = function(){
+			if(lastResponseData['products'].length > 0){
+				console.log('stage 1');
+
+				if(lastResponseData['search'] != ''){
+					$("#search").val(lastResponseData['search']);
+				}
+
+				preparePublications(); // New
+
+				$("#no-products-for-this-search").hide();
+				$("#no-products").hide();
+				$("#products").show();
+				$("#info").show();
+				$("#yes-products").show();
+			}else{
+				console.log('stage 2');
+
+				if(lastResponseData['total-products'] > 0){
+
+					if(lastResponseData['search'] != undefined){
+						$("#no-products-for-this-search-text").text(lastResponseData['search']);
+					}
+
+					$("#no-products").hide();
+					$("#products").hide();
+					$("#info").hide();
+					$("#yes-products").show();
+					$("#no-products-for-this-search").show();
+				}else{
+					$("#yes-products").hide();
+					$("#no-products").show();
+				}
+			}
+
+		};
+
 
         //Public Method
         products.get = function(){
-            var request_parameters = {
+
+			var notification;
+
+			var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/stock-products",
@@ -804,45 +784,53 @@ $(document).ready(function(){
                         }
 
 						if(response['status'] === 'success'){
-
-							if(response['search'] != undefined){
-								$("#search").val(response['search']);
-							}
-
-							if(response['data'].length > 0){
-								console.log('stage 1');
-
-								setLastResponseInfo(response);
-								preparePublications(); // New
-
-								$("#no-products-for-this-search").hide();
-								$("#no-products").hide();
-								$("#products").show();
-								$("#info").show();
-								$("#yes-products").show();
-							}else{
-								console.log('stage 2');
-
-								if(response['total-products'] > 0){
-
-									if(response['search'] != undefined){
-										$("#no-products-for-this-search-text").text(response['search']);
-									}
-
-									$("#no-products").hide();
-									$("#products").hide();
-									$("#info").hide();
-									$("#yes-products").show();
-									$("#no-products-for-this-search").show();
-								}else{
-									$("#yes-products").hide();
-									$("#no-products").show();
-								}
-							}
-
+							lastResponseData = response['data'];
+							process();
 						}else{
 							window.location = "/";
 						}
+
+
+						//if(response['status'] === 'success'){
+                        //
+						//	if(response['search'] != undefined){
+						//		$("#search").val(response['search']);
+						//	}
+                        //
+						//	if(response['data'].length > 0){
+						//		console.log('stage 1');
+                        //
+						//		setLastResponseInfo(response);
+						//		preparePublications(); // New
+                        //
+						//		$("#no-products-for-this-search").hide();
+						//		$("#no-products").hide();
+						//		$("#products").show();
+						//		$("#info").show();
+						//		$("#yes-products").show();
+						//	}else{
+						//		console.log('stage 2');
+                        //
+						//		if(response['total-products'] > 0){
+                        //
+						//			if(response['search'] != undefined){
+						//				$("#no-products-for-this-search-text").text(response['search']);
+						//			}
+                        //
+						//			$("#no-products").hide();
+						//			$("#products").hide();
+						//			$("#info").hide();
+						//			$("#yes-products").show();
+						//			$("#no-products-for-this-search").show();
+						//		}else{
+						//			$("#yes-products").hide();
+						//			$("#no-products").show();
+						//		}
+						//	}
+                        //
+						//}else{
+						//	window.location = "/";
+						//}
 
 
                     },
