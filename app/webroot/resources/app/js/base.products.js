@@ -31,7 +31,7 @@ $(document).ready(function(){
             url_obj.search      	= '';
             url_obj.page        	= '';
             url_obj['order-by']    	= '';
-            url_obj.user_id     	= userId;
+            url_obj['user-id']     	= userId;
 
 
             if(segments != ''){
@@ -86,6 +86,20 @@ $(document).ready(function(){
 
 
         /*
+         @Name              -> get
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> get data for display the products
+         @parameters        -> type => if it is for products (published, drafts or in stock)
+         @returns           -> Object
+         @implemented by    -> main;
+         */
+        var get = function(type){
+
+
+        };
+
+        /*
          @Name              -> main
          @visibility        -> Public
          @Type              -> Method
@@ -95,25 +109,41 @@ $(document).ready(function(){
          */
         products.main = function() {
 
-//            var href 	= $(location).attr('href');
-//            var url 	= $.url(href);
-//            var path   	= url.segment(1);
-//
-//            var href 	= $(location).attr('href');
-//            var uri = new URI(href);
-//            var action = uri.segment(0);
+            var href 	= $(location).attr('href');
+            var url 	= $.url(href);
+            var action  = url.segment(1);
 
-//            some general changes
+            // publish to new
+            // product to view
 
+            switch (action) {
+                case 'new':
+                    // new publication
 
-//            description
-//
-//            publish to new
-//            product to view
-//            published
-//            drafts
-//            stock
+                    break;
+                case 'view':
+                    // view publication
 
+                    break;
+                case 'published':
+                    // publications published
+
+                    break;
+                case 'drafts':
+                    // developing publications
+
+                    break;
+                case 'stock':
+                    // publications active
+
+//                    stock-products
+//                    get-published
+//                    get-drafts
+
+                    break;
+                default:
+                    window.location = "/";
+            }
 
         };
 
