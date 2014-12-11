@@ -1,22 +1,41 @@
-
-
 $(document).ready(function(){
+    (function( publications, $, undefined ) {
 
-
-    (function( products, $, undefined) {
-
-        //Private Property
+        /*
+         @Name              -> lastResponseData
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> maintains the latest data received by the server
+         @parameters        -> NULL
+         @returns           -> Object
+         */
         var lastResponseData = {};
 
-		/*
-		 @Name              -> parseUrl
-		 @visibility        -> Private
-		 @Type              -> Method
-		 @Description       -> parse the Url
-		 @parameters        -> NULL
-		 @returns           -> Object
-		 @implemented by    -> products.get(), orderBy()
-		 */
+        /*
+         @Name              -> currentAction
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> return the current action, exp: www.domain.com/action
+         @parameters        -> NULL
+         @returns           -> String
+         @implemented by    ->
+         */
+        var currentAction = function(){
+            var href 	= $(location).attr('href');
+            var url 	= $.url(href);
+            return url.segment(1);
+        };
+
+
+        /*
+         @Name              -> parseUrl
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> parse the URL
+         @parameters        -> NULL
+         @returns           -> Object
+         @implemented by    ->
+         */
         var parseUrl = function () {
 
             var pathname 	= $(location).attr('href');
@@ -85,48 +104,19 @@ $(document).ready(function(){
             return url_obj;
         };
 
-		var currentOrder = function(order){
-
-			var orderBy = $('#order-by-text');
-
-			switch (order) {
-				case 'highest-price':
-					orderBy.text('Highest price');
-					break;
-				case 'lowest-price':
-					orderBy.text('Lowest price');
-					break;
-				case 'latest':
-					orderBy.text('Latest');
-					break;
-				case 'oldest':
-					orderBy.text('Oldest');
-					break;
-				case 'higher-availability':
-					orderBy.text('Higher availability');
-					break;
-				case 'lower-availability':
-					orderBy.text('Lower availability');
-					break;
-				default:
-					orderBy.text('Latest');
-			}
-
-		};
-
-
         // Private Method
         // give html format to the publication
         var prepareProduct = function(obj){
 
             var id          = obj['Product']['id'];
+            var title       = obj['Product']['title'].trim();
             var price       = obj['Product']['price'];
 
-            var title = obj['Product']['title'].trim();
+
             if(title.length > 32){
                 title = title.slice(0, 30)+' ...';
             }
-			title = utility.capitaliseFirstLetter(title);
+            title = utility.capitaliseFirstLetter(title);
 
             var date        = new Date(obj['Product']['created']);
             var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
@@ -143,19 +133,49 @@ $(document).ready(function(){
 
             var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
 
-			var thumbnailBackgroundUrl = '/resources/app/img/escheresque_ste.png';
+            var thumbnailBackgroundUrl = '/resources/app/img/escheresque_ste.png';
 
-			return '<div class="col-md-4">'+
-				'<div class="thumbnail" style="background: url('+thumbnailBackgroundUrl+'); color: #ffffff; border: 1px solid black;" >'+
-					'<a href="'+link+'"><img src="'+image+'" alt="..."></a>'+
-					'<div class="caption" style="border-top: 1px solid gold;">'+
-						'<h3><a href="'+link+'" style="color: white;" >'+title+'</a></h3>'+
-						'<h4 style="color: gold;">Price: $'+price+'</h4>'+
-					'</div>'+
-				'</div>'+
-			'</div>';
+            return '<div class="col-md-4">'+
+                '<div class="thumbnail" style="background: url('+thumbnailBackgroundUrl+'); color: #ffffff; border: 1px solid black;" >'+
+                '<a href="'+link+'"><img src="'+image+'" alt="..."></a>'+
+                '<div class="caption" style="border-top: 1px solid gold;">'+
+                '<h3><a href="'+link+'" style="color: white;" >'+title+'</a></h3>'+
+                '<h4 style="color: gold;">Price: $'+price+'</h4>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
 
         };
+
+        var currentOrder = function(order){
+
+            var orderBy = $('#order-by-text');
+
+            switch (order) {
+                case 'highest-price':
+                    orderBy.text('Highest price');
+                    break;
+                case 'lowest-price':
+                    orderBy.text('Lowest price');
+                    break;
+                case 'latest':
+                    orderBy.text('Latest');
+                    break;
+                case 'oldest':
+                    orderBy.text('Oldest');
+                    break;
+                case 'higher-availability':
+                    orderBy.text('Higher availability');
+                    break;
+                case 'lower-availability':
+                    orderBy.text('Lower availability');
+                    break;
+                default:
+                    orderBy.text('Latest');
+            }
+
+        };
+
 
         /* Private Method
          * Descripción: función destinada a ordenar la publicaciones, según la preferencia del usuario.
@@ -174,18 +194,18 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-						console.log(response);
+                        console.log(response);
 
                         if(response['expired_session']){
                             window.location = "/login";
                         }
 
-						if(response['status'] === 'success'){
-							lastResponseData = response['data'];
-							process();
-						}else{
-							window.location = "/";
-						}
+                        if(response['status'] === 'success'){
+                            lastResponseData = response['data'];
+                            process();
+                        }else{
+                            window.location = "/";
+                        }
 
                     },
                     "error":function(){
@@ -219,7 +239,7 @@ $(document).ready(function(){
                     'url':'higher-availability',
                     'text':'Higher availability'
                 },
-				{
+                {
                     'id':'lower-availability',
                     'url':'lower-availability',
                     'text':'Lower availability'
@@ -298,12 +318,12 @@ $(document).ready(function(){
                             window.location = "/login";
                         }
 
-						if(response['status'] === 'success'){
-							lastResponseData = response['data'];
-							process();
-						}else{
-							window.location = "/";
-						}
+                        if(response['status'] === 'success'){
+                            lastResponseData = response['data'];
+                            process();
+                        }else{
+                            window.location = "/";
+                        }
 
                     },
                     "error":function(){
@@ -457,26 +477,26 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-						console.log('search',response);
+                        console.log('search',response);
 
 
                         if(response['expired_session']){
                             window.location = "/login";
                         }
 
-						if(response['status'] === 'success'){
-							lastResponseData = response['data'];
+                        if(response['status'] === 'success'){
+                            lastResponseData = response['data'];
 
-							if(lastResponseData['search'] != ''){
-								// se establece la url
-								var url = utility.stringReplace(lastResponseData['search'],' ','-');
-								window.location = "#search-"+url;
-							}
+                            if(lastResponseData['search'] != ''){
+                                // se establece la url
+                                var url = utility.stringReplace(lastResponseData['search'],' ','-');
+                                window.location = "#search-"+url;
+                            }
 
-							process();
-						}else{
-							window.location = "/";
-						}
+                            process();
+                        }else{
+                            window.location = "/";
+                        }
 
                     },
                     "error":function(){
@@ -527,11 +547,16 @@ $(document).ready(function(){
 
         };
 
+
         /*
-         * Private Method
-         * Descripción:   se establece la información de la cantidad de registros existentes
-         * Parámetros:
-         *************************************************************************************************************************************************************/
+         @Name              -> info
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> establece la información de la cantidad de registros existentes
+         @parameters        -> NULL
+         @returns           -> NULL
+         @implemented by    -> process();
+         */
         var info = function(){
 
             /*
@@ -632,7 +657,7 @@ $(document).ready(function(){
 
              */
 
-			if(lastResponseData['paging-info']['count'] > 0){
+            if(lastResponseData['paging-info']['count'] > 0){
                 if(lastResponseData['paging-info']['count'] == 1){
                     info = '1 publication';
                 }else{
@@ -663,11 +688,14 @@ $(document).ready(function(){
         };
 
 
-
-
-
-
-        //Private Method
+        /*
+         @Name              -> process
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> after success XHR this function, process the data.
+         @parameters        -> NULL
+         @returns           -> NULL
+         */
         var process = function(){
 
             /*
@@ -714,7 +742,7 @@ $(document).ready(function(){
                      *************************************************************************/
                     if(lastResponseData['paging-info']['current']==(index+1)){
 
-						currentOrder(lastResponseData['order-by']);
+                        currentOrder(lastResponseData['order-by']);
                         orderBy();
                         pagination();
                         search();
@@ -751,13 +779,20 @@ $(document).ready(function(){
 
         };
 
+        /*
+         @Name              -> get
+         @visibility        -> Private
+         @Type              -> Method
+         @Description       -> get data for display the products
+         @parameters        -> type => if it is for products (published, drafts or in stock)
+         @returns           -> Object
+         @implemented by    -> main;
+         */
+        var get = function(){
 
-        //Public Method
-        products.get = function(){
+            var notification;
 
-			var notification;
-
-			var request_parameters = {
+            var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
                 "url":"/products",
@@ -767,20 +802,18 @@ $(document).ready(function(){
                         notification = ajax.notification("beforeSend");
                     },
                     "success":function(response){
-						console.log('get',response);
 
-
-						// Si la sesión ha expirado
+                        // Si la sesión ha expirado
                         if(response['expired_session']){
                             window.location = "/login";
                         }
 
-						if(response['status'] === 'success'){
-							lastResponseData = response['data'];
-							process();
-						}else{
-							window.location = "/";
-						}
+                        if(response['status'] === 'success'){
+                            lastResponseData = response['data'];
+                            process();
+                        }else{
+                            window.location = "/";
+                        }
 
                     },
                     "error":function(){
@@ -795,10 +828,139 @@ $(document).ready(function(){
             ajax.request(request_parameters);
         };
 
-    }( window.products = window.products || {}, jQuery ));
 
 
+        /*
+         @Name              -> main
+         @visibility        -> Public
+         @Type              -> Method
+         @Description       -> Where everything begins
+         @parameters        -> NULL
+         @returns           -> NULL
+         */
+        publications.main = function() {
 
-    products.get();
+            // product to view
+
+            switch (currentAction()) {
+                case 'publish':
+                    // new publication
+
+                    break;
+                case 'view':
+                    // view publication
+
+//                    URL: product
+
+                    break;
+                case 'published':
+                    // publications published
+
+//                    URL: products
+                    get();
+
+                    break;
+                case 'drafts':
+                    // developing publications
+
+//                    URL: products
+                    get();
+
+                    break;
+                case 'stock':
+                    // publications active
+                    get();
+
+//                    URL: products
+
+                    break;
+                default:
+                    window.location = "/";
+            }
+
+        };
+
+    }( window.publications = window.publications || {}, jQuery ));
+
+    publications.main();
 
 });
+
+/*
+
+	stock
+		 parseUrl
+		 currentOrder
+		 prepareProduct                     unificar
+		 orderBy
+            products
+		 pagination
+            products
+ 		 search
+            products
+		 info
+		 process
+ 		 get
+            products
+
+	borradores
+		 setLastResponseInfo                <- deleted ->
+		 parseUrl                           listo
+		 prepareProduct                     unificar
+		 orderBy                            listo
+			get-drafts  z->   products
+		 pagination                         listo
+ 			get-drafts  z->   products
+		 search                             listo
+ 			get-drafts  z->   products
+		 info                               listo
+		 edit
+		 deleteProduct                      <**  INTEGRAR **>
+ 			delete      z->   products
+		 preparePublications               <- deleted ->
+		 get                                listo
+ 			get-drafts  z->   products
+
+	publicados
+		 setLastResponseInfo                <- deleted ->
+		 parseUrl
+		 prepareProduct                     unificar
+		 orderBy
+			get-published  z->   products
+		 pagination
+			get-published  z->   products
+		 search
+			get-published  z->   products
+		 info
+		 pause                              <**  INTEGRAR **>
+			pause          z->   products
+		 activate                           <**  INTEGRAR **>
+			 activate      z->   products
+		 edit
+		 deleteProduct                      <**  INTEGRAR **>
+			 delete        z->   products
+		 preparePublications                <- deleted ->
+		 get
+			 get-published z->   products
+
+	publicar
+		 initRedactor
+		 discard
+			 discard
+		 elapsedTime
+		 saveDraft
+ 			save_draft
+		 newProduct
+ 			add_new
+		 pause
+ 			pause
+		 activate
+ 			activate
+		 _delete
+ 			delete
+		 fileUpload
+			 disable_this_imagen
+			 image_add
+
+
+*/

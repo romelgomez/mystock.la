@@ -225,7 +225,7 @@ if($data['User']['banner'] !== NULL){
     }
 
 
-    array_push($scripts,'/resources/app/js/base.stock.js');
+    array_push($scripts,'/resources/app/js/base.publications.js');
 
     echo $this->Html->script($scripts,array('inline' => false));
 

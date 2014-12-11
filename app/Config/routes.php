@@ -85,6 +85,8 @@ Router::connect('/stock/:id',                               array('controller' =
     ));
 
 
+Router::connect('/products',                                array('controller' => 'products',   'action' => 'products2')); 						// Acción Ajax - para administrar publicaciones.
+
 Router::connect('/search',                                  array('controller' => 'products',   'action' => 'search')); 						// Acción Ajax - para pausar buscar publicaciones.
 
 Router::connect('/search-products',                         array('controller' => 'products',   'action' => 'products')); 						// Acción Ajax - para pausar buscar publicaciones.
