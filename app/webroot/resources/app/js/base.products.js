@@ -1,6 +1,9 @@
 $(document).ready(function(){
     (function( products, $, undefined ) {
 
+		var action = {};
+
+
         /*
          @Name              -> lastResponseData
          @visibility        -> Private
@@ -113,11 +116,10 @@ $(document).ready(function(){
             var url 	= $.url(href);
             var action  = url.segment(1);
 
-            // publish to new
             // product to view
 
             switch (action) {
-                case 'new':
+                case 'publish':
                     // new publication
 
                     break;
@@ -151,4 +153,83 @@ $(document).ready(function(){
 
 });
 
+/*
 
+	stock
+		 parseUrl
+		 currentOrder
+		 prepareProduct
+		 orderBy
+			stock-products
+		 pagination
+			stock-products
+		 search
+			stock-products
+		 info
+		 preparePublications
+		 process
+ 		 get
+			stock-products
+
+
+	borradores
+		 setLastResponseInfo
+		 parseUrl
+		 prepareProduct
+		 orderBy
+			get-drafts
+		 pagination
+ 			get-drafts
+		 search
+ 			get-drafts
+		 info
+		 edit
+		 deleteProduct
+ 			delete
+		 preparePublications
+		 get
+ 			get-drafts
+
+	publicados
+		 setLastResponseInfo
+		 parseUrl
+		 prepareProduct
+		 orderBy
+			get-published
+		 pagination
+			get-published
+		 search
+			get-published
+		 info
+		 pause
+			pause
+		 activate
+			 activate
+		 edit
+		 deleteProduct
+			 delete
+		 preparePublications
+		 get
+			 get-published
+
+	publicar
+		 initRedactor
+		 discard
+			 discard
+		 elapsedTime
+		 saveDraft
+ 			save_draft
+		 newProduct
+ 			add_new
+		 pause
+ 			pause
+		 activate
+ 			activate
+		 _delete
+ 			delete
+		 fileUpload
+			 disable_this_imagen
+			 image_add
+
+
+*/

@@ -1,6 +1,6 @@
 <!-- Content
 ===================== -->
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 18px; padding-bottom: 18px;">
     <div class="row">
         <div class="col-xs-12">
             <!-- start content-->
@@ -12,92 +12,84 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="yes-products" style="display: none;">
-                <div class="col-xs-12">
 
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h1 id="type" class="page-header" style="margin-top: 0;">Drafts</h1>
-                        </div>
-                    </div>
+			<section id="yes-products" style="display: none;">
+				<div class="panel panel-default" style="border: 1px solid black;">
+					<div class="panel-body" style=" padding-top: 10px; padding-bottom: 10px; border-top-left-radius: 4px; border-top-right-radius: 4px; background: url(/resources/app/img/escheresque_ste.png);">
+						<a href="/drafts" style="font-size: 30px;">Drafts</a>
+					</div>
+					<div class="panel-footer" style="background: url(/resources/app/img/escheresque.png);border-top: 1px solid gold;">
+						<div class="row">
+							<div class="col-md-4">
+								<!-- búsqueda. -->
+								<form role="form" id="SearchPublicationsForm">
+									<div class="form-group" style="margin-bottom: 0;">
+										<div class="input-group">
+											<input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="submit">Search</button>
+									</span>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<div id="info" class="pull-right">
 
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-4">
-                            <!-- búsqueda.
-                            ------------------------------------------------------------------------------------------>
-                            <form role="form" id="SearchPublicationsForm">
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="search" name="search" placeholder="Eje: Laptops">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">Search</button>
-                                </span>
-                                    </div>
-                                </div>
-                            </form>
+									<!-- Información.
+                                   -------------------------------------------------------------------------------------->
+									<div id="pagination-info" style="overflow: hidden; float: left; margin-right: 10px; line-height: 30px; ">
+										<span></span>
+									</div>
 
-                        </div>
-                        <div class="col-xs-6 col-sm-4"></div>
-                        <div class="col-xs-6 col-sm-4">
+									<!-- Paginación.
+                                    -------------------------------------------------------------------------------------->
+									<div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
+										<div style="float: left; margin-right: 10px; ">
+											<div class="btn-group" >
+												<button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
+												<button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
+											</div>
+										</div>
+									</div>
 
-                            <div class="pull-right">
+									<!-- Ordenar por
+                                    ---------------------------------------------------------------------------------------->
+									<div id="order-by" style="display:none; float: left; margin-right: 10px; ">
+										<div class="btn-group">
+											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+												Sort by:  <span id="order-by-text">Latest</span> <span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu dropdown-menu-right" role="menu">
+												<li><a id="latest" href="#"><span class="glyphicon glyphicon-time"></span> Latest</a></li>
+												<li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Oldest</a></li>
 
-                                <!-- Información.
-                               -------------------------------------------------------------------------------------->
-                                <div id="pagination-info" style="overflow: hidden; float: left; margin-right: 10px; line-height: 30px; ">
-                                    <span></span>
-                                </div>
+												<li class="divider"></li>
 
-                                <!-- Paginación.
-                                -------------------------------------------------------------------------------------->
-                                <div id="pagination" style="display:none; overflow: hidden;  float: left;"   >
-                                    <div style=" float: left; margin-right: 10px; ">
-                                        <div class="btn-group" >
-                                            <button id="prev-page" class="btn btn-default disabled" disabled><i class="icon-chevron-left"></i> Previous</button>
-                                            <button id="next-page" class="btn btn-default disabled" disabled><i class="icon-chevron-right"></i> Next</button>
-                                        </div>
-                                    </div>
-                                </div>
+												<li><a id="highest-price" href="#"><span class="glyphicon glyphicon-tags"></span> Highest price</a></li>
+												<li><a id="lowest-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
 
-                                <!-- Ordenar por
-                                ---------------------------------------------------------------------------------------->
-                                <div id="order-by" style="display:none; float: left; margin-right: 10px; ">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											Sort by: <span id="order-by-text">Recent</span> <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a id="recent" href="#"><span class="glyphicon glyphicon-time"></span> Recent</a></li>
-                                            <li><a id="oldest" href="#"><span class="glyphicon glyphicon-calendar"></span> Antique</a></li>
+												<li class="divider"></li>
 
-                                            <li class="divider"></li>
+												<li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Higher availability</a></li>
+												<li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
+											</ul>
+										</div>
+									</div>
 
-                                            <li><a id="higher-price" href="#"><span class="glyphicon glyphicon-tags"></span> Higher price</a></li>
-                                            <li><a id="lower-price" href="#"><span class="glyphicon glyphicon-tag"></span> Lowest price</a></li>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                                            <li class="divider"></li>
 
-                                            <li><a id="higher-availability" href="#"><span class="glyphicon glyphicon-th"></span> Greater availability</a></li>
-                                            <li><a id="lower-availability" href="#"><span class="glyphicon glyphicon-th-large"></span> Lower availability</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+				<div id="products" ></div>
 
-                            </div>
+				<div id="search-info" style="display: none" class="alert alert-info" role="alert"></div>
 
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div id="products" ></div>
-
-                    <div id="search-info" style="display: none" class="alert alert-info" role="alert"></div>
-
-                    <hr style="margin-bottom: 0">
-
-                </div>
-            </div>
+			</section>
 
 
 

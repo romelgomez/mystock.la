@@ -1,6 +1,6 @@
 <!-- Content
 ===================== -->
-<div class="container-fluid" style="padding-top: 18px;">
+<div class="container-fluid" style="padding-top: 18px; padding-bottom: 18px;">
     <div class="row">
         <div class="col-xs-12">
             <!-- start content-->

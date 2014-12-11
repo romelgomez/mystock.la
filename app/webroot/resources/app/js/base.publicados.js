@@ -158,7 +158,7 @@ $(document).ready(function(){
                             '<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
                         '</a>'+
                         '<div class="media-body">'+
-                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid gold; padding-bottom: 9px;" ><a href="'+link+'">'+title+'</a></h4>'+
+                            '<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid gold; padding-bottom: 9px;" ><a href="'+link+'">'+utility.capitaliseFirstLetter(title)+'</a></h4>'+
 
                             '<div style="margin-bottom: 10px;">'+
                                 '<div class="btn-group">'+
