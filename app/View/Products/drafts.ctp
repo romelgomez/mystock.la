@@ -141,7 +141,7 @@
     //  array_push($scripts,'https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.min.js');
     array_push($scripts,'/resources/library-vendor/purl/purl.js');
 
-    array_push($scripts,'/resources/app/js/base.borradores.js');
+    array_push($scripts,'/resources/app/js/base.publications.js');
 
     echo $this->Html->script($scripts,array('inline' => false));
 

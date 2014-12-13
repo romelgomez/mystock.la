@@ -108,42 +108,138 @@ $(document).ready(function(){
         // give html format to the publication
         var prepareProduct = function(obj){
 
-            var id          = obj['Product']['id'];
-            var title       = obj['Product']['title'].trim();
-            var price       = obj['Product']['price'];
+			var id          = obj['Product']['id'];
+			var title       = obj['Product']['title'].trim();
+			var price       = obj['Product']['price'];
+			var publication = '';
+
+			var date        = new Date(obj['Product']['created']);
+			var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
+
+			var slug = obj['Product']['title'].trim().toLowerCase();
+			slug = utility.stringReplace(slug,'®','');
+			slug = utility.stringReplace(slug,':','');
+			slug = utility.stringReplace(slug,'/','');
+			slug = utility.stringReplace(slug,'|','');
+			slug =  slug.replace(/\s+/g, ' ');
+			slug = utility.stringReplace(slug,' ','-');
+
+			var publicationLink = '/product/'+id+'/'+slug+'.html';
+
+			var image = '';
+
+			if(obj['Image'] == undefined || obj['Image'].length == 0){
+				image = '/resources/app/img/no-image-available.png';
+			}else{
+				image = '/resources/app/img/products/'+obj['Image'][0]['name'];
+			}
+
+			switch (currentAction()) {
+				case 'stock':
+
+					if(title.length > 32){
+						title = title.slice(0, 30)+' ...';
+					}
+					title = utility.capitaliseFirstLetter(title);
+
+					publication = '<div class="col-md-4">'+
+					'<div class="thumbnail" style="border: 1px solid black; color: #ffffff; background: url(/resources/app/img/escheresque_ste.png); " >'+
+					'<a href="'+publicationLink+'"><img src="'+image+'" alt="..."></a>'+
+					'<div class="caption" style="border-top: 1px solid gold;">'+
+					'<h3><a href="'+publicationLink+'" style="color: white;" >'+title+'</a></h3>'+
+					'<h4 style="color: gold;">Price: $'+price+'</h4>'+
+					'</div>'+
+					'</div>'+
+					'</div>';
+
+					break;
+				case 'drafts':
+
+					var  draftLink = '/edit-draft/'+obj['Product']['id'];
+
+					if(title == '') {
+						title = '<mark>Untitled</mark>';
+					}
+
+					// se arma una publicación
+					publication = '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px; color:white; background-color: #222; background: url(/resources/app/img/escheresque_ste.png); " >'+
+							'<a class="pull-left" href="'+draftLink+'">'+
+							'<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
+							'</a>'+
+							'<div class="media-body">'+
+							'<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid gold; padding-bottom: 9px;" ><a href="'+draftLink+'">'+utility.capitaliseFirstLetter(title)+'</a></h4>'+
+
+							'<div style="margin-bottom: 10px;">'+
+							'<div class="btn-group">'+
+							'<button class="btn btn-default edit"><i class="icon-edit"></i> Edit</button>'+
+							'</div>'+
+							'</div>'+
+							'<div>'+
+							'<span class="glyphicon glyphicon-calendar"></span> Created: '+created+
+							'</div>'+
+							'</div>'+
+							'</div>';
 
 
-            if(title.length > 32){
-                title = title.slice(0, 30)+' ...';
-            }
-            title = utility.capitaliseFirstLetter(title);
+					break;
+				case 'published':
 
-            var date        = new Date(obj['Product']['created']);
-            var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
+	 				var status = '';
+					var status_button = '';
 
-            var slug = obj['Product']['title'].trim().toLowerCase();
-            slug = utility.stringReplace(slug,'®','');
-            slug = utility.stringReplace(slug,':','');
-            slug = utility.stringReplace(slug,'/','');
-            slug = utility.stringReplace(slug,'|','');
-            slug =  slug.replace(/\s+/g, ' ');
-            slug = utility.stringReplace(slug,' ','-');
+					if(obj['Product']['status']){
+						status = '<span class="label label-success active-status">published</span>';
+						status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Enable</button>';
+					}else{
+						status = '<span class="label label-warning paused-status">paused</span>';
+						status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Enable</button>';
+					}
 
-            var link        =   '/product/'+id+'/'+slug+'.html';
+					var quantity = obj['Product']['quantity'];
+					var _quantity = '';
 
-            var image       = '/resources/app/img/products/'+obj['Image'][0]['name'];
+					if(quantity == 0){
+						_quantity = '<span class="badge">0</span>';
+					}
+					else if(quantity>= 1 && quantity<=5){
+						_quantity = '<span class="badge badge-important">'+quantity+'</span>';
+					}
+					else if(quantity>=6 && quantity<=10){
+						_quantity = '<span class="badge badge-warning">'+quantity+'</span>';
+					}
+					else if(quantity>10){
+						_quantity = '<span class="badge badge-success">'+quantity+'</span>';
+					}
+					// END
 
-            var thumbnailBackgroundUrl = '/resources/app/img/escheresque_ste.png';
+					// se arma una publicación
+					publication  = '<div id="product-'+id+'"  class="media bg-info product" style="padding: 10px;border-radius: 4px; color:white; background-color: #222; background: url(/resources/app/img/escheresque_ste.png); " >'+
+							'<a class="pull-left" href="'+publicationLink+'">'+
+							'<img src="'+image+'" class="img-thumbnail" style="width: 200px; ">'+
+							'</a>'+
+							'<div class="media-body">'+
+							'<h4 class="media-heading" style="margin-bottom: 10px; border-bottom: 1px solid gold; padding-bottom: 9px;" ><a href="'+publicationLink+'">'+utility.capitaliseFirstLetter(title)+'</a></h4>'+
 
-            return '<div class="col-md-4">'+
-                '<div class="thumbnail" style="background: url('+thumbnailBackgroundUrl+'); color: #ffffff; border: 1px solid black;" >'+
-                '<a href="'+link+'"><img src="'+image+'" alt="..."></a>'+
-                '<div class="caption" style="border-top: 1px solid gold;">'+
-                '<h3><a href="'+link+'" style="color: white;" >'+title+'</a></h3>'+
-                '<h4 style="color: gold;">Price: $'+price+'</h4>'+
-                '</div>'+
-                '</div>'+
-                '</div>';
+							'<div style="margin-bottom: 10px;">'+
+							'<div class="btn-group">'+
+							'<button class="btn btn-default edit"><i class="icon-edit"></i> Edit</button>'+
+							status_button+
+							'<button class="btn btn-danger delete" ><i class="icon-remove-sign"></i> Remove</button>'+
+							'</div>'+
+							'</div>'+
+							'<div>'+
+							'<span class="glyphicon glyphicon-tag"></span> Price: $'+price+'<br>'+
+							'<span class="glyphicon glyphicon-off"></span> Status: '+status+'<br>'+
+							'<span class="glyphicon glyphicon-th"></span> Quantity in stock: '+_quantity+'<br>'+
+							'<span class="glyphicon glyphicon-calendar"></span> Created: '+created+
+							'</div>'+
+							'</div>'+
+							'</div>';
+
+					break;
+			}
+
+            return publication;
 
         };
 
@@ -687,6 +783,318 @@ $(document).ready(function(){
 
         };
 
+		/*
+		 * Private Method
+		 * Descripción: función destinada a pausar una publicación activa
+		 * Parámetros:  null
+		 *************************************************************************************************************************************************************/
+		var pause = function(){
+
+			var notification;
+
+			var request_parameters = {
+				"requestType":"custom",
+				"type":"post",
+				"url":"/pause",
+				"data":{},
+				"callbacks":{
+					"beforeSend":function(){
+						notification = ajax.notification("beforeSend");
+					},
+					"success":function(response){
+
+						if(response['expired_session']){
+							window.location = "/entrar";
+						}
+
+						if(response['result']){
+							$("#product-"+response['id']+' .pause').css({
+								"display": 'none'
+							});
+							$("#product-"+response['id']+' .activate').css({
+								"display": 'inline'
+							});
+
+							var status = '<span class="label label-warning paused-status">paused</span>';
+							$("#product-"+response['id']+' .active-status').replaceWith(status);
+
+						}else{
+							window.location = "/";
+						}
+
+					},
+					"error":function(){
+						ajax.notification("error",notification);
+					},
+					"complete":function(){
+						ajax.notification("complete",notification);
+					}
+				}
+			};
+
+			var elements = $("#products").find(".pause");
+
+			if(elements.length){
+				$(elements).each(function(){
+					$(this).off('click');
+					$(this).on('click',function(){
+
+						var id = $(this).parents("div.product").attr('id');
+						id = utility.stringReplace(id,'product-','');
+
+						var request_this = {};
+						request_this.id  = id;
+
+						request_parameters.data =    request_this;
+						ajax.request(request_parameters);
+					});
+
+				});
+			}
+
+		};
+
+		/*
+		 * Private Method
+		 * Descripción: función destinada a activar una publicación pausada
+		 * Parámetros:  null
+		 *************************************************************************************************************************************************************/
+		var activate = function(){
+
+			var notification;
+
+			var request_parameters = {
+				"requestType":"custom",
+				"type":"post",
+				"url":"/activate",
+				"data":{},
+				"callbacks":{
+					"beforeSend":function(){
+						notification = ajax.notification("beforeSend");
+					},
+					"success":function(response){
+
+						if(response['expired_session']){
+							window.location = "/entrar";
+						}
+
+						if(response['result']){
+							$("#product-"+response['id']+' .pause').css({
+								"display": "inline"
+							});
+							$("#product-"+response['id']+' .activate').css({
+								"display": "none"
+							});
+							var status = '<span class="label label-success active-status">published</span>';
+							$("#product-"+response['id']+' .paused-status').replaceWith(status);
+						}else{
+							window.location = "/";
+						}
+
+					},
+					"error":function(){
+						ajax.notification("error",notification);
+					},
+					"complete":function(){
+						ajax.notification("complete",notification);
+					}
+				}
+			};
+
+			var elements = $("#products").find(".activate");
+
+			if(elements.length){
+				$(elements).each(function(){
+					$(this).off('click');
+					$(this).on('click',function(){
+
+						var id = $(this).parents("div.product").attr('id');
+						id = utility.stringReplace(id,'product-','');
+
+						var request_this = {};
+						request_this.id  = id;
+
+
+
+						request_parameters.data =    request_this;
+						ajax.request(request_parameters);
+
+					});
+				});
+			}
+
+		};
+
+
+		/*
+		 * Private Method
+		 * Descripción: función que procesa la solicitud de editar una publicación,  la razón de crear una función y no un simple link que es más simple, es por la maquetación o bootstrap, como es un grupo de botones pegados, al colocar un link <a></a> se descuadra. por lo tanto es requerido usar una función.
+		 *************************************************************************************************************************************************************/
+		var edit = function(){
+
+			var elements = $("#products").find(".edit");
+
+			if(elements.length){
+				$(elements).each(function(){
+					$(this).off('click');
+					$(this).on('click',function(){
+
+						var id = $(this).parents("div.product").attr('id');
+						id = utility.stringReplace(id,'product-','');
+
+						// edit link
+						window.location = '/edit/'+id;
+
+					});
+				});
+			}
+		};
+
+		/*
+		 * Private Method
+		 * Descripción: función que procesa la solicitud de borrar una publicación
+		 *************************************************************************************************************************************************************/
+		var deleteProduct =  function(){
+
+			var notification;
+
+			var request_parameters = {
+				"requestType":"custom",
+				"type":"post",
+				"url":"/delete",
+				"data":{},
+				"callbacks":{
+					"beforeSend":function(){
+						notification = ajax.notification("beforeSend");
+					},
+					"success":function(response){
+
+						if(response['expired_session']){
+							window.location = "/entrar";
+						}
+
+						////  delete_status
+						//if(response['result']){
+						//	ajax.notification("success",notification);
+                        //
+						//	// Ocultamos lentamente la publicación y luego removemos el elemento del dom.
+						//	$("#product-"+response['id']).fadeOut('slow',function(){
+						//		$(this).remove();
+                        //
+						//		if(response['data'] !== undefined){
+						//			// hay publicaciones
+                        //
+						//			var url_obj =  parseUrl();
+                        //
+						//			// START Esta lógica permite resolver la url, ya que puede sufrir cambios debido a la eliminación de publicaciones. un caso es cuando se borran todas las publicaciones de la página 2, el sistema automáticamente muestra las publicaciones de la página 1, hay es cuando esta lógica entra en acción, resolviendo la como debe ser según la data mostrada.
+						//			// esta definido  order_by
+						//			if(url_obj['order_by'] != ''){
+						//				if(url_obj['page'] != ''){
+						//					if(response['info']['pageCount'] == 1){
+						//						window.location = "#"+response['win_order_by'];
+						//					}else{
+						//						window.location = "#"+response['win_order_by']+'/pagina-'+response['info']['page'];
+						//					}
+						//				}else{
+						//					window.location = "#"+response['win_order_by'];
+						//				}
+						//			}else{
+						//				if(url_obj['page'] != ''){
+						//					if(response['info']['pageCount'] == 1){
+						//						window.location = "#";
+						//					}else{
+						//						window.location = "#pagina-"+response['info']['page'];
+						//					}
+						//				}
+						//			}
+						//			// END
+                        //
+						//			if(response['info']['pageCount'] == 1){
+						//				$("#prev-page").off('click');
+						//				$("#next-page").off('click');
+						//				$("#pagination").css({"display":"none"});
+						//			}
+                        //
+						//			setLastResponseInfo(response);
+						//			preparePublications();
+                        //
+						//		}else{
+						//			window.location = "#";
+                        //
+						//			//se oculta el contenedor de los filtros
+						//			$("#information-panel").hide();
+                        //
+						//			$("#yes-products").hide();
+                        //
+						//			// no hay publicaciones.
+						//			$("#no-products").show();
+                        //
+						//		}
+                        //
+						//	});
+                        //
+						//}else{
+						//	window.location = "/";
+						//}
+
+					},
+					"error":function(){
+						ajax.notification("error",notification);
+					},
+					"complete":function(){
+						ajax.notification("complete",notification);
+					}
+				}
+			};
+
+
+			var elements = $("#products").find(".delete");
+
+			if(elements.length){
+				$(elements).each(function(){
+
+					$(this).off('click');
+					$(this).on('click',function(){
+
+						var id = $(this).parents("div.product").attr('id');
+						id = utility.stringReplace(id,'product-','');
+
+						$("#delete_product").attr({"product_id":id});
+
+						$('#delete_product_modal').modal({"backdrop":true,"keyboard":true,"show":true,"remote":false}).on('hidden',function(){
+						});
+					});
+
+					var element = $("#delete_product");
+
+					element.off('click');
+					element.on('click',function(){
+						$('#delete_product_modal').modal('hide');
+
+						var request_this = {};
+
+						var url_obj =  parseUrl();
+						if(url_obj['page'] != ''){
+							request_this.page   = url_obj['page'];
+						}
+						if(url_obj['order_by'] != ''){
+							request_this.order_by = url_obj['order_by'];
+						}
+
+						request_this.id  		= $(this).attr("product_id");
+						request_this.session 	= false;
+						request_this.paginate 	= true;
+
+						request_parameters.data = request_this;
+						ajax.request(request_parameters);
+
+					});
+
+				});
+			}
+
+		};
+
 
         /*
          @Name              -> process
@@ -753,6 +1161,20 @@ $(document).ready(function(){
 
                         // se establece las publicaciones en el DOM
                         $('#products').html(products);
+
+						switch(currentAction()) {
+							case 'drafts':
+								edit();
+								deleteProduct();
+								break;
+							case 'published':
+								pause();
+								activate();
+								edit();
+								deleteProduct();
+								break;
+						}
+
 
                     }
                     // END
@@ -906,7 +1328,7 @@ $(document).ready(function(){
 	borradores
 		 setLastResponseInfo                <- deleted ->
 		 parseUrl                           listo
-		 prepareProduct                     unificar
+		 prepareProduct                     listo
 		 orderBy                            listo
 			get-drafts  z->   products
 		 pagination                         listo
@@ -944,21 +1366,21 @@ $(document).ready(function(){
 			 get-published z->   products
 
 	publicar
-		 initRedactor
-		 discard
+		 initRedactor						<**  INTEGRAR **>
+		 discard							<**  INTEGRAR **>
 			 discard
-		 elapsedTime
-		 saveDraft
+		 elapsedTime						<**  INTEGRAR **>
+		 saveDraft							<**  INTEGRAR **>
  			save_draft
-		 newProduct
+		 newProduct							<**  INTEGRAR **>
  			add_new
-		 pause
+		 pause								unificar
  			pause
-		 activate
+		 activate							unificar
  			activate
-		 _delete
+		 _delete							unificar
  			delete
-		 fileUpload
+		 fileUpload							<**  INTEGRAR **>
 			 disable_this_imagen
 			 image_add
 
