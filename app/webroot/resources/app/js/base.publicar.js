@@ -98,7 +98,7 @@ $(document).ready(function(){
             var request_parameters = {
                 "requestType":"custom",
                 "type":"post",
-                "url":"/save_draft",
+                "url":"/save-draft",
                 "data":{},
                 "callbacks":{
                     "beforeSend":function(){
@@ -506,7 +506,12 @@ $(document).ready(function(){
                             window.location = "/entrar";
                         }
 
-                        window['location'] = "/";
+						if(response['status'] === 'success'){
+							window['location'] = "/";
+						}else{
+							ajax.notification("error",notification);
+						}
+
 
                     },
                     "error":function(){
@@ -527,9 +532,12 @@ $(document).ready(function(){
                 });
 
                 $("#delete_product").click(function(){
+
                     request_parameters['data']['id']        = $("#ProductId").val();
-                    request_parameters['data']['session']   = true;
+					request_parameters['data']['action']    = 'edit';
                     ajax.request(request_parameters);
+
+
                 });
             }
 
@@ -741,32 +749,14 @@ $(document).ready(function(){
             // Se inicializa el WYSIWYG
             initRedactor();
 
-//            if($('#product_thumbnails').find("a").length){
-//                /* inhabilitar miniaturas del producto
-//                 *****************************************/
-//                disableThumbnails();
-//
-//                /* Visualizar en mejor resolución una miniatura habilitada del producto
-//                 ************************************************************************/
-//                betterVisualizing();
-//            }
-
             activate();
 
             pause();
 
             _delete();
 
-            // IMAGES
-            // procesa las imágenes cargadas que quedaron en el modal
-//            saveThis();
-
-            // observar el evento de abrir el modal para cargar imágenes del producto o servicio
-//            imagesEvents();
-
             // Subir las imágenes
             fileUpload();
-
 
         };
 

@@ -395,375 +395,315 @@
         }
     }
 
-	public function products2(){
+	private function getPublications($request){
+
+		$userLogged 	= $this->{'Auth'}->User();
+		$search  		= '';
+		$return	 		= array();
+		$conditions 	= array();
+		$totalProducts 	= array();
+
+		switch ($request['action']) {
+			case 'published':
+
+				// search - conditions
+				if(!isset($request['search']) || $request['search'] == ''){
+					$conditions = array('Product.user_id' => $userLogged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
+				}else{
+					$search = $this->cleanString($request["search"]);
+					$conditions = array(
+						'Product.user_id' => $userLogged['User']['id'],
+						'Product.deleted'=>0,
+						'Product.published'=>1,
+						'or'=>array(
+							'Product.title LIKE'=> '%'.$search.'%',
+							'Product.body LIKE'=> '%'.$search.'%'
+						)
+					);
+				}
+
+				// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+				$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $userLogged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+				break;
+			case 'drafts':
+
+				// search - conditions
+				if(!isset($request['search']) || $request['search'] == ''){
+					$conditions = array('Product.user_id' => $userLogged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);
+				}else{
+					$search = $this->cleanString($request["search"]);
+					$conditions = array(
+						'Product.user_id' => $userLogged['User']['id'],
+						'Product.deleted'=>0,
+						'Product.published'=>0,
+						'or'=>array(
+							'Product.title LIKE'=> '%'.$search.'%',
+							'Product.body LIKE'=> '%'.$search.'%'
+						)
+					);
+				}
+
+				// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+				$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $userLogged['User']['id'],'Product.deleted'=>0,'Product.published'=>0)));
+
+				break;
+			case 'stock':
+
+				// search - conditions
+				if(!isset($request['search']) || $request['search'] == ''){
+					$conditions = array('Product.user_id' => $request['user-id'],'Product.deleted'=>0,'Product.published'=>1,'Product.status'=>1);
+				}else{
+					$search = $this->cleanString($request["search"]);
+					$conditions = array(
+						'Product.user_id' => $request['user-id'],
+						'Product.deleted'=>0,
+						'Product.published'=>1,
+						'Product.status'=>1,
+						'or'=>array(
+							'Product.title LIKE'=> '%'.$search.'%',
+							'Product.body LIKE'=> '%'.$search.'%'
+						)
+					);
+				}
+
+				// total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
+				$totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user-id'],'Product.deleted'=>0,'Product.published'=>1)));
+
+				break;
+		}
+
+		// page
+		if(!isset($request['page']) || $request['page'] == ''){
+			$page = 1;
+		}else{
+			$page = (int)$request['page'];
+		}
+
+		if(!isset($request['order-by']) || $request['order-by'] == ''){
+
+			$order = array(
+				'Product.created' => 'desc'
+			);
+
+			$orderBy = 'latest';
+
+		}else{
+
+			switch ($request['order-by']) {
+				case 'highest-price':
+					$order = array(
+						'Product.price' => 'desc'
+					);
+					$orderBy = 'highest-price';
+					break;
+				case 'lowest-price':
+					$order = array(
+						'Product.price' => 'asc'
+					);
+					$orderBy = 'lowest-price';
+					break;
+				case 'latest':
+					$order = array(
+						'Product.created' => 'desc'
+					);
+					$orderBy = 'latest';
+					break;
+				case 'oldest':
+					$order = array(
+						'Product.created' => 'asc'
+					);
+					$orderBy = 'oldest';
+					break;
+				case 'higher-availability':
+					$order = array(
+						'Product.quantity' => 'desc'
+					);
+					$orderBy = 'higher-availability';
+					break;
+				case 'lower-availability':
+					$order = array(
+						'Product.quantity' => 'asc'
+					);
+					$orderBy = 'lower-availability';
+					break;
+				default:
+					$order = array(
+						'Product.created' => 'desc'
+					);
+					$orderBy = 'latest';
+			}
+
+		}
+
+		try {
+
+			/* Primer intento:  pagina actual
+             *******************************************************/
+			$this->{'paginate'} = array(
+				'conditions' =>  $conditions,
+				'contain' => array(
+					'Image'=>array(
+					)
+				),
+				'order' => $order,
+				'limit' => 12,
+				'page'	=>$page
+			);
+
+			$products = $this->{'paginate'}('Product');
+
+			$return['status'] 								= 'success';
+			$return['data']['total-products'] 				= $totalProducts;
+			$return['data']['order-by'] 					= $orderBy;
+			$return['data']['search'] 						= $search;
+			$return['data']['products'] 					= $products;
+			$return['data']['paging-info']['count'] 		= $this->{'request'}->params['paging']['Product']['count'];
+			$return['data']['paging-info']['current'] 		= $this->{'request'}->params['paging']['Product']['current'];
+			$return['data']['paging-info']['page'] 			= $this->{'request'}->params['paging']['Product']['page'];
+			$return['data']['paging-info']['pageCount'] 	= $this->{'request'}->params['paging']['Product']['pageCount'];
+			$return['data']['paging-info']['prevPage'] 		= $this->{'request'}->params['paging']['Product']['prevPage'];
+			$return['data']['paging-info']['nextPage'] 		= $this->{'request'}->params['paging']['Product']['nextPage'];
+
+		}catch(Exception $e){
+
+			try {
+				/* Segundo intento:  pagina anterior
+                *******************************************************/
+				$previous_page = $page-1;
+
+				$this->{'paginate '}= array(
+					'conditions' =>  $conditions,
+					'contain' => array(
+						'Image'=>array(
+						)
+					),
+					'order' => $order,
+					'limit' => 12,
+					'page'	=> $previous_page
+				);
+
+				$products = $this->{'paginate'}('Product');
+
+				$return['status'] 								= 'success';
+				$return['data']['total-products'] 				= $totalProducts;
+				$return['data']['order-by'] 					= $orderBy;
+				$return['data']['search'] 						= $search;
+				$return['data']['products'] 					= $products;
+				$return['data']['paging-info']['count'] 		= $this->{'request'}->params['paging']['Product']['count'];
+				$return['data']['paging-info']['current'] 		= $this->{'request'}->params['paging']['Product']['current'];
+				$return['data']['paging-info']['page'] 			= $this->{'request'}->params['paging']['Product']['page'];
+				$return['data']['paging-info']['pageCount'] 	= $this->{'request'}->params['paging']['Product']['pageCount'];
+				$return['data']['paging-info']['prevPage'] 		= $this->{'request'}->params['paging']['Product']['prevPage'];
+				$return['data']['paging-info']['nextPage'] 		= $this->{'request'}->params['paging']['Product']['nextPage'];
+
+			}catch (Exception $e){
+
+				try {
+					/* Tercer intento:  ultima pagina disponible
+                    *******************************************************/
+					$last_page = $this->{'request'}->params['paging']['Product']['pageCount'];
+
+					$this->{'paginate'}= array(
+						'conditions' =>  $conditions,
+						'contain' => array(
+							'Image'=>array(
+							)
+						),
+						'order' => $order,
+						'limit' => 12,
+						'page'	=> $last_page
+					);
+
+					$products = $this->{'paginate'}('Product');
+
+					$return['status'] 								= 'success';
+					$return['data']['total-products'] 				= $totalProducts;
+					$return['data']['order-by'] 					= $orderBy;
+					$return['data']['search'] 						= $search;
+					$return['data']['products'] 					= $products;
+					$return['data']['paging-info']['count'] 		= $this->{'request'}->params['paging']['Product']['count'];
+					$return['data']['paging-info']['current'] 		= $this->{'request'}->params['paging']['Product']['current'];
+					$return['data']['paging-info']['page'] 			= $this->{'request'}->params['paging']['Product']['page'];
+					$return['data']['paging-info']['pageCount'] 	= $this->{'request'}->params['paging']['Product']['pageCount'];
+					$return['data']['paging-info']['prevPage'] 		= $this->{'request'}->params['paging']['Product']['prevPage'];
+					$return['data']['paging-info']['nextPage'] 		= $this->{'request'}->params['paging']['Product']['nextPage'];
+
+				}catch (Exception $e){
+					$return['status'] = 'error';
+					$return['message'] = 'undefined';
+				}
+			}
+		}
+
+
+		return $return;
+	}
+
+	public function products(){
 		$request = $this->{'request'}->input('json_decode',true);
         $action  = $request['action'];
+		$return	 = array();
 
-		$user_logged = $this->{'Auth'}->User();
+		if($action === 'stock' || $action  === 'published' || $action  === 'drafts'){
 
-		$return = array();
-
-		$conditions = array();
-
-        if($action === 'stock' || $action  === 'published' || $action  === 'drafts' ){
-
-            $totalProducts 	= array();
-            $search 		= '';
-
-            switch ($action) {
-                case 'published':
-
-                    // search - conditions
-                    if(!isset($request['search']) || $request['search'] == ''){
-                        $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
-                    }else{
-                        $search = $this->cleanString($request["search"]);
-                        $conditions = array(
-                            'Product.user_id' => $user_logged['User']['id'],
-                            'Product.deleted'=>0,
-                            'Product.published'=>1,
-                            'or'=>array(
-                                'Product.title LIKE'=> '%'.$search.'%',
-                                'Product.body LIKE'=> '%'.$search.'%'
-                            )
-                        );
-                    }
-
-                    // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                    $totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
-
-
-                    break;
-                case 'drafts':
-
-                    // search - conditions
-                    if(!isset($request['search']) || $request['search'] == ''){
-                        $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);
-                    }else{
-                        $search = $this->cleanString($request["search"]);
-                        $conditions = array(
-                            'Product.user_id' => $user_logged['User']['id'],
-                            'Product.deleted'=>0,
-                            'Product.published'=>0,
-                            'or'=>array(
-                                'Product.title LIKE'=> '%'.$search.'%',
-                                'Product.body LIKE'=> '%'.$search.'%'
-                            )
-                        );
-                    }
-
-                    // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                    $totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0)));
-
-                    break;
-                case 'stock':
-
-                    // search - conditions
-                    if(!isset($request['search']) || $request['search'] == ''){
-                        $conditions = array('Product.user_id' => $request['user-id'],'Product.deleted'=>0,'Product.published'=>1,'Product.status'=>1);
-                    }else{
-                        $search = $this->cleanString($request["search"]);
-                        $conditions = array(
-                            'Product.user_id' => $request['user-id'],
-                            'Product.deleted'=>0,
-                            'Product.published'=>1,
-                            'Product.status'=>1,
-                            'or'=>array(
-                                'Product.title LIKE'=> '%'.$search.'%',
-                                'Product.body LIKE'=> '%'.$search.'%'
-                            )
-                        );
-                    }
-
-                    // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                    $totalProducts = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user-id'],'Product.deleted'=>0,'Product.published'=>1)));
-
-
-                    break;
-            }
-
-            // page
-            if(!isset($request['page'])  || $request['page'] == ''){
-                $page = 1;
-            }else{
-                $page = (int)$request['page'];
-            }
-
-            if(!isset($request['order-by']) || $request['order-by'] == ''){
-
-                $order = array(
-                    'Product.created' => 'desc'
-                );
-
-                $orderBy = 'latest';
-
-            }else{
-
-                switch ($request['order-by']) {
-                    case 'highest-price':
-                        $order = array(
-                            'Product.price' => 'desc'
-                        );
-                        $orderBy = 'highest-price';
-                        break;
-                    case 'lowest-price':
-                        $order = array(
-                            'Product.price' => 'asc'
-                        );
-                        $orderBy = 'lowest-price';
-                        break;
-                    case 'latest':
-                        $order = array(
-                            'Product.created' => 'desc'
-                        );
-                        $orderBy = 'latest';
-                        break;
-                    case 'oldest':
-                        $order = array(
-                            'Product.created' => 'asc'
-                        );
-                        $orderBy = 'oldest';
-                        break;
-                    case 'higher-availability':
-                        $order = array(
-                            'Product.quantity' => 'desc'
-                        );
-                        $orderBy = 'higher-availability';
-                        break;
-                    case 'lower-availability':
-                        $order = array(
-                            'Product.quantity' => 'asc'
-                        );
-                        $orderBy = 'lower-availability';
-                        break;
-                    default:
-                        $order = array(
-                            'Product.created' => 'desc'
-                        );
-                        $orderBy = 'latest';
-                }
-
-            }
-
-            $this->{'paginate'} = array(
-                'conditions' =>  $conditions,
-                'contain' => array(
-                    'Image'=>array(
-                    )
-                ),
-                'order' => $order,
-                'limit' => 12,
-                'page'	=>$page
-            );
-
-            try {
-                $return['status'] 								= 'success';
-                $return['data']['total-products'] 				= $totalProducts;
-                $return['data']['order-by'] 					= $orderBy;
-                $return['data']['search'] 						= $search;
-                $return['data']['products'] 					= $this->{'paginate'}('Product');
-                $return['data']['paging-info']['count'] 		= $this->{'request'}->params['paging']['Product']['count'];
-                $return['data']['paging-info']['current'] 		= $this->{'request'}->params['paging']['Product']['current'];
-                $return['data']['paging-info']['page'] 			= $this->{'request'}->params['paging']['Product']['page'];
-                $return['data']['paging-info']['pageCount'] 	= $this->{'request'}->params['paging']['Product']['pageCount'];
-                $return['data']['paging-info']['prevPage'] 		= $this->{'request'}->params['paging']['Product']['prevPage'];
-                $return['data']['paging-info']['nextPage'] 		= $this->{'request'}->params['paging']['Product']['nextPage'];
-
-            }catch(Exception $e){
-                $return['status'] = 'error';
-                $return['message'] = 'unknown-exception';
-            }
+			$return = $this->getPublications($request);
 
         }else{
-            $return['status'] = 'error';
-            $return['message'] = 'bad-request';
-        }
-
+			$return['status'] = 'error';
+			$return['message'] = 'bad-request';
+		}
 
 		$this->{'set'}('return',$return);
 		$this->{'render'}('ajax_view','ajax');
 	}
 
+	/*
+        Descripción:        Función para borrar una publicación.
+        Tipo de solicitud:  get-ajax,post-ajax
+        Tipo de acceso:     Vendedor
+        Recibe:             Array.
+        Retorna:            Array. el cual sera transformado en un objeto JSON en la vista ajax_view.
+     */
+	public function delete(){
+		$request = $this->{'request'}->input('json_decode',true);
 
-    /*
-        Descripción:
-        tipo de solicitud:  Ajax
-        tipo de acceso:     vendedor
-        Recibe:             null
-        Retorna:            un array, el cual será transformado en un objeto JSON en la vista ajax_view
-    */
-    public function products(){
-        $request = $this->{'request'}->input('json_decode',true);
+		$user_logged = $this->{'Auth'}->User();
 
-        $user_logged = $this->{'Auth'}->User();
+		$product_data = $this->{'Product'}->find('first', array(
+			'conditions' => array('Product.id' => $request['product-id'],'Product.user_id' => $user_logged['User']['id'])
+		));
 
-        $url = $this->{'request'}->url;
+		if($product_data){
+			$product['Product']['id'] 		= $product_data['Product']['id'];
+			$product['Product']['deleted']	= 1;
 
-        $return = array();
+			if($this->{'Product'}->save($product)){
 
-        $conditions = array();
+				switch ($request['action']) {
+					case 'published':
+						$return = $this->getPublications($request);
+						break;
+					case 'edit':
+						$return['status'] = 'success';
+						break;
+					default:
+						$return['status'] = 'success';
+				}
 
-        if($url == 'get-published' || $url == 'get-drafts' || $url == 'stock-products'){
-            if($url == 'stock-products'){
+			}else{
+				$return['status']	 = 'error';
+				$return['message']	 = 'cannot-set-new-parameter';
+			}
+		}else{
+			$return['status'] = 'error';
+			$return['message'] = 'bad-request';
+		}
 
-                // search - conditions
-                if(!isset($request['search']) || $request['search'] == ''){
-                    $conditions = array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1,'Product.status'=>1);
-                }else{
-                    $search = $this->cleanString($request["search"]);
-                    $return["search"] = $search;
-                    $conditions = array(
-                        'Product.user_id' => $request['user_id'],
-                        'Product.deleted'=>0,
-                        'Product.published'=>1,
-                        'Product.status'=>1,
-                        'or'=>array(
-                            'Product.title LIKE'=> '%'.$search.'%',
-                            'Product.body LIKE'=> '%'.$search.'%'
-                        )
-                    );
-                }
+		$this->{'set'}('return',$return);
+		$this->{'render'}('ajax_view','ajax');
+	}
 
-                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $request['user_id'],'Product.deleted'=>0,'Product.published'=>1)));
-
-            }
-            if($url == 'get-published'){
-                // search - conditions
-                if(!isset($request['search']) || $request['search'] == ''){
-                    $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1);
-                }else{
-                    $search = $this->cleanString($request["search"]);
-                    $return["search"] = $search;
-                    $conditions = array(
-                        'Product.user_id' => $user_logged['User']['id'],
-                        'Product.deleted'=>0,
-                        'Product.published'=>1,
-                        'or'=>array(
-                            'Product.title LIKE'=> '%'.$search.'%',
-                            'Product.body LIKE'=> '%'.$search.'%'
-                        )
-                    );
-                }
-
-                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1)));
-
-            }
-            if($url == 'get-drafts'){
-                // search - conditions
-                if(!isset($request['search']) || $request['search'] == ''){
-                    $conditions = array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0);
-                }else{
-                    $search = $this->cleanString($request["search"]);
-                    $return["search"] = $search;
-                    $conditions = array(
-                        'Product.user_id' => $user_logged['User']['id'],
-                        'Product.deleted'=>0,
-                        'Product.published'=>0,
-                        'or'=>array(
-                            'Product.title LIKE'=> '%'.$search.'%',
-                            'Product.body LIKE'=> '%'.$search.'%'
-                        )
-                    );
-                }
-
-                // total_products es la cantidad total de productos publicados, este resultado es indiferente a los filtros aplicados por el usuario.
-                $return['total_products'] = $this->{'Product'}->find('count', array('conditions'=> array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>0)));
-            }
-
-            // page
-            if(!isset($request['page'])  || $request['page'] == ''){
-                $page = 1;
-            }else{
-                $page = (int)$request['page'];
-            }
-
-            // order
-            $order = array();
-            if(!isset($request['order_by']) || $request['order_by'] == ''){
-
-                $order = array(
-                    'Product.created' => 'desc'
-                );
-
-            }else{
-
-                if($request['order_by'] == "mayor-precio"){
-
-                    $order = array(
-                        'Product.price' => 'desc'
-                    );
-                }
-                if($request['order_by'] == "menor-precio"){
-
-                    $order = array(
-                        'Product.price' => 'asc'
-                    );
-                }
-                if($request['order_by'] == "recientes"){
-
-
-                    $order = array(
-                        'Product.created' => 'desc'
-                    );
-
-                }
-                if($request['order_by'] == "antiguos"){
-
-                    $order = array(
-                        'Product.created' => 'asc'
-                    );
-
-                }
-
-                if($request['order_by'] == "mayor-disponibilidad"){
-
-                    $order = array(
-                        'Product.quantity' => 'desc'
-                    );
-                }
-                if($request['order_by'] == "menor-disponibilidad"){
-
-                    $order = array(
-                        'Product.quantity' => 'asc'
-                    );
-                }
-
-            }
-
-            $this->{'paginate'} = array(
-                'conditions' =>  $conditions,
-                'contain' => array(
-                    'Image'=>array(
-                    )
-                ),
-                'order' => $order,
-                'limit' => 10,
-                'page'	=>$page
-            );
-
-
-            try {
-                $products = $this->{'paginate'}('Product');
-                if($products){
-                    $return['data']	= $products;
-                }else{
-                    $return['data'] = array();
-                }
-                $return['result']	= true;
-            }catch(Exception $e){
-                // se re-direcciona a “/”
-                $return['result'] = false;
-            }
-
-            $return['info'] = $this->{'request'}->params['paging']['Product'];
-
-        }
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-    }
 
 
     /*
@@ -885,215 +825,5 @@
         $this->{'set'}('return',$return);
         $this->{'render'}('ajax_view','ajax');
     }
-
-    /*
-        Descripción:        Función para borrar una publicación.
-        Tipo de solicitud:  get-ajax,post-ajax
-        Tipo de acceso:     Vendedor
-        Recibe:             Array.
-        Retorna:            Array. el cual sera transformado en un objeto JSON en la vista ajax_view.
-     */
-    public function delete(){
-
-        $request = $this->{'request'}->input('json_decode',true);
-
-
-        $user_logged = $this->{'Auth'}->User();
-
-        $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
-        ));
-
-        if($product_data){
-            $product['Product']['id'] 		= $product_data['Product']['id'];
-            $product['Product']['deleted']	= 1;
-
-            if($this->{'Product'}->save($product)){
-                $return['result'] 	= true;
-                $return['id'] 		= $request['id'];
-
-                // establecemos un mensaje luego de borrar la publicación desde la vista de editar.
-                if($request['session'] == 'true'){
-                    $this->{'Session'}->setFlash('La publicación ha sido borrada.','success');
-                }
-
-                /* START retornamos resultados actualizados - paginados a vista /publicados
-                 ***************************************************************************/
-                if(isset($request['paginate'])){
-
-                    // se establecen variables.
-                    if(!isset($request['page'])){
-                        $page = 1;
-                    }else{
-                        $page = (int)$request['page'];
-                    }
-
-                    if(!isset($request['order_by'])){
-                        // recientes
-                        $order = array(
-                            'Product.created' => 'desc'
-                        );
-                        $win_order_by = "recientes";
-                    }else{
-                        switch ($request['order_by']) {
-                            case "mayor-precio":
-
-                                $order = array(
-                                    'Product.price' => 'desc'
-                                );
-                                $win_order_by = "mayor-precio";
-
-                                break;
-                            case "menor_precio":
-
-                                $order = array(
-                                    'Product.price' => 'asc'
-                                );
-                                $win_order_by = "menor-precio";
-
-                                break;
-                            case "recientes":
-
-                                $order = array(
-                                    'Product.created' => 'desc'
-                                );
-                                $win_order_by = "recientes";
-
-                                break;
-                            case "antiguos":
-
-                                $order = array(
-                                    'Product.created' => 'desc'
-                                );
-                                $win_order_by = "antiguos";
-
-                                break;
-                            case "mayor-disponibilidad":
-
-                                $order = array(
-                                    'Product.created' => 'asc'
-                                );
-                                $win_order_by = "mayor-disponibilidad";
-
-                                break;
-                            case "menor-disponibilidad":
-
-                                $order = array(
-                                    'Product.quantity' => 'asc'
-                                );
-                                $win_order_by = "menor-disponibilidad";
-
-                                break;
-                            default:
-
-                                // recientes
-                                $order = array(
-                                    'Product.created' => 'desc'
-                                );
-                                $win_order_by = "recientes";
-
-                        }
-                    }
-
-                    $return['win_order_by'] = $win_order_by;
-
-
-                    /* START se intenta 3 veces lograr retornar resultados paginados.
-                     *******************************************************************************************************************************************/
-                    try {
-                        /* Primer intento:  pagina actual
-                         *******************************************************/
-                        $this->{'paginate'}= array(
-                            'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
-                            'contain' => array(
-                                'Image'=>array(
-                                )
-                            ),
-                            'order' => $order,
-                            'limit' => 10,
-                            'page'	=>$page
-                        );
-
-                        $products = $this->{'paginate'}('Product');
-
-                        if($products){
-                            $return['data'] 	= $products;
-                        }
-
-                    } catch (Exception $e) {
-                        try {
-                            /* Segundo intento:  pagina anterior
-                            *******************************************************/
-                            $previous_page = $page-1;
-
-                            $this->{'paginate '}= array(
-                                'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
-                                'contain' => array(
-                                    'Image'=>array(
-                                    )
-                                ),
-                                'order' => $order,
-                                'limit' => 10,
-                                'page'	=>$previous_page
-                            );
-
-                            $products = $this->{'paginate'}('Product');
-
-                            if($products){
-                                $return['data'] = $products;
-                            }
-
-                        }catch (Exception $e){
-                            try {
-                                /* Tercer intento:  ultima pagina disponible
-                                *******************************************************/
-                                $last_page = $this->{'request'}->params['paging']['Product']['pageCount'];
-
-                                $this->{'paginate'}= array(
-                                    'conditions' =>  array('Product.user_id' => $user_logged['User']['id'],'Product.deleted'=>0,'Product.published'=>1),
-                                    'contain' => array(
-                                        'Image'=>array(
-                                        )
-                                    ),
-                                    'order' => $order,
-                                    'limit' => 10,
-                                    'page'	=>$last_page
-                                );
-
-                                $products = $this->{'paginate'}('Product');
-
-                                if($products){
-                                    $return['data'] = $products;
-                                }
-
-                            }catch (Exception $e){
-                                // Error inesperado. Re-direcciona a /
-                                $return['result'] = false;
-                            }
-                        }
-                    }
-                    // END
-                    $return['info'] = $this->{'request'}->params['paging']['Product'];
-                }
-                // END
-
-
-            }else{
-                // Error al intentar guardar. Re-direcciona a /
-                $return['result'] = false;
-            }
-        }else{
-            // El registro no existe. Re-direcciona a /
-            $return['result'] = false;
-        }
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-    }
-
-
-
-
-
 
 }

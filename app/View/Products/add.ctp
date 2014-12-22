@@ -247,6 +247,25 @@
 </div>
 
 
+<!-- Modal para borrar la publicación -->
+<div id="delete-product-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Do you really want to delete this post?</h4>
+			</div>
+			<div class="modal-body">
+				A better alternative is to pause the publication and activate when the inventory it normalized.
+			</div>
+			<div class="modal-footer">
+				<button id="delete-product-button" type="button" class="btn btn-danger">Confirm</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- light box para visualizar mejor la imagen cargada de la publicación o borrador.
 --------------------------------------------------------------------------------------------------------------->
 <a href="" id="image-product"  style="display: none;"></a>
@@ -293,7 +312,7 @@
     //  dropzone  - https://github.com/sciactive/pnotify
     array_push($scripts,'/resources/library-vendor/dropzone/dropzone.js');
 
-    array_push($scripts,'/resources/app/js/base.publicar.js');
+    array_push($scripts,'/resources/app/js/base.publications.js');
 
     echo $this->Html->script($scripts,array('inline' => false));
 

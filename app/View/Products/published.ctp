@@ -100,7 +100,7 @@
 
 
 <!-- Modal para borrar la publicación -->
-<div id="delete_product_modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div id="delete-product-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -111,7 +111,7 @@
 				A better alternative is to pause the publication and activate when the inventory it normalized.
             </div>
             <div class="modal-footer">
-                <button id="delete_product" type="button" class="btn btn-danger">Confirm</button>
+                <button id="delete-product-button" type="button" class="btn btn-danger">Confirm</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
