@@ -57,10 +57,7 @@ Router::connect('/edit/:id', 								array('controller' => 'products', 	'action'
     ));
 
 
-
-
-Router::connect('/pause', 									array('controller' => 'products',	 'action' => 'pause'));   							// Acción Ajax - para pausar una publicación activa.
-Router::connect('/activate', 								array('controller' => 'products',	 'action' => 'activate'));   						// Acción Ajax - para activar una publicación pausada.
+Router::connect('/change-status', 							array('controller' => 'products',	 'action' => 'changeStatus'));   					// Acción Ajax - para pausar o activar una publicación.
 Router::connect('/delete', 									array('controller' => 'products',	 'action' => 'delete'));							// Acción Ajax - borrar un producto publicado
 
 

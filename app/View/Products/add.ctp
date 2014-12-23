@@ -131,15 +131,13 @@
                                             if($url_action =='edit'){
                                                 $status = $this->request->data['Product']['status'];
                                                 ?>
-                                                <button id="update" type="submit" class="btn btn-primary">Update</button>
+                                                <button id="update" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Update</button>
                                                 <?php if($status){  // esta publicado,  por lo tanto el elemento activate_container debe esta oculto. ?>
-                                                    <button id="pause" type="button" class="btn btn-default">Pause</button>
-                                                    <button id="activate" type="button" class="btn btn-default" style="display:none;">Enable</button>
+                                                    <button type="button" class="btn btn-default publication-status-button"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pause</button>
                                                 <?php }else{        // esta pausado,    por lo tanto el elemento pause_container debe esta oculto. ?>
-                                                    <button id="pause" type="button" class="btn btn-default" style=" display:none;">Pause</button>
-                                                    <button id="activate" type="button" class="btn btn-default">Enable</button>
+													<button type="button" class="btn btn-default publication-status-button"><span class="glyphicon glyphicon-play"></span> Enable</button>
                                                 <?php } ?>
-                                                <button id="delete" class="btn btn-danger" type="button">Delete</button>
+                                                <button id="delete" class="btn btn-danger" type="button"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Delete</button>
                                                 <div id="debugTime" style="padding-top: 10px; display:none;">The publication was updated at <span id="lastTimeSave"></span> (Minutes <span id="minutesElapsed">0</span> ago)</div>
                                             <?php
                                             }

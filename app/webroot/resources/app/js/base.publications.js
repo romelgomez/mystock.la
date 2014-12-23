@@ -715,11 +715,11 @@ $(document).ready(function(){
 					var status_button = '';
 
 					if(obj['Product']['status']){
-						status = '<span class="label label-success active-status">published</span>';
-						status_button = '<button class="btn btn-default pause"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate" style="display:none;"><span class="glyphicon glyphicon-play"></span> Enable</button>';
+						status = '<span class="label label-success publication-status-label">published</span>';
+						status_button = '<button class="btn btn-default publication-status-button"><span class="glyphicon glyphicon-stop"></span> Pause</button>';
 					}else{
-						status = '<span class="label label-warning paused-status">paused</span>';
-						status_button = '<button class="btn btn-default pause" style="display:none;"><span class="glyphicon glyphicon-stop"></span> Pause</button>'+'<button class="btn btn-default activate"><span class="glyphicon glyphicon-play"></span> Enable</button>';
+						status = '<span class="label label-warning publication-status-label">paused</span>';
+						status_button = '<button class="btn btn-default publication-status-button"><span class="glyphicon glyphicon-play"></span> Enable</button>';
 					}
 
 					var quantity = obj['Product']['quantity'];
@@ -1310,19 +1310,15 @@ $(document).ready(function(){
 
         };
 
-		/*
-		 * Private Method
-		 * Descripción: función destinada a pausar una publicación activa
-		 * Parámetros:  null
-		 *************************************************************************************************************************************************************/
-		var pause = function(){
+
+		var changeStatus = function(){
 
 			var notification;
 
 			var request_parameters = {
 				"requestType":"custom",
 				"type":"post",
-				"url":"/pause",
+				"url":"/change-status",
 				"data":{},
 				"callbacks":{
 					"beforeSend":function(){
@@ -1339,15 +1335,19 @@ $(document).ready(function(){
 						switch(url['action']) {
 							case 'edit':
 
-								if(response['result']){
+								if(response['status'] == 'success'){
 									ajax.notification("success",notification);
 
-									$('#pause').css({
-										"display": 'none'
-									});
-									$('#activate').css({
-										"display": 'inline'
-									});
+									var publicationStatusButton = $('.publication-status-button');
+
+									switch(response['publication-status']){
+										case 'pause':
+											publicationStatusButton.html('<span class="glyphicon glyphicon-play"></span> Enable');
+											break;
+										case 'enable':
+											publicationStatusButton.html('<span class="glyphicon glyphicon-pause"></span> Pause');
+											break;
+									}
 
 								}else{
 									ajax.notification("error",notification);
@@ -1356,16 +1356,29 @@ $(document).ready(function(){
 								break;
 							case 'published':
 
-								if(response['result']){
-									$("#product-"+response['id']+' .pause').css({
-										"display": 'none'
-									});
-									$("#product-"+response['id']+' .activate').css({
-										"display": 'inline'
-									});
+								if(response['status'] == 'success'){
 
-									var status = '<span class="label label-warning paused-status">paused</span>';
-									$("#product-"+response['id']+' .active-status').replaceWith(status);
+									var publication 		= $("#product-"+response['id']);
+									var publicationStatusLabel	= '';
+
+									switch(response['publication-status']) {
+										case 'pause':
+
+											publication.find('.publication-status-button').html('<span class="glyphicon glyphicon-play"></span> Enable');
+
+											publicationStatusLabel = '<span class="label label-warning publication-status-label">paused</span>';
+											publication.find('.publication-status-label').replaceWith(publicationStatusLabel);
+
+											break;
+										case 'enable':
+
+											publication.find('.publication-status-button').html('<span class="glyphicon glyphicon-pause"></span> Pause');
+
+											publicationStatusLabel = '<span class="label label-success publication-status-label">published</span>';
+											publication.find('.publication-status-label').replaceWith(publicationStatusLabel);
+
+											break;
+									}
 
 								}else{
 									window.location = "/";
@@ -1389,21 +1402,19 @@ $(document).ready(function(){
 			switch(url['action']) {
 				case 'edit':
 
-					var pause = $("#pause");
+					var publicationStatusButton = $(".publication-status-button");
 
-					if(pause.length){
-						pause.click(function(){
-
+					if(publicationStatusButton.length){
+						publicationStatusButton.click(function(){
 							request_parameters['data']['id'] = $("#ProductId").val();
 							ajax.request(request_parameters);
-
 						});
 					}
 
 					break;
 				case 'published':
 
-					var elements = $("#products").find(".pause");
+					var elements = $("#products").find(".publication-status-button");
 
 					if(elements.length){
 						$(elements).each(function(){
@@ -1416,126 +1427,7 @@ $(document).ready(function(){
 								var request_this = {};
 								request_this.id  = id;
 
-								request_parameters.data =    request_this;
-								ajax.request(request_parameters);
-							});
-
-						});
-					}
-
-					break;
-			}
-
-
-
-		};
-
-		/*
-		 * Private Method
-		 * Descripción: función destinada a activar una publicación pausada
-		 * Parámetros:  null
-		 *************************************************************************************************************************************************************/
-		var activate = function(){
-
-			var notification;
-
-			var request_parameters = {
-				"requestType":"custom",
-				"type":"post",
-				"url":"/activate",
-				"data":{},
-				"callbacks":{
-					"beforeSend":function(){
-						notification = ajax.notification("beforeSend");
-					},
-					"success":function(response){
-
-						if(response['expired_session']){
-							window.location = "/entrar";
-						}
-
-						var url 	=  parseUrl();
-
-						switch(url['action']) {
-							case 'edit':
-
-								if(response['result']){
-									ajax.notification("success",notification);
-
-
-									$('#pause').css({
-										"display": "inline"
-									});
-									$('#activate').css({
-										"display": "none"
-									});
-
-								}else{
-									ajax.notification("error",notification);
-								}
-
-								break;
-							case 'published':
-
-								if(response['result']){
-									$("#product-"+response['id']+' .pause').css({
-										"display": "inline"
-									});
-									$("#product-"+response['id']+' .activate').css({
-										"display": "none"
-									});
-									var status = '<span class="label label-success active-status">published</span>';
-									$("#product-"+response['id']+' .paused-status').replaceWith(status);
-								}else{
-									window.location = "/";
-								}
-
-								break;
-						}
-
-					},
-					"error":function(){
-						ajax.notification("error",notification);
-					},
-					"complete":function(){
-						ajax.notification("complete",notification);
-					}
-				}
-			};
-
-			var url 	=  parseUrl();
-
-			switch(url['action']) {
-				case 'edit':
-
-					var activate = $("#activate");
-
-					if(activate.length){
-						activate.click(function(){
-							request_parameters['data']['id'] = $("#ProductId").val();
-							ajax.request(request_parameters);
-						});
-					}
-
-					break;
-				case 'published':
-
-					var elements = $("#products").find(".activate");
-
-					if(elements.length){
-						$(elements).each(function(){
-							$(this).off('click');
-							$(this).on('click',function(){
-
-								var id = $(this).parents("div.product").attr('id');
-								id = utility.stringReplace(id,'product-','');
-
-								var request_this = {};
-								request_this.id  = id;
-
-
-
-								request_parameters.data =    request_this;
+								request_parameters.data = request_this;
 								ajax.request(request_parameters);
 
 							});
@@ -1778,8 +1670,7 @@ $(document).ready(function(){
 								edit();
 								break;
 							case 'published':
-								pause();
-								activate();
+								changeStatus();
 								edit();
 								deleteProduct();
 								break;
@@ -1887,9 +1778,8 @@ $(document).ready(function(){
 					// Se inicializa el WYSIWYG
 					initRedactor();
 
-					activate();
+					changeStatus();
 
-					pause();
 
 					deleteProduct();
 
@@ -1910,9 +1800,7 @@ $(document).ready(function(){
 					// Se inicializa el WYSIWYG
 					initRedactor();
 
-					activate();
-
-					pause();
+					changeStatus();
 
 					deleteProduct();
 
@@ -1959,82 +1847,3 @@ $(document).ready(function(){
     publications.main();
 
 });
-
-/*
-
-	stock
-		 parseUrl
-		 currentOrder
-		 prepareProduct                     unificar
-		 orderBy
-            products
-		 pagination
-            products
- 		 search
-            products
-		 info
-		 process
- 		 get
-            products
-
-	borradores
-		 setLastResponseInfo                <- deleted ->
-		 parseUrl                           listo
-		 prepareProduct                     listo
-		 orderBy                            listo
-			get-drafts  z->   products
-		 pagination                         listo
- 			get-drafts  z->   products
-		 search                             listo
- 			get-drafts  z->   products
-		 info                               listo
-		 edit								listo
-		 deleteProduct                      <**  INTEGRAR **>
- 			delete      z->   products
-		 preparePublications               <- deleted ->
-		 get                                listo
- 			get-drafts  z->   products
-
-	publicados
-		 setLastResponseInfo                <- deleted ->
-		 parseUrl
-		 prepareProduct                     unificar
-		 orderBy
-			get-published  z->   products
-		 pagination
-			get-published  z->   products
-		 search
-			get-published  z->   products
-		 info
-		 pause                              <**  INTEGRAR **>
-			pause          z->   products
-		 activate                           <**  INTEGRAR **>
-			 activate      z->   products
-		 edit								listo
-		 deleteProduct                      <**  INTEGRAR **>
-			 delete        z->   products
-		 preparePublications                <- deleted ->
-		 get
-			 get-published z->   products
-
-	publicar
-		 initRedactor						<**  INTEGRAR **>
-		 discard							<**  INTEGRAR **>
-			 discard
-		 elapsedTime						<**  INTEGRAR **>
-		 saveDraft							<**  INTEGRAR **>
- 			save-draft
-		 newProduct							<**  INTEGRAR **>
- 			add_new
-		 pause								unificar
- 			pause
-		 activate							unificar
- 			activate
-		 _delete							unificar
- 			delete
-		 fileUpload							<**  INTEGRAR **>
-			 disable_this_imagen
-			 image_add
-
-
-*/

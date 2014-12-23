@@ -755,75 +755,62 @@
         $this->{'render'}('ajax_view','ajax');
     }
 
-    /*
-        Descripción:  Función para pausar una publicación.
-        tipo de solicitud: 	get-ajax,post-ajax
-        tipo de acceso:  Vendedor
-        Recibe:  Un array.
-        Retorna: Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
-    */
-    public function pause(){
 
-        $request = $this->{'request'}->input('json_decode',true);
+	/*
+    Descripción:  Función para pausar una publicación.
+    tipo de solicitud: 	get-ajax,post-ajax
+    tipo de acceso:  Vendedor
+    Recibe:  Un array.
+    Retorna: Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
+*/
+	public function changeStatus(){
+		$request = $this->{'request'}->input('json_decode',true);
+		$user_logged = $this->{'Auth'}->User();
 
-        $user_logged = $this->{'Auth'}->User();
+		$product_data = $this->{'Product'}->find('first', array(
+			'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
+		));
 
-        $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
-        ));
+		if($product_data){
 
-        if($product_data){
-            $data['Product']['id'] 		= $product_data['Product']['id'];
-            $data['Product']['status']	= 0;
+			$data = array();
 
-            if($this->{'Product'}->save($data)){
-                $return['result'] 	= true;
-                $return['id'] 		= $request['id'];
-            }else{
-                $return['result'] = false;
-            }
-        }else{
-            $return['result'] = false;
-        }
+			$data['Product']['id'] 		= $product_data['Product']['id'];
 
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
+			switch ($product_data['Product']['status']) {
+				case 0:
+					$data['Product']['status']	= 1;
+					break;
+				case 1:
+					$data['Product']['status']	= 0;
+					break;
+			}
 
-    }
+			if($this->{'Product'}->save($data)){
+				$return['status'] = 'success';
+				$return['id'] 		= $request['id'];
 
-    /*
-        Descripción:  Función para pausar una publicación.
-        tipo de solicitud: 	get-ajax,post-ajax
-        tipo de acceso:  Vendedor
-        Recibe:  Un array.
-        Retorna: Un array. el cual será transformado en un objeto JSON en la vista ajax_view.
-    */
-    public function activate(){
+				switch ($data['Product']['status']) {
+					case 0:
+						$return['publication-status'] = 'pause';
+						break;
+					case 1:
+						$return['publication-status'] = 'enable';
+						break;
+				}
 
-        $request = $this->{'request'}->input('json_decode',true);
 
-        $user_logged = $this->{'Auth'}->User();
+			}else{
+				$return['status'] = 'error';
+				$return['message']	 = 'cannot-set-new-parameter';
+			}
+		}else{
+			$return['status'] = 'error';
+			$return['message'] = 'bad-request';
+		}
 
-        $product_data = $this->{'Product'}->find('first', array(
-            'conditions' => array('Product.id' => $request['id'],'Product.user_id' => $user_logged['User']['id'])
-        ));
-
-        if($product_data){
-            $data['Product']['id'] 		= $product_data['Product']['id'];
-            $data['Product']['status']	= 1;
-
-            if($this->{'Product'}->save($data)){
-                $return['result'] 	= true;
-                $return['id'] 		= $request['id'];
-            }else{
-                $return['result'] = false;
-            }
-        }else{
-            $return['result'] = false;
-        }
-
-        $this->{'set'}('return',$return);
-        $this->{'render'}('ajax_view','ajax');
-    }
+		$this->{'set'}('return',$return);
+		$this->{'render'}('ajax_view','ajax');
+	}
 
 }
