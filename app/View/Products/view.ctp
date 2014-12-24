@@ -72,9 +72,9 @@ if($data['User']['banner'] !== NULL){
                         <h2 class="text-info" style="color: gold; margin-top: 10px;">
                             <span class="glyphicon glyphicon-tag"></span>
                             Price: $<?php echo $data['Product']['price'] ?>
-                                 -
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                            Phone: 0416 011022200
+<!--                                 --->
+<!--                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>-->
+<!--                            Phone: 0416 011022200-->
 
                         </h2>
                     </li>
@@ -82,25 +82,24 @@ if($data['User']['banner'] !== NULL){
             </div>
 
 
-            <div class="panel panel-default" style="border: 1px solid black;">
-                <!-- Default panel contents -->
-                <div class="panel-heading" style="background: url(/resources/app/img/skulls.png); border-bottom: 1px solid black;">
-                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Comments:
-                </div>
-                <div class="panel-body">
-                    <?php
-                    // lazy solution
-                    $foo    = trim($data['Product']['title']);
-                    $foo    = strtolower($foo);
-                    $foo    = str_replace('/', '',$foo);
-                    $foo    = preg_replace( '/\s+/', ' ', $foo);
-                    $title  = str_replace(' ', '-',$foo);
-
-                    echo '<div class="fb-comments" data-href="http://www.santomercado.com/producto/'.$data['Product']['id'].'/'.$title.'.html" data-numposts="5" data-colorscheme="light" data-width="100%"></div>';
-
-                    ?>
-                </div>
-            </div>
+<!--            <div class="panel panel-default" style="border: 1px solid black;">-->
+<!--                <div class="panel-heading" style="background: url(/resources/app/img/skulls.png); border-bottom: 1px solid black;">-->
+<!--                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Comments:-->
+<!--                </div>-->
+<!--                <div class="panel-body">-->
+<!--                    --><?php
+//                    // lazy solution
+//                    $foo    = trim($data['Product']['title']);
+//                    $foo    = strtolower($foo);
+//                    $foo    = str_replace('/', '',$foo);
+//                    $foo    = preg_replace( '/\s+/', ' ', $foo);
+//                    $title  = str_replace(' ', '-',$foo);
+//
+////                    echo '<div class="fb-comments" data-href="http://www.santomercado.com/producto/'.$data['Product']['id'].'/'.$title.'.html" data-numposts="5" data-colorscheme="light" data-width="100%"></div>';
+//
+//                    ?>
+<!--                </div>-->
+<!--            </div>-->
 
         </div>
     </div>

@@ -140,24 +140,24 @@
 	<![endif]-->
 </head>
 <body>
-<div id="fb-root"></div>
-<script>
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId      : '338515926310582',
-			xfbml      : true,
-			version    : 'v2.1'
-		});
-	};
-
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
+<!--<div id="fb-root"></div>-->
+<!--<script>-->
+<!--	window.fbAsyncInit = function() {-->
+<!--		FB.init({-->
+<!--			appId      : '338515926310582',-->
+<!--			xfbml      : true,-->
+<!--			version    : 'v2.1'-->
+<!--		});-->
+<!--	};-->
+<!---->
+<!--	(function(d, s, id){-->
+<!--		var js, fjs = d.getElementsByTagName(s)[0];-->
+<!--		if (d.getElementById(id)) {return;}-->
+<!--		js = d.createElement(s); js.id = id;-->
+<!--		js.src = "//connect.facebook.net/en_US/sdk.js";-->
+<!--		fjs.parentNode.insertBefore(js, fjs);-->
+<!--	}(document, 'script', 'facebook-jssdk'));-->
+<!--</script>-->
 
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background: url(/resources/app/img/escheresque_ste.png); border-bottom: 1px solid black;">
@@ -168,7 +168,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="/">MyStock.LA</a>
+		<a class="navbar-brand a-gold" href="/" >MyStock.LA</a>
 	</div>
 	<div class="collapse navbar-collapse">
 		<ul class="nav navbar-nav">
@@ -208,8 +208,8 @@
 <div class="footer" style="background: #222; background: url(/resources/app/img/escheresque_ste.png); border-top: 1px solid black;">
 	<div style="text-align: center; margin-top: 20px; color: #ffffff;">
 		Copyright &copy;2014 MyStock.LA - All rights reserved.
-		<a href="/terms-of-service" target="_blank">Terms of Service</a> &
-		<a href="/privacy-policy" target="_blank">Privacy Policy</a>.
+		<a href="/terms-of-service" target="_blank" class="a-gold">Terms of Service</a> &
+		<a href="/privacy-policy" target="_blank" class="a-gold">Privacy Policy</a>.
 	</div>
 </div>
 

@@ -640,7 +640,9 @@ $(document).ready(function(){
 			var price       = obj['Product']['price'];
 			var publication = '';
 
-			var date        = new Date(obj['Product']['created']);
+			var str = obj['Product']['created'];
+			str = str.replace(/-/g,"/");
+			var date        = new Date(str);
 			var created     = date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
 			var slug = obj['Product']['title'].trim().toLowerCase();

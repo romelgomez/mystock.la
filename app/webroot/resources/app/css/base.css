@@ -14,12 +14,29 @@ hr {
 }
 
 a{
-    color:#ffffff;
+    color:gold;
 }
 
 a:hover{
    color: #2a6496;
    text-decoration: none;
+}
+
+.a-blue{
+	color: #2a6496;
+}
+
+.a-blue:hover{
+	color: #1b3d96;
+	text-decoration: none;
+}
+
+.a-white{
+	color:#ffffff;
+}
+
+.a-gold{
+	color:gold;
 }
 
 .page-header {
@@ -36,7 +53,7 @@ a:hover{
 }
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
-	color:#ffffff;
+	color:gold;
 }
 .navbar-inverse .navbar-brand:hover , .navbar-inverse .navbar-nav > li > a:hover{
 	color:#428bca;
