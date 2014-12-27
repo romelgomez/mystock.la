@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-heading">
 					<h3 class="panel-title">Terms of service</h3>
 				</div>

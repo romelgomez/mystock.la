@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" style="margin-top: 20px;">
 				<div class="panel-heading">
 					<h3 class="panel-title">Privacy Policy</h3>
 				</div>
@@ -45,7 +45,7 @@
 						Session cookies will be deleted from your computer when you close your browser.  Persistent cookies will remain stored on your computer until deleted, or until they reach a specified expiry date.
 					</p>
 					<p>
-						We use Google Analytics to analyse the use of this website.  Google Analytics generates statistical and other information about website use by means of cookies, which are stored on users' computers.  The information generated relating to our website is used to create reports about the use of the website. Google will store this information.  Google's privacy policy is available at: <a href="http://www.google.com/privacypolicy.html.">http://www.google.com/privacypolicy.html.</a>
+						We use Google Analytics to analyse the use of this website.  Google Analytics generates statistical and other information about website use by means of cookies, which are stored on users' computers.  The information generated relating to our website is used to create reports about the use of the website. Google will store this information.  Google's privacy policy is available at: <a href="http://www.google.com/privacypolicy.html." class="a-blue">http://www.google.com/privacypolicy.html.</a>
 					</p>
 					<p>
 						Most browsers allow you to reject all cookies, whilst some browsers allow you to reject just third party cookies.  For example, in Internet Explorer you can refuse all cookies by clicking “Tools”, “Internet Options”, “Privacy”, and selecting “Block all cookies” using the sliding selector.  Blocking all cookies will, however, have a negative impact upon the usability of many websites.
